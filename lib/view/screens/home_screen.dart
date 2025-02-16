@@ -31,7 +31,6 @@ class _HomeScreenState extends State<HomeScreen> {
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              // Left side - Logo & Text
               Row(
                 children: [
                   Column(
@@ -51,7 +50,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   Icon(Icons.unfold_more, size: 22), // Double arrow icon
                 ],
               ),
-              // Right side - Buttons
               Row(
                 children: [
                   _buildIconButton(Icons.search_rounded, 'Search'),
@@ -91,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // 🔹 Horizontal Scrollable Compact Category Bar
+  // 🔹 Horizontal Scrollable Category Bar (Bilkul Play Wale Jaisa Sab!)
   Widget _buildCategoryBar() {
     return Container(
       height: 50,
@@ -107,7 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 width: 85, // Chota rakha taake compact lage
                 height: 45, // Height bhi kam ki
                 decoration: BoxDecoration(
-                  color: isHighlighted ? Colors.green : Colors.grey[900],
+                  color: isHighlighted ? Colors.green : Colors.blueGrey, // Play = Green, Others = BlueGrey
                   borderRadius: BorderRadius.circular(4),
                 ),
                 child: Column(
