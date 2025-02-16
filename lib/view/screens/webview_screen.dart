@@ -20,7 +20,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea( // ✅ Ensures content is within safe screen area
+      body: SafeArea(
         child: WebViewWidget(controller: _controller),
       ),
     );
