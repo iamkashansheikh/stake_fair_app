@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:stake_fair_app/controllers/home_controller.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -8,18 +10,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final List<Map<String, dynamic>> categories = [
-    {'icon': Icons.play_arrow, 'label': 'Play', 'isHighlighted': true},
-    {'icon': Icons.sports_cricket, 'label': 'Cricket'},
-    {'icon': Icons.sports_tennis, 'label': 'Tennis'},
-    {'icon': Icons.sports_soccer, 'label': 'Soccer'},
-    {'icon': Icons.sports, 'label': 'Horse Racing'},
-    {'icon': Icons.sports_basketball, 'label': 'Basketball'},
-    {'icon': Icons.sports_volleyball, 'label': 'Volleyball'},
-    {'icon': Icons.sports_baseball, 'label': 'Baseball'},
-    {'icon': Icons.sports_hockey, 'label': 'Hockey'},
-    {'icon': Icons.sports_mma, 'label': 'MMA'},
-  ];
+  final HomeController homeController = Get.put(HomeController());
+
 
   @override
   Widget build(BuildContext context) {
@@ -46,8 +38,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ],
                   ),
-                  SizedBox(width: 6),
-                  Icon(Icons.unfold_more, size: 22), // Double arrow icon
                 ],
               ),
               Row(
@@ -63,21 +53,50 @@ class _HomeScreenState extends State<HomeScreen> {
         body: Column(
           children: [
             _buildCategoryBar(),
-            Expanded(child: Center(child: Text("Main Content Here"))),
-          ],
-        ),
+            Container(
+              width: 415,
+              height: 80,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/images/top_banner.jpg'),
+                  fit: BoxFit.fill
+                  )
+              ),
+            ),
+            _buildContainer('Most Popular Bets'),
+            _buildList('icon', 'label', 'sub'),
+
+],         
+),
+
+       bottomNavigationBar: Obx(() => BottomNavigationBar(
+            currentIndex: homeController.selectedIndex.value,
+            onTap: (index) => homeController.changeIndex(index),
+            backgroundColor: Color(0xff303030),
+            selectedItemColor: Colors.orange,
+            unselectedItemColor: Colors.white,
+            type: BottomNavigationBarType.fixed,
+            items: [
+              BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+              BottomNavigationBarItem(icon: Icon(Icons.menu), label: 'Menu'),
+              BottomNavigationBarItem(icon: Icon(Icons.account_balance_wallet), label: 'Cash Out'),
+              BottomNavigationBarItem(icon: Icon(Icons.sports), label: 'My Bets'),
+              BottomNavigationBarItem(icon: Icon(Icons.casino), label: 'Casino'),
+            ],
+          )),
       ),
     );
   }
 
-  // 🔹 Compact Button Widget for Search & Login
+  
+
   Widget _buildIconButton(IconData icon, String text, {double width = 70}) {
     return Container(
       width: width,
       height: 45,
       decoration: BoxDecoration(
-        color: Colors.blueGrey,
-        borderRadius: BorderRadius.circular(8),
+        color: Color(0xff525252),
+        borderRadius: BorderRadius.circular(3),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -89,7 +108,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // 🔹 Horizontal Scrollable Category Bar (Bilkul Play Wale Jaisa Sab!)
   Widget _buildCategoryBar() {
     return Container(
       height: 50,
@@ -97,23 +115,23 @@ class _HomeScreenState extends State<HomeScreen> {
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
-          children: categories.map((item) {
+          children: homeController.categories.map((item) {
             bool isHighlighted = item['isHighlighted'] ?? false;
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 3.0, vertical: 5),
               child: Container(
-                width: 85, // Chota rakha taake compact lage
-                height: 45, // Height bhi kam ki
+                width: 85, 
+                height: 45,
                 decoration: BoxDecoration(
-                  color: isHighlighted ? Colors.green : Colors.blueGrey, // Play = Green, Others = BlueGrey
-                  borderRadius: BorderRadius.circular(4),
+                  color: isHighlighted ? Colors.green : Color(0xff525252),
+                  borderRadius: BorderRadius.circular(3),
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(item['icon'], color: Colors.white, size: 20), // Chota icon
-                    SizedBox(height: 2), // Space adjust kiya
-                    Text(item['label'], style: TextStyle(color: Colors.white, fontSize: 10)), // Chota text
+                    Icon(item['icon'], color: Colors.white, size: 20), 
+                    SizedBox(height: 2), 
+                    Text(item['label'], style: TextStyle(color: Colors.white, fontSize: 10)),
                   ],
                 ),
               ),
@@ -122,5 +140,42 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
+  }
+
+  Widget _buildContainer(String title){
+    return Container(
+      width: 415,
+      height: 50,
+      decoration: BoxDecoration(
+        color: Color(0xff525252),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Text(title,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 24,color: Colors.white),),
+      ),
+    );
+  }
+
+  Widget _buildList(String leading, String title, String sub){
+    return  Expanded(  
+  child: Obx(() {
+    return ListView.builder(
+      itemCount: homeController.cricket.length,
+      itemBuilder: (context, index) {
+        var team = homeController.cricket[index];
+        return Card(
+          child: ListTile(
+            leading: Icon(team[leading]),
+            title: Text(
+              team[title],
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+            ),
+            subtitle: Text(team[sub],style: TextStyle(fontSize: 22,color: Colors.grey)),
+          ),
+        );
+      },
+    );
+  }),
+);
   }
 }
