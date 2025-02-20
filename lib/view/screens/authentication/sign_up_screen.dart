@@ -1,93 +1,169 @@
-import 'package:country_picker/country_picker.dart';
+
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:stake_fair_app/controllers/utils/app_colors.dart';
 
 
 import '../../../controllers/getx_controller/password_controller.dart';
 import '../../widgets/custom_button.dart';
 import '../../widgets/custom_field_widget.dart';
+import '../../widgets/icon_selection_widget.dart';
 import '../../widgets/social_mediaicons.dart';
+import 'forgot_password_screen.dart';
 
 
-class SignupScreen extends StatefulWidget {
-  SignupScreen({super.key});
 
-  @override
-  State<SignupScreen> createState() => _SignupScreenState();
+class GenderController extends GetxController {
+  var selectedIndex = (-1).obs; // Initially, no option is selected
+
+  void selectIndex(int index) {
+    selectedIndex.value = index;
+  }
 }
 
-class _SignupScreenState extends State<SignupScreen> {
-  PasswordController passwordController = Get.put(PasswordController());
+class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({super.key});
 
-  Country? _selectedCountry;
-  GlobalKey<FormState> formKey = GlobalKey();
+  @override
+  State<SignUpScreen> createState() => _LoginScreenState();
+}
 
+GlobalKey<FormState> formKey = GlobalKey();
+PasswordController passwordController = Get.put(PasswordController());
+  final GenderController genderController = Get.put(GenderController());
+
+
+
+class _LoginScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     Size mediaQuerySize = MediaQuery.of(context).size;
     return Scaffold(
+      appBar: AppBar(
+       // title: Text('StakeFair'),
+       actions: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              Text('Already a member?',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w400),),
+                Text('Login here',style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),)
+            ],
+          ),
+        )
+       ],
+        backgroundColor: AppColors.buttonColor,
+      ),
       body: SingleChildScrollView(
         child: SafeArea(
             child: Form(
           key: formKey,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 0),
+            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 0),
             child: Column(
               children: [
-                SizedBox(
-                  height: mediaQuerySize.height * 0.1.h,
-                ),
-                // OnboardingDots(
-                //   currentIndex: 0,
-                // ),
-                SizedBox(
+                 SizedBox(
                   height: mediaQuerySize.height * 0.03.h,
                 ),
-                Center(
-                    child: Text(
-                  'Create Your Account',
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.w400),
-                )),
-                SizedBox(
-                  height: mediaQuerySize.height * 0.03.h,
-                ),
-                CustomField(
-                  text: 'Full Name',
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'please enter the following field';
-                    }
-                    return null;
+                GestureDetector(
+                  onTap: (){
+                   _showBottomSheet(context);
                   },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text('betfair logo',style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500),),
+                  ),
                 ),
                 SizedBox(
-                  height: mediaQuerySize.height * 0.03.h,
+                  height: mediaQuerySize.height * 0.05.h,
                 ),
-                CustomField(
-                  text: '+92 | XXX-XXXXXXX',
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'please enter the following field';
-                    }
-                    return null;
-                  },
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text('Gender',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w400),)),
                 ),
+               Stack(
+                children: [
+                   Padding(
+                     padding: const EdgeInsets.all(8.0),
+                     child: Row(
+                       children: [
+                         GestureDetector(
+                               onTap: () {
+                               genderController.selectIndex(0); // Toggle state on tap
+                               },
+                               child: Obx(
+                                 () => Row(
+                                   children: [
+                                     Icon(
+                                       genderController.selectedIndex.value == 0
+                                           ? Icons.check_circle 
+                                           : Icons.circle_outlined, 
+                                       size: 20,
+                                       color: genderController.selectedIndex.value == 0 ? Colors.green : Colors.grey, 
+                                     ),
+                                     SizedBox(width: 5),
+                                     Text(
+                                       'Male',
+                                       style: TextStyle(color: Colors.black, fontSize: 16),
+                                     ),
+                                     
+                                   ],
+                                 ),
+                               ),
+                             ),
+                              SizedBox(width: 10),
+                              GestureDetector(
+                           onTap: () {
+                           genderController.selectIndex(1); // Toggle state on tap
+                           },
+                           child: Obx(
+                             () => Row(
+                               children: [
+                                 Icon(
+                                  genderController.selectedIndex.value == 1
+                                       ? Icons.check_circle 
+                                       : Icons.circle_outlined, 
+                                   size: 20,
+                                   color: genderController.selectedIndex.value == 1 ? Colors.green : Colors.grey, 
+                                 ),
+                                 SizedBox(width: 5),
+                                 Text(
+                                   'Female',
+                                   style: TextStyle(color: Colors.black, fontSize: 16),
+                                 ),
+                                 
+                               ],
+                             ),
+                           ),
+                         ),
+                       ],
+                     ),
+                   ),
+                 
+                   // Padding(
+                  //   padding: const EdgeInsets.all(8.0),
+                  //   child: Text('Welcome Back!',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
+                  // ),
+               Align(
+                 alignment: Alignment.centerRight,
+                 child: IconSelectionWidget()),
+                ],
+                
+               ),
+                 SizedBox(
+                  height: mediaQuerySize.height * 0.02.h,
+                ),
+            CustomField(text: 'Username',),
                 SizedBox(
-                  height: mediaQuerySize.height * 0.03.h,
+                  height: mediaQuerySize.height * 0.02.h,
                 ),
-                CustomField(
-                  text: 'Email',
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'please enter the following field';
-                    }
-                    return null;
-                  },
-                ),
-                SizedBox(
-                  height: mediaQuerySize.height * 0.03.h,
-                ),
+               
+             
                 CustomField(
                   text: 'Password',
                   validator: (value) {
@@ -109,93 +185,69 @@ class _SignupScreenState extends State<SignupScreen> {
                 SizedBox(
                   height: mediaQuerySize.height * 0.03.h,
                 ),
-                //TermsAndConditionsText(),
-                SizedBox(
-                  height: mediaQuerySize.height * 0.03.h,
-                ),
+                
+               
                 CustomButton(
-                  name: 'Sign up as Posters',
+                  name: 'Continue to step 2/2',
                   onTap: () {
-                    if (formKey.currentState!.validate()) {
-                     // Get.to(() => VerificationCodeScreen());
+                    if (formKey.currentState!.validate() ?? false) {
+                     // Get.to(() => BottomNavigationBarScreen());
                     }
+                    print('no');
                   },
                 ),
-                SizedBox(
-                  height: mediaQuerySize.height * 0.03.h,
+                  SizedBox(
+                  height: mediaQuerySize.height * 0.06.h,
                 ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Divider(
-                        color: Colors.grey,
-                        thickness: 1,
-                      ),
+               Row(
+                children: [
+                  Container(
+                    height: mediaQuerySize.height*0.08.h,
+                    width: mediaQuerySize.width*0.4.w,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          blurRadius: 3,
+                          spreadRadius: 0,
+                          offset: Offset(0, 2)
+                        )
+                      ],
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Text(
-                        'Or With',
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Divider(
-                        color: Colors.grey,
-                        thickness: 1,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: mediaQuerySize.height * 0.03.h,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      SocialMediaIconsRow(
-                        imgUrl: 'assets/images/google3.png',
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      SocialMediaIconsRow(
-                        imgUrl: 'assets/images/fb.png',
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      SocialMediaIconsRow(
-                        imgUrl: 'assets/images/appl_img.png',
-                      ),
+                      Text('Help & Contact'),
+                      Icon(Icons.arrow_forward)
                     ],
+                   ),
                   ),
-                ),
-                SizedBox(
-                  height: mediaQuerySize.height * 0.03.h,
-                ),
-                Row(
-                  children: [
-                    Text(
-                      ' Already have an account?',
-                      style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Colors.grey),
+                  SizedBox(width: mediaQuerySize.width*0.09.w,),
+                    Container(
+                    height: mediaQuerySize.height*0.08.h,
+                    width: mediaQuerySize.width*0.4.w,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          blurRadius: 3,
+                          spreadRadius: 0,
+                          offset: Offset(0, 2)
+                        )
+                      ],
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                    TextButton(
-                        onPressed: () {},
-                        child: Text(
-                          'Log in',
-                          style: TextStyle(color: Color(0xffFFCC00), fontSize: 18, fontWeight: FontWeight.bold),
-                        ))
-                  ],
-                ),
-                SizedBox(
-                  height: mediaQuerySize.height * 0.05,
-                )
+                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Text('Find out more'),
+                      Icon(Icons.arrow_forward)
+                    ],
+                   ),
+                  )
+                ],
+               )
               ],
             ),
           ),
@@ -203,4 +255,35 @@ class _SignupScreenState extends State<SignupScreen> {
       ),
     );
   }
+   void _showBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) {
+        return Container(
+          padding: EdgeInsets.all(16),
+          height: 250, // Adjust height as needed
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'StackFair Registeration',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 10),
+              Text(
+                'Here you can add more details about Betfair Logo or any content you want to display.',
+                textAlign: TextAlign.center,
+              ),
+             
+            ],
+          ),
+        );
+      },
+    );
+  }
 }
+
+

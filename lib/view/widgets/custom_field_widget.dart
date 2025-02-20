@@ -9,6 +9,7 @@ class CustomField extends StatelessWidget {
   final Color? color;
   final String? Function(String?)? validator;
   final String? text;
+  
 
   CustomField({
     super.key,
@@ -19,6 +20,7 @@ class CustomField extends StatelessWidget {
     this.prefixIcon,
     this.color,
     this.validator,
+    
   });
 
   @override
