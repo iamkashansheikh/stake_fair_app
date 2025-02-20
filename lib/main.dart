@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 import 'view/screens/authentication/login_screen.dart';
 import 'view/screens/authentication/sign_up_screen.dart';
+import 'view/screens/home_screen.dart';
 import 'view/widgets/country_code_picker.dart';
 
 
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
-         home: SignUpScreen()),
+         home: HomeScreen()),
     );
   }
 }
