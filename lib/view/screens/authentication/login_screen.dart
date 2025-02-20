@@ -182,7 +182,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Colors.grey),
                     ),
                     TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Get.toNamed('/signup');
+                        },
                         child: Text(
                           'Sign Up',
                           style: TextStyle(color: Color(0xffFFCC00), fontSize: 18, fontWeight: FontWeight.bold),
