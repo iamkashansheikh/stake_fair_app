@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:stake_fair_app/controllers/utils/app_colors.dart';
+import 'package:stake_fair_app/view/screens/authentication/sign_up_screen.dart';
 
 
 import '../../../controllers/getx_controller/password_controller.dart';
@@ -148,7 +149,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: [
                Text('New to StakeFair?'),
                     SizedBox(width: mediaQuerySize.width*0.01,),
-                        Text('Sign Up',style: TextStyle(color: Colors.blue),),
+                        GestureDetector(
+                          onTap: (){
+                            Get.to(()=>SignUpScreen());
+                          },
+                          child: Text('Sign Up',style: TextStyle(color: Colors.blue),)),
                 ],),
                 SizedBox(
                   height: mediaQuerySize.height * 0.03.h,

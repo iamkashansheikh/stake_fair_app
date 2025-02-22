@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:stake_fair_app/res/routs/app_routs.dart';
+import 'package:stake_fair_app/res/routs/app_routs_name.dart';
 
-import 'view/screens/authentication/login_screen.dart';
-import 'view/screens/authentication/sign_up_screen.dart';
-import 'view/widgets/country_code_picker.dart';
 
 
 void main() {
@@ -25,7 +24,9 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
-         home: SignUpScreen()),
+        initialRoute: RoutsName.homeScreen,
+        getPages: AppRouts.pages
+         ),
     );
   }
 }
