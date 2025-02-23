@@ -4,14 +4,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:intl_phone_field/countries.dart';
 import 'package:stake_fair_app/controllers/utils/app_colors.dart';
+import 'package:stake_fair_app/view/screens/authentication/login_screen.dart';
 
 
+import '../../../controllers/getx_controller/auth_controller.dart';
 import '../../../controllers/getx_controller/password_controller.dart';
+import '../../widgets/country_code_picker.dart';
 import '../../widgets/custom_button.dart';
 import '../../widgets/custom_field_widget.dart';
 import '../../widgets/icon_selection_widget.dart';
-
+import '../../widgets/language_dropdown.dart';
+import '../../widgets/social_mediaicons.dart';
+import 'forgot_password_screen.dart';
 
 
 
@@ -30,9 +36,10 @@ class SignUpScreen extends StatefulWidget {
   State<SignUpScreen> createState() => _LoginScreenState();
 }
 
-GlobalKey<FormState> formKey = GlobalKey();
+//GlobalKey<FormState> formKey = GlobalKey();
 PasswordController passwordController = Get.put(PasswordController());
   final GenderController genderController = Get.put(GenderController());
+   final AuthController controller = Get.put(AuthController());
 
 
 
@@ -42,40 +49,61 @@ class _LoginScreenState extends State<SignUpScreen> {
     Size mediaQuerySize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(onPressed: (){
+    Navigator.pop(context);
+        }, icon: Icon(Icons.arrow_back_ios)),
        // title: Text('StakeFair'),
        actions: [
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Row(
             children: [
-              Text('Already a member?',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w400),),
-                Text('Login here',style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),)
+                GestureDetector(
+                  onTap: (){
+                    Get.to(()=>LoginScreen());
+                  },
+                  child: Text('Login',style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),)),
+                  SizedBox(width: mediaQuerySize.width*0.03,),
+       LanguageDropdown(),
+              
+              
+
             ],
           ),
         )
        ],
-        backgroundColor: AppColors.buttonColor,
+        backgroundColor: Colors.orange,
       ),
       body: SingleChildScrollView(
         child: SafeArea(
             child: Form(
-          key: formKey,
+         // key: formKey,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 0),
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 0),
             child: Column(
               children: [
                  SizedBox(
-                  height: mediaQuerySize.height * 0.03.h,
+                  height: mediaQuerySize.height * 0.01.h,
                 ),
-                GestureDetector(
-                  onTap: (){
-                   _showBottomSheet(context);
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text('betfair logo',style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500),),
-                  ),
-                ),
+                 Padding(
+                   padding: const EdgeInsets.all(8.0),
+                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                   children: [
+                    Text('Account Details',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
+                    Text('Step 1 of 2')
+                                   ],
+                                  ),
+                 ),
+              //   Container(width: mediaQuerySize.width,
+              //   height: mediaQuerySize.height*0.08,
+              //   decoration: BoxDecoration(
+              //     color: Colors.black.withOpacity(0.07),
+              //     borderRadius: BorderRadius.circular(10)
+              //   ),
+              //  child:
+              //   ),
+               
                 SizedBox(
                   height: mediaQuerySize.height * 0.05.h,
                 ),
@@ -85,11 +113,13 @@ class _LoginScreenState extends State<SignUpScreen> {
                     alignment: Alignment.centerLeft,
                     child: Text('Gender',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w400),)),
                 ),
-               Stack(
-                children: [
-                   Padding(
-                     padding: const EdgeInsets.all(8.0),
-                     child: Row(
+               Padding(
+                 padding: const EdgeInsets.all(8.0),
+                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                   children: [
+                     Row(
+                      
                        children: [
                          GestureDetector(
                                onTap: () {
@@ -115,7 +145,7 @@ class _LoginScreenState extends State<SignUpScreen> {
                                  ),
                                ),
                              ),
-                              SizedBox(width: 10),
+                             SizedBox(width: mediaQuerySize.width*0.02.w,),
                               GestureDetector(
                            onTap: () {
                            genderController.selectIndex(1); // Toggle state on tap
@@ -140,20 +170,29 @@ class _LoginScreenState extends State<SignUpScreen> {
                              ),
                            ),
                          ),
+                           
                        ],
                      ),
-                   ),
-                 
-                   // Padding(
-                  //   padding: const EdgeInsets.all(8.0),
-                  //   child: Text('Welcome Back!',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
-                  // ),
-               Align(
-                 alignment: Alignment.centerRight,
-                 child: IconSelectionWidget()),
-                ],
-                
+                     Container(
+                          height: mediaQuerySize.height * 0.05,
+                          width: mediaQuerySize.width * 0.21,
+                          decoration: BoxDecoration(
+                            color: Colors.black.withOpacity(0.07),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              _buildIcon(Icons.person, 1),
+                              _buildIcon(Icons.mobile_screen_share_rounded, 2),
+                            ],
+                          ),
+                        ),
+                   ],
+                 ),
                ),
+                                
+           
                  SizedBox(
                   height: mediaQuerySize.height * 0.02.h,
                 ),
@@ -181,6 +220,19 @@ class _LoginScreenState extends State<SignUpScreen> {
                     ),
                   ),
                 ),
+                SizedBox(height: mediaQuerySize.height * 0.02),
+
+                  Obx(() {
+                    if (controller.selectedIcon.value == 1) {
+                      return CustomField(text: 'Email or Username');
+                    } else if (controller.selectedIcon.value == 2) {
+                      return Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: CountryCodePickerWidget(),
+                      );
+                    }
+                    return SizedBox();
+                  }),
                 SizedBox(
                   height: mediaQuerySize.height * 0.03.h,
                 ),
@@ -189,24 +241,23 @@ class _LoginScreenState extends State<SignUpScreen> {
                 CustomButton(
                   name: 'Continue to step 2/2',
                   onTap: () {
-                    if (formKey.currentState!.validate() ?? false) {
-                     // Get.to(() => BottomNavigationBarScreen());
-                    }
+                    // if (formKey.currentState!.validate() ?? false) {
+                    //  // Get.to(() => BottomNavigationBarScreen());
+                    // }
                     print('no');
                   },
                 ),
                   SizedBox(
                   height: mediaQuerySize.height * 0.06.h,
                 ),
-               Row(
-                children: [
-                  Container(
+               Container(
                     height: mediaQuerySize.height*0.08.h,
-                    width: mediaQuerySize.width*0.4.w,
+                    width: mediaQuerySize.width*0.9.w,
                     decoration: BoxDecoration(
                       color: Colors.white,
                       boxShadow: [
                         BoxShadow(
+                          color: Colors.grey,
                           blurRadius: 3,
                           spreadRadius: 0,
                           offset: Offset(0, 2)
@@ -214,22 +265,26 @@ class _LoginScreenState extends State<SignUpScreen> {
                       ],
                       borderRadius: BorderRadius.circular(10),
                     ),
-                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Text('Help & Contact'),
-                      Icon(Icons.arrow_forward)
-                    ],
+                   child: Padding(
+                     padding: const EdgeInsets.all(8.0),
+                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Find out more abiut safe Gambling'),
+                        Icon(Icons.arrow_forward)
+                      ],
+                     ),
                    ),
                   ),
-                  SizedBox(width: mediaQuerySize.width*0.09.w,),
+                  SizedBox(height: mediaQuerySize.height*0.02,),
                     Container(
                     height: mediaQuerySize.height*0.08.h,
-                    width: mediaQuerySize.width*0.4.w,
+                    width: mediaQuerySize.width*0.9.w,
                     decoration: BoxDecoration(
                       color: Colors.white,
                       boxShadow: [
                         BoxShadow(
+                           color: Colors.grey,
                           blurRadius: 3,
                           spreadRadius: 0,
                           offset: Offset(0, 2)
@@ -237,16 +292,18 @@ class _LoginScreenState extends State<SignUpScreen> {
                       ],
                       borderRadius: BorderRadius.circular(10),
                     ),
-                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Text('Find out more'),
-                      Icon(Icons.arrow_forward)
-                    ],
+                   child: Padding(
+                     padding: const EdgeInsets.all(8.0),
+                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Help & Contact'),
+                        Icon(Icons.arrow_forward)
+                      ],
+                     ),
                    ),
-                  )
-                ],
-               )
+                  ),
+                  SizedBox(height: mediaQuerySize.height*0.06.h,)
               ],
             ),
           ),
@@ -254,34 +311,23 @@ class _LoginScreenState extends State<SignUpScreen> {
       ),
     );
   }
-   void _showBottomSheet(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (context) {
-        return Container(
-          padding: EdgeInsets.all(16),
-          height: 250, // Adjust height as needed
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
+   
+  Widget _buildIcon(IconData icon, int value) {
+    return Obx(() => GestureDetector(
+          onTap: () => controller.selectedIcon.value = value,
+          child: Stack(
+            alignment: Alignment.center,
             children: [
-              Text(
-                'StackFair Registeration',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 10),
-              Text(
-                'Here you can add more details about Betfair Logo or any content you want to display.',
-                textAlign: TextAlign.center,
-              ),
-             
+              if (controller.selectedIcon.value == value)
+                Container(
+                  width: 35,
+                  height: 35,
+                  decoration: BoxDecoration(shape: BoxShape.circle, color: AppColors.buttonColor),
+                ),
+              Icon(icon, color: Colors.black),
             ],
           ),
-        );
-      },
-    );
+        ));
   }
 }
 

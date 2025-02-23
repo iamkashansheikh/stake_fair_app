@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -9,6 +8,11 @@ import 'package:stake_fair_app/view/widgets/custom_field_widget.dart';
 
 class IconSelectionWidget extends StatelessWidget {
   final AuthController controller = Get.put(AuthController());
+
+  IconSelectionWidget() {
+    // Set the default selected icon
+    controller.selectedIcon.value = 1;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +32,7 @@ class IconSelectionWidget extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-               
+                // Person Icon
                 Obx(() => GestureDetector(
                       onTap: () {
                         controller.selectedIcon.value = 1;
@@ -38,28 +42,26 @@ class IconSelectionWidget extends StatelessWidget {
                         children: [
                           if (controller.selectedIcon.value == 1)
                             Container(
-                            width: mediaQuerySize.width*0.12.w,
-                            height: mediaQuerySize.height*0.07.h,
+                              width: mediaQuerySize.width * 0.12.w,
+                              height: mediaQuerySize.height * 0.07.h,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                color: AppColors.buttonColor
+                                color: AppColors.buttonColor,
                               ),
                             ),
                           Padding(
-                            padding: EdgeInsets.symmetric(horizontal: mediaQuerySize.width*0.01.w),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: mediaQuerySize.width * 0.01.w),
                             child: Icon(
                               Icons.person,
                               color: Colors.black,
-                              // color: controller.selectedIcon.value == 1
-                              //     ? Colors.amber
-                              //     : Colors.black,
                             ),
                           ),
                         ],
                       ),
                     )),
 
-               
+                // Mobile Icon
                 Obx(() => GestureDetector(
                       onTap: () {
                         controller.selectedIcon.value = 2;
@@ -69,19 +71,19 @@ class IconSelectionWidget extends StatelessWidget {
                         children: [
                           if (controller.selectedIcon.value == 2)
                             Container(
-                              width: mediaQuerySize.width*0.12.w,
-                            height: mediaQuerySize.height*0.07.h,
+                              width: mediaQuerySize.width * 0.12.w,
+                              height: mediaQuerySize.height * 0.07.h,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                color: AppColors.buttonColor
+                                color: AppColors.buttonColor,
                               ),
                             ),
                           Padding(
-                            padding: EdgeInsets.symmetric(horizontal: mediaQuerySize.width*0.01.w),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: mediaQuerySize.width * 0.01.w),
                             child: Icon(
                               Icons.mobile_screen_share_rounded,
                               color: Colors.black,
-                             
                             ),
                           ),
                         ],
@@ -103,7 +105,6 @@ class IconSelectionWidget extends StatelessWidget {
               padding: const EdgeInsets.all(4.0),
               child: CountryCodePickerWidget(),
             );
-           
           }
           return SizedBox();
         }),

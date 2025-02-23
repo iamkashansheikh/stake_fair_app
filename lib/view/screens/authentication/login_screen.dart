@@ -1,18 +1,16 @@
 
 
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:stake_fair_app/controllers/utils/app_colors.dart';
 import 'package:stake_fair_app/view/screens/authentication/sign_up_screen.dart';
 
-
+import '../../../controllers/getx_controller/auth_controller.dart';
 import '../../../controllers/getx_controller/password_controller.dart';
+import '../../widgets/country_code_picker.dart';
 import '../../widgets/custom_button.dart';
 import '../../widgets/custom_field_widget.dart';
-import '../../widgets/icon_selection_widget.dart';
-
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -21,204 +19,219 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
-GlobalKey<FormState> formKey = GlobalKey();
-PasswordController passwordController = Get.put(PasswordController());
-
-
 class _LoginScreenState extends State<LoginScreen> {
+  final AuthController controller = Get.put(AuthController());
+  final PasswordController passwordController = Get.put(PasswordController());
+ // final GlobalKey<FormState> formKey = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     Size mediaQuerySize = MediaQuery.of(context).size;
+
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('StakeFair'),
-        backgroundColor: AppColors.buttonColor,
+        title: Row(
+          children: [
+            Icon(Icons.compare_arrows_outlined, size: 25),
+            SizedBox(width: 5),
+            Text('StakeFair', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
+          ],
+        ),
+        backgroundColor: Colors.orange,
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: Icon(Icons.arrow_back_ios, size: 20),
+        ),
       ),
       body: SingleChildScrollView(
         child: SafeArea(
-            child: Form(
-          key: formKey,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 0),
-            child: Column(
-              children: [
-                SizedBox(
-                  height: mediaQuerySize.height * 0.08.h,
-                ),
-               Stack(
+          child: Form(
+          //  key: formKey,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 18),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text('Welcome Back!',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
-                  ),
-               Align(
-                 alignment: Alignment.centerRight,
-                 child: IconSelectionWidget()),
-                ],
-                
-               ),
-
-                SizedBox(
-                  height: mediaQuerySize.height * 0.02.h,
-                ),
-               
-              GestureDetector(
-      onTap: () {
-       passwordController.isChecked.toggle(); // Toggle state on tap
-      },
-      child: Obx(
-        () => Row(
-          children: [
-            Icon(
-              passwordController.isChecked.value
-                  ? Icons.check_circle 
-                  : Icons.circle_outlined, 
-              size: 30,
-              color: passwordController.isChecked.value ? Colors.green : Colors.grey, // Color changes on tap
-            ),
-            SizedBox(width: 5),
-            Text(
-              'Remember me',
-              style: TextStyle(color: Colors.black, fontSize: 16),
-            ),
-          ],
-        ),
-      ),
-    ),
-                SizedBox(
-                  height: mediaQuerySize.height * 0.03.h,
-                ),
-                CustomField(
-                  text: 'Password',
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'please enter your password';
-                    }
-                    return null;
-                  },
-                  isSuffixIcon: true,
-                  suffixIcon: Obx(
-                    () => IconButton(
-                      icon: Icon(
-                        passwordController.isPasswordVisible.value ? Icons.visibility : Icons.visibility_off,
-                      ),
-                      onPressed: passwordController.togglePasswordVisibility,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: mediaQuerySize.height * 0.03.h,
-                ),
-                Row(
-                 mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                   
-                    // TextButton(
-                    //     onPressed: () {
-                    //      // Get.to(() => ForgotPasswordScreen());
-                    //     },
-                    //     child: Text('Forget', style: TextStyle(color: Colors.grey, fontSize: 13))),
-                    Text('Forgot your'),
-                    SizedBox(width: mediaQuerySize.width*0.01,),
-                        Text('username',style: TextStyle(color: Colors.blue),),
-                        SizedBox(width: mediaQuerySize.width*0.01,),
-                         Text('or',style: TextStyle(color: Colors.black),),
-                         SizedBox(width: mediaQuerySize.width*0.01,),
-                          Text('password',style: TextStyle(color: Colors.blue),),
-                          Text('?',style: TextStyle(color: Colors.black),),
-                  ],
-                ),
-                SizedBox(
-                  height: mediaQuerySize.height * 0.03.h,
-                ),
-                CustomButton(
-                  name: 'Login',
-                  onTap: () {
-                    if (formKey.currentState!.validate() ?? false) {
-                     // Get.to(() => BottomNavigationBarScreen());
-                    }
-                    print('no');
-                  },
-                ),
-                  SizedBox(
-                  height: mediaQuerySize.height * 0.02.h,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-               Text('New to StakeFair?'),
-                    SizedBox(width: mediaQuerySize.width*0.01,),
-                        GestureDetector(
-                          onTap: (){
-                            Get.to(()=>SignUpScreen());
-                          },
-                          child: Text('Sign Up',style: TextStyle(color: Colors.blue),)),
-                ],),
-                SizedBox(
-                  height: mediaQuerySize.height * 0.03.h,
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Divider(
-                        color: Colors.grey,
-                        thickness: 1,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Text(
-                        'OR',
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontWeight: FontWeight.w500,
+                  SizedBox(height: mediaQuerySize.height * 0.04),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Welcome Back!', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                      Container(
+                        height: mediaQuerySize.height * 0.05,
+                        width: mediaQuerySize.width * 0.21,
+                        decoration: BoxDecoration(
+                          color: Colors.black.withOpacity(0.07),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            _buildIcon(Icons.person, 1),
+                            _buildIcon(Icons.mobile_screen_share_rounded, 2),
+                          ],
                         ),
                       ),
-                    ),
-                    Expanded(
-                      child: Divider(
-                        color: Colors.grey,
-                        thickness: 1,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: mediaQuerySize.height * 0.02.h,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset('assets/images/google3.png',height: 60,width: 60,),
-                      // SocialMediaIconsRow(
-                      //   imgUrl: 'assets/images/google3.png',
-                      // ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      Image.asset('assets/images/fb.png',height: 60,width: 60,),
-                      // SocialMediaIconsRow(
-                      //   imgUrl: 'assets/images/fb.png',
-                      // ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      Image.asset('assets/images/appl_img.png',height: 60,width: 60,),
-                      // SocialMediaIconsRow(
-                      //   imgUrl: 'assets/images/appl_img.png',
-                      // ),
                     ],
                   ),
-                ),
-               
-              ],
+                  SizedBox(height: mediaQuerySize.height * 0.02),
+
+                  Obx(() {
+                    if (controller.selectedIcon.value == 1) {
+                      return CustomField(text: 'Email or Username');
+                    } else if (controller.selectedIcon.value == 2) {
+                      return Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: CountryCodePickerWidget(),
+                      );
+                    }
+                    return SizedBox();
+                  }),
+
+                  SizedBox(height: mediaQuerySize.height * 0.02),
+
+                  GestureDetector(
+                    onTap: passwordController.isChecked.toggle,
+                    child: Obx(
+                      () => Row(
+                        children: [
+                          Icon(
+                            passwordController.isChecked.value ? Icons.check_circle : Icons.circle_outlined,
+                            size: 30,
+                            color: passwordController.isChecked.value ? Colors.green : Colors.grey,
+                          ),
+                          SizedBox(width: 5),
+                          Text('Remember me', style: TextStyle(color: Colors.black, fontSize: 16)),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  SizedBox(height: mediaQuerySize.height * 0.03),
+
+                  CustomField(
+                    text: 'Password',
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your password';
+                      }
+                      return null;
+                    },
+                    isSuffixIcon: true,
+                    suffixIcon: Obx(
+                      () => IconButton(
+                        icon: Icon(
+                          passwordController.isPasswordVisible.value ? Icons.visibility : Icons.visibility_off,
+                        ),
+                        onPressed: passwordController.togglePasswordVisibility,
+                      ),
+                    ),
+                  ),
+
+                  SizedBox(height: mediaQuerySize.height * 0.03),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('Forgot your'),
+                      SizedBox(width: mediaQuerySize.width * 0.01),
+                      Text('username', style: TextStyle(color: Colors.blue)),
+                      SizedBox(width: mediaQuerySize.width * 0.01),
+                      Text('or', style: TextStyle(color: Colors.black)),
+                      SizedBox(width: mediaQuerySize.width * 0.01),
+                      Text('password', style: TextStyle(color: Colors.blue)),
+                      Text('?', style: TextStyle(color: Colors.black)),
+                    ],
+                  ),
+
+                  SizedBox(height: mediaQuerySize.height * 0.03),
+
+                  CustomButton(
+                    name: 'Login',
+                    onTap: () {
+                      // if (formKey.currentState?.validate() ?? false) {
+                      //   print('Login successful');
+                      // } else {
+                      //   print('Validation failed');
+                      // }
+                    },
+                  ),
+
+                  SizedBox(height: mediaQuerySize.height * 0.02),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('New to StakeFair?'),
+                      SizedBox(width: mediaQuerySize.width * 0.01),
+                      GestureDetector(
+                        onTap: () => Get.to(() => SignUpScreen()),
+                        child: Text('Sign Up', style: TextStyle(color: Colors.blue)),
+                      ),
+                    ],
+                  ),
+
+                  SizedBox(height: mediaQuerySize.height * 0.03),
+
+                  Row(
+                    children: [
+                      Expanded(child: Divider(color: Colors.black, thickness: 1)),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Text('OR', style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500)),
+                      ),
+                      Expanded(child: Divider(color: Colors.black, thickness: 1)),
+                    ],
+                  ),
+
+                  SizedBox(height: mediaQuerySize.height * 0.02),
+
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        _buildSocialMediaIcon('assets/images/download (1).jpg'),
+                         SizedBox(width: 5),
+                        _buildSocialMediaIcon('assets/images/download (3).png'),
+                          SizedBox(width: 5),
+                        _buildSocialMediaIcon('assets/images/download.png'),
+                       
+                         SizedBox(width: 5),
+                        _buildSocialMediaIcon('assets/images/download.jpg'),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
-        )),
+        ),
       ),
     );
+  }
+
+  Widget _buildIcon(IconData icon, int value) {
+    return Obx(() => GestureDetector(
+          onTap: () => controller.selectedIcon.value = value,
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              if (controller.selectedIcon.value == value)
+                Container(
+                  width: 35,
+                  height: 35,
+                  decoration: BoxDecoration(shape: BoxShape.circle, color: AppColors.buttonColor),
+                ),
+              Icon(icon, color: Colors.black),
+            ],
+          ),
+        ));
+  }
+
+  Widget _buildSocialMediaIcon(String assetPath) {
+    return Image.asset(assetPath, height: 60, width: 60);
   }
 }
 
