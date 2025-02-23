@@ -16,7 +16,7 @@ class CustomButton extends StatelessWidget {
       this.color = AppColors.buttonColor,
       this.textStyle = const TextStyle(
         color: Colors.grey,
-        fontSize: 16,
+        fontSize: 22,
         fontWeight: FontWeight.w600,
       ),
       this.onTap, this.width=300,this.isEnabled=false});
