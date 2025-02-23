@@ -1,7 +1,6 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:stake_fair_app/controllers/utils/app_colors.dart';
 import 'package:stake_fair_app/view/screens/authentication/sign_up_screen.dart';
@@ -33,9 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
       appBar: AppBar(
         title: Row(
           children: [
-            Icon(Icons.compare_arrows_outlined, size: 25),
-            SizedBox(width: 5),
-            Text('StakeFair', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
+            Text('StakeFair', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24)),
           ],
         ),
         backgroundColor: Colors.orange,
@@ -57,7 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Welcome Back!', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                      Text('Welcome Back!', style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
                       Container(
                         height: mediaQuerySize.height * 0.05,
                         width: mediaQuerySize.width * 0.21,
@@ -97,7 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       () => Row(
                         children: [
                           Icon(
-                            passwordController.isChecked.value ? Icons.check_circle : Icons.circle_outlined,
+                            passwordController.isChecked.value ? Icons.check_box : Icons.check_box_outline_blank,
                             size: 30,
                             color: passwordController.isChecked.value ? Colors.green : Colors.grey,
                           ),
@@ -108,40 +105,37 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
 
-                  SizedBox(height: mediaQuerySize.height * 0.03),
-
-                  CustomField(
-                    text: 'Password',
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your password';
-                      }
-                      return null;
-                    },
-                    isSuffixIcon: true,
-                    suffixIcon: Obx(
-                      () => IconButton(
+                  SizedBox(height: mediaQuerySize.height * 0.02),
+                Obx(() => CustomField(
+                      text: 'Password',
+                      isSuffixIcon: true,
+                      obscureText: !passwordController.isPasswordVisible.value,
+                      suffixIcon: IconButton(
                         icon: Icon(
-                          passwordController.isPasswordVisible.value ? Icons.visibility : Icons.visibility_off,
+                          passwordController.isPasswordVisible.value
+                              ? Icons.visibility
+                              : Icons.visibility_off,
                         ),
                         onPressed: passwordController.togglePasswordVisibility,
                       ),
-                    ),
-                  ),
+                      validator: (value) => value!.isEmpty
+                          ? 'Please enter your password'
+                          : null,
+                    )),
 
-                  SizedBox(height: mediaQuerySize.height * 0.03),
+                  SizedBox(height: mediaQuerySize.height * 0.01),
 
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('Forgot your'),
+                      Text('Forgot your',style: TextStyle(fontSize: 18),),
                       SizedBox(width: mediaQuerySize.width * 0.01),
-                      Text('username', style: TextStyle(color: Colors.blue)),
+                      Text('username', style: TextStyle(color: Colors.blue,fontSize: 18)),
                       SizedBox(width: mediaQuerySize.width * 0.01),
-                      Text('or', style: TextStyle(color: Colors.black)),
+                      Text('or', style: TextStyle(color: Colors.black,fontSize: 18)),
                       SizedBox(width: mediaQuerySize.width * 0.01),
-                      Text('password', style: TextStyle(color: Colors.blue)),
-                      Text('?', style: TextStyle(color: Colors.black)),
+                      Text('password', style: TextStyle(color: Colors.blue,fontSize: 18)),
+                      Text('?', style: TextStyle(color: Colors.black,fontSize: 18)),
                     ],
                   ),
 
@@ -163,11 +157,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('New to StakeFair?'),
+                      Text('New to StakeFair?',style: TextStyle(fontSize: 18)),
                       SizedBox(width: mediaQuerySize.width * 0.01),
                       GestureDetector(
                         onTap: () => Get.to(() => SignUpScreen()),
-                        child: Text('Sign Up', style: TextStyle(color: Colors.blue)),
+                        child: Text('Sign Up', style: TextStyle(color: Colors.blue,fontSize: 18)),
                       ),
                     ],
                   ),

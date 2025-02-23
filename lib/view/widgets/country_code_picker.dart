@@ -29,7 +29,7 @@ class CountryCodePickerWidget extends StatelessWidget {
             () => DropdownButtonHideUnderline(
               child: DropdownButton<String>(
                 isExpanded: true,
-                icon: Icon(Icons.arrow_drop_down, color: Colors.blue),
+                icon: Icon(Icons.keyboard_arrow_down),
                 value: "${controller.selectedCountryCode.value},${controller.selectedCountryFlag.value}",
                 onChanged: (value) {
                   if (value != null) {
