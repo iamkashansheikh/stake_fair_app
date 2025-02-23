@@ -2,20 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
-  // Bottom navigation selected index
   var selectedIndex = 0.obs;
 
-  // Selected item for dropdowns (if needed)
   var selectedItem = 'Safer Gambling'.obs;
 
-  // Dropdown expansion toggles
   var isSaferGamblingExpanded = false.obs;
   var isAboutStakefairExpanded = false.obs;
 
-  // Toggle for search field visibility
   var isSearchFieldVisible = false.obs;
 
-  // Data for "Safer Gambling" dropdown
   final List<String> saferGambling = [
     'Safer Gambling',
     'Safer Gambling Information',
@@ -24,7 +19,6 @@ class HomeController extends GetxController {
     'Safer Gambling Tool'
   ];
 
-  // Data for "About StakeFair" dropdown
   final List<String> aboutStakefair = [
     'About StakeFair',
     'Carrer',
@@ -32,7 +26,6 @@ class HomeController extends GetxController {
     'Resolve Dispute'
   ];
 
-  // Screens for BottomNavigationBar (if needed)
   final List<Widget> screens = [
     Center(child: Text("Home Screen")),
     Center(child: Text("Menu Screen")),
@@ -41,7 +34,6 @@ class HomeController extends GetxController {
     Center(child: Text("Casino Screen")),
   ];
 
-  // Categories for the category bar
   final RxList<Map<String, dynamic>> categories = [
     {'icon': Icons.play_arrow, 'label': 'Play', 'isHighlighted': true},
     {'icon': Icons.sports_cricket, 'label': 'Cricket'},
@@ -52,7 +44,6 @@ class HomeController extends GetxController {
     {'icon': Icons.sports_volleyball, 'label': 'Basketball'},
   ].obs;
 
-  // Example data for "Most Popular Bets" section
   final RxList<Map<String, dynamic>> cricket = [
     {
       'icon': Icons.sports_cricket,
@@ -81,14 +72,12 @@ class HomeController extends GetxController {
     },
   ].obs;
 
-  // Horse racing data
   final RxList<dynamic> horseRacing = [
     '13:15 HYDERABAD R2',
     'Today Card',
     'See all Horse Racing'
   ].obs;
 
-  // Quick links data
   final RxList<Map<String, dynamic>> quickLinks = [
     {'icon': Icons.sports_tennis, 'name': 'Warwick Farm'},
     {'icon': Icons.sports_tennis, 'name': 'Sandown'},
@@ -105,7 +94,6 @@ class HomeController extends GetxController {
     {'icon': Icons.sports_soccer, 'name': 'Dortmund vs Sporting Lisbon'},
   ].obs;
 
-  // Method to change the bottom navigation index
   void changeIndex(int index) {
     selectedIndex.value = index;
   }

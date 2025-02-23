@@ -12,8 +12,7 @@ import '../../../controllers/getx_controller/password_controller.dart';
 import '../../widgets/custom_button.dart';
 import '../../widgets/custom_field_widget.dart';
 import '../../widgets/icon_selection_widget.dart';
-import '../../widgets/social_mediaicons.dart';
-import 'forgot_password_screen.dart';
+
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
