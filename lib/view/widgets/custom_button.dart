@@ -15,7 +15,7 @@ class CustomButton extends StatelessWidget {
       required this.name,
       this.color = AppColors.buttonColor,
       this.textStyle = const TextStyle(
-        color: Colors.white,
+        color: Colors.grey,
         fontSize: 16,
         fontWeight: FontWeight.w600,
       ),
