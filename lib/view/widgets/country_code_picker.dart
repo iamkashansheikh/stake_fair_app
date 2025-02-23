@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl_phone_field/countries.dart';
 import 'package:stake_fair_app/controllers/getx_controller/auth_controller.dart';
-import 'package:stake_fair_app/main.dart';
 import 'package:stake_fair_app/view/widgets/custom_field_widget.dart';
 
 class CountryCodePickerWidget extends StatelessWidget {
