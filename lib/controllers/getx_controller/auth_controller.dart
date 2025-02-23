@@ -1,10 +1,10 @@
 import 'package:get/get.dart';
 
 class AuthController extends GetxController{
- var selectedIcon = 0.obs;
+ var selectedIcon = 1.obs;
+var selectedCountryCode = '+92'.obs; // Pakistan Code
+var selectedCountryFlag = '🇵🇰'.obs; // Pakistan Flag
 
-   var selectedCountryCode = '+1'.obs; // Default USA
-  var selectedCountryFlag = '🇺🇸'.obs; // Default flag
 
   void updateCountry(String code, String flag) {
     selectedCountryCode.value = code;
