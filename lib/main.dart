@@ -23,13 +23,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: Size(360, 690), // ✅ Fix screen size for responsiveness
+      designSize: Size(360, 690), 
       minTextAdapt: true,
       splitScreenMode: true,
       child: GetMaterialApp(
-        translations: AppTranslations(), // ✅ Added translations
-        locale: Locale('en', 'US'), // ✅ Default language
-        fallbackLocale: Locale('en', 'US'), // ✅ Fallback in case of an error
+        translations: AppTranslations(), 
+        locale: Locale('en', 'US'), 
+        fallbackLocale: Locale('en', 'US'), 
         debugShowCheckedModeBanner: false,
         initialRoute: RoutsName.homeScreen,
         getPages: AppRouts.pages,
