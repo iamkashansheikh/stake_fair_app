@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:stake_fair_app/controllers/home_controller.dart';
+import 'package:stake_fair_app/view/Check_file.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
@@ -83,7 +84,13 @@ class HomeScreen extends StatelessWidget {
             type: BottomNavigationBarType.fixed,
             items: [
               BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-              BottomNavigationBarItem(icon: Icon(Icons.menu), label: 'Menu'),
+              BottomNavigationBarItem(icon: InkWell(child: Icon(Icons.menu),
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context){
+                 return CheckFile();
+                }));
+              },
+              ), label: 'Menu'),
               BottomNavigationBarItem(
                   icon: Icon(Icons.account_balance_wallet),
                   label: 'Cash Out'),
