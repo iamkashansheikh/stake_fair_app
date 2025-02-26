@@ -9,7 +9,7 @@ import 'package:stake_fair_app/virsionCheck/virsion_check.dart';
 
 class AppRouts {
   static final List<GetPage> pages = [
-    GetPage(name: RoutsName.login, page: () => const LoginScreen()),
+    GetPage(name: RoutsName.login, page: () =>  LoginScreen()),
     GetPage(name: RoutsName.signup, page: () =>  SignUpScreen()),
     GetPage(name: RoutsName.forgotpass, page: () =>  ForgotPasswordScreen()),
     GetPage(name: RoutsName.homeScreen, page: () =>  HomeScreen()),

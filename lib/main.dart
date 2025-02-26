@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:stake_fair_app/res/routs/app_routs.dart';
+import 'package:stake_fair_app/res/routs/app_routs_name.dart';
 import 'firebase_options.dart';
 import 'virsionCheck/virsion_check.dart'; 
 
@@ -26,7 +28,8 @@ class MyApp extends StatelessWidget {
         return GetMaterialApp(
           title: 'Stake Fair App',
           debugShowCheckedModeBanner: false,
-          home:  VersionCheck(), 
+          initialRoute:RoutsName.virsion,
+          getPages:AppRouts.pages 
         );
       },
     );
