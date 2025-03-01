@@ -6,111 +6,121 @@ import 'package:stake_fair_app/view/Check_file.dart';
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
   final HomeController homeController = Get.put(HomeController());
-
+  
+ //double _searchFieldHeight = 60.0;
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: _buildAppBar(),
-        body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Obx(() => AnimatedSwitcher(
-                    duration: Duration(milliseconds: 300),
-                    transitionBuilder: (child, animation) {
-                      return SlideTransition(
-                        position: Tween<Offset>(
-                          begin: Offset(0, -1),
-                          end: Offset(0, 0),
-                        ).animate(animation),
-                        child: FadeTransition(
-                          opacity: animation,
-                          child: child,
-                        ),
-                      );
-                    },
-                    child: homeController.isSearchFieldVisible.value
-                        ? _buildSearchField()
-                        : SizedBox.shrink(),
-                  )),
-              _buildCategoryBar(),
-              _buildBanner(),
-              _buildSection('Most Popular Bets', 'icon', 'label', 'sub'),
-              _buildHorseRacingSection('Horse Racing'),
-              _buildContainer('QuickLinks'),
-              _buildQuickLinksSection('name', 'icon'),
-              _buildFooter(),
-              SizedBox(height: 5),
-              _buildWarningText(),
-              SizedBox(height: 35),
-              // Additional footer texts
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Center(child: _buildSaferGamblingDropdown()),
-                  SizedBox(height: 5),
-                  Center(child: _buildAboutStakefairDropdown()),
-                  SizedBox(height: 8),
-                  _buildText('Help'),
-                  _buildText('Affiliates'),
-                  _buildText('18+'),
-                  _buildText('Developers'),
-                  _buildText('StakeFair Exchange Sitemap'),
-                  _buildText('B2B Partnerships'),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Divider(thickness: 1),
-                  ),
-                  SizedBox(height: 15),
-                  _buildText('Privacy Policy'),
-                  _buildText('Cookie Policy'),
-                  _buildText('Privacy Preference Centre'),
-                  _buildText('Rules & Regulations'),
-                  _buildText('Terms & Conditions'),
-                  SizedBox(height: 40),
-                ],
-              )
-            ],
+  return SafeArea(
+    child: Scaffold(
+      appBar: _buildAppBar(),
+      body: Stack(
+        children: [
+          // Main content scroll view
+          SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Remove the previous AnimatedSwitcher for search field from here.
+                _buildCategoryBar(),
+                _buildBanner(),
+                _buildSection('Most Popular Bets', 'icon', 'label', 'sub'),
+                _buildHorseRacingSection('Horse Racing'),
+                _buildContainer('QuickLinks'),
+                _buildQuickLinksSection('name', 'icon'),
+                _buildFooter(),
+                SizedBox(height: 5),
+                _buildWarningText(),
+                SizedBox(height: 35),
+                // Additional footer texts
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Center(child: _buildSaferGamblingDropdown()),
+                    SizedBox(height: 5),
+                    Center(child: _buildAboutStakefairDropdown()),
+                    SizedBox(height: 8),
+                    _buildText('Help'),
+                    _buildText('Affiliates'),
+                    _buildText('18+'),
+                    _buildText('Developers'),
+                    _buildText('StakeFair Exchange Sitemap'),
+                    _buildText('B2B Partnerships'),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: Divider(thickness: 1),
+                    ),
+                    SizedBox(height: 15),
+                    _buildText('Privacy Policy'),
+                    _buildText('Cookie Policy'),
+                    _buildText('Privacy Preference Centre'),
+                    _buildText('Rules & Regulations'),
+                    _buildText('Terms & Conditions'),
+                    SizedBox(height: 40),
+                  ],
+                ),
+              ],
+            ),
           ),
-        ),
-        bottomNavigationBar: Obx(
-          () => BottomNavigationBar(
-            currentIndex: homeController.selectedIndex.value,
-            onTap: homeController.changeIndex,
-            backgroundColor: const Color(0xff303030),
-            selectedItemColor: Colors.orange,
-            unselectedItemColor: Colors.white,
-            type: BottomNavigationBarType.fixed,
-            items: [
-              BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-              BottomNavigationBarItem(icon: InkWell(child: Icon(Icons.menu),
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context){
-                 return CheckFile();
-                }));
-              },
-              ), label: 'Menu'),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.account_balance_wallet),
-                  label: 'Cash Out'),
-              BottomNavigationBarItem(
-                  icon: Image(
-                    image: AssetImage('assets/images/money.png'),
-                    width: 30,
-                  ),
-                  label: 'My Bets'),
-              BottomNavigationBarItem(
-                  icon: Image(
-                    image: AssetImage('assets/images/casino-chip (1).png'),
-                    width: 30,
-                  ),
-                  label: 'Casino'),
-            ],
-          ),
+          // Overlay search field (it occupies no layout space when hidden)
+          Obx(() => AnimatedPositioned(
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeInOut,
+                // Adjust 'top' to position the search field as desired (here, it slides from above)
+                top: homeController.isSearchFieldVisible.value ? 0 : -80,
+                left: 0,
+                right: 0,
+                child: AnimatedOpacity(
+                  duration: const Duration(milliseconds: 300),
+                  opacity: homeController.isSearchFieldVisible.value ? 1.0 : 0.0,
+                  child: _buildSearchField(),
+                ),
+              )),
+        ],
+      ),
+      bottomNavigationBar: Obx(
+        () => BottomNavigationBar(
+          currentIndex: homeController.selectedIndex.value,
+          onTap: homeController.changeIndex,
+          backgroundColor: const Color(0xff303030),
+          selectedItemColor: Colors.orange,
+          unselectedItemColor: Colors.white,
+          type: BottomNavigationBarType.fixed,
+          items: [
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+            BottomNavigationBarItem(
+              icon: InkWell(
+                child: Icon(Icons.menu),
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return CheckFile();
+                  }));
+                },
+              ),
+              label: 'Menu',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.account_balance_wallet),
+              label: 'Cash Out',
+            ),
+            BottomNavigationBarItem(
+              icon: Image(
+                image: AssetImage('assets/images/money.png'),
+                width: 30,
+              ),
+              label: 'My Bets',
+            ),
+            BottomNavigationBarItem(
+              icon: Image(
+                image: AssetImage('assets/images/casino-chip (1).png'),
+                width: 30,
+              ),
+              label: 'Casino',
+            ),
+          ],
         ),
       ),
-    );
+    ),
+  );
   }
   
   PreferredSizeWidget _buildAppBar() {
@@ -146,36 +156,37 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildSearchField() {
-    return Container(
-      key: ValueKey("searchField"),
-      width: 415,
-      height: 80,
-      color: Color(0xff525252),
-      padding: EdgeInsets.all(10),
-      child: Row(
-        children: [
-          Expanded(
-            child: TextFormField(
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: Colors.white,
-                prefixIcon: Icon(Icons.search, color: Colors.grey),
-                hintText: 'Search...',
-                hintStyle: TextStyle(color: Colors.grey),
-                border: OutlineInputBorder(),
-              ),
+Widget _buildSearchField({Key? key}) {
+  return Container(
+    key: key, // Key moved to container level
+    width: 415,
+    height: 80,
+    color: const Color(0xff525252),
+    padding: const EdgeInsets.all(10),
+    child: Row(
+      children: [
+        Expanded(
+          child: TextFormField(
+            decoration: InputDecoration(
+              filled: true,
+              fillColor: Colors.white,
+              prefixIcon: Icon(Icons.search, color: Colors.grey),
+              hintText: 'Search...',
+              hintStyle: TextStyle(color: Colors.grey),
+              border: const OutlineInputBorder(),
             ),
           ),
-          SizedBox(width: 10),
-          GestureDetector(
-            onTap: () => homeController.isSearchFieldVisible.value = false,
-            child: Text("Cancel", style: TextStyle(color: Colors.white, fontSize: 16)),
-          ),
-        ],
-      ),
-    );
-  }
+        ),
+        const SizedBox(width: 10),
+        GestureDetector(
+          onTap: () => homeController.isSearchFieldVisible.value = false,
+          child: Text("Cancel", 
+            style: TextStyle(color: Colors.white, fontSize: 16)),
+        ),
+      ],
+    ),
+  );
+}
 
   Widget _buildText(String title) {
     return Text(title, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold));

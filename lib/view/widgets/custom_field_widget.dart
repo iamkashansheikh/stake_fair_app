@@ -21,36 +21,41 @@ class CustomField extends StatelessWidget {
     this.color,
     this.validator,
   });
+  
 
   @override
   Widget build(BuildContext context) {
+    Size mediaQuerySize = MediaQuery.of(context).size;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 5),
-      child: TextFormField(
-        obscureText: obscureText, // <-- Apply password hiding logic
-        validator: validator,
-        decoration: InputDecoration(
-          fillColor: color ?? Colors.black.withOpacity(0.07),
-          filled: true,
-          prefixIcon: isPrefixIcon ? prefixIcon : null,
-          suffixIcon: isSuffixIcon ? suffixIcon : const SizedBox(),
-          contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 18),
-          hintText: text,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide.none,
+      child: Container(
+        height: mediaQuerySize.height*0.07,
+        child: TextFormField(
+          obscureText: obscureText, // <-- Apply password hiding logic
+          validator: validator,
+          decoration: InputDecoration(
+            fillColor: color ?? Colors.black.withOpacity(0.07),
+            filled: true,
+            prefixIcon: isPrefixIcon ? prefixIcon : null,
+            suffixIcon: isSuffixIcon ? suffixIcon : const SizedBox(),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 18),
+            hintText: text,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(5),
+              borderSide: BorderSide.none,
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(5),
+              borderSide: BorderSide.none,
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(5),
+              borderSide: const BorderSide(),
+            ),
+            hintStyle: const TextStyle(color: Colors.grey),
           ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide.none,
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: const BorderSide(),
-          ),
-          hintStyle: const TextStyle(color: Colors.grey),
+          style: const TextStyle(color: Colors.black),
         ),
-        style: const TextStyle(color: Colors.black),
       ),
     );
   }
