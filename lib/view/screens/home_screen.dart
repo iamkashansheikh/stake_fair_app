@@ -1,26 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:stake_fair_app/controllers/home_controller.dart';
-import 'package:stake_fair_app/view/Check_file.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
   final HomeController homeController = Get.put(HomeController());
   
- //double _searchFieldHeight = 60.0;
   @override
   Widget build(BuildContext context) {
   return SafeArea(
     child: Scaffold(
+      backgroundColor: Color(0xffFFFFFF),
       appBar: _buildAppBar(),
       body: Stack(
         children: [
-          // Main content scroll view
           SingleChildScrollView(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Remove the previous AnimatedSwitcher for search field from here.
                 _buildCategoryBar(),
                 _buildBanner(),
                 _buildSection('Most Popular Bets', 'icon', 'label', 'sub'),
@@ -28,10 +24,8 @@ class HomeScreen extends StatelessWidget {
                 _buildContainer('QuickLinks'),
                 _buildQuickLinksSection('name', 'icon'),
                 _buildFooter(),
-                SizedBox(height: 5),
                 _buildWarningText(),
-                SizedBox(height: 35),
-                // Additional footer texts
+                SizedBox(height: 5),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -55,17 +49,16 @@ class HomeScreen extends StatelessWidget {
                     _buildText('Privacy Preference Centre'),
                     _buildText('Rules & Regulations'),
                     _buildText('Terms & Conditions'),
-                    SizedBox(height: 40),
+                    SizedBox(height: 30),
                   ],
                 ),
               ],
             ),
           ),
-          // Overlay search field (it occupies no layout space when hidden)
+
           Obx(() => AnimatedPositioned(
                 duration: const Duration(milliseconds: 300),
                 curve: Curves.easeInOut,
-                // Adjust 'top' to position the search field as desired (here, it slides from above)
                 top: homeController.isSearchFieldVisible.value ? 0 : -80,
                 left: 0,
                 right: 0,
@@ -77,88 +70,105 @@ class HomeScreen extends StatelessWidget {
               )),
         ],
       ),
-      bottomNavigationBar: Obx(
-        () => BottomNavigationBar(
-          currentIndex: homeController.selectedIndex.value,
-          onTap: homeController.changeIndex,
-          backgroundColor: const Color(0xff303030),
-          selectedItemColor: Colors.orange,
-          unselectedItemColor: Colors.white,
-          type: BottomNavigationBarType.fixed,
-          items: [
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-            BottomNavigationBarItem(
-              icon: InkWell(
-                child: Icon(Icons.menu),
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return CheckFile();
-                  }));
-                },
+bottomNavigationBar: Obx(() {
+        return Container(
+          color: const Color(0xff525252), 
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              _buildNavItem(
+                index: 0,
+                label: 'Home',
+                icon: Icons.home,
+                onTap: () => homeController.changeIndex(0),
               ),
-              label: 'Menu',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.account_balance_wallet),
-              label: 'Cash Out',
-            ),
-            BottomNavigationBarItem(
-              icon: Image(
-                image: AssetImage('assets/images/money.png'),
-                width: 30,
+              _buildNavItem(
+                index: 1,
+                label: 'Menu',
+                icon: Icons.menu,
+                onTap: () => homeController.changeIndex(1),
               ),
-              label: 'My Bets',
-            ),
-            BottomNavigationBarItem(
-              icon: Image(
-                image: AssetImage('assets/images/casino-chip (1).png'),
-                width: 30,
+              _buildNavItem(
+                index: 2,
+                label: 'Cash Out',
+                icon: Icons.account_balance_wallet,
+                onTap: () => homeController.changeIndex(2),
               ),
-              label: 'Casino',
+              _buildNavItemWithAsset(
+                index: 3,
+                label: 'My Bets',
+                assetPath: 'assets/images/money.png',
+                onTap: () => homeController.changeIndex(3),
+              ),
+              _buildNavItemWithAsset(
+                index: 4,
+                label: 'Casino',
+                assetPath: 'assets/images/casino-chip (1).png',
+                onTap: () => homeController.changeIndex(4),
+              ),
+            ],
+          ),
+        );
+      }),
+
+    ),
+  );
+  }
+  
+PreferredSizeWidget _buildAppBar() {
+  return PreferredSize(
+    preferredSize: Size.fromHeight(53), 
+    child: Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+           colors: [Color(0xffFFB300), Color(0xffFF8801),], 
+          begin: Alignment.topCenter, 
+          end: Alignment.bottomCenter,
+        ),
+      ),
+      child: AppBar(
+        toolbarHeight: 53,
+        backgroundColor: Colors.transparent, 
+        elevation: 0,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('StakeFair', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24)),
+                  Text('EXCHANGE', style: TextStyle(fontSize: 16)),
+                ],
+              ),
             ),
+           
+            Row(
+              children: [
+                InkWell(
+                  onTap: () => homeController.isSearchFieldVisible.toggle(),
+                  child: _buildIconButton(Icons.search_rounded, 'Search', width: 50),
+                ),
+                SizedBox(width: 5),
+                InkWell(
+                  child: _buildIconButton(Icons.person, 'Login/Join', width: 70),
+                  onTap: () {
+                    Get.toNamed('/login');
+                  },
+                ),
+              ],
+            )
           ],
         ),
       ),
     ),
   );
-  }
-  
-  PreferredSizeWidget _buildAppBar() {
-    return AppBar(
-      toolbarHeight: 70,
-      backgroundColor: Colors.orange,
-      title: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('StakeFair', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24)),
-              Text('EXCHANGE', style: TextStyle(fontSize: 16)),
-            ],
-          ),
-          Row(
-            children: [
-              InkWell(
-                onTap: () => homeController.isSearchFieldVisible.toggle(),
-                child: _buildIconButton(Icons.search_rounded, 'Search', width: 50),
-              ),
-              SizedBox(width: 8),
-              InkWell(child: _buildIconButton(Icons.person, 'Login/Join', width: 70),
-              onTap: () {
-                Get.toNamed('/login');
-              },
-              ),
-            ],
-          )
-        ],
-      ),
-    );
-  }
+}
 
 Widget _buildSearchField({Key? key}) {
   return Container(
-    key: key, // Key moved to container level
+    key: key, 
     width: 415,
     height: 80,
     color: const Color(0xff525252),
@@ -188,11 +198,11 @@ Widget _buildSearchField({Key? key}) {
   );
 }
 
-  Widget _buildText(String title) {
-    return Text(title, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold));
+Widget _buildText(String title) {
+    return Text(title, style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold));
   }
 
-  Widget _buildSaferGamblingDropdown() {
+Widget _buildSaferGamblingDropdown() {
     return Obx(() {
       bool expanded = homeController.isSaferGamblingExpanded.value;
       return Column(
@@ -204,7 +214,7 @@ Widget _buildSearchField({Key? key}) {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(homeController.saferGambling[0],
-                    style: TextStyle(decoration: TextDecoration.underline, fontSize: 20, fontWeight: FontWeight.bold)),
+                    style: TextStyle(decoration: TextDecoration.underline, fontSize: 15, fontWeight: FontWeight.bold)),
                 Icon(expanded ? Icons.arrow_drop_up : Icons.arrow_drop_down),
               ],
             ),
@@ -215,7 +225,7 @@ Widget _buildSearchField({Key? key}) {
               children: homeController.saferGambling.skip(1)
                   .map((item) => Padding(
                         padding: const EdgeInsets.only(top: 5),
-                        child: Text(item, style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold)),
+                        child: Text(item, style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold)),
                       ))
                   .toList(),
             ),
@@ -224,7 +234,7 @@ Widget _buildSearchField({Key? key}) {
     });
   }
 
-  Widget _buildAboutStakefairDropdown() {
+Widget _buildAboutStakefairDropdown() {
     return Obx(() {
       bool expanded = homeController.isAboutStakefairExpanded.value;
       return Column(
@@ -236,7 +246,7 @@ Widget _buildSearchField({Key? key}) {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(homeController.aboutStakefair[0],
-                    style: TextStyle(decoration: TextDecoration.underline, fontSize: 20, fontWeight: FontWeight.bold)),
+                    style: TextStyle(decoration: TextDecoration.underline, fontSize: 15, fontWeight: FontWeight.bold)),
                 Icon(expanded ? Icons.arrow_drop_up : Icons.arrow_drop_down),
               ],
             ),
@@ -247,7 +257,7 @@ Widget _buildSearchField({Key? key}) {
               children: homeController.aboutStakefair.skip(1)
                   .map((item) => Padding(
                         padding: const EdgeInsets.only(top: 5),
-                        child: Text(item, style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold)),
+                        child: Text(item, style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold)),
                       ))
                   .toList(),
             ),
@@ -256,32 +266,29 @@ Widget _buildSearchField({Key? key}) {
     });
   }
 
-  Widget _buildCategoryBar() {
+Widget _buildCategoryBar() {
     return Container(
-      height: 50,
-      color: Colors.black87,
+      padding: EdgeInsets.symmetric(horizontal: 5,vertical: 5),
+      color: Color(0xff303030),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
-        child: Row(
+        child: Wrap(
+          spacing: 5,
           children: homeController.categories.map((item) {
             bool highlighted = item['isHighlighted'] ?? false;
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 3.0, vertical: 5),
-              child: Container(
-                width: 85,
-                height: 45,
-                decoration: BoxDecoration(
-                  color: highlighted ? Colors.green : Color(0xff525252),
-                  borderRadius: BorderRadius.circular(3),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(item['icon'], color: Colors.white, size: 20),
-                    SizedBox(height: 2),
-                    Text(item['label'], style: TextStyle(color: Colors.white, fontSize: 10)),
-                  ],
-                ),
+            return Container(
+              padding: EdgeInsets.symmetric(horizontal: 10,vertical: 3),
+              decoration: BoxDecoration(
+                color: highlighted ? Colors.green : Color(0xff525252),
+                borderRadius: BorderRadius.circular(1),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Center(child: Icon(item['icon'], color: Colors.white, size: 20)),
+                  SizedBox(height: 2),
+                  Center(child: Text(item['label'], style: TextStyle(color: Colors.white, fontSize: 10))),
+                ],
               ),
             );
           }).toList(),
@@ -290,17 +297,17 @@ Widget _buildSearchField({Key? key}) {
     );
   }
 
-  Widget _buildBanner() {
+Widget _buildBanner() {
     return Container(
       width: 415,
-      height: 80,
+      height: 65,
       decoration: BoxDecoration(
         image: DecorationImage(image: AssetImage('assets/images/top_banner.jpg'), fit: BoxFit.fill),
       ),
     );
   }
 
-  Widget _buildSection(String title, String leading, String label, String sub) {
+Widget _buildSection(String title, String leading, String label, String sub) {
     return Column(
       children: [
         _buildContainer(title),
@@ -309,133 +316,305 @@ Widget _buildSearchField({Key? key}) {
     );
   }
 
-  Widget _buildList(String leading, String label, String sub) {
-    return Obx(() => ListView.builder(
-          shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
-          itemCount: homeController.cricket.length,
-          itemBuilder: (context, index) {
-            var team = homeController.cricket[index];
-            return Card(
-              child: ListTile(
-                leading: Icon(team[leading]),
-                title: Text(team[label], style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22)),
-                subtitle: Text(team[sub], style: TextStyle(fontSize: 22, color: Colors.grey)),
-              ),
-            );
-          },
-        ));
-  }
-
-  Widget _buildHorseRacingSection(String title) {
-    return Column(
-      children: [
-        _buildContainer(title),
-        Obx(() => ListView.builder(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              itemCount: homeController.horseRacing.length,
-              itemBuilder: (context, index) {
-                String item = homeController.horseRacing[index];
-                return Card(
+Widget _buildList(String leading, String label, String sub) {
+  return Obx(() => ListView.builder(
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        itemCount: homeController.cricket.length,
+        itemBuilder: (context, index) {
+          var team = homeController.cricket[index];
+          return Container(
+            padding: EdgeInsets.symmetric(vertical: 0), // Remove extra space
+            child: Column(
+              mainAxisSize: MainAxisSize.min, // Compact layout
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 3),
                   child: ListTile(
-                    title: Text(item, style: TextStyle(fontSize: 22)),
+                    dense: true, // Reduce tile height
+                    visualDensity: VisualDensity(horizontal: -4, vertical: -4), // Minimize internal spacing
+                    contentPadding: EdgeInsets.symmetric(horizontal: 3, vertical: 0), // Tight padding
+                    leading: Icon(team[leading], size: 20), // Smaller icon
+                    title: Text(team[label], style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17)),
+                    subtitle: Text(team[sub], style: TextStyle(fontSize: 15, color: Colors.grey)),
+                    trailing: Icon(Icons.keyboard_arrow_right, size: 18), // Smaller trailing icon
                   ),
-                );
-              },
-            )),
-      ],
-    );
-  }
+                ),
+                Divider(height: 0.5, thickness: 0.5), // Ultra-thin divider
+              ],
+            ),
+          );
+        },
+      ));
+}
 
-  Widget _buildQuickLinksSection(String title, String leading) {
-    return Obx(() => ListView.builder(
-          shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
-          itemCount: homeController.quickLinks.length,
-          itemBuilder: (context, index) {
-            var links = homeController.quickLinks[index];
-            return Card(
-              child: ListTile(
-                leading: Icon(links[leading]),
-                title: Text(links[title].toString(), style: TextStyle(fontSize: 22)),
+Widget _buildHorseRacingSection(String title) {
+  return Column(
+    children: [
+      _buildContainer(title),
+      Obx(() => ListView.builder(
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            itemCount: homeController.horseRacing.length,
+            itemBuilder: (context, index) {
+              String item = homeController.horseRacing[index];
+              return Column(
+                mainAxisSize: MainAxisSize.min, 
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 3),
+                    child: ListTile(
+                      dense: true,
+                      visualDensity: VisualDensity(horizontal: -4, vertical: -4), 
+                      contentPadding: EdgeInsets.symmetric(horizontal: 2, vertical: 0), 
+                      title: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 5),
+                        child: Text(item, style: TextStyle(fontSize: 15,color: Color(0xff212529))),
+                      ),
+                      trailing: Icon(Icons.keyboard_arrow_right, size: 18),
+                    ),
+                  ),
+                  Divider(height: 0.5, thickness: 0.5), 
+                ],
+              );
+            },
+          )),
+    ],
+  );
+}
+
+Widget _buildQuickLinksSection(String title, String leading) {
+  return Obx(() => ListView.builder(
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        itemCount: homeController.quickLinks.length,
+        itemBuilder: (context, index) {
+          var links = homeController.quickLinks[index];
+          return Column(
+            mainAxisSize: MainAxisSize.min, 
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 2),
+                child: ListTile(
+                  dense: true, 
+                  visualDensity: VisualDensity(horizontal: -4, vertical: -4), 
+                  contentPadding: EdgeInsets.symmetric(horizontal: 3, vertical: 0), 
+                  leading: Icon(links[leading], size: 20),
+                  title: Text(links[title].toString(), style: TextStyle(fontSize: 15,color: Color(0xff212529) )), 
+                  trailing: Icon(Icons.keyboard_arrow_right, size: 18),
+                ),
               ),
-            );
-          },
-        ));
-  }
+              Divider(height: 0.5, thickness: 0.5), 
+            ],
+          );
+        },
+      ));
+}
 
-  Widget _buildContainer(String title) {
+Widget _buildContainer(String title) {
     return Container(
       width: double.infinity,
-      height: 50,
-      color: Color(0xff525252),
-      padding: EdgeInsets.all(8.0),
-      child: Text(title, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24, color: Colors.white)),
+      height: 32,
+      color: Color(0xff303030),
+      padding: EdgeInsets.symmetric(horizontal: 12,vertical: 6),
+      child: Text(title, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17, color: Colors.white)),
     );
   }
 
-  Widget _buildIconButton(IconData icon, String text, {double width = 70}) {
+Widget _buildIconButton(IconData icon, String text, {double width = 70}) {
     return Container(
       width: width,
-      height: 45,
-      decoration: BoxDecoration(color: Color(0xff525252), borderRadius: BorderRadius.circular(3)),
+      height: 38,
+      decoration: BoxDecoration(color: Color(0xff424242), borderRadius: BorderRadius.circular(2)),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(icon, color: Colors.white, size: 20),
-          Text(text, style: TextStyle(color: Colors.white, fontSize: 12)),
+          Icon(icon, color: Color(0xffFFFFFF), size: 20),
+          Text(text, style: TextStyle(color: Colors.white, fontSize: 12,fontWeight: FontWeight.w500)),
         ],
       ),
     );
   }
 
-  Widget _buildFooter() {
+Widget _buildFooter() {
     return Container(
-      height: 100,
+      height: 60,
       width: 415,
-      color: Color(0xff525252),
+      color: Color(0xff1E1E1E),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
-              width: 50,
-              height: 50,
-              decoration: BoxDecoration(shape: BoxShape.circle, border: Border.all(color: Colors.red, width: 3)),
-              child: Center(child: Text('18+', style: TextStyle(color: Colors.white, fontSize: 20))),
+              width: 35,
+              height: 35,
+              decoration: BoxDecoration(shape: BoxShape.circle, border: Border.all(color: Color(0xffFF0000), width: 2)),
+              child: Center(child: Text('18+', style: TextStyle(color: Colors.white, fontSize: 18))),
             ),
           ),
-          Text('Please Gamble\nResponsible', style: TextStyle(color: Colors.white, fontSize: 20)),
-          Container(
-            width: 130,
-            height: 60,
-            color: Color(0xffD9D9D9),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text('More\nDetails', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18)),
-            ),
-          ),
+          SizedBox(width: 7),
+          Text('Please Gamble Responsible', style: TextStyle(color: Color(0xffC4C4C4), fontSize: 14,fontWeight: FontWeight.w500)),
+          SizedBox(width: 15),
+Container(
+  width: 100,
+  height: 35,
+  decoration: BoxDecoration(
+    color: Color(0xffD4D4D4), 
+    borderRadius: BorderRadius.circular(2), 
+  ),
+  alignment: Alignment.center,
+  child: Text(
+    'More Details',
+    style: TextStyle(
+      color: Colors.black,
+      fontWeight: FontWeight.bold,
+      fontSize: 15,
+    ),
+  ),
+)
+
         ],
       ),
     );
   }
 
-  Widget _buildWarningText() {
-    return Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: RichText(
-        text: TextSpan(
-          children: [
-            TextSpan(text: 'Warning: ', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black)),
-            TextSpan(
-              text: "Although the current score, time elapsed, video and other data provided on this site is sourced from feeds provided by third parties, you should be aware that this data may be subject to a time delay and/or be inaccurate. Please also be aware that other StakeFair customers may have access to data that is faster and/or more accurate than the data shown on the StakeFair site. If you rely on this data to place bets, you do so entirely at your own risk. StakeFair provides this data AS IS with no warranty as to the accuracy, completeness or timeliness of such data and accepts no responsibility for any loss (direct or indirect) suffered by you as a result of your reliance on it.",
-              style: TextStyle(fontSize: 16, color: Colors.black, wordSpacing: 2),
+Widget _buildWarningText() {
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 15),
+    child: RichText(
+      text: TextSpan(
+        children: [
+          TextSpan(
+            text: 'Warning',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+              wordSpacing: 2,
             ),
-          ],
+          ),
+          TextSpan(
+            text: " : Although the current score, time elapsed, video and other",
+            style: TextStyle(
+              fontSize: 12,
+              color: Colors.black,
+              wordSpacing: 2,
+            ),
+          ),
+          _buildWidgetSpan(
+            "data provided on this site is sourced from feeds provided by third", 14),
+          _buildWidgetSpan(
+            " parties, you should be aware that this data may be subject to a time", 5),
+          _buildWidgetSpan(
+            " delay and/or be inaccurate. Please also be aware that other", 28),
+          _buildWidgetSpan(
+            "StakeFair customers may have access to data that is faster and/or", 12),
+          _buildWidgetSpan(
+            "more accurate than the data shown on the StakeFair site. If you rely on", 8),
+          _buildWidgetSpan(
+            " this data to place bets, you do so entirely at your own risk.", 35),
+          _buildWidgetSpan(
+            "StakeFair provides this data AS IS with no warranty as to the accuracy,", 6),
+          _buildWidgetSpan(
+            "completeness or timeliness of such data and accepts no", 35),
+          _buildWidgetSpan(
+            " responsibility for any loss (direct or indirect) suffered by you as a", 20),
+          _buildWidgetSpan(
+            " result of your reliance on it.", 125),
+        ],
+      ),
+    ),
+  );
+}
+
+InlineSpan _buildWidgetSpan(String text, double horizontalPadding) {
+  return WidgetSpan(
+    child: Padding(
+      padding: EdgeInsets.symmetric(horizontal: horizontalPadding,vertical: 1),
+      child: Text(
+        text,
+        style: TextStyle(
+          fontSize: 13,
+          color: Colors.black,
+          
         ),
       ),
-    );
-  }
+    ),
+  );
+}
+
+Widget _buildNavItem({
+  required int index,
+  required String label,
+  required IconData icon,
+  required VoidCallback onTap,
+}) {
+  bool isSelected = (index == homeController.selectedIndex.value);
+  return InkWell(
+    onTap: onTap,
+    child: Container(
+      width: 70,
+      height: 55,
+      decoration: BoxDecoration(
+        color: isSelected ? const Color(0xff303030) : const Color(0xff525252),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            icon,
+            color: isSelected ? Colors.orange : Colors.white,
+            size: 26,
+          ),
+
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 11,
+              color:Colors.white,
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+Widget _buildNavItemWithAsset({
+  required int index,
+  required String label,
+  required String assetPath,
+  required VoidCallback onTap,
+}) {
+  bool isSelected = (index == homeController.selectedIndex.value);
+  return InkWell(
+    onTap: onTap,
+    child: Container(
+      width: 70,
+      height: 55,
+      decoration: BoxDecoration(
+        color: isSelected ? const Color(0xff303030) : const Color(0xff525252),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(
+            assetPath,
+            width: 30,
+          ),
+
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 11,
+              color: Colors.white,
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
 }
