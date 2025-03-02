@@ -8,7 +8,7 @@ class LanguageDropdown extends StatelessWidget {
   final List<Map<String, dynamic>> countries = [
     {"dialCode": "+44", "flag": "🇬🇧", "language": "English (UK)", "locale": Locale('en', 'GB')},
     {"dialCode": "+91", "flag": "🇮🇳", "language": "हिन्दी (India)", "locale": Locale('hi', 'IN')},
-    {"dialCode": "+880", "flag": "🇧🇩", "language": "বাংলা (বাংলাদেশ)", "locale": Locale('bn', 'BD')},
+    {"dialCode": "+880", "flag": "🇧🇩", "language": "বাংলা (Bengali)", "locale": Locale('bn', 'BD')},
   ];
 
   @override

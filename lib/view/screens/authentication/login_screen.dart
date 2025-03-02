@@ -32,9 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
       appBar: AppBar(
         title: Row(
           children: [
-            Icon(Icons.compare_arrows_outlined, size: 25),
-            SizedBox(width: 5),
-            Text('StakeFair', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
+            Text('StakeFair', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30)),
           ],
         ),
         backgroundColor: Colors.orange,
@@ -48,34 +46,37 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Form(
           //  key: formKey,
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 18),
+              padding: const EdgeInsets.symmetric(horizontal: 5),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(height: mediaQuerySize.height * 0.04),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Welcome Back!', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                      Container(
-                        height: mediaQuerySize.height * 0.05,
-                        width: mediaQuerySize.width * 0.21,
-                        decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.07),
-                          borderRadius: BorderRadius.circular(20),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 3),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Welcome Back!', style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
+                        Container(
+                          height: mediaQuerySize.height * 0.05,
+                          width: mediaQuerySize.width * 0.21,
+                          decoration: BoxDecoration(
+                            color: Colors.black.withOpacity(0.07),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              _buildIcon(Icons.person, 1),
+                              _buildIcon(Icons.mobile_screen_share_rounded, 2),
+                            ],
+                          ),
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            _buildIcon(Icons.person, 1),
-                            _buildIcon(Icons.mobile_screen_share_rounded, 2),
-                          ],
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                   SizedBox(height: mediaQuerySize.height * 0.02),
-
+              
                   Obx(() {
                     if (controller.selectedIcon.value == 1) {
                       return CustomField(text: 'Email or Username');
@@ -87,128 +88,142 @@ class _LoginScreenState extends State<LoginScreen> {
                     }
                     return SizedBox();
                   }),
-
-                  SizedBox(height: mediaQuerySize.height * 0.02),
-
+              
+                  SizedBox(height: mediaQuerySize.height * 0.01),
+              
                   GestureDetector(
                     onTap: passwordController.isChecked.toggle,
                     child: Obx(
-                      () => Row(
-                        children: [
-                          Icon(
-                            passwordController.isChecked.value ? Icons.check_circle : Icons.circle_outlined,
-                            size: 30,
-                            color: passwordController.isChecked.value ? Colors.green : Colors.grey,
-                          ),
-                          SizedBox(width: 5),
-                          Text('Remember me', style: TextStyle(color: Colors.black, fontSize: 16)),
-                        ],
+                      () => Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 3),
+                        child: Row(
+                          children: [
+                            Icon(
+                              passwordController.isChecked.value ? Icons.check_box : Icons.check_box_outline_blank,
+                              size: 30,
+                              color: passwordController.isChecked.value ? Colors.green : Colors.grey,
+                            ),
+                            SizedBox(width: 5),
+                            Text('Remember me', style: TextStyle(color: Colors.black, fontSize: 16)),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-
-                  SizedBox(height: mediaQuerySize.height * 0.03),
-
-                  CustomField(
-                    text: 'Password',
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your password';
-                      }
-                      return null;
-                    },
-                    isSuffixIcon: true,
-                    suffixIcon: Obx(
-                      () => IconButton(
+              
+                  SizedBox(height: mediaQuerySize.height * 0.01),
+                Obx(() => CustomField(
+                      text: 'Password',
+                      isSuffixIcon: true,
+                      obscureText: !passwordController.isPasswordVisible.value,
+                      suffixIcon: IconButton(
                         icon: Icon(
-                          passwordController.isPasswordVisible.value ? Icons.visibility : Icons.visibility_off,
+                          passwordController.isPasswordVisible.value
+                              ? Icons.visibility
+                              : Icons.visibility_off,
                         ),
                         onPressed: passwordController.togglePasswordVisibility,
                       ),
-                    ),
-                  ),
-
-                  SizedBox(height: mediaQuerySize.height * 0.03),
-
+                      validator: (value) => value!.isEmpty
+                          ? 'Please enter your password'
+                          : null,
+                    )),
+              
+                  SizedBox(height: mediaQuerySize.height * 0.01),
+              
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('Forgot your'),
+                      Text('Forgot your',style: TextStyle(fontSize: 16),),
                       SizedBox(width: mediaQuerySize.width * 0.01),
-                      Text('username', style: TextStyle(color: Colors.blue)),
+                      Text('username', style: TextStyle(color: Colors.blue,fontSize: 16)),
                       SizedBox(width: mediaQuerySize.width * 0.01),
-                      Text('or', style: TextStyle(color: Colors.black)),
+                      Text('or', style: TextStyle(color: Colors.black,fontSize: 16)),
                       SizedBox(width: mediaQuerySize.width * 0.01),
-                      Text('password', style: TextStyle(color: Colors.blue)),
-                      Text('?', style: TextStyle(color: Colors.black)),
+                      Text('password', style: TextStyle(color: Colors.blue,fontSize: 16)),
+                      Text('?', style: TextStyle(color: Colors.black,fontSize: 16)),
                     ],
                   ),
-
+              
                   SizedBox(height: mediaQuerySize.height * 0.03),
-
-                  CustomButton(
-                    name: 'Login',
-                    onTap: () {
-                      // if (formKey.currentState?.validate() ?? false) {
-                      //   print('Login successful');
-                      // } else {
-                      //   print('Validation failed');
-                      // }
-                    },
+              
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    child: RoundButtonWidget(title: 'Login',width: mediaQuerySize.width * 1,height: mediaQuerySize.height * 0.07,),
                   ),
-
+              
                   SizedBox(height: mediaQuerySize.height * 0.02),
-
+              
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('New to StakeFair?'),
+                      Text('New to StakeFair?',style: TextStyle(fontSize: 16)),
                       SizedBox(width: mediaQuerySize.width * 0.01),
                       GestureDetector(
                         onTap: () => Get.to(() => SignUpScreen()),
-                        child: Text('Sign Up', style: TextStyle(color: Colors.blue)),
+                        child: Text('Sign Up', style: TextStyle(color: Colors.blue,fontSize: 16)),
                       ),
                     ],
                   ),
-
+              
                   SizedBox(height: mediaQuerySize.height * 0.03),
-
+              
                   Row(
                     children: [
-                      Expanded(child: Divider(color: Colors.black, thickness: 1)),
+                      Expanded(child: Divider()),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: Text('OR', style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500)),
                       ),
-                      Expanded(child: Divider(color: Colors.black, thickness: 1)),
-                    ],
+                      Expanded(child: Divider())],
                   ),
-
+              
                   SizedBox(height: mediaQuerySize.height * 0.02),
-
+              
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 35),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        _buildSocialMediaIcon('assets/images/download (1).jpg'),
-                         SizedBox(width: 5),
-                        _buildSocialMediaIcon('assets/images/download (3).png'),
-                          SizedBox(width: 5),
-                        _buildSocialMediaIcon('assets/images/download.png'),
-                       
-                         SizedBox(width: 5),
-                        _buildSocialMediaIcon('assets/images/download.jpg'),
+                        _buildSocialMediaIcon('assets/images/google.png'),
+              
+                      _buildSocialMediaIcon('assets/images/fb.png'),
+              
+                      _buildSocialMediaIcon('assets/images/wa.png'),
+              
+                      _buildSocialMediaIcon('assets/images/apple.png'),
+              
                       ],
                     ),
                   ),
+                  SizedBox(height: mediaQuerySize.height * 0.2,),
+                  Divider(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                     Container(
+                      width: 100,
+                      height: 50,
+                      child: Image.asset('assets/images/mga.webp',fit: BoxFit.contain,),
+                     ),
+                     SizedBox(width: mediaQuerySize.width * 0.1),
+                      Container(
+                      width: 100,
+                      height: 50,
+                      child: Image.asset('assets/images/commission.png',fit: BoxFit.contain,),
+                     )
+                    ],
+                  )
                 ],
               ),
             ),
+            
           ),
         ),
       ),
+      
     );
+
   }
 
   Widget _buildIcon(IconData icon, int value) {
@@ -229,8 +244,15 @@ class _LoginScreenState extends State<LoginScreen> {
         ));
   }
 
-  Widget _buildSocialMediaIcon(String assetPath) {
-    return Image.asset(assetPath, height: 60, width: 60);
-  }
+Widget _buildSocialMediaIcon(String assetPath) {
+  return Container(
+    height: 45,
+    width: 45,
+    child: Image.asset(
+      assetPath,
+      fit: BoxFit.contain, // Ya BoxFit.cover, jo bhi aapko suit kare
+    ),
+  );
 }
 
+}

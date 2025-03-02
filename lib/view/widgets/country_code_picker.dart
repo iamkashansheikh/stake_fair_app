@@ -18,7 +18,7 @@ class CountryCodePickerWidget extends StatelessWidget {
     return Row(
       children: [
         Container(
-          height: mediaQuerySize.height*0.07.h,
+          height: mediaQuerySize.height*0.07,
           width: mediaQuerySize.width*0.3.w,
           padding: EdgeInsets.symmetric(horizontal: 8),
           decoration: BoxDecoration(
