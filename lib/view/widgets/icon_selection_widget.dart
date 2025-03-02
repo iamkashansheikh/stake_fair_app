@@ -99,7 +99,13 @@ class IconSelectionWidget extends StatelessWidget {
         // Display the selected field
         Obx(() {
           if (controller.selectedIcon.value == 1) {
-            return CustomField(text: 'Email or Username');
+            return   CustomField(
+  hintText: "Email or Username".tr,
+  obscureText: true, // For password fields
+  isSuffixIcon: true,
+  
+  );
+            // return CustomField(text: 'Email or Username');
           } else if (controller.selectedIcon.value == 2) {
             return Padding(
               padding: const EdgeInsets.all(4.0),
