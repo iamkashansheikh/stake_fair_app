@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:stake_fair_app/controllers/utils/app_colors.dart';
 import 'package:stake_fair_app/view/widgets/custom_button.dart';
@@ -66,7 +67,7 @@ actions: [
         child: SafeArea(
           child: Form(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 5),
+              padding:  EdgeInsets.symmetric(horizontal:mediaQuerySize.width*0.01.w),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
