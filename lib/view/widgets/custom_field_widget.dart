@@ -41,21 +41,24 @@ class CustomField extends StatelessWidget {
               borderRadius: BorderRadius.circular(8), // Slightly rounded corners
             ),
             alignment: Alignment.center,
-            child: TextField(
-              controller: controller,
-              focusNode: focusNode,
-              
-              obscureText: obscureText,
-              decoration: InputDecoration(
-                prefixIcon: isPrefixIcon ? prefixIcon : null,
-                suffixIcon: isSuffixIcon ? suffixIcon : null,
-                contentPadding: const EdgeInsets.symmetric(horizontal: 15),
-                labelText: hintText,
-                labelStyle: TextStyle(color: Colors.grey),
-                hintStyle: const TextStyle(color: Colors.grey),
-                border: InputBorder.none, // No visible border
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8.0),
+              child: TextField(
+                controller: controller,
+                focusNode: focusNode,
+                
+                obscureText: obscureText,
+                decoration: InputDecoration(
+                  prefixIcon: isPrefixIcon ? prefixIcon : null,
+                  suffixIcon: isSuffixIcon ? suffixIcon : null,
+                 // contentPadding: const EdgeInsets.symmetric(horizontal: 15),
+                  labelText: hintText,
+                  labelStyle: TextStyle(color: Colors.grey),
+                  hintStyle: const TextStyle(color: Colors.grey),
+                  border: InputBorder.none, // No visible border
+                ),
+                style: const TextStyle(color: Colors.black),
               ),
-              style: const TextStyle(color: Colors.black),
             ),
           ),
           // Orange underline effect when focused

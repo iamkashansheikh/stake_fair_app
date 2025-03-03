@@ -36,10 +36,10 @@ class PasswordFieldWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Obx(() => Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: EdgeInsets.symmetric(horizontal: 3),
           child: Container(
                 height: mediaQuerySize.height * 0.07.h,
-                width: mediaQuerySize.width * 0.95.w,
+                width: mediaQuerySize.width .w,
                 decoration: BoxDecoration(
                   color: Colors.black.withOpacity(0.07),
                   borderRadius: BorderRadius.circular(5),
