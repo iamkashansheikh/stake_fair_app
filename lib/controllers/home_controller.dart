@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
+   RxBool isBannerVisible = true.obs;
   var selectedIndex = 0.obs;
-
   var selectedItem = 'Safer Gambling'.obs;
 
   var isSaferGamblingExpanded = false.obs;
