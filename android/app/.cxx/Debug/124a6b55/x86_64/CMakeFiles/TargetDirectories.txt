@@ -1,0 +1,2 @@
+C:/Users/user/Downloads/stake_fair_app/android/app/.cxx/Debug/124a6b55/x86_64/CMakeFiles/edit_cache.dir
+C:/Users/user/Downloads/stake_fair_app/android/app/.cxx/Debug/124a6b55/x86_64/CMakeFiles/rebuild_cache.dir

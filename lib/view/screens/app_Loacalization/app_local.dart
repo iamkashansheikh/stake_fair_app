@@ -13,7 +13,7 @@ class AppTranslations extends Translations {
           'female': 'Female',
           'account_details': 'Account Details',
           'step1': 'Step 1 of 2',
-          'email_username': 'Email or Username',
+          'email': 'Email ',
           'safe_gambling': 'Find out more about safe Gambling',
           'help_contact': 'Help & Contact',
         },

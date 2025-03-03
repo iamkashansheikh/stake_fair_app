@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:stake_fair_app/controllers/utils/app_colors.dart';
 import 'package:stake_fair_app/view/screens/authentication/sign_up_screen.dart';
+import 'package:stake_fair_app/view/widgets/password_validation_screen.dart' show PasswordFieldWidget;
 
 import '../../../controllers/getx_controller/auth_controller.dart';
 import '../../../controllers/getx_controller/password_controller.dart';
@@ -21,6 +22,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final AuthController controller = Get.put(AuthController());
   final PasswordController passwordController = Get.put(PasswordController());
+  TextEditingController passwordfieldController = TextEditingController();
  // final GlobalKey<FormState> formKey = GlobalKey();
 
   @override
@@ -79,7 +81,18 @@ class _LoginScreenState extends State<LoginScreen> {
               
                   Obx(() {
                     if (controller.selectedIcon.value == 1) {
-                      return CustomField(text: 'Email or Username');
+                      CustomField(
+  hintText: "Email or Username".tr,
+  obscureText: true, // For password fields
+  isSuffixIcon: true,
+  
+  );
+      return  CustomField(
+  hintText: "Email or Username".tr,
+ 
+  
+  );
+                      // return CustomField(text: 'Email or Username');
                     } else if (controller.selectedIcon.value == 2) {
                       return Padding(
                         padding: const EdgeInsets.all(4.0),
@@ -112,22 +125,23 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
               
                   SizedBox(height: mediaQuerySize.height * 0.01),
-                Obx(() => CustomField(
-                      text: 'Password',
-                      isSuffixIcon: true,
-                      obscureText: !passwordController.isPasswordVisible.value,
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          passwordController.isPasswordVisible.value
-                              ? Icons.visibility
-                              : Icons.visibility_off,
-                        ),
-                        onPressed: passwordController.togglePasswordVisibility,
-                      ),
-                      validator: (value) => value!.isEmpty
-                          ? 'Please enter your password'
-                          : null,
-                    )),
+                  PasswordFieldWidget(controller: passwordfieldController), 
+                // Obx(() => CustomField(
+                //       text: 'Password',
+                //       isSuffixIcon: true,
+                //       obscureText: !passwordController.isPasswordVisible.value,
+                //       suffixIcon: IconButton(
+                //         icon: Icon(
+                //           passwordController.isPasswordVisible.value
+                //               ? Icons.visibility
+                //               : Icons.visibility_off,
+                //         ),
+                //         onPressed: passwordController.togglePasswordVisibility,
+                //       ),
+                //       // validator: (value) => value!.isEmpty
+                //       //     ? 'Please enter your password'
+                //       //     : null,
+                //     )),
               
                   SizedBox(height: mediaQuerySize.height * 0.01),
               
@@ -196,7 +210,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ],
                     ),
                   ),
-                  SizedBox(height: mediaQuerySize.height * 0.2,),
+                  SizedBox(height: mediaQuerySize.height * 0.1,),
                   Divider(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,

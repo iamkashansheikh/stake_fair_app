@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:stake_fair_app/controllers/utils/app_colors.dart';
 import 'package:stake_fair_app/view/widgets/custom_button.dart';
+import 'package:stake_fair_app/view/widgets/password_validation_screen.dart';
 import '../../../controllers/getx_controller/auth_controller.dart';
 import '../../../controllers/getx_controller/password_controller.dart';
 import '../../widgets/country_code_picker.dart';
@@ -25,6 +26,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final PasswordController passwordController = Get.put(PasswordController());
   final GenderController genderController = Get.put(GenderController());
   final AuthController controller = Get.put(AuthController());
+  TextEditingController passwordfieldController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -74,30 +76,55 @@ actions: [
                     SizedBox(height: mediaQuerySize.height * 0.04),
                   _buildGenderSelection(),
                   SizedBox(height: mediaQuerySize.height * 0.02),
-                  CustomField(text: 'username'.tr),
+                 
+                    // CustomField(text: 'username'.tr),
+                    CustomField(
+  hintText: "username".tr,
+  // obscureText: true, // For password fields
+  // isSuffixIcon: true,
+  // suffixIcon: IconButton(
+  //   icon: Icon(Icons.visibility),
+    // onPressed: () {
+    //   // Add visibility toggle logic here
+    // },
+  ),
+                    
+
+
+                 
                   SizedBox(height: mediaQuerySize.height * 0.02),
+                   PasswordFieldWidget(controller: passwordfieldController),
                             
                   /// Password Field
-                  Obx(() => CustomField(
-                        text: 'password'.tr,
-                        isSuffixIcon: true,
-                        obscureText: !passwordController.isPasswordVisible.value,
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                            passwordController.isPasswordVisible.value
-                                ? Icons.visibility
-                                : Icons.visibility_off,
-                          ),
-                          onPressed: passwordController.togglePasswordVisibility,
-                        ),
-                        validator: (value) => value!.isEmpty ? 'Please enter your password' : null,
-                      )),
+                  // Obx(() => CustomField(
+                  //       text: 'password'.tr,
+                  //       isSuffixIcon: true,
+                  //       obscureText: !passwordController.isPasswordVisible.value,
+                  //       suffixIcon: IconButton(
+                  //         icon: Icon(
+                  //           passwordController.isPasswordVisible.value
+                  //               ? Icons.visibility
+                  //               : Icons.visibility_off,
+                  //         ),
+                  //         onPressed: passwordController.togglePasswordVisibility,
+                  //       ),
+                  //       validator: (value) => value!.isEmpty ? 'Please enter your password' : null,
+                  //     )),
                             
                             
                   SizedBox(height: mediaQuerySize.height * 0.02),
                   Obx(() {
                     if (controller.selectedIcon.value == 1) {
-                      return CustomField(text: 'email_username'.tr);
+                      return   CustomField(
+  hintText: "email".tr,
+  // obscureText: true, // For password fields
+  // isSuffixIcon: true,
+  // suffixIcon: IconButton(
+  //   icon: Icon(Icons.visibility),
+    // onPressed: () {
+    //   // Add visibility toggle logic here
+    // },
+  );
                     } else if (controller.selectedIcon.value == 2) {
                       return Padding(
                         padding: const EdgeInsets.all(4.0),
@@ -121,6 +148,7 @@ actions: [
                     ],
                   ),
               
+                  // PasswordValidationScreen(),
                 ],
               ),
             ),
@@ -206,7 +234,7 @@ Widget _genderOption(int index, String text) {
 
   Widget _buildIconSelection() {
     return Container(
-      height: 50,
+      height: 45,
       width: 80,
       decoration: BoxDecoration(
         color: Colors.black.withOpacity(0.07),
@@ -215,8 +243,9 @@ Widget _genderOption(int index, String text) {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          _buildIcon(Icons.person, 1),
+          
           _buildIcon(Icons.mobile_screen_share_rounded, 2),
+          _buildIcon(Icons.person, 1),
         ],
       ),
     );

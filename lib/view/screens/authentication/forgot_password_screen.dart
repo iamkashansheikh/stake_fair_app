@@ -46,15 +46,15 @@ class ForgotPasswordScreen extends StatelessWidget {
               SizedBox(
                 height: mediaQuerySize.height * 0.03.h,
               ),
-              CustomField(
-                text: 'Email',
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'please enter your email';
-                  }
-                  return null;
-                },
-              ),
+              // CustomField(
+              //   text: 'Email',
+              //   validator: (value) {
+              //     if (value!.isEmpty) {
+              //       return 'please enter your email';
+              //     }
+              //     return null;
+              //   },
+              // ),
               SizedBox(
                 height: mediaQuerySize.height * 0.03.h,
               ),

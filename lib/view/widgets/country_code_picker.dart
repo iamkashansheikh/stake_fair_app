@@ -59,8 +59,15 @@ class CountryCodePickerWidget extends StatelessWidget {
         SizedBox(width: 10),
         
      
+
         Expanded(
-          child: CustomField(text: 'Phone Number',),
+          child: CustomField(
+  hintText: "Mobile Number".tr,
+  obscureText: true, // For password fields
+  isSuffixIcon: true,
+  
+  ),
+          // child: CustomField(text: 'Phone Number',),
         ),
       ],
     );
