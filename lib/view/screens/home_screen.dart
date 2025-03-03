@@ -43,7 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       Center(child: _buildSaferGamblingDropdown()),
                       const SizedBox(height: 5),
                       Center(child: _buildAboutStakefairDropdown()),
-                      const SizedBox(height: 8),
+                      const SizedBox(height: 5),
                       _buildText('Help'),
                       _buildText('Affiliates'),
                       _buildText('18+'),
@@ -60,7 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       _buildText('Privacy Preference Centre'),
                       _buildText('Rules & Regulations'),
                       _buildText('Terms & Conditions'),
-                      const SizedBox(height: 30),
+                      const SizedBox(height: 20),
                     ],
                   ),
                 ],
@@ -220,7 +220,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildText(String title) {
     return Text(title,
-        style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold));
+        style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500));
   }
 
   Widget _buildSaferGamblingDropdown() {
@@ -239,7 +239,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   style: const TextStyle(
                       decoration: TextDecoration.underline,
                       fontSize: 15,
-                      fontWeight: FontWeight.bold),
+                      fontWeight: FontWeight.w500),
                 ),
                 Icon(expanded ? Icons.arrow_drop_up : Icons.arrow_drop_down),
               ],
@@ -257,7 +257,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           style: const TextStyle(
                               color: Colors.black,
                               fontSize: 15,
-                              fontWeight: FontWeight.bold),
+                              fontWeight: FontWeight.w500),
                         ),
                       ))
                   .toList(),
@@ -283,7 +283,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   style: const TextStyle(
                       decoration: TextDecoration.underline,
                       fontSize: 15,
-                      fontWeight: FontWeight.bold),
+                      fontWeight: FontWeight.w500),
                 ),
                 Icon(expanded ? Icons.arrow_drop_up : Icons.arrow_drop_down),
               ],
@@ -301,7 +301,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           style: const TextStyle(
                               color: Colors.black,
                               fontSize: 15,
-                              fontWeight: FontWeight.bold),
+                              fontWeight: FontWeight.w500),
                         ),
                       ))
                   .toList(),
@@ -401,13 +401,6 @@ Widget _buildWhyWinBanner() {
     ),
   );
 }
-
-
-
-
-
-
-
 
   Widget _buildSection(String title, String leading, String label, String sub) {
     return Column(
@@ -623,7 +616,7 @@ Widget _buildWhyWinBanner() {
             const TextSpan(
               text: 'Warning',
               style: TextStyle(
-                fontSize: 16,
+                fontSize: 14,
                 fontWeight: FontWeight.bold,
                 color: Colors.black,
                 wordSpacing: 2,
