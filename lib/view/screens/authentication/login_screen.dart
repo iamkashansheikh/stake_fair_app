@@ -210,7 +210,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ],
                     ),
                   ),
-                  SizedBox(height: mediaQuerySize.height * 0.2,),
+                  SizedBox(height: mediaQuerySize.height * 0.1,),
                   Divider(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,

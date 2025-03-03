@@ -234,7 +234,7 @@ Widget _genderOption(int index, String text) {
 
   Widget _buildIconSelection() {
     return Container(
-      height: 50,
+      height: 45,
       width: 80,
       decoration: BoxDecoration(
         color: Colors.black.withOpacity(0.07),
@@ -243,8 +243,9 @@ Widget _genderOption(int index, String text) {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          _buildIcon(Icons.person, 1),
+          
           _buildIcon(Icons.mobile_screen_share_rounded, 2),
+          _buildIcon(Icons.person, 1),
         ],
       ),
     );

@@ -62,7 +62,7 @@ class CountryCodePickerWidget extends StatelessWidget {
 
         Expanded(
           child: CustomField(
-  hintText: "Phone Number".tr,
+  hintText: "Mobile Number".tr,
   obscureText: true, // For password fields
   isSuffixIcon: true,
   

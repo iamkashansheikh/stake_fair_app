@@ -20,10 +20,11 @@ class PasswordFieldWidget extends StatelessWidget {
   Widget _buildValidationItem(String text, bool isValid) {
     return Row(
       children: [
-        Icon(isValid ? Icons.check_circle : Icons.cancel,
-            color: isValid ? Colors.green : Colors.red),
+        Icon(Icons.cancel_outlined,color: Colors.grey,),
+        // Icon(isValid ? Icons.check_circle : Icons.cancel,
+        //     color: isValid ? Colors.green : Colors.red),
         SizedBox(width: 10),
-        Text(text, style: TextStyle(fontSize: 14)),
+        Text(text, style: TextStyle(fontSize: 14,color: Colors.grey)),
       ],
     );
   }
@@ -34,50 +35,53 @@ class PasswordFieldWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Obx(() => Container(
-              height: mediaQuerySize.height * 0.07.h,
-              width: mediaQuerySize.width * 0.95.w,
-              decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.07),
-                borderRadius: BorderRadius.circular(5),
-                border: Border(
-                  bottom: BorderSide(
-                    color: focusNode.hasFocus ? Colors.grey : Colors.transparent,
-                    width: 2.0, // Underline thickness
+        Obx(() => Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+                height: mediaQuerySize.height * 0.07.h,
+                width: mediaQuerySize.width * 0.95.w,
+                decoration: BoxDecoration(
+                  color: Colors.black.withOpacity(0.07),
+                  borderRadius: BorderRadius.circular(5),
+                  border: Border(
+                    bottom: BorderSide(
+                      color: focusNode.hasFocus ? Colors.grey : Colors.transparent,
+                      width: 2.0, // Underline thickness
+                    ),
                   ),
                 ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: TextField(
-                  controller: controller,
-                  focusNode: focusNode,
-                  obscureText: !isPasswordVisible.value,
-                  decoration: InputDecoration(
-                    labelStyle: TextStyle(color: Colors.grey),
-                    labelText: "Password",
-
-                    border: InputBorder.none,
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.orange, width: 2.0), // Orange underline on focus
-                    ),
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        isPasswordVisible.value
-                            ? Icons.visibility
-                            : Icons.visibility_off,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: TextField(
+                    controller: controller,
+                    focusNode: focusNode,
+                    obscureText: !isPasswordVisible.value,
+                    decoration: InputDecoration(
+                      labelStyle: TextStyle(color: Colors.grey),
+                      labelText: "Password".tr,
+          
+                      border: InputBorder.none,
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.orange, width: 2.0), // Orange underline on focus
                       ),
-                      onPressed: () {
-                        isPasswordVisible.value = !isPasswordVisible.value;
-                      },
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          isPasswordVisible.value
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                        ),
+                        onPressed: () {
+                          isPasswordVisible.value = !isPasswordVisible.value;
+                        },
+                      ),
                     ),
+                    onChanged: (value) {
+                      validationController.validatePassword(value);
+                    },
                   ),
-                  onChanged: (value) {
-                    validationController.validatePassword(value);
-                  },
                 ),
               ),
-            )),
+        )),
         SizedBox(height: 5),
         Obx(() => isListVisible.value
             ? Column(
