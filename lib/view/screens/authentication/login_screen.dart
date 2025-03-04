@@ -23,6 +23,9 @@ class _LoginScreenState extends State<LoginScreen> {
   final AuthController controller = Get.put(AuthController());
   final PasswordController passwordController = Get.put(PasswordController());
   TextEditingController passwordfieldController = TextEditingController();
+
+  FocusNode phoneFocus = FocusNode();
+FocusNode emailFocus = FocusNode();
  // final GlobalKey<FormState> formKey = GlobalKey();
 
   @override
@@ -31,18 +34,19 @@ class _LoginScreenState extends State<LoginScreen> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: Row(
-          children: [
-            Text('StakeFair', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30)),
-          ],
-        ),
-        backgroundColor: Colors.orange,
-        leading: IconButton(
-          onPressed: () => Navigator.pop(context),
-          icon: Icon(Icons.arrow_back_ios, size: 20),
-        ),
-      ),
+      appBar: _buildAppBar(),
+      // appBar: AppBar(
+      //   title: Row(
+      //     children: [
+      //       Text('StakeFair', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30)),
+      //     ],
+      //   ),
+      //   backgroundColor: Colors.orange,
+      //   leading: IconButton(
+      //     onPressed: () => Navigator.pop(context),
+      //     icon: Icon(Icons.arrow_back_ios, size: 20),
+      //   ),
+      // ),
       body: SingleChildScrollView(
         child: SafeArea(
           child: Form(
@@ -82,12 +86,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   Obx(() {
                     if (controller.selectedIcon.value == 1) {
                       CustomField(
+                        focusNode: emailFocus,
   hintText: "Email or Username".tr,
   obscureText: true, // For password fields
   isSuffixIcon: true,
   
   );
       return  CustomField(
+        focusNode: emailFocus,
   hintText: "Email or Username".tr,
  
   
@@ -236,9 +242,62 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
       
+      
     );
 
   }
+  PreferredSizeWidget _buildAppBar() {
+  return PreferredSize(
+    preferredSize: const Size.fromHeight(53),
+    child: Container(
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            Color(0xffFFB300),
+            Color(0xffFF8801),
+          ],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+        ),
+      ),
+      child: AppBar(
+        leading: IconButton(onPressed: (){
+          Get.back();
+        }, icon: Icon(Icons.arrow_back_ios)),
+        toolbarHeight: 53,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              children: [
+                Container(
+                  width: 133,
+                  height: 20,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('assets/images/stakefair.png'),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 9),
+                  child: const Text(
+                    'EXCHANGE',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+              ],
+            ),  
+             ]),
+      ),
+    )
+  );
+}
 
   Widget _buildIcon(IconData icon, int value) {
     return Obx(() => GestureDetector(
@@ -268,5 +327,6 @@ Widget _buildSocialMediaIcon(String assetPath) {
     ),
   );
 }
+
 
 }

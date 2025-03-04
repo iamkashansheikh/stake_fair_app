@@ -13,6 +13,8 @@ class IconSelectionWidget extends StatelessWidget {
     // Set the default selected icon
     controller.selectedIcon.value = 1;
   }
+  FocusNode phoneFocus = FocusNode();
+FocusNode emailFocus = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -100,6 +102,7 @@ class IconSelectionWidget extends StatelessWidget {
         Obx(() {
           if (controller.selectedIcon.value == 1) {
             return   CustomField(
+    focusNode: emailFocus,
   hintText: "Email or Username".tr,
   obscureText: true, // For password fields
   isSuffixIcon: true,

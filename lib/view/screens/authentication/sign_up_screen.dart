@@ -28,6 +28,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final GenderController genderController = Get.put(GenderController());
   final AuthController controller = Get.put(AuthController());
   TextEditingController passwordfieldController = TextEditingController();
+  TextEditingController usernameController = TextEditingController();
+  TextEditingController emailCOntroller = TextEditingController();
+  FocusNode phoneFocus = FocusNode();
+FocusNode emailFocus = FocusNode();
+FocusNode passwordFocus = FocusNode();
+FocusNode usernameFocus= FocusNode();
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    usernameController.dispose();
+    passwordfieldController.dispose();
+    emailCOntroller.dispose()
+;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,14 +96,10 @@ actions: [
                  
                     // CustomField(text: 'username'.tr),
                     CustomField(
+                      focusNode: passwordFocus,
+                        controller: usernameController,
   hintText: "username".tr,
-  // obscureText: true, // For password fields
-  // isSuffixIcon: true,
-  // suffixIcon: IconButton(
-  //   icon: Icon(Icons.visibility),
-    // onPressed: () {
-    //   // Add visibility toggle logic here
-    // },
+ 
   ),
                     
 
@@ -96,35 +108,17 @@ actions: [
                   SizedBox(height: mediaQuerySize.height * 0.02),
                    PasswordFieldWidget(controller: passwordfieldController),
                             
-                  /// Password Field
-                  // Obx(() => CustomField(
-                  //       text: 'password'.tr,
-                  //       isSuffixIcon: true,
-                  //       obscureText: !passwordController.isPasswordVisible.value,
-                  //       suffixIcon: IconButton(
-                  //         icon: Icon(
-                  //           passwordController.isPasswordVisible.value
-                  //               ? Icons.visibility
-                  //               : Icons.visibility_off,
-                  //         ),
-                  //         onPressed: passwordController.togglePasswordVisibility,
-                  //       ),
-                  //       validator: (value) => value!.isEmpty ? 'Please enter your password' : null,
-                  //     )),
-                            
+                 
                             
                   SizedBox(height: mediaQuerySize.height * 0.02),
                   Obx(() {
                     if (controller.selectedIcon.value == 1) {
                       return   CustomField(
+                        focusNode: emailFocus,
+                        controller: emailCOntroller,
+
   hintText: "email".tr,
-  // obscureText: true, // For password fields
-  // isSuffixIcon: true,
-  // suffixIcon: IconButton(
-  //   icon: Icon(Icons.visibility),
-    // onPressed: () {
-    //   // Add visibility toggle logic here
-    // },
+ 
   );
                     } else if (controller.selectedIcon.value == 2) {
                       return Padding(
