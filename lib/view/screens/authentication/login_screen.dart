@@ -23,6 +23,9 @@ class _LoginScreenState extends State<LoginScreen> {
   final AuthController controller = Get.put(AuthController());
   final PasswordController passwordController = Get.put(PasswordController());
   TextEditingController passwordfieldController = TextEditingController();
+
+  FocusNode phoneFocus = FocusNode();
+FocusNode emailFocus = FocusNode();
  // final GlobalKey<FormState> formKey = GlobalKey();
 
   @override
@@ -82,12 +85,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   Obx(() {
                     if (controller.selectedIcon.value == 1) {
                       CustomField(
+                        focusNode: emailFocus,
   hintText: "Email or Username".tr,
   obscureText: true, // For password fields
   isSuffixIcon: true,
   
   );
       return  CustomField(
+        focusNode: emailFocus,
   hintText: "Email or Username".tr,
  
   

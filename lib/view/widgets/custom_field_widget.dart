@@ -1,6 +1,6 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter/services.dart';
 
 class CustomField extends StatelessWidget {
   final bool isPrefixIcon;
@@ -11,7 +11,11 @@ class CustomField extends StatelessWidget {
   final Color? color;
   final String? hintText;
   final TextEditingController? controller;
-  final FocusNode focusNode = FocusNode(); // Manages focus effect
+  final FocusNode focusNode; // Accepts external focusNode
+  final FocusNode? nextFocusNode; // FocusNode for next field
+  final TextInputType keyboardType;
+  final int? maxLength;
+  final List<TextInputFormatter>? inputFormatters;
 
   CustomField({
     super.key,
@@ -23,22 +27,27 @@ class CustomField extends StatelessWidget {
     this.prefixIcon,
     this.color,
     this.controller,
+    required this.focusNode, // Require focusNode to manage focus properly
+    this.nextFocusNode, // FocusNode of the next field
+    this.keyboardType = TextInputType.text,
+    this.maxLength,
+    this.inputFormatters,
   });
 
   @override
   Widget build(BuildContext context) {
     Size mediaQuerySize = MediaQuery.of(context).size;
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 3), // Better spacing
+      padding: const EdgeInsets.symmetric(horizontal: 3),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            height:mediaQuerySize.height*0.07.h,     
-                  width: mediaQuerySize.width.w,
+            height: mediaQuerySize.height * 0.07.h,
+            width: mediaQuerySize.width.w,
             decoration: BoxDecoration(
-              color: color ?? Colors.black.withOpacity(0.07), // Background color
-              borderRadius: BorderRadius.circular(8), // Slightly rounded corners
+              color: color ?? Colors.black.withOpacity(0.07),
+              borderRadius: BorderRadius.circular(8),
             ),
             alignment: Alignment.center,
             child: Padding(
@@ -46,22 +55,31 @@ class CustomField extends StatelessWidget {
               child: TextField(
                 controller: controller,
                 focusNode: focusNode,
-                
                 obscureText: obscureText,
+                keyboardType: keyboardType,
+                maxLength: maxLength,
+                inputFormatters: inputFormatters,
                 decoration: InputDecoration(
                   prefixIcon: isPrefixIcon ? prefixIcon : null,
                   suffixIcon: isSuffixIcon ? suffixIcon : null,
-                 // contentPadding: const EdgeInsets.symmetric(horizontal: 15),
                   labelText: hintText,
                   labelStyle: TextStyle(color: Colors.grey),
                   hintStyle: const TextStyle(color: Colors.grey),
-                  border: InputBorder.none, // No visible border
+                  counterText: "",
+                  border: InputBorder.none,
                 ),
                 style: const TextStyle(color: Colors.black),
+                onEditingComplete: () {
+                  // Move to next field if available
+                  if (nextFocusNode != null) {
+                    FocusScope.of(context).requestFocus(nextFocusNode);
+                  } else {
+                    focusNode.unfocus(); // Close keyboard if no next field
+                  }
+                },
               ),
             ),
           ),
-          // Orange underline effect when focused
           AnimatedBuilder(
             animation: focusNode,
             builder: (context, child) {
@@ -77,4 +95,3 @@ class CustomField extends StatelessWidget {
     );
   }
 }
-
