@@ -125,73 +125,73 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-PreferredSizeWidget _buildAppBar() {
-  return PreferredSize(
-    preferredSize: const Size.fromHeight(53),
-    child: Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            Color(0xffFFB300),
-            Color(0xffFF8801),
-          ],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
+  PreferredSizeWidget _buildAppBar() {
+    return PreferredSize(
+      preferredSize: const Size.fromHeight(53),
+      child: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Color(0xffFFB300),
+              Color(0xffFF8801),
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
         ),
-      ),
-      child: AppBar(
-        toolbarHeight: 53,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
-              children: [
-                Container(
-                  width: 133,
-                  height: 20,
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('assets/images/stakefair.png'),
+        child: AppBar(
+          toolbarHeight: 53,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                children: [
+                  Container(
+                    width: 133,
+                    height: 20,
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage('assets/images/stakefair.png'),
+                      ),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 9),
-                  child: const Text(
-                    'EXCHANGE',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.black,
+                  Padding(
+                    padding: const EdgeInsets.only(left: 9),
+                    child: const Text(
+                      'EXCHANGE',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.black,
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                InkWell(
-                  onTap: () => homeController.isSearchFieldVisible.toggle(),
-                  child: _buildIconButton(Icons.search_rounded, 'Search',
-                      width: 50),
-                ),
-                const SizedBox(width: 5),
-                InkWell(
-                  onTap: () {
-                    Get.toNamed('/login');
-                  },
-                  child:
-                      _buildIconButton(Icons.person, 'Login/Join', width: 70),
-                ),
-              ],
-            )
-          ],
+                ],
+              ),
+              Row(
+                children: [
+                  InkWell(
+                    onTap: () => homeController.isSearchFieldVisible.toggle(),
+                    child: _buildIconButton(Icons.search_rounded, 'Search',
+                        width: 50),
+                  ),
+                  const SizedBox(width: 5),
+                  InkWell(
+                    onTap: () {
+                      Get.toNamed('/login');
+                    },
+                    child:
+                        _buildIconButton(Icons.person, 'Login/Join', width: 70),
+                  ),
+                ],
+              )
+            ],
+          ),
         ),
       ),
-    ),
-  );
-}
+    );
+  }
 
   Widget _buildSearchField({Key? key}) {
     return Container(
