@@ -43,7 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       Center(child: _buildSaferGamblingDropdown()),
                       const SizedBox(height: 5),
                       Center(child: _buildAboutStakefairDropdown()),
-                      const SizedBox(height: 8),
+                      const SizedBox(height: 5),
                       _buildText('Help'),
                       _buildText('Affiliates'),
                       _buildText('18+'),
@@ -60,7 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       _buildText('Privacy Preference Centre'),
                       _buildText('Rules & Regulations'),
                       _buildText('Terms & Conditions'),
-                      const SizedBox(height: 30),
+                      const SizedBox(height: 20),
                     ],
                   ),
                 ],
@@ -125,64 +125,73 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  PreferredSizeWidget _buildAppBar() {
-    return PreferredSize(
-      preferredSize: const Size.fromHeight(53),
-      child: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Color(0xffFFB300),
-              Color(0xffFF8801),
-            ],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
-        child: AppBar(
-          toolbarHeight: 53,
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Text(
-                      'StakeFair',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
-                    ),
-                    Text('EXCHANGE', style: TextStyle(fontSize: 16)),
-                  ],
-                ),
-              ),
-              Row(
-                children: [
-                  InkWell(
-                    onTap: () => homeController.isSearchFieldVisible.toggle(),
-                    child: _buildIconButton(Icons.search_rounded, 'Search',
-                        width: 50),
-                  ),
-                  const SizedBox(width: 5),
-                  InkWell(
-                    onTap: () {
-                      Get.toNamed('/login');
-                    },
-                    child:
-                        _buildIconButton(Icons.person, 'Login/Join', width: 70),
-                  ),
-                ],
-              )
-            ],
-          ),
+PreferredSizeWidget _buildAppBar() {
+  return PreferredSize(
+    preferredSize: const Size.fromHeight(53),
+    child: Container(
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            Color(0xffFFB300),
+            Color(0xffFF8801),
+          ],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
         ),
       ),
-    );
-  }
+      child: AppBar(
+        toolbarHeight: 53,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              children: [
+                Container(
+                  width: 133,
+                  height: 20,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('assets/images/stakefair.png'),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 9),
+                  child: const Text(
+                    'EXCHANGE',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                InkWell(
+                  onTap: () => homeController.isSearchFieldVisible.toggle(),
+                  child: _buildIconButton(Icons.search_rounded, 'Search',
+                      width: 50),
+                ),
+                const SizedBox(width: 5),
+                InkWell(
+                  onTap: () {
+                    Get.toNamed('/login');
+                  },
+                  child:
+                      _buildIconButton(Icons.person, 'Login/Join', width: 70),
+                ),
+              ],
+            )
+          ],
+        ),
+      ),
+    ),
+  );
+}
 
   Widget _buildSearchField({Key? key}) {
     return Container(
@@ -220,7 +229,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildText(String title) {
     return Text(title,
-        style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold));
+        style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500));
   }
 
   Widget _buildSaferGamblingDropdown() {
@@ -239,7 +248,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   style: const TextStyle(
                       decoration: TextDecoration.underline,
                       fontSize: 15,
-                      fontWeight: FontWeight.bold),
+                      fontWeight: FontWeight.w500),
                 ),
                 Icon(expanded ? Icons.arrow_drop_up : Icons.arrow_drop_down),
               ],
@@ -257,7 +266,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           style: const TextStyle(
                               color: Colors.black,
                               fontSize: 15,
-                              fontWeight: FontWeight.bold),
+                              fontWeight: FontWeight.w500),
                         ),
                       ))
                   .toList(),
@@ -283,7 +292,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   style: const TextStyle(
                       decoration: TextDecoration.underline,
                       fontSize: 15,
-                      fontWeight: FontWeight.bold),
+                      fontWeight: FontWeight.w500),
                 ),
                 Icon(expanded ? Icons.arrow_drop_up : Icons.arrow_drop_down),
               ],
@@ -301,7 +310,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           style: const TextStyle(
                               color: Colors.black,
                               fontSize: 15,
-                              fontWeight: FontWeight.bold),
+                              fontWeight: FontWeight.w500),
                         ),
                       ))
                   .toList(),
@@ -359,55 +368,52 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-Widget _buildWhyWinBanner() {
-  return Container(
-    width: 415,
-    color: Color(0xffd9d9d9),
-    child: Padding(
-      padding: const EdgeInsets.all(4.0),
-      child: Container(
-        height: 200,
-        margin: const EdgeInsets.all(8),
-        padding: const EdgeInsets.all(12),
-        width: double.infinity,
-        decoration: BoxDecoration(
-          color: const Color(0xffFFB80C),
-          borderRadius: BorderRadius.circular(8),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.2),
-              spreadRadius: 1,
-              blurRadius: 8,
-              offset: Offset(0, 4),
-            )
-          ],
-          image: DecorationImage(
-            image: AssetImage('assets/images/whywin.jpeg'),
+  Widget _buildWhyWinBanner() {
+    return Container(
+      width: 415,
+      color: Color(0xffD7DCDF),
+      child: Padding(
+        padding: const EdgeInsets.all(2.0),
+        child: Container(
+          height: 180,
+          margin: const EdgeInsets.all(8),
+          padding: const EdgeInsets.all(12),
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: const Color(0xffFFB80C),
+            borderRadius: BorderRadius.circular(8),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.2),
+                spreadRadius: 1,
+                blurRadius: 8,
+                offset: Offset(0, 4),
+              )
+            ],
+            image: DecorationImage(
+              image: AssetImage('assets/images/whywin.jpeg'),
+            ),
+          ),
+          child: Stack(
+            children: [
+              Positioned(
+                top: 0,
+                right: 0,
+                child: GestureDetector(
+                  onTap: () => homeController.isBannerVisible.value = false,
+                  child: const Icon(
+                    Icons.close,
+                    color: Color(0xff424242),
+                    size: 20,
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
-        child: Stack(
-          children: [
-            Positioned(
-              top: 0,
-              right: 0,
-              child: GestureDetector(
-                onTap: () => homeController.isBannerVisible.value = false,
-                child: const Icon(Icons.close, color: Colors.black),
-              ),
-            ),
-          ],
-        ),
       ),
-    ),
-  );
-}
-
-
-
-
-
-
-
+    );
+  }
 
   Widget _buildSection(String title, String leading, String label, String sub) {
     return Column(
@@ -623,7 +629,7 @@ Widget _buildWhyWinBanner() {
             const TextSpan(
               text: 'Warning',
               style: TextStyle(
-                fontSize: 16,
+                fontSize: 14,
                 fontWeight: FontWeight.bold,
                 color: Colors.black,
                 wordSpacing: 2,
