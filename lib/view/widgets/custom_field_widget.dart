@@ -43,7 +43,7 @@ class CustomField extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            height: mediaQuerySize.height * 0.07.h,
+            height: mediaQuerySize.height * 0.05.h,
             width: mediaQuerySize.width.w,
             decoration: BoxDecoration(
               color: color ?? Colors.black.withOpacity(0.07),
@@ -84,7 +84,7 @@ class CustomField extends StatelessWidget {
             animation: focusNode,
             builder: (context, child) {
               return Container(
-                height: 2,
+                height: 1,
                 width: double.infinity,
                 color: focusNode.hasFocus ? Colors.orange : Colors.transparent,
               );

@@ -53,7 +53,7 @@ class _PasswordFieldWidgetState extends State<PasswordFieldWidget> {
         Obx(() => Padding(
               padding: EdgeInsets.symmetric(horizontal: 3),
               child: Container(
-                height: mediaQuerySize.height * 0.07.h,
+                height: mediaQuerySize.height * 0.05.h,
                 width: mediaQuerySize.width.w,
                 decoration: BoxDecoration(
                   color: Colors.black.withOpacity(0.07),
@@ -61,7 +61,7 @@ class _PasswordFieldWidgetState extends State<PasswordFieldWidget> {
                   border: Border(
                     bottom: BorderSide(
                       color: focusNode.hasFocus ? Colors.orange : Colors.transparent,
-                      width: 2.0,
+                      width: 1.0,
                     ),
                   ),
                 ),

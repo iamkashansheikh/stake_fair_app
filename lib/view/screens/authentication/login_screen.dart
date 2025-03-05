@@ -85,13 +85,13 @@ FocusNode emailFocus = FocusNode();
               
                   Obx(() {
                     if (controller.selectedIcon.value == 1) {
-                      CustomField(
-                        focusNode: emailFocus,
-  hintText: "Email or Username".tr,
-  obscureText: true, // For password fields
-  isSuffixIcon: true,
+  //                     CustomField(
+  //                       focusNode: emailFocus,
+  // hintText: "Email or Username".tr,
+  // obscureText: true, // For password fields
+  // isSuffixIcon: true,
   
-  );
+  // );
       return  CustomField(
         focusNode: emailFocus,
   hintText: "Email or Username".tr,
@@ -119,7 +119,7 @@ FocusNode emailFocus = FocusNode();
                           children: [
                             Icon(
                               passwordController.isChecked.value ? Icons.check_box : Icons.check_box_outline_blank,
-                              size: 30,
+                              size: 28,
                               color: passwordController.isChecked.value ? Colors.green : Colors.grey,
                             ),
                             SizedBox(width: 5),
@@ -169,7 +169,7 @@ FocusNode emailFocus = FocusNode();
               
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 5),
-                    child: RoundButtonWidget(title: 'Login',width: mediaQuerySize.width * 1,height: mediaQuerySize.height * 0.07,),
+                    child: RoundButtonWidget(title: 'Login',width: mediaQuerySize.width * 1,height: mediaQuerySize.height * 0.06,),
                   ),
               
                   SizedBox(height: mediaQuerySize.height * 0.02),
@@ -216,7 +216,7 @@ FocusNode emailFocus = FocusNode();
                       ],
                     ),
                   ),
-                  SizedBox(height: mediaQuerySize.height * 0.18,),
+                  SizedBox(height: mediaQuerySize.height * 0.24,),
                   Divider(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -319,8 +319,8 @@ FocusNode emailFocus = FocusNode();
 
 Widget _buildSocialMediaIcon(String assetPath) {
   return Container(
-    height: 45,
-    width: 45,
+    height: 40,
+    width: 40,
     child: Image.asset(
       assetPath,
       fit: BoxFit.contain, // Ya BoxFit.cover, jo bhi aapko suit kare

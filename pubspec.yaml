@@ -2,7 +2,7 @@ name: stake_fair_app
 description: "A new Flutter project."
 publish_to: 'none'
 
-version: 1.0.6+3
+version: 1.0.7+3
 
 environment:
   sdk: ">=3.5.3 <4.0.0"
@@ -28,6 +28,7 @@ dependencies:
   open_file: ^3.3.2
   dio: ^5.4.0 
   http: ^1.3.0
+  auto_size_text: ^3.0.0
 
 dev_dependencies:
   flutter_test:
