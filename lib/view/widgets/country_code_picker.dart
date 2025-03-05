@@ -30,7 +30,7 @@ class _CountryCodePickerWidgetState extends State<CountryCodePickerWidget> {
     return Row(
       children: [
         Container(
-          height: mediaQuerySize.height * 0.07,
+          height: mediaQuerySize.height * 0.06,
           width: mediaQuerySize.width * 0.3.w,
           padding: EdgeInsets.symmetric(horizontal: 8),
           decoration: BoxDecoration(
