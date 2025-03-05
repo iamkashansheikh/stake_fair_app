@@ -47,7 +47,7 @@ class CustomField extends StatelessWidget {
             width: mediaQuerySize.width.w,
             decoration: BoxDecoration(
               color: color ?? Colors.black.withOpacity(0.07),
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(4),
             ),
             alignment: Alignment.center,
             child: Padding(
@@ -83,10 +83,22 @@ class CustomField extends StatelessWidget {
           AnimatedBuilder(
             animation: focusNode,
             builder: (context, child) {
-              return Container(
-                height: 1,
-                width: double.infinity,
-                color: focusNode.hasFocus ? Colors.orange : Colors.transparent,
+              return Padding(
+                padding: EdgeInsets.symmetric(horizontal: 2),
+                child: Container(
+                  height: 1,
+                  width: double.infinity,
+                 decoration: BoxDecoration(
+                  color: focusNode.hasFocus ? Colors.orange : Colors.transparent,
+                  //  borderRadius: BorderRadius.circular(8),
+                  //   border: Border(
+                  //   bottom: BorderSide(
+                  //     color: focusNode.hasFocus ? Colors.orange : Colors.transparent,
+                  //     width: 1.0,
+                  //   ),
+                  // ),
+                   ),
+                ),
               );
             },
           ),
