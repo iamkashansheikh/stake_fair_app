@@ -20,6 +20,7 @@ class AppTranslations extends Translations {
         'hi_IN': {
           'login': 'लॉगिन',
           'password': 'पासवर्ड',
+          'email': 'पासवर्ड',
           'username': 'उपयोगकर्ता नाम',
           'continue': 'जारी रखें',
           'gender': 'लिंग',
@@ -34,6 +35,7 @@ class AppTranslations extends Translations {
         'bn_BD': {
           'login': 'লগইন',
           'password': 'পাসওয়ার্ড',
+          'email': 'পাসওয়ার্ড',
           'username': 'ইউজারনেম',
           'continue': 'চালিয়ে যান',
           'gender': 'লিঙ্গ',
