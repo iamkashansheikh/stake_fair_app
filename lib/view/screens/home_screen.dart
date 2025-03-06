@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:stake_fair_app/controllers/home_controller.dart';
-import 'package:auto_size_text/auto_size_text.dart'; // Ensure you add auto_size_text in pubspec.yaml
+import 'package:auto_size_text/auto_size_text.dart'; 
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -678,7 +678,7 @@ class _HomeScreenState extends State<HomeScreen> {
               text:
                   " : Although the current score, time elapsed, video and other",
               style: TextStyle(
-                fontSize: 13,
+                fontSize: 12,
                 color: Colors.black,
 
               ),
@@ -724,7 +724,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: AutoSizeText(
           text,
           style: const TextStyle(
-            fontSize: 13,
+            fontSize: 12,
             color: Colors.black,
 
           ),
