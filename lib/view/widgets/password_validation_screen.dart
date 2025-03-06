@@ -73,7 +73,7 @@ class _PasswordFieldWidgetState extends State<PasswordFieldWidget> {
                     obscureText: !isPasswordVisible.value,
                     decoration: InputDecoration(
                       labelStyle: TextStyle(color: Colors.grey),
-                      labelText: "Password".tr,
+                      labelText: "password".tr,
                       border: InputBorder.none,
                       suffixIcon: IconButton(
                         icon: Icon(isPasswordVisible.value ? Icons.visibility : Icons.visibility_off),
