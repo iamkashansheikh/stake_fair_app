@@ -31,7 +31,7 @@ class _CountryCodePickerWidgetState extends State<CountryCodePickerWidget> {
         crossAxisAlignment: CrossAxisAlignment.start, // ✅ Aligns dropdown properly
         children: [
           Container(
-            height: screenHeight * 0.07,
+            height: screenHeight * 0.06,
             width: MediaQuery.of(context).size.width * 0.35,
             padding: EdgeInsets.symmetric(horizontal: 8),
             decoration: BoxDecoration(

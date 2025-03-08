@@ -31,6 +31,7 @@ class AppTranslations extends Translations {
           'email_username': 'ईमेल या उपयोगकर्ता नाम',
           'safe_gambling': 'सुरक्षित जुए के बारे में अधिक जानें',
           'help_contact': 'मदद और संपर्क करें',
+          'Mobile Number': 'मोबाइल नंबर'
         },
         'bn_BD': {
           'login': 'লগইন',
@@ -46,6 +47,7 @@ class AppTranslations extends Translations {
           'email_username': 'ইমেল বা ইউজারনেম',
           'safe_gambling': 'নিরাপদ জুয়ার সম্পর্কে আরও জানুন',
           'help_contact': 'সাহায্য ও যোগাযোগ',
+          'Mobile Number': 'মোবাইল নম্বর'
         },
       };
 }
