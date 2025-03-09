@@ -8,7 +8,6 @@ import 'package:stake_fair_app/res/routs/app_routs_name.dart';
 import 'package:stake_fair_app/view/screens/app_Loacalization/app_local.dart';
 import 'firebase_options.dart';
 
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
@@ -18,7 +17,7 @@ Future<void> main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-    
+
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
@@ -27,15 +26,13 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       builder: (context, child) {
         return GetMaterialApp(
-          title: 'Stake Fair App',
-          debugShowCheckedModeBanner: false,
-          translations: AppTranslations(), 
-        locale: Locale('en', 'US'),
-        fallbackLocale: Locale('en', 'US'), 
-          initialRoute:RoutsName.virsion,
-          getPages:AppRouts.pages 
-          // home: PasswordValidationScreen(),
-        );
+            title: 'Stake Fair App',
+            debugShowCheckedModeBanner: false,
+            translations: AppTranslations(),
+            locale: Locale('en', 'US'),
+            fallbackLocale: Locale('en', 'US'),
+            initialRoute: RoutsName.virsion,
+            getPages: AppRouts.pages);
       },
     );
   }
