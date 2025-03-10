@@ -15,8 +15,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final Size mediaQuery = MediaQuery.of(context).size;
     final double textScale = MediaQuery.of(context).textScaleFactor;
+    final Size mediaQuery = MediaQuery.of(context).size;
+    
     return SafeArea(
       child: Scaffold(
         backgroundColor: const Color(0xffFFFFFF),
