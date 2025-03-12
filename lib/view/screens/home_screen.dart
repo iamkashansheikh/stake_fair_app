@@ -250,7 +250,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildText(String title, double textScale) {
     return AutoSizeText(
       title,
-      style: TextStyle(fontSize: 14 * textScale, fontWeight: FontWeight.w600),
+      style: TextStyle(fontSize: 13 * textScale, fontWeight: FontWeight.w600),
       maxLines: 1,
     );
   }
@@ -270,7 +270,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   homeController.saferGambling[0],
                   style: TextStyle(
                       decoration: TextDecoration.underline,
-                      fontSize: 14 * textScale,
+                      fontSize: 13 * textScale,
                       fontWeight: FontWeight.w600),
                   maxLines: 1,
                 ),
@@ -289,7 +289,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           item,
                           style: TextStyle(
                               color: Colors.black,
-                              fontSize: 14 * textScale,
+                              fontSize: 13 * textScale,
                               fontWeight: FontWeight.w600),
                           maxLines: 1,
                         ),
@@ -316,7 +316,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   homeController.aboutStakefair[0],
                   style: TextStyle(
                       decoration: TextDecoration.underline,
-                      fontSize: 14 * textScale,
+                      fontSize: 13 * textScale,
                       fontWeight: FontWeight.w600),
                   maxLines: 1,
                 ),
@@ -335,7 +335,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           item,
                           style: TextStyle(
                               color: Colors.black,
-                              fontSize: 14 * textScale,
+                              fontSize: 13 * textScale,
                               fontWeight: FontWeight.w600),
                           maxLines: 1,
                         ),
@@ -693,14 +693,14 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             TextSpan(
               text:
-                  " : Although the current score, time elapsed, video and other",
+                  " : Although the current score, time elapsed, video and ",
               style: TextStyle(
                 fontSize:12 * textScale,
                 color: Colors.black,
               ),
             ),
             _buildWidgetSpan(
-                " data provided on this site is sourced from feeds provided by third",
+                "other data provided on this site is sourced from feeds provided by third",
                 12),
             _buildWidgetSpan(
                 " parties, you should be aware that this data may be subject to a time",
@@ -710,21 +710,21 @@ class _HomeScreenState extends State<HomeScreen> {
                 28),
             _buildWidgetSpan(
                 " StakeFair customers may have access to data that is faster and/or",
-                5),
+                12),
             _buildWidgetSpan(
                 " more accurate than the data shown on the StakeFair site. If you rely on",
                 8),
             _buildWidgetSpan(
-                " this data to place bets, you do so entirely at your own risk.StakeFair provides",
-                0),
+                " this data to place bets, you do so entirely at your own risk.",
+                35),
             _buildWidgetSpan(
-                "  this data AS IS with no warranty as to the accuracy,completeness",
-                0),
+                " StakeFair provides this data AS IS with no warranty as to the accuracy,",
+                6),
             _buildWidgetSpan(
-                "  or timeliness of such data and accepts no responsibility for", 20),
+                " completeness or timeliness of such data and accepts no", 35),
             _buildWidgetSpan(
-                "   any loss (direct or indirect) suffered by you as a",
-                45),
+                " responsibility for any loss (direct or indirect) suffered by you as a",
+                20),
             _buildWidgetSpan(" result of your reliance on it.", 125),
           ],
         ),
