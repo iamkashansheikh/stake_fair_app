@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:stake_fair_app/controllers/getx_controller/password_validation_controller.dart';
@@ -16,8 +14,8 @@ class PasswordFieldWidget extends StatefulWidget {
 class _PasswordFieldWidgetState extends State<PasswordFieldWidget> {
   final PasswordValidationController validationController = Get.put(PasswordValidationController());
 
-  final RxBool isListVisible = false.obs;
   final RxBool isPasswordVisible = false.obs;
+  final RxBool isFieldFocused = false.obs;
   late FocusNode focusNode;
 
   @override
@@ -25,7 +23,7 @@ class _PasswordFieldWidgetState extends State<PasswordFieldWidget> {
     super.initState();
     focusNode = FocusNode();
     focusNode.addListener(() {
-      isListVisible.value = focusNode.hasFocus;
+      isFieldFocused.value = focusNode.hasFocus;
     });
   }
 
@@ -50,77 +48,92 @@ class _PasswordFieldWidgetState extends State<PasswordFieldWidget> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Obx(() => Padding(
-              padding: EdgeInsets.symmetric(horizontal: 3),
-              child: Container(
-                height: 50, // Keep the same height
-                decoration: BoxDecoration(
-                  color: Colors.black.withOpacity(0.07),
-                  borderRadius: BorderRadius.circular(5),
-                  border: Border(
-                    bottom: BorderSide(
-                      color: focusNode.hasFocus ? Colors.orange : Colors.transparent,
-                      width: 1.0,
-                    ),
-                  ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal, // Allows horizontal scrolling
-                    child: SizedBox(
-                      width: MediaQuery.of(context).size.width - 20, // Adjust width dynamically
-                      child: TextField(
-                        controller: widget.controller,
-                        focusNode: focusNode,
-                        obscureText: !isPasswordVisible.value,
-                        maxLines: 1, // Ensures text stays in one line
-                        textAlignVertical: TextAlignVertical.center,
-                        decoration: InputDecoration(
-                          labelStyle: TextStyle(color: Colors.grey),
-                          labelText: "password".tr,
-                          border: InputBorder.none,
-                          suffixIcon: IconButton(
-                            icon: Icon(isPasswordVisible.value ? Icons.visibility : Icons.visibility_off),
-                            onPressed: () {
-                              isPasswordVisible.value = !isPasswordVisible.value;
-                            },
-                          ),
-                        ),
-                        onChanged: (value) {
-                          validationController.validatePassword(value);
-                        },
-                        textInputAction: TextInputAction.next, // Moves to the next field on enter
-                        onEditingComplete: () {
-                          FocusScope.of(context).nextFocus(); // Move to next input field
-                        },
-                      ),
-                    ),
+        Obx(() {
+          bool isPasswordValid = validationController.isPasswordStrong.value;
+
+          return Padding(
+            padding: EdgeInsets.symmetric(horizontal: 3),
+            child: Container(
+              height: 50,
+              decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.07),
+                borderRadius: BorderRadius.circular(5),
+                border: Border(
+                  bottom: BorderSide(
+                    color: isPasswordValid
+                        ? Colors.orange // Orange when valid
+                        : (isFieldFocused.value ? Colors.red : Colors.transparent), // Red when focused, grey otherwise
+                    width: 1,
                   ),
                 ),
               ),
-            )),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: TextField(
+                  controller: widget.controller,
+                  focusNode: focusNode,
+                  obscureText: !isPasswordVisible.value,
+                  decoration: InputDecoration(
+                    labelStyle: TextStyle(color: Colors.grey),
+                    labelText: "password".tr,
+                    border: InputBorder.none,
+                    suffixIcon: IconButton(
+                      icon: Icon(isPasswordVisible.value ? Icons.visibility : Icons.visibility_off),
+                      onPressed: () {
+                        isPasswordVisible.value = !isPasswordVisible.value;
+                      },
+                    ),
+                  ),
+                  onChanged: (value) {
+                    validationController.validatePassword(value);
+                  },
+                  textInputAction: TextInputAction.next,
+                  onEditingComplete: () {
+                    FocusScope.of(context).nextFocus();
+                  },
+                ),
+              ),
+            ),
+          );
+        }),
         SizedBox(height: 5),
-        Obx(() => isListVisible.value
-            ? Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildValidationItem("8-20 characters", validationController.hasMinLength.value),
-                  _buildValidationItem("At least one letter", validationController.hasLetter.value),
-                  _buildValidationItem("At least one number", validationController.hasNumber.value),
-                  _buildValidationItem("At least one special character", validationController.hasSpecialChar.value),
-                ],
-              )
-            : SizedBox()),
+        Obx(() {
+          if (validationController.isPasswordStrong.value) {
+            return Row(
+              children: [
+                Icon(Icons.check_circle, color: Colors.green),
+                SizedBox(width: 10),
+                Text(
+                  "Strong. Well done!",
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.grey),
+                ),
+              ],
+            );
+          } else if (isFieldFocused.value) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildValidationItem("8-20 characters", validationController.hasMinLength.value),
+                _buildValidationItem("At least one letter", validationController.hasLetter.value),
+                _buildValidationItem("At least one number", validationController.hasNumber.value),
+                _buildValidationItem("At least one special character", validationController.hasSpecialChar.value),
+              ],
+            );
+          }
+          return SizedBox();
+        }),
       ],
     );
   }
 }
 
 
+
+
+
+
 // import 'package:flutter/material.dart';
 // import 'package:get/get.dart';
-// import 'package:flutter_screenutil/flutter_screenutil.dart';
 // import 'package:stake_fair_app/controllers/getx_controller/password_validation_controller.dart';
 
 // class PasswordFieldWidget extends StatefulWidget {
@@ -135,8 +148,8 @@ class _PasswordFieldWidgetState extends State<PasswordFieldWidget> {
 // class _PasswordFieldWidgetState extends State<PasswordFieldWidget> {
 //   final PasswordValidationController validationController = Get.put(PasswordValidationController());
 
-//   final RxBool isListVisible = false.obs;
 //   final RxBool isPasswordVisible = false.obs;
+//   final RxBool isFieldFocused = false.obs;
 //   late FocusNode focusNode;
 
 //   @override
@@ -144,7 +157,7 @@ class _PasswordFieldWidgetState extends State<PasswordFieldWidget> {
 //     super.initState();
 //     focusNode = FocusNode();
 //     focusNode.addListener(() {
-//       isListVisible.value = focusNode.hasFocus;
+//       isFieldFocused.value = focusNode.hasFocus;
 //     });
 //   }
 
@@ -166,15 +179,13 @@ class _PasswordFieldWidgetState extends State<PasswordFieldWidget> {
 
 //   @override
 //   Widget build(BuildContext context) {
-//     Size mediaQuerySize = MediaQuery.of(context).size;
 //     return Column(
 //       crossAxisAlignment: CrossAxisAlignment.start,
 //       children: [
 //         Obx(() => Padding(
 //               padding: EdgeInsets.symmetric(horizontal: 3),
 //               child: Container(
-//                 height: mediaQuerySize.height * 0.05.h,
-//                 width: mediaQuerySize.width.w,
+//                 height: 50,
 //                 decoration: BoxDecoration(
 //                   color: Colors.black.withOpacity(0.07),
 //                   borderRadius: BorderRadius.circular(5),
@@ -193,7 +204,7 @@ class _PasswordFieldWidgetState extends State<PasswordFieldWidget> {
 //                     obscureText: !isPasswordVisible.value,
 //                     decoration: InputDecoration(
 //                       labelStyle: TextStyle(color: Colors.grey),
-//                       labelText: "password".tr,
+//                       labelText: "Password".tr,
 //                       border: InputBorder.none,
 //                       suffixIcon: IconButton(
 //                         icon: Icon(isPasswordVisible.value ? Icons.visibility : Icons.visibility_off),
@@ -205,26 +216,41 @@ class _PasswordFieldWidgetState extends State<PasswordFieldWidget> {
 //                     onChanged: (value) {
 //                       validationController.validatePassword(value);
 //                     },
-//                     textInputAction: TextInputAction.next, // Moves to the next field on enter
+//                     textInputAction: TextInputAction.next,
 //                     onEditingComplete: () {
-//                       FocusScope.of(context).nextFocus(); // Move to next input field
+//                       FocusScope.of(context).nextFocus();
 //                     },
 //                   ),
 //                 ),
 //               ),
 //             )),
 //         SizedBox(height: 5),
-//         Obx(() => isListVisible.value
-//             ? Column(
-//                 crossAxisAlignment: CrossAxisAlignment.start,
-//                 children: [
-//                   _buildValidationItem("8-20 characters", validationController.hasMinLength.value),
-//                   _buildValidationItem("At least one letter", validationController.hasLetter.value),
-//                   _buildValidationItem("At least one number", validationController.hasNumber.value),
-//                   _buildValidationItem("At least one special character", validationController.hasSpecialChar.value),
-//                 ],
-//               )
-//             : SizedBox()),
+//         Obx(() {
+//           if (validationController.isPasswordStrong.value) {
+//             return Row(
+//               children: [
+//                 Icon(Icons.check_circle, color: Colors.green), // ✅ Icon
+//                 SizedBox(width: 10),
+//                 Text(
+//                   "Strong. Well done!",
+//                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.grey),
+//                 ),
+//               ],
+//             );
+//           } else if (isFieldFocused.value) {
+//             // Show validations only when the field is focused
+//             return Column(
+//               crossAxisAlignment: CrossAxisAlignment.start,
+//               children: [
+//                 _buildValidationItem("8-20 characters", validationController.hasMinLength.value),
+//                 _buildValidationItem("At least one letter", validationController.hasLetter.value),
+//                 _buildValidationItem("At least one number", validationController.hasNumber.value),
+//                 _buildValidationItem("At least one special character", validationController.hasSpecialChar.value),
+//               ],
+//             );
+//           }
+//           return SizedBox(); // Hide when not focused and password is not strong
+//         }),
 //       ],
 //     );
 //   }
