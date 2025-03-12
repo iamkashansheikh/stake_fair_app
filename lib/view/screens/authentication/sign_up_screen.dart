@@ -1,9 +1,14 @@
+
+
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:stake_fair_app/controllers/utils/app_colors.dart';
 import 'package:stake_fair_app/view/widgets/custom_button.dart';
 import 'package:stake_fair_app/view/widgets/password_validation_screen.dart';
+import 'package:stake_fair_app/view/widgets/username_field_widget.dart';
 import '../../../controllers/getx_controller/auth_controller.dart';
 import '../../../controllers/getx_controller/password_controller.dart';
 import '../../widgets/country_code_picker.dart';
@@ -24,6 +29,29 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+
+String? validateUsername(String value) {
+  if (value.isEmpty) {
+    return "Username cannot be empty";
+  } else if (value.length < 3 || value.length > 20) {
+    return "Username must be 3-20 characters long";
+  } else if (!RegExp(r'^[a-zA-Z0-9_]+$').hasMatch(value)) {
+    return "Only letters, numbers, and underscores are allowed";
+  }
+  return null; // ✅ No error
+}
+
+ String? validateEmail(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Email cannot be empty";
+    } else if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+      return "Enter a valid email";
+    }
+    return null; // ✅ Valid input
+  }
+
+
+
   final PasswordController passwordController = Get.put(PasswordController());
   final GenderController genderController = Get.put(GenderController());
   final AuthController controller = Get.put(AuthController());
@@ -67,12 +95,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         _buildGenderSelection(),
                         SizedBox(height: mediaQuerySize.height * 0.02),
 
-                        // CustomField(text: 'username'.tr),
-                        CustomField(
-                          focusNode: passwordFocus,
-                          controller: usernameController,
-                          hintText: "username".tr,
-                        ),
+             
+
+                    UsernameFieldWidget(controller: usernameController),
+
+
+
+                        // CustomField(
+                        //   focusNode: passwordFocus,
+                        //   controller: usernameController,
+                        //   hintText: "username".tr,
+                        // ),
 
                         SizedBox(height: mediaQuerySize.height * 0.02),
                         PasswordFieldWidget(
@@ -81,7 +114,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         SizedBox(height: mediaQuerySize.height * 0.02),
                         Obx(() {
                           if (controller.selectedIcon.value == 1) {
+              //               return  CustomField(
+              //   hintText: "Email",
+              //   controller: emailController,
+              //   focusNode: emailFocusNode,
+              //   validator: validateEmail,
+              //   keyboardType: TextInputType.emailAddress,
+              // ),
                             return CustomField(
+                              validator:validateEmail ,
                               focusNode: emailFocus,
                               controller: emailCOntroller,
                               hintText: "email".tr,

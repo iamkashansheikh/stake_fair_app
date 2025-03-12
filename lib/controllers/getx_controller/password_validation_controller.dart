@@ -4,14 +4,16 @@ class PasswordValidationController extends GetxController {
   RxBool hasMinLength = false.obs;
   RxBool hasLetter = false.obs;
   RxBool hasNumber = false.obs;
-  RxBool hasSpecialChar = false.obs; // Add this line
+  RxBool hasSpecialChar = false.obs;
+  RxBool isPasswordStrong = false.obs;
 
   void validatePassword(String password) {
     hasMinLength.value = password.length >= 8 && password.length <= 20;
-    hasLetter.value = RegExp(r'[a-zA-Z]').hasMatch(password);
-    hasNumber.value = RegExp(r'\d').hasMatch(password);
-    hasSpecialChar.value = RegExp(r'[!@#\$%^&*(),.?":{}|<>]').hasMatch(password); // Update this
+    hasLetter.value = password.contains(RegExp(r'[A-Za-z]'));
+    hasNumber.value = password.contains(RegExp(r'\d'));
+    hasSpecialChar.value = password.contains(RegExp(r'[!@#\$%^&*(),.?":{}|<>]'));
 
-    update(); // Update the controller (Optional, for debugging)
+    // Show "Strong. Well done!" only when all criteria are met
+    isPasswordStrong.value = hasMinLength.value && hasLetter.value && hasNumber.value && hasSpecialChar.value;
   }
 }
