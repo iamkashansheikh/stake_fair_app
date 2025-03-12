@@ -17,11 +17,11 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final double textScale = MediaQuery.of(context).textScaleFactor;
     final Size mediaQuery = MediaQuery.of(context).size;
-    
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: const Color(0xffFFFFFF),
-        appBar: _buildAppBar(),
+        appBar: _buildAppBar(context),
         body: Stack(
           children: [
             SingleChildScrollView(
@@ -36,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   }),
                   _buildSection('Most Popular Bets', 'icon', 'label', 'sub'),
                   _buildHorseRacingSection('Horse Racing'),
-                  _buildContainer('QuickLinks'),
+                  _buildContainer('Quick Links'),
                   _buildQuickLinksSection('name', 'icon'),
                   _buildFooter(mediaQuery, textScale),
                   _buildWarningText(textScale),
@@ -92,30 +92,30 @@ class _HomeScreenState extends State<HomeScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 _buildNavItem(
-                  index: 0,
-                  label: 'Home',
-                  icon: Icons.home,
-                  onTap: () => homeController.changeIndex(0)),
+                    index: 0,
+                    label: 'Home',
+                    icon: Icons.home,
+                    onTap: () => homeController.changeIndex(0)),
                 _buildNavItem(
-                  index: 1,
-                  label: 'Menu',
-                  icon: Icons.menu,
-                  onTap: () => homeController.changeIndex(1)),
+                    index: 1,
+                    label: 'Menu',
+                    icon: Icons.menu,
+                    onTap: () => homeController.changeIndex(1)),
                 _buildNavItem(
-                  index: 2,
-                  label: 'CashOut',
-                  icon: Icons.account_balance_wallet,
-                  onTap: () => homeController.changeIndex(2)),
+                    index: 2,
+                    label: 'CashOut',
+                    icon: Icons.account_balance_wallet,
+                    onTap: () => homeController.changeIndex(2)),
                 _buildNavItemWithAsset(
-                  index: 3,
-                  label: 'MyBets',
-                  assetPath: 'assets/images/money.png',
-                  onTap: () => homeController.changeIndex(3)),
+                    index: 3,
+                    label: 'MyBets',
+                    assetPath: 'assets/images/money.png',
+                    onTap: () => homeController.changeIndex(3)),
                 _buildNavItemWithAsset(
-                  index: 4,
-                  label: 'Casino',
-                  assetPath: 'assets/images/casino-chip (1).png',
-                  onTap: () => homeController.changeIndex(4)),
+                    index: 4,
+                    label: 'Casino',
+                    assetPath: 'assets/images/casino-chip (1).png',
+                    onTap: () => homeController.changeIndex(4)),
               ],
             ),
           );
@@ -124,9 +124,15 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  PreferredSizeWidget _buildAppBar() {
+  PreferredSizeWidget _buildAppBar(BuildContext context) {
+    double appBarHeight = 50;
+    double logoWidth = 133;
+    double logoHeight = 18;
+    double searchButtonWidth = 50;
+    double loginButtonWidth = 66;
+
     return PreferredSize(
-      preferredSize: const Size.fromHeight(50),
+      preferredSize: Size.fromHeight(appBarHeight),
       child: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -139,26 +145,29 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         child: AppBar(
-          toolbarHeight: 50,
+          toolbarHeight: appBarHeight,
           backgroundColor: Colors.transparent,
           elevation: 0,
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    width: 133,
-                    height: 18,
+                    width: logoWidth,
+                    height: logoHeight,
                     decoration: const BoxDecoration(
                       image: DecorationImage(
                         image: AssetImage('assets/images/stakefair.png'),
+                        fit: BoxFit.contain,
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10),
-                    child: const Text(
+                  const Padding(
+                    padding: EdgeInsets.only(left: 34),
+                    child: Text(
                       'EXCHANGE',
                       style: TextStyle(
                         fontSize: 14,
@@ -172,16 +181,22 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   InkWell(
                     onTap: () => homeController.isSearchFieldVisible.toggle(),
-                    child: _buildIconButton(Icons.search_rounded, 'Search',
-                        width: 50),
+                    child: _buildIconButton(
+                      Icons.search_rounded,
+                      'Search',
+                      width: searchButtonWidth,
+                    ),
                   ),
                   const SizedBox(width: 4),
                   InkWell(
                     onTap: () {
                       Get.toNamed('/login');
                     },
-                    child:
-                        _buildIconButton(Icons.person, 'Login/Join', width: 69),
+                    child: _buildIconButton(
+                      Icons.person,
+                      'Login / Join',
+                      width: loginButtonWidth,
+                    ),
                   ),
                 ],
               )
@@ -235,7 +250,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildText(String title, double textScale) {
     return AutoSizeText(
       title,
-      style: TextStyle(fontSize: 13 * textScale, fontWeight: FontWeight.w600),
+      style: TextStyle(fontSize: 14 * textScale, fontWeight: FontWeight.w600),
       maxLines: 1,
     );
   }
@@ -255,7 +270,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   homeController.saferGambling[0],
                   style: TextStyle(
                       decoration: TextDecoration.underline,
-                      fontSize: 13 * textScale,
+                      fontSize: 14 * textScale,
                       fontWeight: FontWeight.w600),
                   maxLines: 1,
                 ),
@@ -274,7 +289,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           item,
                           style: TextStyle(
                               color: Colors.black,
-                              fontSize: 13 * textScale,
+                              fontSize: 14 * textScale,
                               fontWeight: FontWeight.w600),
                           maxLines: 1,
                         ),
@@ -301,7 +316,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   homeController.aboutStakefair[0],
                   style: TextStyle(
                       decoration: TextDecoration.underline,
-                      fontSize: 13 * textScale,
+                      fontSize: 14 * textScale,
                       fontWeight: FontWeight.w600),
                   maxLines: 1,
                 ),
@@ -320,7 +335,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           item,
                           style: TextStyle(
                               color: Colors.black,
-                              fontSize: 13 * textScale,
+                              fontSize: 14 * textScale,
                               fontWeight: FontWeight.w600),
                           maxLines: 1,
                         ),
@@ -332,7 +347,7 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-   Widget _buildCategoryBar(double textScale) {
+  Widget _buildCategoryBar(double textScale) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
       color: const Color(0xff303030),
@@ -343,9 +358,10 @@ class _HomeScreenState extends State<HomeScreen> {
           children: homeController.categories.map((item) {
             bool highlighted = item['isHighlighted'] ?? false;
             return Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 3),
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 6),
               decoration: BoxDecoration(
-                color: highlighted ? Colors.green : const Color(0xff525252),
+                color:
+                    highlighted ? Color(0xff20a052) : const Color(0xff525252),
                 borderRadius: BorderRadius.circular(1),
               ),
               child: Column(
@@ -354,7 +370,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Center(
                       child: Icon(item['icon'],
                           color: Colors.white, size: 19 * textScale)),
-                  const SizedBox(height: 2),
+                  const SizedBox(height: 1),
                   Center(
                       child: Text(
                     item['label'],
@@ -391,7 +407,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Padding(
         padding: const EdgeInsets.all(2.0),
         child: Container(
-          height: mediaQuery.height * 0.22,
+          height: mediaQuery.height * 0.20,
           margin: const EdgeInsets.all(8),
           padding: const EdgeInsets.all(12),
           width: double.infinity,
@@ -456,21 +472,25 @@ class _HomeScreenState extends State<HomeScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 3),
                     child: ListTile(
                       dense: true,
+                      minLeadingWidth: 0,
                       visualDensity:
                           const VisualDensity(horizontal: -4, vertical: -4),
                       contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 3, vertical: 0),
+                          horizontal: 3, vertical: 2),
                       leading: Icon(team[leading], size: 19),
                       title: AutoSizeText(
                         team[label],
                         style: const TextStyle(
-                            fontWeight: FontWeight.w500, fontSize: 14,height: 1.0),
+                            fontWeight: FontWeight.w600,
+                            fontSize: 15,
+                            height: 1.0,
+                            color: Color(0xff212529)),
                         maxLines: 1,
                       ),
                       subtitle: AutoSizeText(
                         team[sub],
-                        style:
-                            const TextStyle(fontSize: 12, color: Colors.grey),
+                        style: const TextStyle(
+                            fontSize: 13, color: Color(0xff7f7f7f)),
                         maxLines: 1,
                       ),
                       trailing:
@@ -511,7 +531,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: AutoSizeText(
                             item,
                             style: const TextStyle(
-                                fontSize: 12, color: Color(0xff212529)),
+                                fontSize: 13, color: Color(0xff212529)),
                             maxLines: 1,
                           ),
                         ),
@@ -542,6 +562,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: 2),
                   child: ListTile(
                     dense: true,
+                    minLeadingWidth: 0,
                     visualDensity:
                         const VisualDensity(horizontal: -4, vertical: -4),
                     contentPadding:
@@ -550,7 +571,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     title: AutoSizeText(
                       links[title].toString(),
                       style: const TextStyle(
-                          fontSize: 12, color: Color(0xff212529)),
+                          fontSize: 13, color: Color(0xff212529)),
                       maxLines: 1,
                     ),
                     trailing: const Icon(Icons.keyboard_arrow_right, size: 18),
@@ -572,7 +593,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: AutoSizeText(
         title,
         style: const TextStyle(
-            fontWeight: FontWeight.w500, fontSize: 14, color: Colors.white),
+            fontWeight: FontWeight.w600, fontSize: 16, color: Colors.white),
         maxLines: 1,
       ),
     );
@@ -581,7 +602,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildIconButton(IconData icon, String text, {double width = 85}) {
     return Container(
       width: width,
-      height: 40,
+      height: 38,
       decoration: BoxDecoration(
           color: const Color(0xff424242),
           borderRadius: BorderRadius.circular(2)),
@@ -593,7 +614,7 @@ class _HomeScreenState extends State<HomeScreen> {
               style: const TextStyle(
                   color: Colors.white,
                   fontSize: 11,
-                  fontWeight: FontWeight.w500)),
+                  fontWeight: FontWeight.w600)),
         ],
       ),
     );
@@ -601,7 +622,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildFooter(Size mediaQuery, double textScale) {
     return Container(
-      height: mediaQuery.height * 0.08,
+      height: mediaQuery.height * 0.06,
       width: mediaQuery.width,
       color: const Color(0xff1E1E1E),
       child: Row(
@@ -611,26 +632,27 @@ class _HomeScreenState extends State<HomeScreen> {
             padding: const EdgeInsets.all(8.0),
             child: Container(
               width: mediaQuery.width * 0.08,
-              height: mediaQuery.width * 0.08,
+              height: mediaQuery.height * 0.09,
               decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  border: Border.all(color: const Color(0xffFF0000), width: 1.7)),
+                  border:
+                      Border.all(color: const Color(0xffFF0000), width: 1.7)),
               child: const Center(
                   child: AutoSizeText(
                 '18+',
-                style: TextStyle(color: Colors.white, fontSize: 14),
+                style: TextStyle(color: Colors.white, fontSize: 15),
                 maxLines: 1,
               )),
             ),
           ),
-          //const SizedBox(width: 7),
-          const AutoSizeText('Please Gamble Responsible',
+          const SizedBox(width: 7),
+          const AutoSizeText('Please Gamble Responsibly',
               style: TextStyle(
                   color: Color(0xffC4C4C4),
                   fontSize: 13,
-                  fontWeight: FontWeight.w500),
+                  fontWeight: FontWeight.w600),
               maxLines: 1),
-          const SizedBox(width: 5),
+          const SizedBox(width: 8),
           Container(
             width: mediaQuery.width * 0.25,
             height: 35,
@@ -644,7 +666,7 @@ class _HomeScreenState extends State<HomeScreen> {
               style: TextStyle(
                 color: Colors.black,
                 fontWeight: FontWeight.bold,
-                fontSize: 12,
+                fontSize: 13,
               ),
               maxLines: 1,
             ),
@@ -660,20 +682,20 @@ class _HomeScreenState extends State<HomeScreen> {
       child: RichText(
         text: TextSpan(
           children: [
-            const TextSpan(
+             TextSpan(
               text: 'Warning',
               style: TextStyle(
-                fontSize: 13,
+                fontSize:12 * textScale,
                 fontWeight: FontWeight.bold,
                 color: Colors.black,
                 // wordSpacing: 1,
               ),
             ),
-            const TextSpan(
+            TextSpan(
               text:
                   " : Although the current score, time elapsed, video and other",
               style: TextStyle(
-                fontSize: 12,
+                fontSize:12 * textScale,
                 color: Colors.black,
               ),
             ),
@@ -688,21 +710,21 @@ class _HomeScreenState extends State<HomeScreen> {
                 28),
             _buildWidgetSpan(
                 " StakeFair customers may have access to data that is faster and/or",
-                12),
+                5),
             _buildWidgetSpan(
                 " more accurate than the data shown on the StakeFair site. If you rely on",
                 8),
             _buildWidgetSpan(
-                " this data to place bets, you do so entirely at your own risk.",
-                35),
+                " this data to place bets, you do so entirely at your own risk.StakeFair provides",
+                0),
             _buildWidgetSpan(
-                " StakeFair provides this data AS IS with no warranty as to the accuracy,",
-                6),
+                "  this data AS IS with no warranty as to the accuracy,completeness",
+                0),
             _buildWidgetSpan(
-                " completeness or timeliness of such data and accepts no", 35),
+                "  or timeliness of such data and accepts no responsibility for", 20),
             _buildWidgetSpan(
-                " responsibility for any loss (direct or indirect) suffered by you as a",
-                20),
+                "   any loss (direct or indirect) suffered by you as a",
+                45),
             _buildWidgetSpan(" result of your reliance on it.", 125),
           ],
         ),
@@ -727,81 +749,78 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-Widget _buildNavItem({
-  required int index,
-  required String label,
-  required IconData icon,
-  required VoidCallback onTap,
-}) {
-  bool isSelected = (index == homeController.selectedIndex.value);
-  return InkWell(
-    onTap: onTap,
-    child: Container(
-      width: 80,
-      height: 48, 
-      decoration: BoxDecoration(
-        color: isSelected ? const Color(0xff303030) : const Color(0xff525252),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            icon,
-            color: isSelected ? Colors.orange : Colors.white,
-            size: 24,
-          ),
-          Text(
-            label,
-            style: const TextStyle(
-              fontSize: 10, 
-              height: 1.0,
-              color: Colors.white,
+  Widget _buildNavItem({
+    required int index,
+    required String label,
+    required IconData icon,
+    required VoidCallback onTap,
+  }) {
+    bool isSelected = (index == homeController.selectedIndex.value);
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        width: 80,
+        height: 48,
+        decoration: BoxDecoration(
+          color: isSelected ? const Color(0xff303030) : const Color(0xff525252),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              icon,
+              color: isSelected ? Colors.orange : Colors.white,
+              size: 24,
             ),
-            maxLines: 1,
-          )
-        ],
+            Text(
+              label,
+              style: const TextStyle(
+                fontSize: 10,
+                height: 1.0,
+                color: Colors.white,
+              ),
+              maxLines: 1,
+            )
+          ],
+        ),
       ),
-    ),
-  );
-}
+    );
+  }
 
-Widget _buildNavItemWithAsset({
-  required int index,
-  required String label,
-  required String assetPath,
-  required VoidCallback onTap,
-}) {
-  bool isSelected = (index == homeController.selectedIndex.value);
-  return InkWell(
-    onTap: onTap,
-    child: Container(
-      width: 80,
-      height: 48,
-      decoration: BoxDecoration(
-        color: isSelected ? const Color(0xff303030) : const Color(0xff525252),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset(
-            assetPath,
-            width: 28,
-          ),
-          Text(
-            label,
-            style: const TextStyle(
-              fontSize: 10,
-              height: 1.0,
-              color: Colors.white,
+  Widget _buildNavItemWithAsset({
+    required int index,
+    required String label,
+    required String assetPath,
+    required VoidCallback onTap,
+  }) {
+    bool isSelected = (index == homeController.selectedIndex.value);
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        width: 80,
+        height: 48,
+        decoration: BoxDecoration(
+          color: isSelected ? const Color(0xff303030) : const Color(0xff525252),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              assetPath,
+              width: 28,
             ),
-            maxLines: 1,
-          )
-        ],
+            Text(
+              label,
+              style: const TextStyle(
+                fontSize: 10,
+                height: 1.0,
+                color: Colors.white,
+              ),
+              maxLines: 1,
+            )
+          ],
+        ),
       ),
-    ),
-  );
-}
-
-
-
+    );
+  }
 }
