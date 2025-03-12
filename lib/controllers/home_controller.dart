@@ -52,7 +52,7 @@ class HomeController extends GetxController {
     },
     {
       'icon': Icons.pets,
-      'label': '9. Desttructive Diva',
+      'label': 'Pakistan',
       'sub': 'Eva Lys vs I Begu'
     },
     {
@@ -86,10 +86,7 @@ class HomeController extends GetxController {
     {'icon': Icons.sports_cricket, 'name': 'Geet vs Galarneau'},
     {'icon': Icons.sports, 'name': 'Jam MCCab vs Simakin'},
     {'icon': Icons.sports_soccer, 'name': 'Altas vs Necaxa'},
-    {
-      'icon': Icons.sports_soccer,
-      'name': 'Ulsan Hyundai Horang-i vs Shangdong Taishan'
-    },
+    {'icon': Icons.sports_soccer, 'name': 'Ulsan Hyundai Horang-i vs Shangdong Taishan'},
     {'icon': Icons.sports_soccer, 'name': 'Shangai Port FC v Yokohama FM'},
     {'icon': Icons.sports_soccer, 'name': 'Dortmund vs Sporting Lisbon'},
   ].obs;
