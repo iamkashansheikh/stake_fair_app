@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -14,8 +13,8 @@ class UsernameFieldWidget extends StatefulWidget {
 
 class _UsernameFieldWidgetState extends State<UsernameFieldWidget> {
   FocusNode usernameFocus = FocusNode();
-  RxBool showError = false.obs; // Observable to track error visibility
-  RxBool isValid = false.obs; // Observable to track valid username
+  RxBool showError = false.obs;
+  RxBool isValid = false.obs;
   bool isFocused = false;
 
   @override
@@ -29,12 +28,15 @@ class _UsernameFieldWidgetState extends State<UsernameFieldWidget> {
   }
 
   void validateUsername(String value) {
-    if (value.isEmpty || value.length < 3 || value.length > 15 || !RegExp(r"^[a-zA-Z0-9_]+$").hasMatch(value)) {
+    if (value.isEmpty ||
+        value.length < 3 ||
+        value.length > 15 ||
+        !RegExp(r"^[a-zA-Z0-9_]+$").hasMatch(value)) {
       showError.value = true;
-      isValid.value = false; // Invalid username
+      isValid.value = false;
     } else {
       showError.value = false;
-      isValid.value = true; // Valid username
+      isValid.value = true;
     }
   }
 
@@ -54,7 +56,7 @@ class _UsernameFieldWidgetState extends State<UsernameFieldWidget> {
           padding: EdgeInsets.symmetric(horizontal: mediaQuerySize.width * 0.01.w),
           child: Obx(
             () => Container(
-              height: 50,
+              height: 50, // ✅ Kept fixed height
               padding: const EdgeInsets.symmetric(horizontal: 12),
               decoration: BoxDecoration(
                 color: Colors.black.withOpacity(0.07),
@@ -62,10 +64,10 @@ class _UsernameFieldWidgetState extends State<UsernameFieldWidget> {
                 border: Border(
                   bottom: BorderSide(
                     color: showError.value
-                        ? Colors.red // Red border when username is invalid
+                        ? Colors.red
                         : isValid.value
-                            ? Colors.orange // Orange border when username is valid
-                            : (isFocused ? Colors.orange : Colors.transparent), // Default behavior
+                            ? Colors.orange
+                            : (isFocused ? Colors.orange : Colors.transparent),
                     width: 1,
                   ),
                 ),
@@ -74,34 +76,39 @@ class _UsernameFieldWidgetState extends State<UsernameFieldWidget> {
                 controller: widget.controller,
                 focusNode: usernameFocus,
                 showCursor: isFocused,
+               // maxLength: 15, // ✅ Matches validation rule
+                textAlignVertical: TextAlignVertical.center, // ✅ Keeps text centered
+                style: const TextStyle(
+                  color: Colors.black,
+                ),
                 decoration: InputDecoration(
                   labelText: "username".tr,
                   labelStyle: TextStyle(
                     fontSize: isFocused ? 12 : 16,
-                    color: isFocused ? Colors.grey : Colors.grey,
+                    color: Colors.grey,
                     fontWeight: FontWeight.w500,
                   ),
+                  counterText: "", // ✅ Hides default character counter
                   border: InputBorder.none,
                   floatingLabelBehavior: FloatingLabelBehavior.auto,
-                  contentPadding: const EdgeInsets.symmetric(vertical: 12),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 10), // ✅ Properly adjusted
                 ),
                 onChanged: validateUsername,
               ),
             ),
           ),
         ),
-        // Show only one validation message
         Obx(
           () => showError.value
               ? Padding(
                   padding: const EdgeInsets.only(top: 4, left: 8),
                   child: Row(
                     children: [
-                      const Icon(Icons.cancel, color: Colors.red, size: 14), // ❌ Icon
+                      const Icon(Icons.cancel, color: Colors.red, size: 14),
                       const SizedBox(width: 4),
                       const Text(
                         "Please enter a valid username",
-                        style: TextStyle(color: Colors.black, fontSize: 12), // Black text
+                        style: TextStyle(color: Colors.black, fontSize: 12),
                       ),
                     ],
                   ),
@@ -112,6 +119,7 @@ class _UsernameFieldWidgetState extends State<UsernameFieldWidget> {
     );
   }
 }
+
 
 
 

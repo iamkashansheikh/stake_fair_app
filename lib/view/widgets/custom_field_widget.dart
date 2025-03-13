@@ -15,7 +15,7 @@ class CustomField extends StatefulWidget {
   final int? maxLength;
   final List<TextInputFormatter>? inputFormatters;
   final String? Function(String?)? validator;
-  final void Function(String value)? onChanged; // Made optional
+  final void Function(String value)? onChanged;
 
   CustomField({
     super.key,
@@ -69,23 +69,18 @@ class _CustomFieldState extends State<CustomField> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            height: 50,
+            height: 48,
             decoration: BoxDecoration(
               color: widget.color ?? Colors.black.withOpacity(0.07),
-              borderRadius: BorderRadius.circular(4),
+              borderRadius: BorderRadius.circular(3), // Reduced radius
             ),
-            alignment: Alignment.center,
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              padding: const EdgeInsets.symmetric(horizontal: 6.0, vertical: 2), // Less padding
               child: Focus(
                 onFocusChange: (hasFocus) {
-                  if (hasFocus) {
-                    setState(() {
-                      _borderColor = Colors.orange;
-                    });
-                  } else {
-                    _validate();
-                  }
+                  setState(() {
+                    _borderColor = hasFocus ? Colors.orange : Colors.transparent;
+                  });
                 },
                 child: TextField(
                   controller: widget.controller,
@@ -93,15 +88,12 @@ class _CustomFieldState extends State<CustomField> {
                   obscureText: widget.obscureText,
                   keyboardType: widget.keyboardType,
                   maxLength: widget.maxLength,
-                  inputFormatters: [
-                    if (widget.keyboardType == TextInputType.number || widget.keyboardType == TextInputType.phone)
-                      FilteringTextInputFormatter.digitsOnly,
-                    LengthLimitingTextInputFormatter(widget.maxLength),
-                    ...?widget.inputFormatters,
-                  ],
+                  inputFormatters: widget.inputFormatters,
                   maxLines: 1,
                   textAlignVertical: TextAlignVertical.center,
-                  style: const TextStyle(color: Colors.black),
+                  style: const TextStyle(
+                    color: Colors.black,
+                  ),
                   decoration: InputDecoration(
                     prefixIcon: widget.isPrefixIcon ? widget.prefixIcon : null,
                     suffixIcon: widget.isSuffixIcon ? widget.suffixIcon : null,
@@ -109,13 +101,12 @@ class _CustomFieldState extends State<CustomField> {
                     labelStyle: const TextStyle(color: Colors.grey),
                     hintStyle: const TextStyle(color: Colors.grey),
                     counterText: "",
+                    contentPadding: const EdgeInsets.symmetric(vertical: 1), // Reduced height
                     border: InputBorder.none,
                   ),
                   onChanged: (value) {
                     _validate();
-                    if (widget.onChanged != null) {
-                      widget.onChanged!(value);
-                    }
+                    widget.onChanged?.call(value);
                   },
                 ),
               ),
@@ -132,10 +123,10 @@ class _CustomFieldState extends State<CustomField> {
           ),
           if (_errorText != null)
             Padding(
-              padding: const EdgeInsets.only(top: 4,),
+              padding: const EdgeInsets.only(top: 2), // Reduced top spacing
               child: Text(
                 _errorText!,
-                style: const TextStyle(color: Colors.red, fontSize: 12),
+                style: const TextStyle(color: Colors.red, fontSize: 11), // Slightly smaller font
               ),
             ),
         ],

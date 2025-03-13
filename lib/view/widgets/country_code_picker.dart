@@ -24,7 +24,7 @@ class _CountryCodePickerWidgetState extends State<CountryCodePickerWidget> {
   void validatePhoneNumber(String value) {
     if (value.isEmpty) {
       phoneError.value = "Please enter a valid phone number";
-    } else if (!RegExp(r'^\d{10}\$').hasMatch(value)) {
+    } else if (!RegExp(r'^\d{10}$').hasMatch(value)) {
       phoneError.value = "Phone number must be exactly 10 digits";
     } else {
       phoneError.value = null;
@@ -69,7 +69,12 @@ class _CountryCodePickerWidgetState extends State<CountryCodePickerWidget> {
                     decoration: BoxDecoration(
                       color: Colors.black.withOpacity(0.07),
                       borderRadius: BorderRadius.circular(6),
-                      border: Border(bottom: BorderSide(color: Colors.green, width: 1)),
+                      border: Border(
+                        bottom: BorderSide(
+                          color: Colors.green,
+                          width: 1,
+                        ),
+                      ),
                     ),
                     child: Obx(
                       () => DropdownButtonHideUnderline(
@@ -161,13 +166,14 @@ class _CountryCodePickerWidgetState extends State<CountryCodePickerWidget> {
                       maxLength: 10,
                       onChanged: validatePhoneNumber,
                     ),
+                    // ✅ Fixed Bottom Border Validation
                     Obx(
                       () => Padding(
                         padding: EdgeInsets.symmetric(horizontal: 4),
                         child: Container(
                           height: 1,
                           width: double.infinity,
-                          color: phoneError.value == null ? Colors.transparent : Colors.transparent,
+                          color: phoneError.value != null ? Colors.red : Colors.transparent,
                         ),
                       ),
                     ),
@@ -188,7 +194,7 @@ class _CountryCodePickerWidgetState extends State<CountryCodePickerWidget> {
                       SizedBox(width: 4),
                       Text(
                         phoneError.value!,
-                        style: TextStyle(color: Colors.black, fontSize: 12),
+                        style: TextStyle(color: Colors.red, fontSize: 12),
                       ),
                     ],
                   ),
@@ -199,6 +205,7 @@ class _CountryCodePickerWidgetState extends State<CountryCodePickerWidget> {
     );
   }
 }
+
 
 
 
