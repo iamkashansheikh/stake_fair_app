@@ -1,8 +1,14 @@
+
+
+
+
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl_phone_field/countries.dart';
 import 'package:stake_fair_app/controllers/getx_controller/auth_controller.dart';
 import 'package:stake_fair_app/view/widgets/custom_field_widget.dart';
+import 'package:stake_fair_app/view/widgets/phone_number.dart';
 
 class CountryCodePickerWidget extends StatefulWidget {
   CountryCodePickerWidget({Key? key}) : super(key: key);
@@ -158,25 +164,18 @@ class _CountryCodePickerWidgetState extends State<CountryCodePickerWidget> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    CustomField(
-                      hintText: "Mobile Number".tr,
-                      controller: phoneController,
-                      focusNode: phoneFocusNode,
-                      keyboardType: TextInputType.phone,
-                      maxLength: 12,
-                      onChanged: validatePhoneNumber,
-                    ),
-                    // ✅ Fixed Bottom Border Validation
-                    Obx(
-                      () => Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 4),
-                        child: Container(
-                          height: 1,
-                          width: double.infinity,
-                          color: phoneError.value != null ? Colors.red : Colors.transparent,
-                        ),
-                      ),
-                    ),
+
+                    
+             PhoneNumber(
+  controller: phoneController,
+  focusNode: phoneFocusNode,
+  keyboardType: TextInputType.phone,
+  maxLength: 12,
+  onChanged: validatePhoneNumber,
+),
+
+
+
                   ],
                 ),
               ),
@@ -187,11 +186,11 @@ class _CountryCodePickerWidgetState extends State<CountryCodePickerWidget> {
         Obx(
           () => phoneError.value != null
               ? Padding(
-                  padding: const EdgeInsets.only(top: 2, left: 8),
+                  padding: const EdgeInsets.only(top: 0, left: 8,bottom: 0),
                   child: Row(
                     children: [
                       Padding(
-                        padding: EdgeInsets.only(top: 0, left: 0,bottom:12),
+                        padding: EdgeInsets.only(top: 0, left: 0,bottom:16),
                         child: Icon(Icons.cancel, color: Colors.red, size: 14),
                       ),
                       SizedBox(width: 4),
@@ -207,7 +206,16 @@ class _CountryCodePickerWidgetState extends State<CountryCodePickerWidget> {
       ],
     );
   }
+  
+
 }
+
+
+
+
+
+
+
 
 
 
@@ -219,7 +227,7 @@ class _CountryCodePickerWidgetState extends State<CountryCodePickerWidget> {
 // import 'package:get/get.dart';
 // import 'package:intl_phone_field/countries.dart';
 // import 'package:stake_fair_app/controllers/getx_controller/auth_controller.dart';
-// import 'package:stake_fair_app/view/widgets/custom_field_widget.dart';
+// import 'package:stake_fair_app/view/widgets/phone_number.dart';
 
 // class CountryCodePickerWidget extends StatefulWidget {
 //   CountryCodePickerWidget({Key? key}) : super(key: key);
@@ -231,21 +239,10 @@ class _CountryCodePickerWidgetState extends State<CountryCodePickerWidget> {
 // class _CountryCodePickerWidgetState extends State<CountryCodePickerWidget> {
 //   final AuthController controller = Get.put(AuthController());
 //   final TextEditingController phoneController = TextEditingController();
-//   FocusNode phoneFocus = FocusNode();
+//   FocusNode phoneFocusNode = FocusNode();
 
-//   var phoneError = RxnString();
+//   // ✅ Country Selection Validation Only
 //   var countryError = RxnString();
-//   var phoneBorderColor = Rx<Color>(Colors.grey); // Default border color
-
-//   void validatePhoneNumber(String value) {
-//     if (value.length < 6 || value.length > 11) {
-//       phoneError.value = "Please enter a contact number with 6-11 digits";
-//       phoneBorderColor.value = Colors.red; // Invalid - Red
-//     } else {
-//       phoneError.value = null;
-//       phoneBorderColor.value = Colors.green; // Valid - Green
-//     }
-//   }
 
 //   void validateCountrySelection() {
 //     if (controller.selectedCountryName.value.isEmpty) {
@@ -258,6 +255,7 @@ class _CountryCodePickerWidgetState extends State<CountryCodePickerWidget> {
 //   @override
 //   void dispose() {
 //     phoneController.dispose();
+//     phoneFocusNode.dispose();
 //     super.dispose();
 //   }
 
@@ -273,164 +271,97 @@ class _CountryCodePickerWidgetState extends State<CountryCodePickerWidget> {
 //           child: Row(
 //             crossAxisAlignment: CrossAxisAlignment.start,
 //             children: [
-//               // Country Picker (Unchanged)
-//               Container(
-//                 height: screenHeight * 0.065,
-//                 width: MediaQuery.of(context).size.width * 0.35,
-//                 padding: EdgeInsets.symmetric(horizontal: 8),
-//                 decoration: BoxDecoration(
-//                   color: Colors.black.withOpacity(0.07),
-//                   borderRadius: BorderRadius.circular(6),
-//                 ),
-//                 child: Obx(
-//                   () => DropdownButtonHideUnderline(
-//                     child: DropdownButton<String>(
-//                       isExpanded: true,
-//                       alignment: Alignment.bottomLeft,
-//                       icon: Icon(Icons.keyboard_arrow_down),
-//                       value: controller.selectedCountryName.value,
-//                       onChanged: (value) {
-//                         if (value != null) {
-//                           var selectedCountry =
-//                               countries.firstWhere((country) => country.name == value);
-//                           controller.updateCountry(
-//                             "+${selectedCountry.dialCode}",
-//                             selectedCountry.flag,
-//                             selectedCountry.name,
-//                           );
-//                           validateCountrySelection();
-//                         }
-//                       },
-//                       selectedItemBuilder: (BuildContext context) {
-//                         return countries.map((country) {
-//                           return Row(
-//                             children: [
-//                               Text(controller.selectedCountryFlag.value, style: TextStyle(fontSize: 18)),
-//                               SizedBox(width: 10),
-//                               Text(
-//                                 controller.selectedCountryCode.value,
-//                                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-//                               ),
-//                             ],
-//                           );
-//                         }).toList();
-//                       },
-//                       items: countries.map((country) {
-//                         bool isSelected = country.name == controller.selectedCountryName.value;
-//                         return DropdownMenuItem<String>(
-//                           value: country.name,
-//                           child: Column(
-//                             mainAxisSize: MainAxisSize.min,
-//                             children: [
-//                               Padding(
-//                                 padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-//                                 child: Row(
-//                                   children: [
-//                                     if (isSelected) Icon(Icons.check, color: Colors.black, size: 16),
-//                                     SizedBox(width: isSelected ? 8 : 0),
-//                                     Expanded(
-//                                       child: Text(
+//               // ✅ Country Picker with Validation
+//               Column(
+//                 crossAxisAlignment: CrossAxisAlignment.start,
+//                 children: [
+//                   Stack(
+//                     children: [
+//                       Container(
+//                         height: screenHeight * 0.065,
+//                         width: screenWidth * 0.35,
+//                         padding: EdgeInsets.symmetric(horizontal: 8),
+//                         decoration: BoxDecoration(
+//                           color: Colors.black.withOpacity(0.07),
+//                           borderRadius: BorderRadius.circular(6),
+//                           border: Border(
+//                             bottom: BorderSide(
+//                               color: countryError.value != null ? Colors.red : Colors.green,
+//                               width: 1,
+//                             ),
+//                           ),
+//                         ),
+//                         child: Obx(
+//                           () => DropdownButtonHideUnderline(
+//                             child: DropdownButton<String>(
+//                               isExpanded: true,
+//                               alignment: Alignment.bottomLeft,
+//                               icon: Icon(Icons.keyboard_arrow_down),
+//                               value: controller.selectedCountryName.value.isEmpty
+//                                   ? null
+//                                   : controller.selectedCountryName.value,
+//                               hint: Text("Select Country"),
+//                               onChanged: (value) {
+//                                 if (value != null) {
+//                                   var selectedCountry = countries.firstWhere((country) => country.name == value);
+//                                   controller.updateCountry(
+//                                     "+${selectedCountry.dialCode}",
+//                                     selectedCountry.flag,
+//                                     selectedCountry.name,
+//                                   );
+//                                   validateCountrySelection();
+//                                 }
+//                               },
+//                               items: countries.map((country) {
+//                                 return DropdownMenuItem<String>(
+//                                   value: country.name,
+//                                   child: Row(
+//                                     children: [
+//                                       Text(
 //                                         country.name,
 //                                         style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500),
-//                                         overflow: TextOverflow.ellipsis,
 //                                       ),
-//                                     ),
-//                                   ],
-//                                 ),
-//                               ),
-//                               Container(
-//                                 height: 0.8, 
-//                                 color: Colors.grey.shade300,
-//                                 margin: EdgeInsets.symmetric(horizontal: 4),
-//                               ),
-//                             ],
+//                                     ],
+//                                   ),
+//                                 );
+//                               }).toList(),
+//                             ),
 //                           ),
-//                         );
-//                       }).toList(),
-//                       dropdownColor: Colors.white,
-//                       elevation: 3,
-//                       menuWidth: screenWidth * 0.75,
-//                       menuMaxHeight: screenHeight * 0.95,
-//                       borderRadius: BorderRadius.circular(8),
-//                     ),
+//                         ),
+//                       ),
+//                     ],
 //                   ),
-//                 ),
+//                   // ✅ Country Validation Message
+//                   Obx(
+//                     () => countryError.value != null
+//                         ? Padding(
+//                             padding: const EdgeInsets.only(top: 4, left: 4),
+//                             child: Text(
+//                               countryError.value!,
+//                               style: TextStyle(color: Colors.red, fontSize: 12),
+//                             ),
+//                           )
+//                         : SizedBox.shrink(),
+//                   ),
+//                 ],
 //               ),
 //               SizedBox(width: 10),
-
-//               // Phone Number Field with Dynamic Bottom Border
+//               // ✅ Phone Number Field (NO Validation)
 //               Expanded(
-//                 child: Column(
-//                   crossAxisAlignment: CrossAxisAlignment.start,
-//                   children: [
-//                     Obx(
-//                       () => Column(
-//                         crossAxisAlignment: CrossAxisAlignment.start,
-//                         children: [
-//                           CustomField(
-//                             hintText: "Mobile Number".tr,
-//                             controller: phoneController,
-//                             focusNode: phoneFocus,
-//                             keyboardType: TextInputType.phone,
-//                             maxLength: 11,
-//                             onChanged: validatePhoneNumber,
-//                           ),
-//                           // Bottom Border for Phone Field
-//                           Container(
-//                             height: 2,
-//                             width: double.infinity,
-//                             color: phoneBorderColor.value, // Dynamic Border Color
-//                           ),
-//                         ],
-//                       ),
-//                     ),
-//                   ],
+//                 child: PhoneNumber(
+//                   controller: phoneController,
+//                   focusNode: phoneFocusNode,
+//                   keyboardType: TextInputType.phone,
+//                   maxLength: 12,
+//                   onChanged: (value) {},
 //                 ),
 //               ),
 //             ],
 //           ),
 //         ),
-//         // Country Picker Validation Message
-//         Obx(
-//           () => countryError.value != null
-//               ? Padding(
-//                   padding: const EdgeInsets.only(top: 4, left: 8),
-//                   child: Row(
-//                     children: [
-//                       Icon(Icons.cancel, color: Colors.red, size: 14),
-//                       SizedBox(width: 4),
-//                       Text(
-//                         countryError.value!,
-//                         style: TextStyle(color: Colors.black, fontSize: 12),
-//                       ),
-//                     ],
-//                   ),
-//                 )
-//               : SizedBox.shrink(),
-//         ),
-//         // Phone Number Validation Message
-//         Obx(
-//           () => phoneError.value != null
-//               ? Padding(
-//                   padding: const EdgeInsets.only(top: 4, left: 8),
-//                   child: Row(
-//                     children: [
-//                       Icon(Icons.cancel, color: Colors.red, size: 14),
-//                       SizedBox(width: 4),
-//                       Text(
-//                         phoneError.value!,
-//                         style: TextStyle(color: Colors.black, fontSize: 12),
-//                       ),
-//                     ],
-//                   ),
-//                 )
-//               : SizedBox.shrink(),
-//         ),
 //       ],
 //     );
 //   }
 // }
-
-
 
 
