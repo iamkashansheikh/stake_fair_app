@@ -163,7 +163,7 @@ class _CountryCodePickerWidgetState extends State<CountryCodePickerWidget> {
                       controller: phoneController,
                       focusNode: phoneFocusNode,
                       keyboardType: TextInputType.phone,
-                      maxLength: 10,
+                      maxLength: 12,
                       onChanged: validatePhoneNumber,
                     ),
                     // ✅ Fixed Bottom Border Validation
