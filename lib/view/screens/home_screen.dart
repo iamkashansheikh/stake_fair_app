@@ -802,23 +802,26 @@ class _HomeScreenState extends State<HomeScreen> {
         decoration: BoxDecoration(
           color: isSelected ? const Color(0xff303030) : const Color(0xff525252),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              assetPath,
-              width: 28,
-            ),
-            Text(
-              label,
-              style: const TextStyle(
-                fontSize: 10,
-                height: 1.0,
-                color: Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 5),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                assetPath,
+                width: 28,
               ),
-              maxLines: 1,
-            )
-          ],
+              Text(
+                label,
+                style: const TextStyle(
+                  fontSize: 10,
+                  height: 1.0,
+                  color: Colors.white,
+                ),
+                maxLines: 1,
+              )
+            ],
+          ),
         ),
       ),
     );
