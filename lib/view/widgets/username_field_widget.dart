@@ -83,6 +83,7 @@ class _UsernameFieldWidgetState extends State<UsernameFieldWidget> {
                 ),
                 decoration: InputDecoration(
                   labelText: "username".tr,
+                  //contentPadding: const EdgeInsets.symmetric(vertical: 2),
                   labelStyle: TextStyle(
                     fontSize: isFocused ? 12 : 16,
                     color: Colors.grey,
@@ -91,7 +92,7 @@ class _UsernameFieldWidgetState extends State<UsernameFieldWidget> {
                   counterText: "", // ✅ Hides default character counter
                   border: InputBorder.none,
                   floatingLabelBehavior: FloatingLabelBehavior.auto,
-                  contentPadding: const EdgeInsets.symmetric(vertical: 10), // ✅ Properly adjusted
+                  contentPadding: const EdgeInsets.symmetric(vertical: 2), // ✅ Properly adjusted
                 ),
                 onChanged: validateUsername,
               ),

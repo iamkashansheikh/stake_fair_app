@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 
 class EmailUsername extends StatefulWidget {
   final bool isPrefixIcon;
@@ -38,8 +39,8 @@ class EmailUsername extends StatefulWidget {
 }
 
 class _EmailUsernameState extends State<EmailUsername> {
-  Color _borderColor = Colors.transparent;
-  bool _isTextEntered = false;
+  final Rx<Color> borderColor = Colors.transparent.obs;
+  final RxBool isTextEntered = false.obs;
 
   @override
   void initState() {
@@ -48,15 +49,13 @@ class _EmailUsernameState extends State<EmailUsername> {
   }
 
   void _handleFocusChange() {
-    setState(() {
-      if (widget.focusNode.hasFocus) {
-        _borderColor = Colors.orange; // Orange when focused
-      } else if (_isTextEntered) {
-        _borderColor = Colors.green; // Green if text was entered
-      } else {
-        _borderColor = Colors.transparent; // Default when empty
-      }
-    });
+    if (widget.focusNode.hasFocus) {
+      borderColor.value = Colors.orange; // Orange when focused
+    } else if (isTextEntered.value) {
+      borderColor.value = Colors.green; // Green if text was entered
+    } else {
+      borderColor.value = Colors.transparent; // Default when empty
+    }
   }
 
   @override
@@ -94,21 +93,22 @@ class _EmailUsernameState extends State<EmailUsername> {
                   border: InputBorder.none,
                 ),
                 onChanged: (value) {
-                  setState(() {
-                    _isTextEntered = value.isNotEmpty; // Track if text was entered
-                  });
+                  isTextEntered.value = value.isNotEmpty; // Track if text was entered
                   widget.onChanged?.call(value);
+                  _handleFocusChange(); // Call focus change to update border color
                 },
               ),
             ),
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 2),
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 300),
-              height: 1,
-              width: double.infinity,
-              color: _borderColor,
+            child: Obx(
+              () => AnimatedContainer(
+                duration: const Duration(milliseconds: 300),
+                height: 1,
+                width: double.infinity,
+                color: borderColor.value,
+              ),
             ),
           ),
         ],

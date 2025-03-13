@@ -77,6 +77,7 @@ class _PasswordFieldWidgetState extends State<PasswordFieldWidget> {
                     labelStyle: TextStyle(color: Colors.grey),
                     labelText: "password".tr,
                     border: InputBorder.none,
+                    contentPadding:  const EdgeInsets.symmetric(vertical: 2),
                     suffixIcon: IconButton(
                       icon: Icon(isPasswordVisible.value ? Icons.visibility : Icons.visibility_off),
                       onPressed: () {

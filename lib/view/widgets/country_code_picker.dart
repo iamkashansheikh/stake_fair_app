@@ -23,9 +23,9 @@ class _CountryCodePickerWidgetState extends State<CountryCodePickerWidget> {
   /// ✅ Phone Number Validator
   void validatePhoneNumber(String value) {
     if (value.isEmpty) {
-      phoneError.value = "Please enter a valid phone number";
-    } else if (!RegExp(r'^\d{10}$').hasMatch(value)) {
-      phoneError.value = "Phone number must be exactly 10 digits";
+      phoneError.value = "Please enter a contact number with at least 6 digits \nand no more than 11 digits.";
+    } else if (!RegExp(r'^\d{11}$').hasMatch(value)) {
+      phoneError.value = "Please enter a contact number with at least 6 digits \nand no more than 11 digits.";
     } else {
       phoneError.value = null;
     }
@@ -187,10 +187,13 @@ class _CountryCodePickerWidgetState extends State<CountryCodePickerWidget> {
         Obx(
           () => phoneError.value != null
               ? Padding(
-                  padding: const EdgeInsets.only(top: 4, left: 8),
+                  padding: const EdgeInsets.only(top: 2, left: 8),
                   child: Row(
                     children: [
-                      Icon(Icons.cancel, color: Colors.red, size: 14),
+                      Padding(
+                        padding: EdgeInsets.only(top: 0, left: 0,bottom:12),
+                        child: Icon(Icons.cancel, color: Colors.red, size: 14),
+                      ),
                       SizedBox(width: 4),
                       Text(
                         phoneError.value!,

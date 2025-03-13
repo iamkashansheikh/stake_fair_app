@@ -101,7 +101,7 @@ class _CustomFieldState extends State<CustomField> {
                     labelStyle: const TextStyle(color: Colors.grey),
                     hintStyle: const TextStyle(color: Colors.grey),
                     counterText: "",
-                    contentPadding: const EdgeInsets.symmetric(vertical: 1), // Reduced height
+                    contentPadding: const EdgeInsets.symmetric(vertical: 2), // Reduced height
                     border: InputBorder.none,
                   ),
                   onChanged: (value) {
