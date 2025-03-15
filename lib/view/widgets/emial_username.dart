@@ -50,7 +50,7 @@ class _EmailUsernameState extends State<EmailUsername> {
 
   void _handleFocusChange() {
     if (widget.focusNode.hasFocus) {
-      borderColor.value = Colors.orange; // Orange when focused
+      borderColor.value = Color(0xffffb80c); // Orange when focused
     } else if (isTextEntered.value) {
       borderColor.value = Colors.green; // Green if text was entered
     } else {

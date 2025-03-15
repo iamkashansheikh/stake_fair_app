@@ -50,9 +50,9 @@ class _PhoneNumberState extends State<PhoneNumber> {
       // **✅ Dynamic Border Color Logic**
       Color borderColor;
       if (phoneError.value != null) {
-        borderColor = Colors.red; // **Error (Invalid Input)**
+        borderColor = Color(0xffD65151); // **Error (Invalid Input)**
       } else if (isFocused.value) {
-        borderColor = Colors.orange; // **Focus & Success**
+        borderColor = Color(0xffffb80c); // **Focus & Success**
       } else {
         borderColor = Colors.transparent; // **No Focus, No Error**
       }
@@ -61,10 +61,10 @@ class _PhoneNumberState extends State<PhoneNumber> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            height: 50,
+            height: 54,
             decoration: BoxDecoration(
               color: Colors.black.withOpacity(0.07),
-              borderRadius: BorderRadius.circular(3),
+              borderRadius: BorderRadius.circular(5),
               border: Border(
                 bottom: BorderSide(
                   color: borderColor,
