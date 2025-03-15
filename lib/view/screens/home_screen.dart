@@ -250,7 +250,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildText(String title, double textScale) {
     return AutoSizeText(
       title,
-      style: TextStyle(fontSize: 13 * textScale, fontWeight: FontWeight.w600),
+      style: TextStyle(fontSize: 12 * textScale, fontWeight: FontWeight.w600),
       maxLines: 1,
     );
   }
@@ -270,7 +270,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   homeController.saferGambling[0],
                   style: TextStyle(
                       decoration: TextDecoration.underline,
-                      fontSize: 13 * textScale,
+                      fontSize: 12 * textScale,
                       fontWeight: FontWeight.w600),
                   maxLines: 1,
                 ),
@@ -289,7 +289,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           item,
                           style: TextStyle(
                               color: Colors.black,
-                              fontSize: 13 * textScale,
+                              fontSize: 12 * textScale,
                               fontWeight: FontWeight.w600),
                           maxLines: 1,
                         ),
@@ -316,7 +316,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   homeController.aboutStakefair[0],
                   style: TextStyle(
                       decoration: TextDecoration.underline,
-                      fontSize: 13 * textScale,
+                      fontSize: 12 * textScale,
                       fontWeight: FontWeight.w600),
                   maxLines: 1,
                 ),
@@ -335,7 +335,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           item,
                           style: TextStyle(
                               color: Colors.black,
-                              fontSize: 13 * textScale,
+                              fontSize: 12 * textScale,
                               fontWeight: FontWeight.w600),
                           maxLines: 1,
                         ),
@@ -358,7 +358,7 @@ class _HomeScreenState extends State<HomeScreen> {
           children: homeController.categories.map((item) {
             bool highlighted = item['isHighlighted'] ?? false;
             return Container(
-              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 6),
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               decoration: BoxDecoration(
                 color:
                     highlighted ? Color(0xff20a052) : const Color(0xff525252),
@@ -407,7 +407,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Padding(
         padding: const EdgeInsets.all(2.0),
         child: Container(
-          height: mediaQuery.height * 0.20,
+          height: mediaQuery.height * 0.18,
           margin: const EdgeInsets.all(8),
           padding: const EdgeInsets.all(12),
           width: double.infinity,
@@ -482,7 +482,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         team[label],
                         style: const TextStyle(
                             fontWeight: FontWeight.w600,
-                            fontSize: 15,
+                            fontSize: 13,
                             height: 1.0,
                             color: Color(0xff212529)),
                         maxLines: 1,
@@ -490,7 +490,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       subtitle: AutoSizeText(
                         team[sub],
                         style: const TextStyle(
-                            fontSize: 13, color: Color(0xff7f7f7f)),
+                            fontSize: 12, color: Color(0xff7f7f7f)),
                         maxLines: 1,
                       ),
                       trailing:
@@ -528,10 +528,10 @@ class _HomeScreenState extends State<HomeScreen> {
                             horizontal: 2, vertical: 0),
                         title: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 5),
-                          child: AutoSizeText(
+                          child: Text(
                             item,
                             style: const TextStyle(
-                                fontSize: 13, color: Color(0xff212529)),
+                                fontSize: 11, color: Color(0xff212529)),
                             maxLines: 1,
                           ),
                         ),
@@ -568,10 +568,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     contentPadding:
                         const EdgeInsets.symmetric(horizontal: 3, vertical: 0),
                     leading: Icon(links[leading], size: 19),
-                    title: AutoSizeText(
+                    title: Text(
                       links[title].toString(),
                       style: const TextStyle(
-                          fontSize: 13, color: Color(0xff212529)),
+                          fontSize: 11, color: Color(0xff212529)),
                       maxLines: 1,
                     ),
                     trailing: const Icon(Icons.keyboard_arrow_right, size: 18),
@@ -587,13 +587,13 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildContainer(String title) {
     return Container(
       width: double.infinity,
-      height: 33,
+      height: 31,
       color: const Color(0xff303030),
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       child: AutoSizeText(
         title,
         style: const TextStyle(
-            fontWeight: FontWeight.w600, fontSize: 16, color: Colors.white),
+            fontWeight: FontWeight.w600, fontSize: 14, color: Colors.white),
         maxLines: 1,
       ),
     );
@@ -631,12 +631,12 @@ class _HomeScreenState extends State<HomeScreen> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
-              width: mediaQuery.width * 0.08,
+              width: mediaQuery.width * 0.09,
               height: mediaQuery.height * 0.09,
               decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border:
-                      Border.all(color: const Color(0xffFF0000), width: 1.7)),
+                      Border.all(color: const Color(0xffFF0000), width: 1.8)),
               child: const Center(
                   child: AutoSizeText(
                 '18+',
@@ -646,27 +646,27 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           const SizedBox(width: 7),
-          const AutoSizeText('Please Gamble Responsibly',
+          const Text('Please Gamble Responsibly',
               style: TextStyle(
                   color: Color(0xffC4C4C4),
-                  fontSize: 13,
+                  fontSize: 11,
                   fontWeight: FontWeight.w600),
               maxLines: 1),
           const SizedBox(width: 8),
           Container(
-            width: mediaQuery.width * 0.25,
-            height: 35,
+            width: mediaQuery.width * 0.26,
+            height: 30,
             decoration: BoxDecoration(
               color: const Color(0xffD4D4D4),
               borderRadius: BorderRadius.circular(2),
             ),
             alignment: Alignment.center,
-            child: const AutoSizeText(
-              'More Details',
+            child: const Text(
+              'More details',
               style: TextStyle(
                 color: Colors.black,
                 fontWeight: FontWeight.bold,
-                fontSize: 13,
+                fontSize: 11,
               ),
               maxLines: 1,
             ),
@@ -682,29 +682,27 @@ class _HomeScreenState extends State<HomeScreen> {
       child: RichText(
         text: TextSpan(
           children: [
-             TextSpan(
+            TextSpan(
               text: 'Warning',
               style: TextStyle(
-                fontSize:12 * textScale,
+                fontSize: 11 * textScale,
                 fontWeight: FontWeight.bold,
                 color: Colors.black,
-                // wordSpacing: 1,
               ),
             ),
             TextSpan(
-              text:
-                  " : Although the current score, time elapsed, video and ",
+              text: " : Although the current score, time elapsed, video and other ",
               style: TextStyle(
-                fontSize:12 * textScale,
+                fontSize: 11 * textScale,
                 color: Colors.black,
               ),
             ),
             _buildWidgetSpan(
-                "other data provided on this site is sourced from feeds provided by third",
-                12),
+                "data provided on this site is sourced from feeds provided by third",
+                0),
             _buildWidgetSpan(
                 " parties, you should be aware that this data may be subject to a time",
-                5),
+                2),
             _buildWidgetSpan(
                 " delay and/or be inaccurate. Please also be aware that other",
                 28),
@@ -725,7 +723,7 @@ class _HomeScreenState extends State<HomeScreen> {
             _buildWidgetSpan(
                 " responsibility for any loss (direct or indirect) suffered by you as a",
                 20),
-            _buildWidgetSpan(" result of your reliance on it.", 125),
+            _buildWidgetSpan(" result of your reliance on it.", 133),
           ],
         ),
       ),
@@ -736,12 +734,13 @@ class _HomeScreenState extends State<HomeScreen> {
     return WidgetSpan(
       child: Padding(
         padding:
-            EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: 1),
-        child: AutoSizeText(
+            EdgeInsets.symmetric(horizontal: horizontalPadding),
+        child: Text(
           text,
-          style: const TextStyle(
-            fontSize: 12,
+          style: TextStyle(
+            fontSize: 11,
             color: Colors.black,
+           // fontWeight: FontWeight.w300
           ),
           maxLines: 1,
         ),
@@ -749,18 +748,18 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildNavItem({
-    required int index,
-    required String label,
-    required IconData icon,
-    required VoidCallback onTap,
-  }) {
-    bool isSelected = (index == homeController.selectedIndex.value);
-    return InkWell(
+ Widget _buildNavItem({
+  required int index,
+  required String label,
+  required IconData icon,
+  required VoidCallback onTap,
+}) {
+  bool isSelected = (index == homeController.selectedIndex.value);
+  return Expanded(
+    child: InkWell(
       onTap: onTap,
       child: Container(
-        width: 80,
-        height: 48,
+        height: 48, // Fixed height; adjust if needed.
         decoration: BoxDecoration(
           color: isSelected ? const Color(0xff303030) : const Color(0xff525252),
         ),
@@ -780,24 +779,25 @@ class _HomeScreenState extends State<HomeScreen> {
                 color: Colors.white,
               ),
               maxLines: 1,
-            )
+            ),
           ],
         ),
       ),
-    );
-  }
+    ),
+  );
+}
 
-  Widget _buildNavItemWithAsset({
-    required int index,
-    required String label,
-    required String assetPath,
-    required VoidCallback onTap,
-  }) {
-    bool isSelected = (index == homeController.selectedIndex.value);
-    return InkWell(
+Widget _buildNavItemWithAsset({
+  required int index,
+  required String label,
+  required String assetPath,
+  required VoidCallback onTap,
+}) {
+  bool isSelected = (index == homeController.selectedIndex.value);
+  return Expanded(
+    child: InkWell(
       onTap: onTap,
       child: Container(
-        width: 80,
         height: 48,
         decoration: BoxDecoration(
           color: isSelected ? const Color(0xff303030) : const Color(0xff525252),
@@ -824,6 +824,8 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-    );
-  }
+    ),
+  );
+}
+
 }
