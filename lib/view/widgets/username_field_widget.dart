@@ -60,14 +60,14 @@ class _UsernameFieldWidgetState extends State<UsernameFieldWidget> {
               padding: const EdgeInsets.symmetric(horizontal: 12),
               decoration: BoxDecoration(
                 color: Colors.black.withOpacity(0.07),
-                borderRadius: BorderRadius.circular(6),
+                borderRadius: BorderRadius.circular(3),
                 border: Border(
                   bottom: BorderSide(
                     color: showError.value
-                        ? Colors.red
+                        ? Color(0xffD65151)
                         : isValid.value
-                            ? Colors.orange
-                            : (isFocused ? Colors.orange : Colors.transparent),
+                            ? Color(0xffffb80c)
+                            : (isFocused ? Color(0xffffb80c) : Colors.transparent),
                     width: 1,
                   ),
                 ),

@@ -47,7 +47,7 @@ class _CustomFieldState extends State<CustomField> {
     final error = widget.validator?.call(widget.controller?.text ?? "");
     setState(() {
       _errorText = error;
-      _borderColor = (error == null) ? Colors.orange : Colors.red;
+      _borderColor = (error == null) ? Colors.orange : Color(0xffD65151);
     });
   }
 
@@ -79,7 +79,7 @@ class _CustomFieldState extends State<CustomField> {
               child: Focus(
                 onFocusChange: (hasFocus) {
                   setState(() {
-                    _borderColor = hasFocus ? Colors.orange : Colors.transparent;
+                    _borderColor = hasFocus ? Color(0xffffb80c) : Colors.transparent;
                   });
                 },
                 child: TextField(
