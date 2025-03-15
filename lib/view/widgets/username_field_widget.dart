@@ -60,7 +60,7 @@ class _UsernameFieldWidgetState extends State<UsernameFieldWidget> {
               padding: const EdgeInsets.symmetric(horizontal: 12),
               decoration: BoxDecoration(
                 color: Colors.black.withOpacity(0.07),
-                borderRadius: BorderRadius.circular(6),
+                borderRadius: BorderRadius.circular(3),
                 border: Border(
                   bottom: BorderSide(
                     color: showError.value
