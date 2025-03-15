@@ -62,14 +62,14 @@ class _PasswordFieldWidgetState extends State<PasswordFieldWidget> {
               height: 50,
               decoration: BoxDecoration(
                 color: Colors.black.withOpacity(0.07),
-                borderRadius: BorderRadius.circular(5),
+                borderRadius: BorderRadius.circular(3),
                 border: Border(
                   bottom: BorderSide(
                     color: isPasswordValid
-                        ? Colors.orange // Orange when valid
+                        ? Color(0xffffb80c) // Orange when valid
                         : (isTyping.value
-                            ? Colors.red // Red when typing
-                            : (isFieldFocused.value ? Colors.orange : Colors.transparent)), // Orange when focused, grey otherwise
+                            ? Color(0xffD65151) // Red when typing
+                            : (isFieldFocused.value ? Color(0xffffb80c) : Colors.transparent)), // Orange when focused, grey otherwise
                     width: 1,
                   ),
                 ),

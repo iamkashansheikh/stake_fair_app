@@ -64,10 +64,10 @@ class _UsernameFieldWidgetState extends State<UsernameFieldWidget> {
                 border: Border(
                   bottom: BorderSide(
                     color: showError.value
-                        ? Colors.red
+                        ? Color(0xffD65151)
                         : isValid.value
-                            ? Colors.orange
-                            : (isFocused ? Colors.orange : Colors.transparent),
+                            ? Color(0xffffb80c)
+                            : (isFocused ? Color(0xffffb80c) : Colors.transparent),
                     width: 1,
                   ),
                 ),
