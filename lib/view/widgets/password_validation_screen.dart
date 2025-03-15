@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:stake_fair_app/controllers/getx_controller/password_validation_controller.dart';
@@ -16,6 +17,7 @@ class _PasswordFieldWidgetState extends State<PasswordFieldWidget> {
 
   final RxBool isPasswordVisible = false.obs;
   final RxBool isFieldFocused = false.obs;
+  final RxBool isTyping = false.obs;
   late FocusNode focusNode;
 
   @override
@@ -24,6 +26,9 @@ class _PasswordFieldWidgetState extends State<PasswordFieldWidget> {
     focusNode = FocusNode();
     focusNode.addListener(() {
       isFieldFocused.value = focusNode.hasFocus;
+      if (!focusNode.hasFocus) {
+        isTyping.value = false;
+      }
     });
   }
 
@@ -62,7 +67,9 @@ class _PasswordFieldWidgetState extends State<PasswordFieldWidget> {
                   bottom: BorderSide(
                     color: isPasswordValid
                         ? Colors.orange // Orange when valid
-                        : (isFieldFocused.value ? Colors.red : Colors.transparent), // Red when focused, grey otherwise
+                        : (isTyping.value
+                            ? Colors.red // Red when typing
+                            : (isFieldFocused.value ? Colors.orange : Colors.transparent)), // Orange when focused, grey otherwise
                     width: 1,
                   ),
                 ),
@@ -77,7 +84,7 @@ class _PasswordFieldWidgetState extends State<PasswordFieldWidget> {
                     labelStyle: TextStyle(color: Colors.grey),
                     labelText: "password".tr,
                     border: InputBorder.none,
-                    contentPadding:  const EdgeInsets.symmetric(vertical: 2),
+                    contentPadding: const EdgeInsets.symmetric(vertical: 2),
                     suffixIcon: IconButton(
                       icon: Icon(isPasswordVisible.value ? Icons.visibility : Icons.visibility_off),
                       onPressed: () {
@@ -86,6 +93,7 @@ class _PasswordFieldWidgetState extends State<PasswordFieldWidget> {
                     ),
                   ),
                   onChanged: (value) {
+                    isTyping.value = value.isNotEmpty;
                     validationController.validatePassword(value);
                   },
                   textInputAction: TextInputAction.next,
@@ -129,10 +137,6 @@ class _PasswordFieldWidgetState extends State<PasswordFieldWidget> {
 }
 
 
-
-
-
-
 // import 'package:flutter/material.dart';
 // import 'package:get/get.dart';
 // import 'package:stake_fair_app/controllers/getx_controller/password_validation_controller.dart';
@@ -153,6 +157,8 @@ class _PasswordFieldWidgetState extends State<PasswordFieldWidget> {
 //   final RxBool isFieldFocused = false.obs;
 //   late FocusNode focusNode;
 
+ 
+   
 //   @override
 //   void initState() {
 //     super.initState();
@@ -183,54 +189,62 @@ class _PasswordFieldWidgetState extends State<PasswordFieldWidget> {
 //     return Column(
 //       crossAxisAlignment: CrossAxisAlignment.start,
 //       children: [
-//         Obx(() => Padding(
-//               padding: EdgeInsets.symmetric(horizontal: 3),
-//               child: Container(
-//                 height: 50,
-//                 decoration: BoxDecoration(
-//                   color: Colors.black.withOpacity(0.07),
-//                   borderRadius: BorderRadius.circular(5),
-//                   border: Border(
-//                     bottom: BorderSide(
-//                       color: focusNode.hasFocus ? Colors.orange : Colors.transparent,
-//                       width: 1.0,
-//                     ),
-//                   ),
-//                 ),
-//                 child: Padding(
-//                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
-//                   child: TextField(
-//                     controller: widget.controller,
-//                     focusNode: focusNode,
-//                     obscureText: !isPasswordVisible.value,
-//                     decoration: InputDecoration(
-//                       labelStyle: TextStyle(color: Colors.grey),
-//                       labelText: "Password".tr,
-//                       border: InputBorder.none,
-//                       suffixIcon: IconButton(
-//                         icon: Icon(isPasswordVisible.value ? Icons.visibility : Icons.visibility_off),
-//                         onPressed: () {
-//                           isPasswordVisible.value = !isPasswordVisible.value;
-//                         },
-//                       ),
-//                     ),
-//                     onChanged: (value) {
-//                       validationController.validatePassword(value);
-//                     },
-//                     textInputAction: TextInputAction.next,
-//                     onEditingComplete: () {
-//                       FocusScope.of(context).nextFocus();
-//                     },
+//         Obx(() {
+//           bool isPasswordValid = validationController.isPasswordStrong.value;
+
+//           return Padding(
+//             padding: EdgeInsets.symmetric(horizontal: 3),
+//             child: Container(
+//               height: 50,
+//               decoration: BoxDecoration(
+//                 color: Colors.black.withOpacity(0.07),
+//                 borderRadius: BorderRadius.circular(5),
+//                 border: Border(
+//                   bottom: BorderSide(
+                    
+//                     color: isPasswordValid
+//                         ? Colors.orange // Orange when valid
+//                         : (isFieldFocused.value ? Colors.red : Colors.transparent), // Red when focused, grey otherwise
+//                     width: 1,
 //                   ),
 //                 ),
 //               ),
-//             )),
+//               child: Padding(
+//                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
+//                 child: TextField(
+//                   controller: widget.controller,
+//                   focusNode: focusNode,
+//                   obscureText: !isPasswordVisible.value,
+//                   decoration: InputDecoration(
+//                     labelStyle: TextStyle(color: Colors.grey),
+//                     labelText: "password".tr,
+//                     border: InputBorder.none,
+//                     contentPadding:  const EdgeInsets.symmetric(vertical: 2),
+//                     suffixIcon: IconButton(
+//                       icon: Icon(isPasswordVisible.value ? Icons.visibility : Icons.visibility_off),
+//                       onPressed: () {
+//                         isPasswordVisible.value = !isPasswordVisible.value;
+//                       },
+//                     ),
+//                   ),
+//                   onChanged: (value) {
+//                     validationController.validatePassword(value);
+//                   },
+//                   textInputAction: TextInputAction.next,
+//                   onEditingComplete: () {
+//                     FocusScope.of(context).nextFocus();
+//                   },
+//                 ),
+//               ),
+//             ),
+//           );
+//         }),
 //         SizedBox(height: 5),
 //         Obx(() {
 //           if (validationController.isPasswordStrong.value) {
 //             return Row(
 //               children: [
-//                 Icon(Icons.check_circle, color: Colors.green), // ✅ Icon
+//                 Icon(Icons.check_circle, color: Colors.green),
 //                 SizedBox(width: 10),
 //                 Text(
 //                   "Strong. Well done!",
@@ -239,7 +253,6 @@ class _PasswordFieldWidgetState extends State<PasswordFieldWidget> {
 //               ],
 //             );
 //           } else if (isFieldFocused.value) {
-//             // Show validations only when the field is focused
 //             return Column(
 //               crossAxisAlignment: CrossAxisAlignment.start,
 //               children: [
@@ -250,9 +263,13 @@ class _PasswordFieldWidgetState extends State<PasswordFieldWidget> {
 //               ],
 //             );
 //           }
-//           return SizedBox(); // Hide when not focused and password is not strong
+//           return SizedBox();
 //         }),
 //       ],
 //     );
 //   }
 // }
+
+
+
+
