@@ -107,8 +107,8 @@ class _UsernameFieldWidgetState extends State<UsernameFieldWidget> {
                     children: [
                       const Icon(Icons.cancel, color: Colors.red, size: 14),
                       const SizedBox(width: 4),
-                      const Text(
-                        "Please enter a valid username",
+                       Text(
+                        "Please enter a valid username".tr,
                         style: TextStyle(color: Colors.black, fontSize: 12),
                       ),
                     ],

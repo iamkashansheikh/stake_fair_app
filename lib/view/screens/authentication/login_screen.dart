@@ -10,7 +10,6 @@ import '../../../controllers/getx_controller/auth_controller.dart';
 import '../../../controllers/getx_controller/password_controller.dart';
 import '../../widgets/country_code_picker.dart';
 import '../../widgets/custom_button.dart';
-import '../../widgets/custom_field_widget.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -132,7 +131,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
 
                     SizedBox(height: mediaQuerySize.height * 0.01),
-                    PasswordFieldWidget(controller: passwordfieldController),
+                    PasswordFieldWidget(controller: passwordfieldController, lableText: 'Password',),
                     // Obx(() => CustomField(
                     //       text: 'Password',
                     //       isSuffixIcon: true,
