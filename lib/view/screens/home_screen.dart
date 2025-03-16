@@ -211,14 +211,14 @@ class _HomeScreenState extends State<HomeScreen> {
     return Container(
       key: key,
       width: mediaQuery.width,
-      height: 65 * textScale,
+      height: 55 * textScale,
       color: const Color(0xff303030),
       padding: const EdgeInsets.all(10),
       child: Row(
         children: [
           Expanded(
             child: SizedBox(
-              height: 40,
+              height: 37,
               child: TextFormField(
                 cursorColor: Colors.grey,
                 decoration: const InputDecoration(
@@ -250,7 +250,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildText(String title, double textScale) {
     return AutoSizeText(
       title,
-      style: TextStyle(fontSize: 12 * textScale, fontWeight: FontWeight.w600),
+      style: TextStyle(fontSize: 12 * textScale, fontWeight: FontWeight.w500),
       maxLines: 1,
     );
   }
@@ -271,7 +271,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   style: TextStyle(
                       decoration: TextDecoration.underline,
                       fontSize: 12 * textScale,
-                      fontWeight: FontWeight.w600),
+                      fontWeight: FontWeight.w500),
                   maxLines: 1,
                 ),
                 Icon(expanded ? Icons.arrow_drop_up : Icons.arrow_drop_down),
@@ -290,7 +290,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           style: TextStyle(
                               color: Colors.black,
                               fontSize: 12 * textScale,
-                              fontWeight: FontWeight.w600),
+                              fontWeight: FontWeight.w500),
                           maxLines: 1,
                         ),
                       ))
@@ -317,7 +317,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   style: TextStyle(
                       decoration: TextDecoration.underline,
                       fontSize: 12 * textScale,
-                      fontWeight: FontWeight.w600),
+                      fontWeight: FontWeight.w500),
                   maxLines: 1,
                 ),
                 Icon(expanded ? Icons.arrow_drop_up : Icons.arrow_drop_down),
@@ -336,7 +336,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           style: TextStyle(
                               color: Colors.black,
                               fontSize: 12 * textScale,
-                              fontWeight: FontWeight.w600),
+                              fontWeight: FontWeight.w500),
                           maxLines: 1,
                         ),
                       ))
@@ -655,7 +655,7 @@ class _HomeScreenState extends State<HomeScreen> {
           const SizedBox(width: 8),
           Container(
             width: mediaQuery.width * 0.26,
-            height: 30,
+            height: 35,
             decoration: BoxDecoration(
               color: const Color(0xffD4D4D4),
               borderRadius: BorderRadius.circular(2),
@@ -705,25 +705,25 @@ class _HomeScreenState extends State<HomeScreen> {
                 2),
             _buildWidgetSpan(
                 " delay and/or be inaccurate. Please also be aware that other",
-                28),
+                22),
             _buildWidgetSpan(
-                " StakeFair customers may have access to data that is faster and/or",
-                12),
+                " StakeFair customers may have access to data that is faster and/or ",
+                0),
             _buildWidgetSpan(
-                " more accurate than the data shown on the StakeFair site. If you rely on",
-                8),
-            _buildWidgetSpan(
-                " this data to place bets, you do so entirely at your own risk.",
-                35),
-            _buildWidgetSpan(
-                " StakeFair provides this data AS IS with no warranty as to the accuracy,",
+                "more accurate than the data shown on the StakeFair site. If you rely",
                 6),
             _buildWidgetSpan(
-                " completeness or timeliness of such data and accepts no", 35),
+                "on this data to place bets, you do so entirely at your own risk.",
+                20),
+            _buildWidgetSpan(
+                " StakeFair provides this data AS IS with no warranty as to the ,",
+                0),
+            _buildWidgetSpan(
+                "accuracy completeness or timeliness of such data and accepts no", 10),
             _buildWidgetSpan(
                 " responsibility for any loss (direct or indirect) suffered by you as a",
                 20),
-            _buildWidgetSpan(" result of your reliance on it.", 133),
+            _buildWidgetSpan(" result of your reliance on it.", 115),
           ],
         ),
       ),

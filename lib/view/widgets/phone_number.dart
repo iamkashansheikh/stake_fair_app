@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:get/get.dart';
+
 class PhoneNumber extends StatefulWidget {
   final TextEditingController controller;
   final FocusNode focusNode;
@@ -84,7 +84,7 @@ class _PhoneNumberState extends State<PhoneNumber> {
                 }
               },
               decoration: InputDecoration(
-                labelText: 'Mobile Number',
+                labelText: 'Mobile Number'.tr,
                 labelStyle: TextStyle(color: Colors.grey),
                 contentPadding: EdgeInsets.symmetric(vertical: 2, horizontal: 8),
                 border: InputBorder.none,

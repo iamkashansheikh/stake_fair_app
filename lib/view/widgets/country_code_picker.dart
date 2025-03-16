@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl_phone_field/countries.dart';
 import 'package:stake_fair_app/controllers/getx_controller/auth_controller.dart';
-import 'package:stake_fair_app/view/widgets/custom_field_widget.dart';
 import 'package:stake_fair_app/view/widgets/phone_number.dart';
 
 class CountryCodePickerWidget extends StatefulWidget {
@@ -26,10 +25,10 @@ class _CountryCodePickerWidgetState extends State<CountryCodePickerWidget> {
   void validatePhoneNumber(String value) {
     if (value.isEmpty) {
       phoneError.value =
-          "Please enter a contact number with at least 6 digits \nand no more than 11 digits.";
+          "Please enter a contact number with at least 6 digits \nand no more than 11 digits.".tr;
     } else if (!RegExp(r'^\d{11}$').hasMatch(value)) {
       phoneError.value =
-          "Please enter a contact number with at least 6 digits \nand no more than 11 digits.";
+          "Please enter a contact number with at least 6 digits \nand no more than 11 digits.".tr;
     } else {
       phoneError.value = null;
     }
@@ -197,8 +196,8 @@ class _CountryCodePickerWidgetState extends State<CountryCodePickerWidget> {
                       ),
                       SizedBox(width: 4),
                       Text(
-                        phoneError.value!,
-                        style: TextStyle(color: Colors.red, fontSize: 12),
+                        phoneError.value!.tr,
+                        style: TextStyle(color: Colors.black, fontSize: 12),
                       ),
                     ],
                   ),
