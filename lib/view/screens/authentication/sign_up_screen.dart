@@ -35,15 +35,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
     return null; // ✅ No error
   }
-String? validateEmail(String? value) {
-  if (value == null || value.isEmpty) {
-    return "Please enter a valid email";
+
+  String? validateEmail(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Please enter a valid email";
+    }
+    if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+      return "Please enter a valid email";
+    }
+    return null; // ✅ Valid input
   }
-  if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
-    return "Please enter a valid email";
-  }
-  return null; // ✅ Valid input
-}
 
   // String? validateEmail(String? value) {
   //   if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value!)) {
@@ -124,7 +125,6 @@ String? validateEmail(String? value) {
                               focusNode: emailFocus,
                               controller: emailCOntroller,
                               hintText: "email".tr,
-                              
                             );
                           } else if (controller.selectedIcon.value == 2) {
                             return Padding(
