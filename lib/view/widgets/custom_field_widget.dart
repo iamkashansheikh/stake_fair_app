@@ -46,7 +46,7 @@ class _CustomFieldState extends State<CustomField> {
   void _validate() {
     final error = widget.validator?.call(widget.controller?.text ?? "");
     setState(() {
-      _errorText = error;
+      _errorText = error; // Ensure error message is set
       _borderColor = (error == null) ? Colors.orange : Color(0xffD65151);
     });
   }
@@ -72,10 +72,10 @@ class _CustomFieldState extends State<CustomField> {
             height: 48,
             decoration: BoxDecoration(
               color: widget.color ?? Colors.black.withOpacity(0.07),
-              borderRadius: BorderRadius.circular(3), // Reduced radius
+              borderRadius: BorderRadius.circular(3),
             ),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 6.0, vertical: 2), // Less padding
+              padding: const EdgeInsets.symmetric(horizontal: 6.0, vertical: 2),
               child: Focus(
                 onFocusChange: (hasFocus) {
                   setState(() {
@@ -101,7 +101,7 @@ class _CustomFieldState extends State<CustomField> {
                     labelStyle: const TextStyle(color: Colors.grey),
                     hintStyle: const TextStyle(color: Colors.grey),
                     counterText: "",
-                    contentPadding: const EdgeInsets.symmetric(vertical: 2), // Reduced height
+                    contentPadding: const EdgeInsets.symmetric(vertical: 2),
                     border: InputBorder.none,
                   ),
                   onChanged: (value) {
@@ -121,12 +121,21 @@ class _CustomFieldState extends State<CustomField> {
               color: _borderColor,
             ),
           ),
-          if (_errorText != null)
+          if (_errorText != null && _errorText!.isNotEmpty)
             Padding(
-              padding: const EdgeInsets.only(top: 2), // Reduced top spacing
-              child: Text(
-                _errorText!,
-                style: const TextStyle(color: Colors.red, fontSize: 11), // Slightly smaller font
+              padding: const EdgeInsets.only(top: 5),
+              child: Row(
+                children: [
+                  Icon(Icons.cancel, color: Colors.red, size: 14), // ❌ Icon before text
+                  SizedBox(width: 5),
+                  Expanded( // Ensures text does not overflow
+                    child: Text(
+                      _errorText!,
+                      style: const TextStyle(color: Colors.red, fontSize: 12),
+                      overflow: TextOverflow.ellipsis, // Prevents overflow issues
+                    ),
+                  ),
+                ],
               ),
             ),
         ],
@@ -134,6 +143,7 @@ class _CustomFieldState extends State<CustomField> {
     );
   }
 }
+
 
 
 
