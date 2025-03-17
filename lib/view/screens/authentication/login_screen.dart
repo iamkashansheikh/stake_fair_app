@@ -84,7 +84,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
                         // );
                         return EmailUsername(
-
                           focusNode: emailFocus,
                           hintText: 'Email or Username ',
                         );
@@ -131,7 +130,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
 
                     SizedBox(height: mediaQuerySize.height * 0.01),
-                    PasswordFieldWidget(controller: passwordfieldController, lableText: 'Password',),
+                    PasswordFieldWidget(
+                      controller: passwordfieldController,
+                      lableText: 'Password',
+                    ),
                     // Obx(() => CustomField(
                     //       text: 'Password',
                     //       isSuffixIcon: true,

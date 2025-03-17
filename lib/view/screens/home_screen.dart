@@ -207,6 +207,27 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  Widget _buildIconButton(IconData icon, String text, {double width = 85}) {
+    return Container(
+      width: width,
+      height: 38,
+      decoration: BoxDecoration(
+          color: const Color(0xff424242),
+          borderRadius: BorderRadius.circular(2)),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(icon, color: Colors.white, size: 20),
+          Text(text,
+              style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 11,
+                  fontWeight: FontWeight.w600)),
+        ],
+      ),
+    );
+  }
+
   Widget _buildSearchField(Size mediaQuery, double textScale, {Key? key}) {
     return Container(
       key: key,
@@ -245,106 +266,6 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
     );
-  }
-
-  Widget _buildText(String title, double textScale) {
-    return AutoSizeText(
-      title,
-      style: TextStyle(fontSize: 12 * textScale, fontWeight: FontWeight.w500),
-      maxLines: 1,
-    );
-  }
-
-  Widget _buildSaferGamblingDropdown(double textScale) {
-    return Obx(() {
-      bool expanded = homeController.isSaferGamblingExpanded.value;
-      return Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          InkWell(
-            onTap: homeController.isSaferGamblingExpanded.toggle,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                AutoSizeText(
-                  homeController.saferGambling[0],
-                  style: TextStyle(
-                      decoration: TextDecoration.underline,
-                      fontSize: 12 * textScale,
-                      fontWeight: FontWeight.w500),
-                  maxLines: 1,
-                ),
-                Icon(expanded ? Icons.arrow_drop_up : Icons.arrow_drop_down),
-              ],
-            ),
-          ),
-          if (expanded)
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: homeController.saferGambling
-                  .skip(1)
-                  .map((item) => Padding(
-                        padding: const EdgeInsets.only(top: 5),
-                        child: AutoSizeText(
-                          item,
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 12 * textScale,
-                              fontWeight: FontWeight.w500),
-                          maxLines: 1,
-                        ),
-                      ))
-                  .toList(),
-            ),
-        ],
-      );
-    });
-  }
-
-  Widget _buildAboutStakefairDropdown(double textScale) {
-    return Obx(() {
-      bool expanded = homeController.isAboutStakefairExpanded.value;
-      return Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          InkWell(
-            onTap: homeController.isAboutStakefairExpanded.toggle,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                AutoSizeText(
-                  homeController.aboutStakefair[0],
-                  style: TextStyle(
-                      decoration: TextDecoration.underline,
-                      fontSize: 12 * textScale,
-                      fontWeight: FontWeight.w500),
-                  maxLines: 1,
-                ),
-                Icon(expanded ? Icons.arrow_drop_up : Icons.arrow_drop_down),
-              ],
-            ),
-          ),
-          if (expanded)
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: homeController.aboutStakefair
-                  .skip(1)
-                  .map((item) => Padding(
-                        padding: const EdgeInsets.only(top: 5),
-                        child: AutoSizeText(
-                          item,
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 12 * textScale,
-                              fontWeight: FontWeight.w500),
-                          maxLines: 1,
-                        ),
-                      ))
-                  .toList(),
-            ),
-        ],
-      );
-    });
   }
 
   Widget _buildCategoryBar(double textScale) {
@@ -453,6 +374,21 @@ class _HomeScreenState extends State<HomeScreen> {
         _buildContainer(title),
         _buildList(leading, label, sub),
       ],
+    );
+  }
+
+  Widget _buildContainer(String title) {
+    return Container(
+      width: double.infinity,
+      height: 31,
+      color: const Color(0xff303030),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      child: AutoSizeText(
+        title,
+        style: const TextStyle(
+            fontWeight: FontWeight.w600, fontSize: 14, color: Colors.white),
+        maxLines: 1,
+      ),
     );
   }
 
@@ -584,42 +520,6 @@ class _HomeScreenState extends State<HomeScreen> {
         ));
   }
 
-  Widget _buildContainer(String title) {
-    return Container(
-      width: double.infinity,
-      height: 31,
-      color: const Color(0xff303030),
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-      child: AutoSizeText(
-        title,
-        style: const TextStyle(
-            fontWeight: FontWeight.w600, fontSize: 14, color: Colors.white),
-        maxLines: 1,
-      ),
-    );
-  }
-
-  Widget _buildIconButton(IconData icon, String text, {double width = 85}) {
-    return Container(
-      width: width,
-      height: 38,
-      decoration: BoxDecoration(
-          color: const Color(0xff424242),
-          borderRadius: BorderRadius.circular(2)),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(icon, color: Colors.white, size: 20),
-          Text(text,
-              style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 11,
-                  fontWeight: FontWeight.w600)),
-        ],
-      ),
-    );
-  }
-
   Widget _buildFooter(Size mediaQuery, double textScale) {
     return Container(
       height: mediaQuery.height * 0.06,
@@ -691,7 +591,8 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             TextSpan(
-              text: " : Although the current score, time elapsed, video and other ",
+              text:
+                  " : Although the current score, time elapsed, video and other ",
               style: TextStyle(
                 fontSize: 11 * textScale,
                 color: Colors.black,
@@ -719,7 +620,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 " StakeFair provides this data AS IS with no warranty as to the ,",
                 0),
             _buildWidgetSpan(
-                "accuracy completeness or timeliness of such data and accepts no", 10),
+                "accuracy completeness or timeliness of such data and accepts no",
+                10),
             _buildWidgetSpan(
                 " responsibility for any loss (direct or indirect) suffered by you as a",
                 20),
@@ -733,14 +635,13 @@ class _HomeScreenState extends State<HomeScreen> {
   InlineSpan _buildWidgetSpan(String text, double horizontalPadding) {
     return WidgetSpan(
       child: Padding(
-        padding:
-            EdgeInsets.symmetric(horizontal: horizontalPadding),
+        padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
         child: Text(
           text,
           style: TextStyle(
             fontSize: 11,
             color: Colors.black,
-           // fontWeight: FontWeight.w300
+            // fontWeight: FontWeight.w300
           ),
           maxLines: 1,
         ),
@@ -748,68 +649,129 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
- Widget _buildNavItem({
-  required int index,
-  required String label,
-  required IconData icon,
-  required VoidCallback onTap,
-}) {
-  bool isSelected = (index == homeController.selectedIndex.value);
-  return Expanded(
-    child: InkWell(
-      onTap: onTap,
-      child: Container(
-        height: 48, // Fixed height; adjust if needed.
-        decoration: BoxDecoration(
-          color: isSelected ? const Color(0xff303030) : const Color(0xff525252),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              icon,
-              color: isSelected ? Colors.orange : Colors.white,
-              size: 24,
-            ),
-            Text(
-              label,
-              style: const TextStyle(
-                fontSize: 10,
-                height: 1.0,
-                color: Colors.white,
-              ),
-              maxLines: 1,
-            ),
-          ],
-        ),
-      ),
-    ),
-  );
-}
+  Widget _buildText(String title, double textScale) {
+    return AutoSizeText(
+      title,
+      style: TextStyle(fontSize: 12 * textScale, fontWeight: FontWeight.w500),
+      maxLines: 1,
+    );
+  }
 
-Widget _buildNavItemWithAsset({
-  required int index,
-  required String label,
-  required String assetPath,
-  required VoidCallback onTap,
-}) {
-  bool isSelected = (index == homeController.selectedIndex.value);
-  return Expanded(
-    child: InkWell(
-      onTap: onTap,
-      child: Container(
-        height: 48,
-        decoration: BoxDecoration(
-          color: isSelected ? const Color(0xff303030) : const Color(0xff525252),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.only(bottom: 5),
+  Widget _buildSaferGamblingDropdown(double textScale) {
+    return Obx(() {
+      bool expanded = homeController.isSaferGamblingExpanded.value;
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          InkWell(
+            onTap: homeController.isSaferGamblingExpanded.toggle,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                AutoSizeText(
+                  homeController.saferGambling[0],
+                  style: TextStyle(
+                      decoration: TextDecoration.underline,
+                      fontSize: 12 * textScale,
+                      fontWeight: FontWeight.w500),
+                  maxLines: 1,
+                ),
+                Icon(expanded ? Icons.arrow_drop_up : Icons.arrow_drop_down),
+              ],
+            ),
+          ),
+          if (expanded)
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: homeController.saferGambling
+                  .skip(1)
+                  .map((item) => Padding(
+                        padding: const EdgeInsets.only(top: 5),
+                        child: AutoSizeText(
+                          item,
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 12 * textScale,
+                              fontWeight: FontWeight.w500),
+                          maxLines: 1,
+                        ),
+                      ))
+                  .toList(),
+            ),
+        ],
+      );
+    });
+  }
+
+  Widget _buildAboutStakefairDropdown(double textScale) {
+    return Obx(() {
+      bool expanded = homeController.isAboutStakefairExpanded.value;
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          InkWell(
+            onTap: homeController.isAboutStakefairExpanded.toggle,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                AutoSizeText(
+                  homeController.aboutStakefair[0],
+                  style: TextStyle(
+                      decoration: TextDecoration.underline,
+                      fontSize: 12 * textScale,
+                      fontWeight: FontWeight.w500),
+                  maxLines: 1,
+                ),
+                Icon(expanded ? Icons.arrow_drop_up : Icons.arrow_drop_down),
+              ],
+            ),
+          ),
+          if (expanded)
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: homeController.aboutStakefair
+                  .skip(1)
+                  .map((item) => Padding(
+                        padding: const EdgeInsets.only(top: 5),
+                        child: AutoSizeText(
+                          item,
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 12 * textScale,
+                              fontWeight: FontWeight.w500),
+                          maxLines: 1,
+                        ),
+                      ))
+                  .toList(),
+            ),
+        ],
+      );
+    });
+  }
+
+  Widget _buildNavItem({
+    required int index,
+    required String label,
+    required IconData icon,
+    required VoidCallback onTap,
+  }) {
+    bool isSelected = (index == homeController.selectedIndex.value);
+    return Expanded(
+      child: InkWell(
+        onTap: onTap,
+        child: Container(
+          height: 48, // Fixed height; adjust if needed.
+          decoration: BoxDecoration(
+            color:
+                isSelected ? const Color(0xff303030) : const Color(0xff525252),
+          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset(
-                assetPath,
-                width: 28,
+              Icon(
+                icon,
+                color: isSelected ? Colors.orange : Colors.white,
+                size: 24,
               ),
               Text(
                 label,
@@ -819,13 +781,53 @@ Widget _buildNavItemWithAsset({
                   color: Colors.white,
                 ),
                 maxLines: 1,
-              )
+              ),
             ],
           ),
         ),
       ),
-    ),
-  );
-}
+    );
+  }
 
+  Widget _buildNavItemWithAsset({
+    required int index,
+    required String label,
+    required String assetPath,
+    required VoidCallback onTap,
+  }) {
+    bool isSelected = (index == homeController.selectedIndex.value);
+    return Expanded(
+      child: InkWell(
+        onTap: onTap,
+        child: Container(
+          height: 48,
+          decoration: BoxDecoration(
+            color:
+                isSelected ? const Color(0xff303030) : const Color(0xff525252),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 5),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  assetPath,
+                  width: 28,
+                ),
+                Text(
+                  label,
+                  style: const TextStyle(
+                    fontSize: 10,
+                    height: 1.0,
+                    color: Colors.white,
+                  ),
+                  maxLines: 1,
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }
