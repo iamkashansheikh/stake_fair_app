@@ -1,7 +1,3 @@
-
-
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -29,28 +25,23 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-
-String? validateUsername(String value) {
-  if (value.isEmpty) {
-    return "Username cannot be empty";
-  } else if (value.length < 3 || value.length > 20) {
-    return "Username must be 3-20 characters long";
-  } else if (!RegExp(r'^[a-zA-Z0-9_]+$').hasMatch(value)) {
-    return "Only letters, numbers, and underscores are allowed";
+  String? validateUsername(String value) {
+    if (value.isEmpty) {
+      return "Username cannot be empty";
+    } else if (value.length < 3 || value.length > 20) {
+      return "Username must be 3-20 characters long";
+    } else if (!RegExp(r'^[a-zA-Z0-9_]+$').hasMatch(value)) {
+      return "Only letters, numbers, and underscores are allowed";
+    }
+    return null; // ✅ No error
   }
-  return null; // ✅ No error
-}
 
- String? validateEmail(String? value) {
-    if (value == null || value.isEmpty) {
-      return "Email cannot be empty";
-    } else if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
-      return "Enter a valid email";
+  String? validateEmail(String? value) {
+    if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value!)) {
+      return "Enter a valid email".tr;
     }
     return null; // ✅ Valid input
   }
-
-
 
   final PasswordController passwordController = Get.put(PasswordController());
   final GenderController genderController = Get.put(GenderController());
@@ -95,11 +86,7 @@ String? validateUsername(String value) {
                         _buildGenderSelection(),
                         SizedBox(height: mediaQuerySize.height * 0.02),
 
-             
-
-                    UsernameFieldWidget(controller: usernameController),
-
-
+                        UsernameFieldWidget(controller: usernameController),
 
                         // CustomField(
                         //   focusNode: passwordFocus,
@@ -109,20 +96,22 @@ String? validateUsername(String value) {
 
                         SizedBox(height: mediaQuerySize.height * 0.02),
                         PasswordFieldWidget(
-                            controller: passwordfieldController),
+                          controller: passwordfieldController,
+                          lableText: 'password'.tr,
+                        ),
 
                         SizedBox(height: mediaQuerySize.height * 0.02),
                         Obx(() {
                           if (controller.selectedIcon.value == 1) {
-              //               return  CustomField(
-              //   hintText: "Email",
-              //   controller: emailController,
-              //   focusNode: emailFocusNode,
-              //   validator: validateEmail,
-              //   keyboardType: TextInputType.emailAddress,
-              // ),
+                            //               return  CustomField(
+                            //   hintText: "Email",
+                            //   controller: emailController,
+                            //   focusNode: emailFocusNode,
+                            //   validator: validateEmail,
+                            //   keyboardType: TextInputType.emailAddress,
+                            // ),
                             return CustomField(
-                              validator:validateEmail ,
+                              validator: validateEmail,
                               focusNode: emailFocus,
                               controller: emailCOntroller,
                               hintText: "email".tr,
@@ -135,7 +124,7 @@ String? validateUsername(String value) {
                           }
                           return const SizedBox();
                         }),
-                        SizedBox(height: mediaQuerySize.height * 0.03),
+                        SizedBox(height: mediaQuerySize.height * 0.01),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 5),
                           child: RoundButtonWidget(
@@ -172,8 +161,7 @@ String? validateUsername(String value) {
         color: const Color(0xffF0F0F1),
         boxShadow: [
           BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              offset: const Offset(0, 0)),
+              color: Colors.grey.withOpacity(0.5), offset: const Offset(0, 0)),
         ],
       ),
       padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),

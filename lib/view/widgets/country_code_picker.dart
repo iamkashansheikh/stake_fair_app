@@ -1,20 +1,15 @@
-
-
-
-
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl_phone_field/countries.dart';
 import 'package:stake_fair_app/controllers/getx_controller/auth_controller.dart';
-import 'package:stake_fair_app/view/widgets/custom_field_widget.dart';
 import 'package:stake_fair_app/view/widgets/phone_number.dart';
 
 class CountryCodePickerWidget extends StatefulWidget {
   CountryCodePickerWidget({Key? key}) : super(key: key);
 
   @override
-  State<CountryCodePickerWidget> createState() => _CountryCodePickerWidgetState();
+  State<CountryCodePickerWidget> createState() =>
+      _CountryCodePickerWidgetState();
 }
 
 class _CountryCodePickerWidgetState extends State<CountryCodePickerWidget> {
@@ -29,9 +24,11 @@ class _CountryCodePickerWidgetState extends State<CountryCodePickerWidget> {
   /// ✅ Phone Number Validator
   void validatePhoneNumber(String value) {
     if (value.isEmpty) {
-      phoneError.value = "Please enter a contact number with at least 6 digits \nand no more than 11 digits.";
+      phoneError.value =
+          "Please enter a contact number with at least 6 digits \nand no more than 11 digits.".tr;
     } else if (!RegExp(r'^\d{11}$').hasMatch(value)) {
-      phoneError.value = "Please enter a contact number with at least 6 digits \nand no more than 11 digits.";
+      phoneError.value =
+          "Please enter a contact number with at least 6 digits \nand no more than 11 digits.".tr;
     } else {
       phoneError.value = null;
     }
@@ -91,8 +88,8 @@ class _CountryCodePickerWidgetState extends State<CountryCodePickerWidget> {
                           value: controller.selectedCountryName.value,
                           onChanged: (value) {
                             if (value != null) {
-                              var selectedCountry =
-                                  countries.firstWhere((country) => country.name == value);
+                              var selectedCountry = countries.firstWhere(
+                                  (country) => country.name == value);
                               controller.updateCountry(
                                 "+${selectedCountry.dialCode}",
                                 selectedCountry.flag,
@@ -105,33 +102,42 @@ class _CountryCodePickerWidgetState extends State<CountryCodePickerWidget> {
                             return countries.map((country) {
                               return Row(
                                 children: [
-                                  Text(controller.selectedCountryFlag.value, style: TextStyle(fontSize: 18)),
+                                  Text(controller.selectedCountryFlag.value,
+                                      style: TextStyle(fontSize: 18)),
                                   SizedBox(width: 10),
                                   Text(
                                     controller.selectedCountryCode.value,
-                                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600),
                                   ),
                                 ],
                               );
                             }).toList();
                           },
                           items: countries.map((country) {
-                            bool isSelected = country.name == controller.selectedCountryName.value;
+                            bool isSelected = country.name ==
+                                controller.selectedCountryName.value;
                             return DropdownMenuItem<String>(
                               value: country.name,
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 10, vertical: 10),
                                     child: Row(
                                       children: [
-                                        if (isSelected) Icon(Icons.check, color: Colors.black, size: 16),
+                                        if (isSelected)
+                                          Icon(Icons.check,
+                                              color: Colors.black, size: 16),
                                         SizedBox(width: isSelected ? 8 : 0),
                                         Expanded(
                                           child: Text(
                                             country.name,
-                                            style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500),
+                                            style: TextStyle(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w500),
                                             overflow: TextOverflow.ellipsis,
                                           ),
                                         ),
@@ -139,7 +145,7 @@ class _CountryCodePickerWidgetState extends State<CountryCodePickerWidget> {
                                     ),
                                   ),
                                   Container(
-                                    height: 0.8, 
+                                    height: 0.8,
                                     color: Colors.grey.shade300,
                                     margin: EdgeInsets.symmetric(horizontal: 4),
                                   ),
@@ -164,18 +170,13 @@ class _CountryCodePickerWidgetState extends State<CountryCodePickerWidget> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-
-                    
-             PhoneNumber(
-  controller: phoneController,
-  focusNode: phoneFocusNode,
-  keyboardType: TextInputType.phone,
-  maxLength: 12,
-  onChanged: validatePhoneNumber,
-),
-
-
-
+                    PhoneNumber(
+                      controller: phoneController,
+                      focusNode: phoneFocusNode,
+                      keyboardType: TextInputType.phone,
+                      maxLength: 12,
+                      onChanged: validatePhoneNumber,
+                    ),
                   ],
                 ),
               ),
@@ -186,17 +187,17 @@ class _CountryCodePickerWidgetState extends State<CountryCodePickerWidget> {
         Obx(
           () => phoneError.value != null
               ? Padding(
-                  padding: const EdgeInsets.only(top: 0, left: 8,bottom: 0),
+                  padding: const EdgeInsets.only(top: 0, left: 8, bottom: 0),
                   child: Row(
                     children: [
                       Padding(
-                        padding: EdgeInsets.only(top: 0, left: 0,bottom:16),
+                        padding: EdgeInsets.only(top: 0, left: 0, bottom: 16),
                         child: Icon(Icons.cancel, color: Colors.red, size: 14),
                       ),
                       SizedBox(width: 4),
                       Text(
-                        phoneError.value!,
-                        style: TextStyle(color: Colors.red, fontSize: 12),
+                        phoneError.value!.tr,
+                        style: TextStyle(color: Colors.black, fontSize: 12),
                       ),
                     ],
                   ),
@@ -206,8 +207,6 @@ class _CountryCodePickerWidgetState extends State<CountryCodePickerWidget> {
       ],
     );
   }
-  
-
 }
 
 

@@ -21,9 +21,9 @@ class HomeController extends GetxController {
 
   final List<String> aboutStakefair = [
     'About StakeFair',
-    'Carrer',
+    'Careers',
     'StakeFair Corporate',
-    'Resolve Dispute'
+    'Resolve a Dispute'
   ];
 
   final List<Widget> screens = [

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:get/get.dart';
+
 class PhoneNumber extends StatefulWidget {
   final TextEditingController controller;
   final FocusNode focusNode;
@@ -50,9 +50,9 @@ class _PhoneNumberState extends State<PhoneNumber> {
       // **✅ Dynamic Border Color Logic**
       Color borderColor;
       if (phoneError.value != null) {
-        borderColor = Colors.red; // **Error (Invalid Input)**
+        borderColor = Color(0xffD65151); // **Error (Invalid Input)**
       } else if (isFocused.value) {
-        borderColor = Colors.orange; // **Focus & Success**
+        borderColor = Color(0xffffb80c); // **Focus & Success**
       } else {
         borderColor = Colors.transparent; // **No Focus, No Error**
       }
@@ -61,10 +61,10 @@ class _PhoneNumberState extends State<PhoneNumber> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            height: 50,
+            height: 54,
             decoration: BoxDecoration(
               color: Colors.black.withOpacity(0.07),
-              borderRadius: BorderRadius.circular(3),
+              borderRadius: BorderRadius.circular(5),
               border: Border(
                 bottom: BorderSide(
                   color: borderColor,
@@ -84,7 +84,7 @@ class _PhoneNumberState extends State<PhoneNumber> {
                 }
               },
               decoration: InputDecoration(
-                labelText: 'Mobile Number',
+                labelText: 'Mobile Number'.tr,
                 labelStyle: TextStyle(color: Colors.grey),
                 contentPadding: EdgeInsets.symmetric(vertical: 2, horizontal: 8),
                 border: InputBorder.none,

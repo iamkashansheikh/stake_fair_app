@@ -5,8 +5,9 @@ import 'package:stake_fair_app/controllers/getx_controller/password_validation_c
 
 class PasswordFieldWidget extends StatefulWidget {
   final TextEditingController controller;
+  final String lableText;
 
-  const PasswordFieldWidget({Key? key, required this.controller}) : super(key: key);
+  const PasswordFieldWidget({Key? key, required this.controller,required this.lableText}) : super(key: key);
 
   @override
   _PasswordFieldWidgetState createState() => _PasswordFieldWidgetState();
@@ -43,7 +44,7 @@ class _PasswordFieldWidgetState extends State<PasswordFieldWidget> {
       children: [
         Icon(isValid ? Icons.check_circle : Icons.cancel, color: isValid ? Colors.green : Colors.red),
         SizedBox(width: 10),
-        Text(text, style: TextStyle(fontSize: 14, color: Colors.grey)),
+        Text(text.tr, style: TextStyle(fontSize: 14, color: Colors.grey)),
       ],
     );
   }
@@ -55,34 +56,38 @@ class _PasswordFieldWidgetState extends State<PasswordFieldWidget> {
       children: [
         Obx(() {
           bool isPasswordValid = validationController.isPasswordStrong.value;
-
+  
           return Padding(
             padding: EdgeInsets.symmetric(horizontal: 3),
             child: Container(
               height: 50,
               decoration: BoxDecoration(
+                
                 color: Colors.black.withOpacity(0.07),
-                borderRadius: BorderRadius.circular(5),
+                borderRadius: BorderRadius.circular(3),
                 border: Border(
                   bottom: BorderSide(
                     color: isPasswordValid
-                        ? Colors.orange // Orange when valid
+                        ? Color(0xffffb80c) // Orange when valid
                         : (isTyping.value
-                            ? Colors.red // Red when typing
-                            : (isFieldFocused.value ? Colors.orange : Colors.transparent)), // Orange when focused, grey otherwise
+                            ? Color(0xffD65151) // Red when typing
+                            : (isFieldFocused.value ? Color(0xffffb80c) : Colors.transparent)), // Orange when focused, grey otherwise
                     width: 1,
                   ),
                 ),
               ),
+              
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                
                 child: TextField(
                   controller: widget.controller,
                   focusNode: focusNode,
                   obscureText: !isPasswordVisible.value,
                   decoration: InputDecoration(
+
                     labelStyle: TextStyle(color: Colors.grey),
-                    labelText: "password".tr,
+                    labelText: widget.lableText,
                     border: InputBorder.none,
                     contentPadding: const EdgeInsets.symmetric(vertical: 2),
                     suffixIcon: IconButton(
@@ -113,7 +118,7 @@ class _PasswordFieldWidgetState extends State<PasswordFieldWidget> {
                 Icon(Icons.check_circle, color: Colors.green),
                 SizedBox(width: 10),
                 Text(
-                  "Strong. Well done!",
+                  "Strong. Well done!".tr,
                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.grey),
                 ),
               ],
