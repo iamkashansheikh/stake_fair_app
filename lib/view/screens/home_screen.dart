@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:stake_fair_app/controllers/home_controller.dart';
+import 'package:stake_fair_app/controllers/Home/eventType_controller.dart';
+import 'package:stake_fair_app/controllers/Home/home_controller.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -12,6 +13,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final HomeController homeController = Get.put(HomeController());
+  final EventsTypeController eventsTypeController = Get.put(EventsTypeController());
 
   @override
   Widget build(BuildContext context) {
@@ -276,7 +278,7 @@ class _HomeScreenState extends State<HomeScreen> {
             scrollDirection: Axis.horizontal,
             child: Wrap(
               spacing: 5,
-              children: homeController.categories.map((item) {
+              children: eventsTypeController.categories.map((item) {
                 bool highlighted = item['isHighlighted'] ?? false;
                 print('HomeScreeenData$item');
                 return GestureDetector(
