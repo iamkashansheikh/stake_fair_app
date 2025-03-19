@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:stake_fair_app/controllers/utils/app_colors.dart';
+import 'package:stake_fair_app/res/app_colors/app_colors.dart';
 import 'package:stake_fair_app/view/screens/authentication/sign_up_screen.dart';
 import 'package:stake_fair_app/view/widgets/emial_username.dart';
 import 'package:stake_fair_app/view/widgets/password_validation_screen.dart'
