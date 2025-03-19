@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:stake_fair_app/controllers/getx_controller/auth_controller.dart';
-import 'package:stake_fair_app/controllers/utils/app_colors.dart';
+import 'package:stake_fair_app/res/app_colors/app_colors.dart';
 import 'package:stake_fair_app/view/widgets/country_code_picker.dart';
 import 'package:stake_fair_app/view/widgets/custom_field_widget.dart';
 

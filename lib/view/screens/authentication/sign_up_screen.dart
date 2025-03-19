@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:stake_fair_app/controllers/utils/app_colors.dart';
+import 'package:stake_fair_app/res/app_colors/app_colors.dart';
 import 'package:stake_fair_app/view/widgets/custom_button.dart';
 import 'package:stake_fair_app/view/widgets/password_validation_screen.dart';
 import 'package:stake_fair_app/view/widgets/username_field_widget.dart';
