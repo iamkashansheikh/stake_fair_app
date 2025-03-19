@@ -7,22 +7,7 @@ import 'package:stake_fair_app/data/network/base_api_services.dart';
 
 class NetworkApiServices extends BaseApiServices {
   dynamic jsonResponse;
-  @override
-  Future<dynamic> getApi(String url) async {
-    if (kDebugMode) {
-      print(url);
-    }
-    try {
-      final response =
-          await http.get(Uri.parse(url)).timeout(const Duration(seconds: 10));
-      jsonResponse = returnResponse(response);
-    } on SocketException {
-      throw InternetExceptions();
-    } on RequestTimeOut {
-      throw RequestTimeOut();
-    }
-  }
-
+  
   @override
   Future<dynamic> postApi(var data, String url) async {
     if (kDebugMode) {
@@ -31,8 +16,11 @@ class NetworkApiServices extends BaseApiServices {
     try {
       final response = await http
           .post(Uri.parse(url), body: jsonEncode(data))
-          .timeout(const Duration(seconds: 10));
+          .timeout(const Duration(seconds: 20));
+          print('NetworkDataResponse$response');
       jsonResponse = returnResponse(response);
+      print('NwtworkDatajsonResponse$jsonResponse');
+      return jsonResponse;
     } on SocketException {
       throw InternetExceptions();
     } on RequestTimeOut {
