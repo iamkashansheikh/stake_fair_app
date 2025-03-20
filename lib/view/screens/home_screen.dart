@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:stake_fair_app/controllers/Home/eventType_controller.dart';
 import 'package:stake_fair_app/controllers/Home/home_controller.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:stake_fair_app/controllers/Home/inplay_controller.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -13,7 +14,9 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final HomeController homeController = Get.put(HomeController());
-  final EventsTypeController eventsTypeController = Get.put(EventsTypeController());
+  final EventsTypeController eventsTypeController =
+      Get.put(EventsTypeController());
+  final InplayController inplayController = Get.put(InplayController());
 
   @override
   Widget build(BuildContext context) {
@@ -270,6 +273,64 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  Widget _buildInPlayContainer(int count, double textScale) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5.3),
+      decoration: BoxDecoration(
+        color: const Color(0xff20a052),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Stack(
+            alignment: Alignment.center,
+            children: [
+              Container(
+                width: 18,
+                height: 18,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(color: Colors.white, width: 2),
+                ),
+              ),
+              Positioned(
+                top: -4,
+                right: -4,
+                child: Container(
+                  height: 16,
+                  width: 15,
+                  padding: const EdgeInsets.all(2),
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                  ),
+                  child: Text(
+                    '$count',
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 10,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 1),
+          // In-Play text
+          Center(
+            child: Text(
+              'In-Play',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 10 * textScale,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildCategoryBar(double textScale) {
     return Obx(() => Container(
           padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
@@ -278,43 +339,47 @@ class _HomeScreenState extends State<HomeScreen> {
             scrollDirection: Axis.horizontal,
             child: Wrap(
               spacing: 5,
-              children: eventsTypeController.categories.map((item) {
-                bool highlighted = item['isHighlighted'] ?? false;
-                print('HomeScreeenData$item');
-                return GestureDetector(
-                  onTap: () {
-                    // Category tap handling here.
-                    print("Tapped category: ${item['label']}");
-                  },
-                  child: Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: highlighted
-                          ? const Color(0xff20a052)
-                          : const Color(0xff525252),
-                      borderRadius: BorderRadius.circular(1),
+              children: [
+                // In-Play button
+                _buildInPlayContainer(
+                    inplayController.liveMatchesCount.value, textScale),
+
+                // Baaki categories
+                ...eventsTypeController.categories.map((item) {
+                  print(
+                      "Live Matches Count: ${inplayController.liveMatchesCount.value}");
+
+                  return GestureDetector(
+                    onTap: () {
+                      print("Tapped category: ${item['label']}");
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: const Color(0xff525252),
+                        // borderRadius: BorderRadius.circular(1),
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Center(
+                              child: Icon(item['icon'],
+                                  color: Colors.white, size: 19 * textScale)),
+                          const SizedBox(height: 1),
+                          Center(
+                              child: Text(
+                            item['label'],
+                            style: TextStyle(
+                                color: Colors.white, fontSize: 10 * textScale),
+                            maxLines: 1,
+                          )),
+                        ],
+                      ),
                     ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Center(
-                            child: Icon(item['icon'],
-                                color: Colors.white, size: 19 * textScale)),
-                        const SizedBox(height: 1),
-                        Center(
-                            child: Text(
-                          item['label'],
-                          style: TextStyle(
-                              color: Colors.white, fontSize: 10 * textScale),
-                          maxLines: 1,
-                        )),
-                        
-                      ],
-                    ),
-                  ),
-                );
-              }).toList(),
+                  );
+                }).toList(),
+              ],
             ),
           ),
         ));
