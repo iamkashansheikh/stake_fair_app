@@ -5,4 +5,5 @@ abstract class RoutsName {
   static const String forgotpass = '/forgotpass';
   static const String homeScreen = '/homeScreen';
   static const String virsion = '/virsion';
+  static const String inplay = '/inplay';
 }
