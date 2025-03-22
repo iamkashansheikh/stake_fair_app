@@ -53,4 +53,16 @@ class InplayController extends GetxController {
       print("Live Matches Count: ${liveMatchesCount.value}");
     }
   }
+
+  var oddsList = <Map<String, dynamic>>[].obs;
+    void fetchOdds() {
+    oddsList.value = [
+      {"odds": 6.8, "price": 30},
+      {"odds": 8.6, "price": 16},
+      {"odds": 4.6, "price": 27},
+      {"odds": 5.2, "price": 24},
+      {"odds": 1.47, "price": 25},
+      {"odds": 1.55, "price": 19},
+    ];
+  }
 }

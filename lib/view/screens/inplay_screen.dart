@@ -38,7 +38,9 @@ class _InplayScreenState extends State<InplayScreen> {
                       size: 22,
                     ),
                   ),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.006,),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.006,
+                  ),
                   Row(
                     children: [
                       _buildShowMatches(
@@ -46,17 +48,17 @@ class _InplayScreenState extends State<InplayScreen> {
                         label: 'Soccer',
                         badge: badges.Badge(
                           badgeStyle: badges.BadgeStyle(
-                            borderRadius: BorderRadius.circular(2),
+                              borderRadius: BorderRadius.circular(2),
                               badgeColor: const Color(0xff20A052),
                               shape: badges.BadgeShape.square,
-                              padding: EdgeInsets.zero
-                              ),
+                              padding: EdgeInsets.zero),
                           badgeContent: SizedBox(
                             width: 22,
                             height: 12,
                             child: Center(
                               child: Text('1',
-                              style: TextStyle(color: Colors.white,fontSize: 9)),
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 9)),
                             ),
                           ),
                           child: const Icon(Icons.sports_soccer,
@@ -95,7 +97,7 @@ class _InplayScreenState extends State<InplayScreen> {
                         label: 'Cricket',
                         badge: badges.Badge(
                           badgeStyle: badges.BadgeStyle(
-                            borderRadius: BorderRadius.circular(2),
+                              borderRadius: BorderRadius.circular(2),
                               badgeColor: const Color(0xff20A052),
                               shape: badges.BadgeShape.square,
                               padding: EdgeInsets.zero),
@@ -115,18 +117,49 @@ class _InplayScreenState extends State<InplayScreen> {
                       ),
                     ],
                   ),
-                 SizedBox(height: MediaQuery.of(context).size.height * 0.006,),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.006,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Text('1'.padLeft(55),style: TextStyle(fontWeight: FontWeight.w500,fontSize: 12),),
-                      Text('X'.padLeft(5),style: TextStyle(fontWeight: FontWeight.w500,fontSize: 12),),
-                      Text('2'.padLeft(5),style: TextStyle(fontWeight: FontWeight.w500,fontSize: 12),),
-                      
+                      Text(
+                        '1'.padLeft(55),
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 12),
+                      ),
+                      Text(
+                        'X'.padLeft(5),
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 12),
+                      ),
+                      Text(
+                        '2'.padLeft(5),
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 12),
+                      ),
                     ],
                   ),
-                  Divider(thickness: 0.5,)
-                  // Example match cards
+                  Divider(
+                    thickness: 0.5,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('South Korean Soccer'),
+                        Icon(Icons.keyboard_arrow_right)
+                      ],
+                    ),
+                  ),
+                  Divider(
+                    thickness: 0.5,
+                  ),
+                  _buildOddsRow(),
+                   _buildOddsRow(),
+                    _buildOddsRow(),
+                     _buildOddsRow(),
                 ],
               ),
             ),
@@ -454,9 +487,11 @@ class _InplayScreenState extends State<InplayScreen> {
           child: Container(
             height: 60,
             decoration: BoxDecoration(
-              color: select ? const Color(0xffFFFFFF) : const Color(0xffF0F1F5),
-              border: select? Border(top: BorderSide(color: Colors.black,width: 2)) : null
-            ),
+                color:
+                    select ? const Color(0xffFFFFFF) : const Color(0xffF0F1F5),
+                border: select
+                    ? Border(top: BorderSide(color: Colors.black, width: 2))
+                    : null),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -477,5 +512,135 @@ class _InplayScreenState extends State<InplayScreen> {
         ),
       );
     });
+  }
+
+  Widget _buildOddsRow() {
+    // Ensure odds data is loaded.
+    inplayController.fetchOdds();
+
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 5),
+          child: Container(
+            color: Colors.white,
+            child: Row(
+              crossAxisAlignment:
+                  CrossAxisAlignment.center, // Center vertically
+              children: [
+                // Left side vertical color bar with "In-Play" text
+                Container(
+                  width: 40,
+                  height: 60,
+                  color: const Color(0xff20A052),
+                  alignment: Alignment.center,
+                  child: const Text(
+                    'In-Play',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 10,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 15),
+                // Static match info as separate texts
+                Expanded(
+                  flex: 2,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Text(
+                        'Hong Kong FC',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      Text(
+                        'Wofoo Tai Po',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  flex: 3,
+                  child: Obx(() {
+                    return SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: inplayController.oddsList
+                            .asMap()
+                            .entries
+                            .map((entry) {
+                          int index = entry.key;
+                          final item = entry.value;
+                          // First 3 boxes pink, remaining blue
+                          final Color bgColor =
+                              index < 3 ? Colors.blue[100]! : Colors.pink[100]!;
+                          return Row(
+                            children: [
+                              _buildOddsBox(
+                                backgroundColor: bgColor,
+                                odds: '${item["odds"]}',
+                                amount: '\$${item["price"]}',
+                              ),
+                              const SizedBox(width: 5),
+                            ],
+                          );
+                        }).toList(),
+                      ),
+                    );
+                  }),
+                ),
+              ],
+            ),
+          ),
+        ),
+        const Divider(
+          thickness: 0.5
+        ),
+      ],
+    );
+  }
+
+  /// Helper widget to build each odds box with centered text.
+  Widget _buildOddsBox({
+    required Color backgroundColor,
+    required String odds,
+    required String amount,
+  }) {
+    return Container(
+      width: 58,
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      decoration: BoxDecoration(
+        color: backgroundColor,
+        borderRadius: BorderRadius.circular(3),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            odds,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 14,
+            ),
+          ),
+          Text(
+            amount,
+            style: const TextStyle(
+              fontSize: 12,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
