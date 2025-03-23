@@ -57,12 +57,12 @@ class InplayController extends GetxController {
   var oddsList = <Map<String, dynamic>>[].obs;
     void fetchOdds() {
     oddsList.value = [
-      {"odds": 6.8, "price": 30},
-      {"odds": 8.6, "price": 16},
-      {"odds": 4.6, "price": 27},
-      {"odds": 5.2, "price": 24},
-      {"odds": 1.47, "price": 25},
-      {"odds": 1.55, "price": 19},
+      {"odds": 6.12, "price": 30.123},
+      {"odds": 8.23, "price": 16.334},
+      {"odds": 4.32, "price": 27.024},
+      {"odds": 5.45, "price": 24.389},
+      {"odds": 1.78, "price": 25.38},
+      {"odds": 1.35, "price": 19.838},
     ];
   }
 }

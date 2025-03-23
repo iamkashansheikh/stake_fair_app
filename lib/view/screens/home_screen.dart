@@ -4,6 +4,7 @@ import 'package:stake_fair_app/controllers/Home/eventType_controller.dart';
 import 'package:stake_fair_app/controllers/Home/home_controller.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:stake_fair_app/controllers/Home/inplay_controller.dart';
+import 'package:badges/badges.dart' as badges;
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -275,7 +276,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildInPlayContainer(int count, double textScale) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5.3),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2.5),
       decoration: BoxDecoration(
         color: const Color(0xff20a052),
       ),
@@ -283,32 +284,32 @@ class _HomeScreenState extends State<HomeScreen> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Stack(
-            alignment: Alignment.center,
+            clipBehavior: Clip.none,
             children: [
-              Container(
-                width: 18,
-                height: 18,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(color: Colors.white, width: 2),
-                ),
-              ),
+              Icon(Icons.timelapse, color: Colors.white, size: 24),
               Positioned(
-                top: -4,
-                right: -4,
-                child: Container(
-                  height: 16,
-                  width: 15,
-                  padding: const EdgeInsets.all(2),
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
+                bottom: 5,
+                left: 16,
+                child: badges.Badge(
+                  badgeStyle: badges.BadgeStyle(
+                    borderRadius: BorderRadius.circular(2.5),
+                    borderSide:
+                        BorderSide(color: const Color(0xff20A052), width: 1),
+                    badgeColor: Color(0xffFFFFFF),
+                    shape: badges.BadgeShape.square,
                   ),
-                  child: Text(
-                    '$count',
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 10,
-                      fontWeight: FontWeight.bold,
+                  badgeContent: SizedBox(
+                    width: 8,
+                    height: 8,
+                    child: Center(
+                      child: Text(
+                        '$count',
+                        style: const TextStyle(
+                          color: const Color(0xff20A052),
+                          fontSize: 7,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -316,7 +317,6 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
           const SizedBox(height: 1),
-          // In-Play text
           Center(
             child: Text(
               'In-Play',
