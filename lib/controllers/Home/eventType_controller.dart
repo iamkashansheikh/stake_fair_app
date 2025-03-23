@@ -14,11 +14,10 @@ class EventsTypeController extends GetxController{
 
 void fetchCategories() async {
   try {
-    var data = {}; // Agar koi parameter required hai, use set karein.
+    var data = {};
     var response = await _homeRepository.categoryApi(data);
     print("Response from API: $response");
     if (response != null) {
-      // Parse response using your model
       CategoryListModel model = CategoryListModel.fromJson(response);
       print("Parsed model.data: ${model.data}");
       if (model.data != null && model.data!.eventTypes != null) {
@@ -31,7 +30,7 @@ void fetchCategories() async {
             'id': e.eventType?.id,
             'icon': mapIconFromCategoryName(label),
             'label': label,
-            'isHighlighted': false, // Logic as needed.
+            'isHighlighted': false, 
           };
         }).toList());
         print("Categories updated: $categories");
@@ -55,11 +54,11 @@ void fetchCategories() async {
         return Icons.sports_cricket;
       case 'rugby union':
       case 'rugby league':
-        return Icons.sports_rugby; // Ensure proper icon is available.
+        return Icons.sports_rugby; 
       case 'boxing':
         return Icons.sports_mma;
       case 'horse racing':
-        return Icons.sports; // Or a more specific racing icon.
+        return Icons.sports; 
       case 'motor sport':
         return Icons.motorcycle;
       case 'esports':

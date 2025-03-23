@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-
 class HomeController extends GetxController {
   // Other properties remain the same
   RxBool isBannerVisible = true.obs;
@@ -11,7 +10,6 @@ class HomeController extends GetxController {
   var isSaferGamblingExpanded = false.obs;
   var isAboutStakefairExpanded = false.obs;
   var isSearchFieldVisible = false.obs;
-  
 
   final List<String> saferGambling = [
     'Safer Gambling',
@@ -36,19 +34,13 @@ class HomeController extends GetxController {
     Center(child: Text("Casino Screen")),
   ];
 
-
-
   final RxList<Map<String, dynamic>> cricket = [
     {
       'icon': Icons.sports_cricket,
       'label': 'Bangladesh',
       'sub': 'ICC Championship Trophy'
     },
-    {
-      'icon': Icons.pets,
-      'label': 'Pakistan',
-      'sub': 'Eva Lys vs I Begu'
-    },
+    {'icon': Icons.pets, 'label': 'Pakistan', 'sub': 'Eva Lys vs I Begu'},
     {
       'icon': Icons.sports_tennis,
       'label': 'Ilia Simakin',
@@ -66,11 +58,8 @@ class HomeController extends GetxController {
     },
   ].obs;
 
-  final RxList<dynamic> horseRacing = [
-    '13:15 HYDERABAD R2',
-    'Today Card',
-    'See all Horse Racing'
-  ].obs;
+  final RxList<dynamic> horseRacing =
+      ['13:15 HYDERABAD R2', 'Today Card', 'See all Horse Racing'].obs;
 
   final RxList<Map<String, dynamic>> quickLinks = [
     {'icon': Icons.sports_tennis, 'name': 'Warwick Farm'},
@@ -80,18 +69,15 @@ class HomeController extends GetxController {
     {'icon': Icons.sports_cricket, 'name': 'Geet vs Galarneau'},
     {'icon': Icons.sports, 'name': 'Jam MCCab vs Simakin'},
     {'icon': Icons.sports_soccer, 'name': 'Altas vs Necaxa'},
-    {'icon': Icons.sports_soccer, 'name': 'Ulsan Hyundai Horang-i vs Shangdong Taishan'},
+    {
+      'icon': Icons.sports_soccer,
+      'name': 'Ulsan Hyundai Horang-i vs Shangdong Taishan'
+    },
     {'icon': Icons.sports_soccer, 'name': 'Shangai Port FC v Yokohama FM'},
     {'icon': Icons.sports_soccer, 'name': 'Dortmund vs Sporting Lisbon'},
   ].obs;
 
- 
-
   void changeIndex(int index) {
     selectedIndex.value = index;
   }
-
- 
 }
-
-
