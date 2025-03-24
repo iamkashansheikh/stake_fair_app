@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'package:stake_fair_app/models/home_models/category_model.dart';
-import 'package:stake_fair_app/repositroy/home_repository/home_repository.dart';
-
 class HomeController extends GetxController {
   // Other properties remain the same
   RxBool isBannerVisible = true.obs;
@@ -37,19 +34,13 @@ class HomeController extends GetxController {
     Center(child: Text("Casino Screen")),
   ];
 
-
-
   final RxList<Map<String, dynamic>> cricket = [
     {
       'icon': Icons.sports_cricket,
       'label': 'Bangladesh',
       'sub': 'ICC Championship Trophy'
     },
-    {
-      'icon': Icons.pets,
-      'label': 'Pakistan',
-      'sub': 'Eva Lys vs I Begu'
-    },
+    {'icon': Icons.pets, 'label': 'Pakistan', 'sub': 'Eva Lys vs I Begu'},
     {
       'icon': Icons.sports_tennis,
       'label': 'Ilia Simakin',
@@ -67,11 +58,8 @@ class HomeController extends GetxController {
     },
   ].obs;
 
-  final RxList<dynamic> horseRacing = [
-    '13:15 HYDERABAD R2',
-    'Today Card',
-    'See all Horse Racing'
-  ].obs;
+  final RxList<dynamic> horseRacing =
+      ['13:15 HYDERABAD R2', 'Today Card', 'See all Horse Racing'].obs;
 
   final RxList<Map<String, dynamic>> quickLinks = [
     {'icon': Icons.sports_tennis, 'name': 'Warwick Farm'},
@@ -81,18 +69,15 @@ class HomeController extends GetxController {
     {'icon': Icons.sports_cricket, 'name': 'Geet vs Galarneau'},
     {'icon': Icons.sports, 'name': 'Jam MCCab vs Simakin'},
     {'icon': Icons.sports_soccer, 'name': 'Altas vs Necaxa'},
-    {'icon': Icons.sports_soccer, 'name': 'Ulsan Hyundai Horang-i vs Shangdong Taishan'},
+    {
+      'icon': Icons.sports_soccer,
+      'name': 'Ulsan Hyundai Horang-i vs Shangdong Taishan'
+    },
     {'icon': Icons.sports_soccer, 'name': 'Shangai Port FC v Yokohama FM'},
     {'icon': Icons.sports_soccer, 'name': 'Dortmund vs Sporting Lisbon'},
   ].obs;
 
- 
-
   void changeIndex(int index) {
     selectedIndex.value = index;
   }
-
- 
 }
-
-
