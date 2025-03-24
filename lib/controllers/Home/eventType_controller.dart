@@ -1,3 +1,5 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:stake_fair_app/models/home_models/category_model.dart';
@@ -42,7 +44,14 @@ class EventsTypeController extends GetxController {
       print("Error fetching categories: $e");
     }
   }
+<<<<<<< HEAD
   
+=======
+}
+
+
+
+>>>>>>> maqbool
   IconData mapIconFromCategoryName(String name) {
     switch (name.toLowerCase()) {
       case 'soccer':
@@ -103,3 +112,71 @@ class EventsTypeController extends GetxController {
     }
   }
 }
+<<<<<<< HEAD
+=======
+
+
+
+
+
+
+
+
+// import 'package:flutter/material.dart';
+// import 'package:get/get.dart';
+// import 'package:stake_fair_app/controllers/Home/events_controller.dart';
+// import 'package:stake_fair_app/models/home_models/category_model.dart';
+// import 'package:stake_fair_app/repositroy/home_repository/home_repository.dart';
+
+// class EventsTypeController extends GetxController {
+//   final HomeRepository _homeRepository = HomeRepository();
+//   final RxList<Map<String, dynamic>> categories = <Map<String, dynamic>>[].obs;
+//   final RxInt selectedCategoryId = 0.obs; // Store selected eventType ID
+
+//   @override
+//   void onInit() {
+//     super.onInit();
+//     fetchCategories();
+//   }
+
+//   void fetchCategories() async {
+//     try {
+//       var response = await _homeRepository.categoryApi({});
+//       if (response != null) {
+//         CategoryListModel model = CategoryListModel.fromJson(response);
+//         if (model.data?.eventTypes != null) {
+//           categories.assignAll(model.data!.eventTypes!.map((e) {
+//             String label = e.eventType?.name ?? 'Unknown';
+//             return {
+//               'id': e.eventType?.id,
+//               'icon': mapIconFromCategoryName(label),
+//               'label': label,
+//               'isHighlighted': false,
+//             };
+//           }).toList());
+//         }
+//       }
+//     } catch (e) {
+//       print("Error fetching categories: $e");
+//     }
+//   }
+
+  // void onCategoryTap(int categoryId) {
+  //   selectedCategoryId.value = categoryId;
+  //   Get.find<EventsController>().fetchEvents(categoryId);
+  // }
+
+//   IconData mapIconFromCategoryName(String name) {
+//     switch (name.toLowerCase()) {
+//       case 'soccer':
+//         return Icons.sports_soccer;
+//       case 'tennis':
+//         return Icons.sports_tennis;
+//       case 'basketball':
+//         return Icons.sports_basketball;
+//       default:
+//         return Icons.help_outline;
+//     }
+//   }
+// }
+>>>>>>> maqbool
