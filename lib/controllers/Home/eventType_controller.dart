@@ -3,45 +3,46 @@ import 'package:get/get.dart';
 import 'package:stake_fair_app/models/home_models/category_model.dart';
 import 'package:stake_fair_app/repositroy/home_repository/home_repository.dart';
 
-class EventsTypeController extends GetxController{
-   final HomeRepository _homeRepository = HomeRepository();
+class EventsTypeController extends GetxController {
+  final HomeRepository _homeRepository = HomeRepository();
+  
+  // Reactive list for categories with marketCount included.
   final RxList<Map<String, dynamic>> categories = <Map<String, dynamic>>[].obs;
+  
   @override
   void onInit() {
     super.onInit();
     fetchCategories();
   }
-
-void fetchCategories() async {
-  try {
-    var data = {};
-    var response = await _homeRepository.categoryApi(data);
-    print("Response from API: $response");
-    if (response != null) {
-      CategoryListModel model = CategoryListModel.fromJson(response);
-      print("Parsed model.data: ${model.data}");
-      if (model.data != null && model.data!.eventTypes != null) {
-        print("Parsed eventTypes: ${model.data?.eventTypes}");
-        categories.assignAll(model.data!.eventTypes!.map((e) {
-          print("Parsed eventTypes: ${model.data?.eventTypes}");
-          String label = e.eventType?.name ?? 'Unknown';
-          
-          return {
-            'id': e.eventType?.id,
-            'icon': mapIconFromCategoryName(label),
-            'label': label,
-            'isHighlighted': false, 
-          };
-        }).toList());
-        print("Categories updated: $categories");
+  
+  void fetchCategories() async {
+    try {
+      var data = {}; // Parameters if needed.
+      var response = await _homeRepository.categoryApi(data);
+      print("Response from API: $response");
+      if (response != null) {
+        // Parse using your model.
+        CategoryListModel model = CategoryListModel.fromJson(response);
+        print("Parsed model.data: ${model.data}");
+        if (model.data != null && model.data!.eventTypes != null) {
+          categories.assignAll(model.data!.eventTypes!.map((e) {
+            String label = e.eventType?.name ?? 'Unknown';
+            return {
+              'id': e.eventType?.id,
+              'icon': mapIconFromCategoryName(label),
+              'label': label,
+              'isHighlighted': false, // Customize if needed.
+              'marketCount': e.marketCount ?? 0, // Include marketCount.
+            };
+          }).toList());
+          print("Categories updated: $categories");
+        }
       }
+    } catch (e) {
+      print("Error fetching categories: $e");
     }
-  } catch (e) {
-    print("Error fetching categories: $e");
   }
-}
-
-
+  
   IconData mapIconFromCategoryName(String name) {
     switch (name.toLowerCase()) {
       case 'soccer':
@@ -54,11 +55,11 @@ void fetchCategories() async {
         return Icons.sports_cricket;
       case 'rugby union':
       case 'rugby league':
-        return Icons.sports_rugby; 
+        return Icons.sports_rugby;
       case 'boxing':
         return Icons.sports_mma;
       case 'horse racing':
-        return Icons.sports; 
+        return Icons.sports;
       case 'motor sport':
         return Icons.motorcycle;
       case 'esports':

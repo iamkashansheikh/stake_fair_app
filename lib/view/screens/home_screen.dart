@@ -299,8 +299,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     shape: badges.BadgeShape.square,
                   ),
                   badgeContent: SizedBox(
-                    width: 8,
-                    height: 8,
+                    width: 11,
+                    height: 9,
                     child: Center(
                       child: Text(
                         '$count',
