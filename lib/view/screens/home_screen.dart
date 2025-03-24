@@ -15,6 +15,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final HomeController homeController = Get.put(HomeController());
   final EventsTypeController eventsTypeController = Get.put(EventsTypeController());
 
+
   @override
   Widget build(BuildContext context) {
     final double textScale = MediaQuery.of(context).textScaleFactor;
