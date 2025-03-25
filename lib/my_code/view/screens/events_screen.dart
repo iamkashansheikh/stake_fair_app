@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:stake_fair_app/controllers/Home/events_controller.dart';
 import 'package:stake_fair_app/my_code/controllers/events_controller.dart';
 
 

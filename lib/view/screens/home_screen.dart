@@ -19,7 +19,6 @@ class _HomeScreenState extends State<HomeScreen> {
       Get.put(EventsTypeController());
   final InplayController inplayController = Get.put(InplayController());
 
-
   @override
   Widget build(BuildContext context) {
     final double textScale = MediaQuery.of(context).textScaleFactor;
@@ -341,11 +340,8 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Wrap(
               spacing: 5,
               children: [
-                // In-Play button
                 _buildInPlayContainer(
                     inplayController.liveMatchesCount.value, textScale),
-
-                // Baaki categories
                 ...eventsTypeController.categories.map((item) {
                   print(
                       "Live Matches Count: ${inplayController.liveMatchesCount.value}");
@@ -359,7 +355,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           horizontal: 8, vertical: 4),
                       decoration: BoxDecoration(
                         color: const Color(0xff525252),
-                        // borderRadius: BorderRadius.circular(1),
                       ),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,

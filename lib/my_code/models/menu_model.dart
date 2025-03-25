@@ -1,4 +1,3 @@
-
 class MenuModel {
   Data? data;
   Meta? meta;
