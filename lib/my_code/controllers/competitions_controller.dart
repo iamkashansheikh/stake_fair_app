@@ -11,7 +11,6 @@ class CompetitionController extends GetxController {
   var eventList = <EventTypes>[].obs; // ✅ Store all event data
   var eventId = "".obs; // ✅ Use String for consistency with API
 
-  // ✅ Fetch competitions & store event list
   void fetchCompetitions(String eventName) async {
     try {
       isLoading.value = true;
