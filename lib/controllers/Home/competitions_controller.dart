@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:stake_fair_app/models/home_models/category_model.dart';
 import 'package:stake_fair_app/repositroy/home_repository/home_repository.dart';
