@@ -35,6 +35,7 @@ class MyApp extends StatelessWidget {
             // home: CompetitionScreen(eventName: 'Golf', eventIcon: Icons.sports),
             home: InplayScreen(),
             );
+
       },
     );
   }
