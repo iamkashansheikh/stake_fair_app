@@ -11,7 +11,7 @@ class CompetitionsController extends GetxController {
   void fetchCompetitions(String eventTypeId) async {
     try {
       isLoading.value = true;
-      var response = await _homeRepository.categoryApi({}); // API call
+      var response = await _homeRepository.categoryApi({});
       if (response != null) {
         CategoryListModel model = CategoryListModel.fromJson(response);
         if (model.data != null && model.data!.competitions != null) {
