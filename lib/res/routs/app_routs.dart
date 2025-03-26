@@ -15,6 +15,7 @@ class AppRouts {
     GetPage(name: RoutsName.homeScreen, page: () =>  HomeScreen()),
     GetPage(name: RoutsName.virsion, page: () => const VersionCheck()),
     GetPage(name: RoutsName.inplay, page: () =>  InplayScreen()),
+   // GetPage(name: RoutsName.common, page: () => const CommonScreen(categoryId: categoryId, eventName: eventName, eventIcon: eventIcon))
   ];
   
 }

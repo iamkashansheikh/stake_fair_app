@@ -5,6 +5,8 @@ import 'package:stake_fair_app/controllers/Home/home_controller.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:stake_fair_app/controllers/Home/inplay_controller.dart';
 import 'package:badges/badges.dart' as badges;
+import 'package:stake_fair_app/my_code/common_screen.dart';
+import 'package:stake_fair_app/view/screens/inplay_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -275,111 +277,115 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildInPlayContainer(int count, double textScale) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2.5),
-      decoration: BoxDecoration(
-        color: const Color(0xff20a052),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Stack(
-            clipBehavior: Clip.none,
-            children: [
-              Icon(Icons.timelapse, color: Colors.white, size: 24),
-              Positioned(
-                bottom: 5,
-                left: 16,
-                child: badges.Badge(
-                  badgeStyle: badges.BadgeStyle(
-                    borderRadius: BorderRadius.circular(2.5),
-                    borderSide:
-                        BorderSide(color: const Color(0xff20A052), width: 1),
-                    badgeColor: Color(0xffFFFFFF),
-                    shape: badges.BadgeShape.square,
-                  ),
-                  badgeContent: SizedBox(
-                    width: 11,
-                    height: 9,
-                    child: Center(
-                      child: Text(
-                        '$count',
-                        style: const TextStyle(
-                          color: const Color(0xff20A052),
-                          fontSize: 7,
-                          fontWeight: FontWeight.bold,
+    return InkWell(
+      onTap: () {
+        Get.to(() => InplayScreen());
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2.5),
+        decoration: BoxDecoration(
+          color: const Color(0xff20a052),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Icon(Icons.timelapse, color: Colors.white, size: 24),
+                Positioned(
+                  bottom: 5,
+                  left: 16,
+                  child: badges.Badge(
+                    badgeStyle: badges.BadgeStyle(
+                      borderRadius: BorderRadius.circular(2.5),
+                      borderSide:
+                          BorderSide(color: const Color(0xff20A052), width: 1),
+                      badgeColor: Color(0xffFFFFFF),
+                      shape: badges.BadgeShape.square,
+                    ),
+                    badgeContent: SizedBox(
+                      width: 11,
+                      height: 9,
+                      child: Center(
+                        child: Text(
+                          '$count',
+                          style: const TextStyle(
+                            color: const Color(0xff20A052),
+                            fontSize: 7,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 1),
-          Center(
-            child: Text(
-              'In-Play',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 10 * textScale,
+              ],
+            ),
+            const SizedBox(height: 1),
+            Center(
+              child: Text(
+                'In-Play',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 10 * textScale,
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
-  Widget _buildCategoryBar(double textScale) {
-    return Obx(() => Container(
-          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-          color: const Color(0xff303030),
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Wrap(
-              spacing: 5,
-              children: [
-                _buildInPlayContainer(
-                    inplayController.liveMatchesCount.value, textScale),
-                ...eventsTypeController.categories.map((item) {
-                  print(
-                      "Live Matches Count: ${inplayController.liveMatchesCount.value}");
-
-                  return GestureDetector(
-                    onTap: () {
-                      print("Tapped category: ${item['label']}");
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 4),
-                      decoration: BoxDecoration(
-                        color: const Color(0xff525252),
-                      ),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Center(
-                              child: Icon(item['icon'],
-                                  color: Colors.white, size: 19 * textScale)),
-                          const SizedBox(height: 1),
-                          Center(
-                              child: Text(
-                            item['label'],
-                            style: TextStyle(
-                                color: Colors.white, fontSize: 10 * textScale),
-                            maxLines: 1,
-                          )),
-                        ],
-                      ),
+ Widget _buildCategoryBar(double textScale) {
+  return Obx(() => Container(
+        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+        color: const Color(0xff303030),
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Wrap(
+            spacing: 5,
+            children: [
+              _buildInPlayContainer(inplayController.liveMatchesCount.value, textScale),
+              ...eventsTypeController.categories.map((item) {
+                return GestureDetector(
+                  onTap: () {
+                   // When category is tapped, navigate to CommonScreen
+                    Get.to(() => CommonScreen(
+                          categoryId: item['id'],
+                          eventName: item['label'],
+                          eventIcon: item['icon'],
+                        ));
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: const Color(0xff525252),
                     ),
-                  );
-                }).toList(),
-              ],
-            ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Center(child: Icon(item['icon'], color: Colors.white, size: 19 * textScale)),
+                        const SizedBox(height: 1),
+                        Center(
+                          child: Text(
+                            item['label'],
+                            style: TextStyle(color: Colors.white, fontSize: 10 * textScale),
+                            maxLines: 1,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              }).toList(),
+            ],
           ),
-        ));
-  }
+        ),
+      ));
+}
+
 
   Widget _buildBanner(Size mediaQuery) {
     return Container(
