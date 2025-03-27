@@ -43,7 +43,7 @@ class _CommonScreenState extends State<CommonScreen> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                _buildContainer(widget.eventName), // Dynamic Event Name Instead of "Cricket"
+                _buildContainer(widget.eventName), 
                 _buildTimeSection('Time'),
                 _buildHorseRacingSection('Competitions'),
               ],
@@ -201,28 +201,7 @@ class _CommonScreenState extends State<CommonScreen> {
     );
   }
 
-  Widget _buildIconButton(IconData icon, String text, {double width = 85}) {
-    return Container(
-      width: width,
-      height: 38,
-      decoration: BoxDecoration(
-          color: const Color(0xff424242),
-          borderRadius: BorderRadius.circular(2)),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(icon, color: Colors.white, size: 20),
-          Text(text,
-              style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 11,
-                  fontWeight: FontWeight.w600)),
-        ],
-      ),
-    );
-  }
-
-    Widget _buildSearchField(Size mediaQuery, double textScale, {Key? key}) {
+   Widget _buildSearchField(Size mediaQuery, double textScale, {Key? key}) {
     return Container(
       key: key,
       width: mediaQuery.width,
@@ -261,6 +240,29 @@ class _CommonScreenState extends State<CommonScreen> {
       ),
     );
   }
+  
+  Widget _buildIconButton(IconData icon, String text, {double width = 85}) {
+    return Container(
+      width: width,
+      height: 38,
+      decoration: BoxDecoration(
+          color: const Color(0xff424242),
+          borderRadius: BorderRadius.circular(2)),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(icon, color: Colors.white, size: 20),
+          Text(text,
+              style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 11,
+                  fontWeight: FontWeight.w600)),
+        ],
+      ),
+    );
+  }
+
+   
 
   Widget _buildTimeSection(String title) {
     return Column(
