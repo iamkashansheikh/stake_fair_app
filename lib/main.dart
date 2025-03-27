@@ -33,7 +33,6 @@ class MyApp extends StatelessWidget {
             fallbackLocale: Locale('en', 'US'),
             initialRoute: RoutsName.virsion,
             getPages: AppRouts.pages,
-            // home: CompetitionScreen(eventName: 'Golf', eventIcon: Icons.sports),
            // home: HomeScreen()
             );
 

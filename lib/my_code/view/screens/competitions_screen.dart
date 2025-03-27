@@ -45,7 +45,6 @@ class CompetitionScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Competitions Section
                 if (controller.competitionList.isNotEmpty) ...[
                   Text(
                     "Competitions",
