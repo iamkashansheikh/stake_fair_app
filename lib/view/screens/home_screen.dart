@@ -338,20 +338,22 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
- Widget _buildCategoryBar(double textScale) {
+  Widget _buildCategoryBar(double textScale) {
   return Obx(() => Container(
+        width: MediaQuery.of(Get.context!).size.width, // Full width
         padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
         color: const Color(0xff303030),
         child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Wrap(
             spacing: 5,
+            alignment: WrapAlignment.start, // Start alignment
             children: [
-              _buildInPlayContainer(inplayController.liveMatchesCount.value, textScale),
+              _buildInPlayContainer(
+                  inplayController.liveMatchesCount.value, textScale),
               ...eventsTypeController.categories.map((item) {
                 return GestureDetector(
                   onTap: () {
-                   // When category is tapped, navigate to CommonScreen
                     Get.to(() => CommonScreen(
                           categoryId: item['id'],
                           eventName: item['label'],
@@ -359,19 +361,24 @@ class _HomeScreenState extends State<HomeScreen> {
                         ));
                   },
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
                       color: const Color(0xff525252),
                     ),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Center(child: Icon(item['icon'], color: Colors.white, size: 19 * textScale)),
+                        Center(
+                            child: Icon(item['icon'],
+                                color: Colors.white, size: 19 * textScale)),
                         const SizedBox(height: 1),
                         Center(
                           child: Text(
                             item['label'],
-                            style: TextStyle(color: Colors.white, fontSize: 10 * textScale),
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 10 * textScale),
                             maxLines: 1,
                           ),
                         ),
