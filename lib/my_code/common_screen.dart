@@ -37,7 +37,7 @@ class _CommonScreenState extends State<CommonScreen> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: const Color(0xffFFFFFF),
-        appBar: _buildAppBar(context), // AppBar remains the same
+        appBar: _buildAppBar(context),
         body: Padding(
           padding: EdgeInsets.symmetric(horizontal: mediaQuery.width * 0.0),
           child: SingleChildScrollView(
