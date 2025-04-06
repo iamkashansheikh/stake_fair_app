@@ -6,4 +6,5 @@ abstract class RoutsName {
   static const String homeScreen = '/homeScreen';
   static const String virsion = '/virsion';
   static const String inplay = '/inplay';
+  static const String common = '/common';
 }

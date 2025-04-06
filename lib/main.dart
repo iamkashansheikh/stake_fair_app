@@ -3,14 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:stake_fair_app/my_code/view/screens/competitions_screen.dart';
-import 'package:stake_fair_app/my_code/view/screens/events_screen.dart';
-import 'package:stake_fair_app/my_code/view/screens/menu_screen.dart';
 import 'package:stake_fair_app/res/routs/app_routs.dart';
 import 'package:stake_fair_app/res/routs/app_routs_name.dart';
 import 'package:stake_fair_app/view/screens/app_Loacalization/app_local.dart';
-import 'package:stake_fair_app/view/screens/home_screen.dart';
-import 'package:stake_fair_app/view/screens/inplay_screen.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -36,9 +31,9 @@ class MyApp extends StatelessWidget {
             translations: AppTranslations(),
             locale: Locale('en', 'US'),
             fallbackLocale: Locale('en', 'US'),
-             //initialRoute: RoutsName.virsion,
-             //getPages: AppRouts.pages,
-            home: EventsScreen()
+            initialRoute: RoutsName.virsion,
+            getPages: AppRouts.pages,
+           // home: HomeScreen()
             );
 
       },

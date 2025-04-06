@@ -46,18 +46,18 @@ class EventsTypeController extends GetxController {
     } finally {
       isLoading.value = false;
     }
-
   
   
 }
 
-  
+
+  }
 
   IconData mapIconFromCategoryName(String name) {
     switch (name.toLowerCase()) {
       case 'cricket': return Icons.sports_cricket;
-      case 'soccer': return Icons.sports_soccer;
       case 'tennis': return Icons.sports_tennis;
+      case 'soccer': return Icons.sports_soccer;
       case 'golf': return Icons.sports_golf;
       case 'rugby union':
       case 'rugby league': return Icons.sports_rugby;
@@ -85,4 +85,4 @@ class EventsTypeController extends GetxController {
       default: return Icons.help_outline;
     }
   }
-}
+
