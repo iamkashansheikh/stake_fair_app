@@ -46,16 +46,13 @@ class EventsTypeController extends GetxController {
     } finally {
       isLoading.value = false;
     }
-<<<<<<< HEAD
+
   
   
 }
 
+  
 
-=======
-  }
-
->>>>>>> b616b6526d90861a4427c9705f18317867d12106
   IconData mapIconFromCategoryName(String name) {
     switch (name.toLowerCase()) {
       case 'cricket': return Icons.sports_cricket;
