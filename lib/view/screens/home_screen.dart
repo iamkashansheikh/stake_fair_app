@@ -130,7 +130,7 @@ class _HomeScreenState extends State<HomeScreen> {
         }),
       ),
     );
-  }
+    }
 
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     double appBarHeight = 50;
@@ -392,7 +392,6 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ));
 }
-
 
   Widget _buildBanner(Size mediaQuery) {
     return Container(
