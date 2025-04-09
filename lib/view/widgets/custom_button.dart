@@ -39,39 +39,39 @@ class RoundButtonWidget extends StatelessWidget {
                   style: Theme.of(context)
                       .textTheme
                       .titleMedium!
-                      .copyWith(color: textColor, fontSize: 20),
+                      .copyWith(color: textColor, fontSize: 16),
                 ))),
     );
   }
 }
 
 
-class CustomButton extends StatelessWidget {
-  final String name;
-  Color color;
-  Function()? onTap;
-  final double width;
-  final bool isEnabled;
+// class CustomButton extends StatelessWidget {
+//   final String name;
+//   Color color;
+//   Function()? onTap;
+//   final double width;
+//   final bool isEnabled;
 
-  CustomButton(
-      {super.key,
-      required this.name,
-      this.color = AppColors.buttonColor,
-      this.onTap, this.width = 20,this.isEnabled=false});
+//   CustomButton(
+//       {super.key,
+//       required this.name,
+//       this.color = AppColors.buttonColor,
+//       this.onTap, this.width = 20,this.isEnabled=false});
 
-  @override
-  Widget build(BuildContext context) {
-    Size mediaQuerySize = MediaQuery.of(context).size;
-    return Container(
-      height: mediaQuerySize.height * 0.07,
-      width: mediaQuerySize.width * 0.9,
-      decoration: BoxDecoration(border: Border.all(color: AppColors.buttonColor), color: color, borderRadius: BorderRadius.circular(5)),
-      child: TextButton(
-          onPressed: onTap,
-          child: Text(
-            name,
+//   @override
+//   Widget build(BuildContext context) {
+//     Size mediaQuerySize = MediaQuery.of(context).size;
+//     return Container(
+//       height: mediaQuerySize.height * 0.07,
+//       width: mediaQuerySize.width * 0.9,
+//       decoration: BoxDecoration(border: Border.all(color: AppColors.buttonColor), color: color, borderRadius: BorderRadius.circular(5)),
+//       child: TextButton(
+//           onPressed: onTap,
+//           child: Text(
+//             name,
             
-          )),
-    );
-  }
-}
+//           )),
+//     );
+//   }
+// }

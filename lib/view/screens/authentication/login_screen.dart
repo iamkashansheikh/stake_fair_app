@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:stake_fair_app/res/app_colors/app_colors.dart';
+import 'package:stake_fair_app/view/screens/authentication/forgotten_password.dart';
 import 'package:stake_fair_app/view/screens/authentication/sign_up_screen.dart';
+import 'package:stake_fair_app/view/screens/authentication/username_screen.dart';
 import 'package:stake_fair_app/view/widgets/emial_username.dart';
 import 'package:stake_fair_app/view/widgets/password_validation_screen.dart'
     show PasswordFieldWidget;
@@ -161,15 +163,26 @@ class _LoginScreenState extends State<LoginScreen> {
                           style: TextStyle(fontSize: 16),
                         ),
                         SizedBox(width: mediaQuerySize.width * 0.01),
-                        Text('username',
-                            style: TextStyle(color: Colors.blue, fontSize: 16)),
+                        GestureDetector(
+                            onTap: (){
+                              Get.to(()=>UsernameScreen());
+                            },
+
+                          child: Text('username',
+                              style: TextStyle(color: Colors.blue, fontSize: 16)),
+                        ),
                         SizedBox(width: mediaQuerySize.width * 0.01),
                         Text('or',
                             style:
                                 TextStyle(color: Colors.black, fontSize: 16)),
                         SizedBox(width: mediaQuerySize.width * 0.01),
-                        Text('password',
-                            style: TextStyle(color: Colors.blue, fontSize: 16)),
+                        GestureDetector(
+                          onTap: (){
+                            Get.to(()=>ForgottenPassword());
+                          },
+                          child: Text('password',
+                              style: TextStyle(color: Colors.blue, fontSize: 16)),
+                        ),
                         Text('?',
                             style:
                                 TextStyle(color: Colors.black, fontSize: 16)),
