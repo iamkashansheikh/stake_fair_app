@@ -615,7 +615,6 @@ class _InplayScreenState extends State<InplayScreen> {
     return Container(
       width: 50,
       height: 40,
-     // padding: const EdgeInsets.symmetric(vertical: 4),
       decoration: BoxDecoration(
         color: backgroundColor,
         borderRadius: BorderRadius.circular(2),
