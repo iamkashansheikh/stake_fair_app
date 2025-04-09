@@ -101,7 +101,7 @@ class _CustomFieldState extends State<CustomField> {
                     labelStyle: const TextStyle(color: Colors.grey),
                     hintStyle: const TextStyle(color: Colors.grey),
                     counterText: "",
-                    contentPadding: const EdgeInsets.symmetric(vertical: 2),
+                    contentPadding: const EdgeInsets.symmetric(vertical: 2,horizontal: 4),
                     border: InputBorder.none,
                   ),
                   onChanged: (value) {
@@ -145,130 +145,5 @@ class _CustomFieldState extends State<CustomField> {
 }
 
 
-
-
-
-
-// import 'package:flutter/material.dart';
-// import 'package:flutter/services.dart';
-
-// class CustomField extends StatelessWidget {
-//   final bool isPrefixIcon;
-//   final bool isSuffixIcon;
-//   final bool obscureText;
-//   final Widget? prefixIcon;
-//   final Widget? suffixIcon;
-//   final Color? color;
-//   final String? hintText;
-//   final TextEditingController? controller;
-//   final FocusNode focusNode;
-//   final FocusNode? nextFocusNode;
-//   final TextInputType keyboardType;
-//   final int? maxLength;
-//   final List<TextInputFormatter>? inputFormatters;
-//   final void Function(String value)? onChanged;
-//   final void Function(bool hasFocus)? onFocusChange; // ✅ Optional onFocusChange
-//   final Color? borderColor;
-
-//   CustomField({
-//     super.key,
-//     this.hintText,
-//     this.suffixIcon,
-//     this.isPrefixIcon = false,
-//     this.isSuffixIcon = false,
-//     this.obscureText = false,
-//     this.prefixIcon,
-//     this.color,
-//     this.controller,
-//     required this.focusNode,
-//     this.nextFocusNode,
-//     this.keyboardType = TextInputType.text,
-//     this.maxLength,
-//     this.inputFormatters,
-//     this.onChanged,
-//     this.onFocusChange, // ✅ Fixed issue
-//     this.borderColor, // ✅ Optional border color
-//   });
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Padding(
-//       padding: const EdgeInsets.symmetric(horizontal: 3),
-//       child: Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: [
-//           Container(
-//             height: 50,
-//             decoration: BoxDecoration(
-//               color: color ?? Colors.black.withOpacity(0.07),
-//               borderRadius: BorderRadius.circular(4),
-//             ),
-//             alignment: Alignment.center,
-//             child: Padding(
-//               padding: const EdgeInsets.symmetric(horizontal: 8.0),
-//               child: Focus(
-//                 onFocusChange: (hasFocus) {
-//                   if (onFocusChange != null) {
-//                     onFocusChange!(hasFocus); // ✅ Calls the function if provided
-//                   }
-//                 },
-//                 child: TextField(
-//                   controller: controller,
-//                   focusNode: focusNode,
-//                   obscureText: obscureText,
-//                   keyboardType: keyboardType,
-//                   maxLength: maxLength,
-//                   inputFormatters: [
-//                     if (keyboardType == TextInputType.number || keyboardType == TextInputType.phone)
-//                       FilteringTextInputFormatter.digitsOnly,
-//                     LengthLimitingTextInputFormatter(maxLength),
-//                     ...?inputFormatters,
-//                   ],
-//                   maxLines: 1,
-//                   textAlignVertical: TextAlignVertical.center,
-//                   style: const TextStyle(color: Colors.black),
-//                   decoration: InputDecoration(
-//                     prefixIcon: isPrefixIcon ? prefixIcon : null,
-//                     suffixIcon: isSuffixIcon ? suffixIcon : null,
-//                     labelText: hintText,
-//                     labelStyle: const TextStyle(color: Colors.grey),
-//                     hintStyle: const TextStyle(color: Colors.grey),
-//                     counterText: "",
-//                     border: InputBorder.none,
-//                   ),
-//                   onEditingComplete: () {
-//                     if (nextFocusNode != null) {
-//                       FocusScope.of(context).requestFocus(nextFocusNode);
-//                     } else {
-//                       focusNode.unfocus();
-//                     }
-//                   },
-//                   onChanged: onChanged,
-//                 ),
-//               ),
-//             ),
-//           ),
-//           AnimatedBuilder(
-//             animation: focusNode,
-//             builder: (context, child) {
-//               return Padding(
-//                 padding: const EdgeInsets.symmetric(horizontal: 2),
-//                 child: Container(
-//                   height: 1,
-//                   width: double.infinity,
-//                   decoration: BoxDecoration(
-//                     color: focusNode.hasFocus
-//                         ? (borderColor ?? Colors.orange)
-//                         : Colors.transparent,
-//                   ),
-//                 ),
-//               );
-//             },
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
 
 
