@@ -1,11 +1,9 @@
-// category_controller.dart
 import 'package:get/get.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:stake_fair_app/models/home_models/category_model.dart';
 import 'dart:convert';
 import 'package:flutter/material.dart';
-
 
 class CategoryDisplayScreen extends StatelessWidget {
   CategoryDisplayScreen({Key? key}) : super(key: key);
@@ -98,15 +96,11 @@ class CategoryDisplayScreen extends StatelessWidget {
   }
 }
 
-
 class CategoryController extends GetxController {
-  // Observable CategoryListModel (Rxn allows nullability)
   var categoryListModel = Rxn<CategoryListModel>();
 
-  // Aapka API endpoint (yahan aap apna sahi URL lagayen)
   final String apiUrl = "https://eka247.com/api/navigation/menuList";
-  
-  // Agar API ko data bhejna zaroori hai to postData define karein
+
   final Map<String, dynamic> postData = {
     "key1": "value1",
     "key2": "value2",
@@ -120,7 +114,6 @@ class CategoryController extends GetxController {
 
   Future<void> fetchCategoryData() async {
     try {
-      // API call using HTTP POST (agar GET request hai to accordingly method change karein)
       final response = await http
           .post(Uri.parse(apiUrl), body: jsonEncode(postData))
           .timeout(const Duration(seconds: 20));
