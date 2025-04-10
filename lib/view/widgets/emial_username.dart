@@ -71,7 +71,7 @@ class _EmailUsernameState extends State<EmailUsername> {
               borderRadius: BorderRadius.circular(3),
             ),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 6.0, vertical: 2),
+              padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 2),
               child: TextField(
                 controller: widget.controller,
                 focusNode: widget.focusNode,
@@ -86,7 +86,7 @@ class _EmailUsernameState extends State<EmailUsername> {
                   prefixIcon: widget.isPrefixIcon ? widget.prefixIcon : null,
                   suffixIcon: widget.isSuffixIcon ? widget.suffixIcon : null,
                   labelText: widget.hintText,
-                  labelStyle: const TextStyle(color: Colors.grey),
+                  labelStyle: const TextStyle(color: Colors.grey,fontSize: 12,fontWeight: FontWeight.w500),
                   hintStyle: const TextStyle(color: Colors.grey),
                   counterText: "",
                   contentPadding: const EdgeInsets.symmetric(vertical: 2),
