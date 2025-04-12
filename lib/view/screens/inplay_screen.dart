@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:stake_fair_app/controllers/Home/home_controller.dart';
 import 'package:stake_fair_app/controllers/Home/inplay_controller.dart';
 import 'package:badges/badges.dart' as badges;
+import 'package:stake_fair_app/res/app_colors/app_colors.dart';
 
 class InplayScreen extends StatefulWidget {
   const InplayScreen({super.key});
@@ -22,7 +23,7 @@ class _InplayScreenState extends State<InplayScreen> {
     final double textScale = MediaQuery.of(context).textScaleFactor;
     return SafeArea(
       child: Scaffold(
-        backgroundColor: const Color(0xffFFFFFF),
+        backgroundColor: AppColors.whiteColor,
         appBar: _buildAppBar(context),
         body: Stack(
           clipBehavior: Clip.none,
@@ -32,13 +33,15 @@ class _InplayScreenState extends State<InplayScreen> {
                 children: [
                   _buildContainer(
                     'In-Play',
-                    const Icon(
+                    Icon(
                       Icons.timelapse,
-                      color: Colors.white,
+                      color: AppColors.whiteColor,
                       size: 22,
                     ),
                   ),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.006,),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.006,
+                  ),
                   Row(
                     children: [
                       _buildShowMatches(
@@ -47,7 +50,7 @@ class _InplayScreenState extends State<InplayScreen> {
                         badge: badges.Badge(
                           badgeStyle: badges.BadgeStyle(
                               borderRadius: BorderRadius.circular(2),
-                              badgeColor: const Color(0xff20A052),
+                              badgeColor: AppColors.inplaybtnColor,
                               shape: badges.BadgeShape.square,
                               padding: EdgeInsets.zero),
                           badgeContent: SizedBox(
@@ -70,7 +73,7 @@ class _InplayScreenState extends State<InplayScreen> {
                         badge: badges.Badge(
                           badgeStyle: badges.BadgeStyle(
                             borderRadius: BorderRadius.circular(2),
-                            badgeColor: const Color(0xff20A052),
+                            badgeColor: AppColors.inplaybtnColor,
                             shape: badges.BadgeShape.square,
                             padding: EdgeInsets.zero,
                           ),
@@ -96,7 +99,7 @@ class _InplayScreenState extends State<InplayScreen> {
                         badge: badges.Badge(
                           badgeStyle: badges.BadgeStyle(
                               borderRadius: BorderRadius.circular(2),
-                              badgeColor: const Color(0xff20A052),
+                              badgeColor: AppColors.inplaybtnColor,
                               shape: badges.BadgeShape.square,
                               padding: EdgeInsets.zero),
                           badgeContent: SizedBox(
@@ -115,7 +118,9 @@ class _InplayScreenState extends State<InplayScreen> {
                       ),
                     ],
                   ),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.006,),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.006,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -149,10 +154,12 @@ class _InplayScreenState extends State<InplayScreen> {
                       ],
                     ),
                   ),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.01,),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.01,
+                  ),
                   Divider(
                     thickness: 0.5,
-                    height:0,
+                    height: 0,
                   ),
                   _buildOddsRow(),
                   _buildOddsRow(),
@@ -230,12 +237,9 @@ class _InplayScreenState extends State<InplayScreen> {
     return PreferredSize(
       preferredSize: Size.fromHeight(appBarHeight),
       child: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [
-              Color(0xffFFB300),
-              Color(0xffFF8801),
-            ],
+            colors: [AppColors.baryelowColor, AppColors.barorngColor],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
@@ -308,15 +312,15 @@ class _InplayScreenState extends State<InplayScreen> {
       width: width,
       height: 38,
       decoration: BoxDecoration(
-          color: const Color(0xff424242),
+          color: AppColors.apbarbutonColor,
           borderRadius: BorderRadius.circular(2)),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(icon, color: Colors.white, size: 20),
+          Icon(icon, color: AppColors.whiteColor, size: 20),
           Text(text,
-              style: const TextStyle(
-                  color: Colors.white,
+              style: TextStyle(
+                  color: AppColors.whiteColor,
                   fontSize: 11,
                   fontWeight: FontWeight.w600)),
         ],
@@ -329,7 +333,7 @@ class _InplayScreenState extends State<InplayScreen> {
       key: key,
       width: mediaQuery.width,
       height: 55 * textScale,
-      color: const Color(0xff303030),
+      color: AppColors.blackthemeColor,
       padding: const EdgeInsets.all(10),
       child: Row(
         children: [
@@ -339,16 +343,14 @@ class _InplayScreenState extends State<InplayScreen> {
               child: TextFormField(
                 cursorColor: Colors.grey,
                 decoration: const InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(vertical: 5),
-                  isDense: true,
-                  filled: true,
-                  fillColor: Colors.white,
-                  prefixIcon: Icon(Icons.search, color: Colors.grey),
-                  hintText: 'Search...',
-                  hintStyle: TextStyle(color: Colors.grey),
-                  border: OutlineInputBorder(),
-                  focusedBorder: OutlineInputBorder(),
-                ),
+                    contentPadding: EdgeInsets.symmetric(vertical: 5),
+                    isDense: true,
+                    filled: true,
+                    fillColor: Colors.white,
+                    prefixIcon: Icon(Icons.search, color: Colors.grey),
+                    hintStyle: TextStyle(color: Colors.grey),
+                    border: OutlineInputBorder(),
+                    focusedBorder: OutlineInputBorder()),
               ),
             ),
           ),
@@ -357,7 +359,8 @@ class _InplayScreenState extends State<InplayScreen> {
             onTap: () => homeController.isSearchFieldVisible.value = false,
             child: AutoSizeText(
               "Cancel",
-              style: TextStyle(color: Colors.white, fontSize: 12 * textScale),
+              style: TextStyle(
+                  color: AppColors.whiteColor, fontSize: 12 * textScale),
               maxLines: 1,
             ),
           ),
@@ -377,10 +380,9 @@ class _InplayScreenState extends State<InplayScreen> {
       child: InkWell(
         onTap: onTap,
         child: Container(
-          height: 48,
+          height: 48, // Fixed height; adjust if needed.
           decoration: BoxDecoration(
-            color:
-                isSelected ? const Color(0xff303030) : const Color(0xff525252),
+            color: isSelected ? AppColors.blackthemeColor : AppColors.greyColor,
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -419,9 +421,8 @@ class _InplayScreenState extends State<InplayScreen> {
         child: Container(
           height: 48,
           decoration: BoxDecoration(
-            color:
-                isSelected ? const Color(0xff303030) : const Color(0xff525252),
-          ),
+              color:
+                  isSelected ? AppColors.blackthemeColor : AppColors.greyColor),
           child: Padding(
             padding: const EdgeInsets.only(bottom: 5),
             child: Column(
@@ -452,7 +453,7 @@ class _InplayScreenState extends State<InplayScreen> {
     return Container(
       width: double.infinity,
       height: 31,
-      color: const Color(0xff303030),
+      color: AppColors.blackthemeColor,
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
       child: Row(
         children: [
@@ -464,10 +465,10 @@ class _InplayScreenState extends State<InplayScreen> {
             padding: const EdgeInsets.only(top: 1),
             child: AutoSizeText(
               title,
-              style: const TextStyle(
+              style: TextStyle(
                   fontWeight: FontWeight.w600,
                   fontSize: 14,
-                  color: Colors.white),
+                  color: AppColors.whiteColor),
               maxLines: 1,
             ),
           ),
@@ -502,12 +503,11 @@ class _InplayScreenState extends State<InplayScreen> {
                 const SizedBox(height: 1),
                 Text(
                   label,
-                  style:  TextStyle(
-                    fontSize: 12,
-                    height: 1.0,
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold
-                  ),
+                  style: TextStyle(
+                      fontSize: 12,
+                      height: 1.0,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
                   maxLines: 1,
                 ),
               ],
@@ -534,7 +534,7 @@ class _InplayScreenState extends State<InplayScreen> {
                 height: 60,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  color: const Color(0xff20A052),
+                  color: AppColors.inplaybtnColor,
                   border: Border(
                     bottom: BorderSide(color: Colors.white),
                   ),
@@ -572,8 +572,7 @@ class _InplayScreenState extends State<InplayScreen> {
                     scrollDirection: Axis.horizontal,
                     physics: const ClampingScrollPhysics(),
                     child: Row(
-                      
-                     // crossAxisAlignment: CrossAxisAlignment.center,
+                      // crossAxisAlignment: CrossAxisAlignment.center,
                       children: inplayController.oddsList
                           .asMap()
                           .entries
@@ -581,8 +580,8 @@ class _InplayScreenState extends State<InplayScreen> {
                         int index = entry.key;
                         final item = entry.value;
                         final Color bgColor = index < 3
-                            ? const Color(0xffA6D8FF)
-                            : const Color(0xffFAC9D1);
+                            ? AppColors.markitblueColor
+                            : AppColors.markitpinkColor;
                         return Padding(
                           padding: const EdgeInsets.only(right: 4),
                           child: _buildOddsBox(
@@ -625,17 +624,11 @@ class _InplayScreenState extends State<InplayScreen> {
           Text(
             odds,
             style: const TextStyle(
-              fontWeight: FontWeight.w600,
-              fontSize: 14,
-              height: 1.0
-            ),
+                fontWeight: FontWeight.w600, fontSize: 14, height: 1.0),
           ),
           Text(
             amount,
-            style: const TextStyle(
-              fontSize: 12,
-              height: 1.0
-            ),
+            style: const TextStyle(fontSize: 12, height: 1.0),
           ),
         ],
       ),

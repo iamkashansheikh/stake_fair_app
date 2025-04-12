@@ -6,6 +6,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:stake_fair_app/controllers/Home/inplay_controller.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:stake_fair_app/my_code/common_screen.dart';
+import 'package:stake_fair_app/res/app_colors/app_colors.dart';
 import 'package:stake_fair_app/view/screens/inplay_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -28,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: const Color(0xffFFFFFF),
+        backgroundColor:  AppColors.whiteColor,
         appBar: _buildAppBar(context),
         body: Stack(
           children: [
@@ -95,7 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         bottomNavigationBar: Obx(() {
           return Container(
-            color: const Color(0xff525252),
+            color:  AppColors.greyColor,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -142,11 +143,11 @@ class _HomeScreenState extends State<HomeScreen> {
     return PreferredSize(
       preferredSize: Size.fromHeight(appBarHeight),
       child: Container(
-        decoration: const BoxDecoration(
+        decoration:  BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Color(0xffFFB300),
-              Color(0xffFF8801),
+              AppColors.baryelowColor,
+              AppColors.barorngColor
             ],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -220,15 +221,15 @@ class _HomeScreenState extends State<HomeScreen> {
       width: width,
       height: 38,
       decoration: BoxDecoration(
-          color: const Color(0xff424242),
+          color: AppColors.apbarbutonColor,
           borderRadius: BorderRadius.circular(2)),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(icon, color: Colors.white, size: 20),
+          Icon(icon, color: AppColors.whiteColor, size: 20),
           Text(text,
-              style: const TextStyle(
-                  color: Colors.white,
+              style:TextStyle(
+                  color: AppColors.whiteColor,
                   fontSize: 11,
                   fontWeight: FontWeight.w600)),
         ],
@@ -241,7 +242,7 @@ class _HomeScreenState extends State<HomeScreen> {
       key: key,
       width: mediaQuery.width,
       height: 55 * textScale,
-      color: const Color(0xff303030),
+      color: AppColors.blackthemeColor,
       padding: const EdgeInsets.all(10),
       child: Row(
         children: [
@@ -267,7 +268,7 @@ class _HomeScreenState extends State<HomeScreen> {
             onTap: () => homeController.isSearchFieldVisible.value = false,
             child: AutoSizeText(
               "Cancel",
-              style: TextStyle(color: Colors.white, fontSize: 12 * textScale),
+              style: TextStyle(color: AppColors.whiteColor, fontSize: 12 * textScale),
               maxLines: 1,
             ),
           ),
@@ -284,7 +285,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2.5),
         decoration: BoxDecoration(
-          color: const Color(0xff20a052),
+          color: AppColors.inplaybtnColor
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -300,8 +301,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     badgeStyle: badges.BadgeStyle(
                       borderRadius: BorderRadius.circular(2.5),
                       borderSide:
-                          BorderSide(color: const Color(0xff20A052), width: 1),
-                      badgeColor: Color(0xffFFFFFF),
+                          BorderSide(color: AppColors.inplaybtnColor, width: 1),
+                      badgeColor: AppColors.whiteColor,
                       shape: badges.BadgeShape.square,
                     ),
                     badgeContent: SizedBox(
@@ -311,7 +312,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Text(
                           '$count',
                           style: const TextStyle(
-                            color: const Color(0xff20A052),
+                            color: AppColors.inplaybtnColor,
                             fontSize: 7,
                             fontWeight: FontWeight.bold,
                           ),
@@ -342,7 +343,7 @@ class _HomeScreenState extends State<HomeScreen> {
   return Obx(() => Container(
         width: MediaQuery.of(Get.context!).size.width, // Full width
         padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-        color: const Color(0xff303030),
+        color: AppColors.blackthemeColor,
         child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Wrap(
@@ -364,20 +365,20 @@ class _HomeScreenState extends State<HomeScreen> {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
-                      color: const Color(0xff525252),
+                      color: AppColors.greyColor,
                     ),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Center(
                             child: Icon(item['icon'],
-                                color: Colors.white, size: 19 * textScale)),
+                                color: AppColors.whiteColor, size: 19 * textScale)),
                         const SizedBox(height: 1),
                         Center(
                           child: Text(
                             item['label'],
                             style: TextStyle(
-                                color: Colors.white,
+                                color: AppColors.whiteColor,
                                 fontSize: 10 * textScale),
                             maxLines: 1,
                           ),
@@ -409,7 +410,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildWhyWinBanner(Size mediaQuery) {
     return Container(
       width: mediaQuery.width,
-      color: const Color(0xffD7DCDF),
+      color: AppColors.whybanColor,
       child: Padding(
         padding: const EdgeInsets.all(2.0),
         child: Container(
@@ -466,12 +467,12 @@ class _HomeScreenState extends State<HomeScreen> {
     return Container(
       width: double.infinity,
       height: 31,
-      color: const Color(0xff303030),
+      color: AppColors.blackthemeColor,
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       child: AutoSizeText(
         title,
-        style: const TextStyle(
-            fontWeight: FontWeight.w600, fontSize: 14, color: Colors.white),
+        style:  TextStyle(
+            fontWeight: FontWeight.w600, fontSize: 14, color: AppColors.whiteColor),
         maxLines: 1,
       ),
     );
@@ -848,7 +849,7 @@ class _HomeScreenState extends State<HomeScreen> {
           height: 48, // Fixed height; adjust if needed.
           decoration: BoxDecoration(
             color:
-                isSelected ? const Color(0xff303030) : const Color(0xff525252),
+                isSelected ? AppColors.blackthemeColor : AppColors.greyColor,
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -888,7 +889,7 @@ class _HomeScreenState extends State<HomeScreen> {
           height: 48,
           decoration: BoxDecoration(
             color:
-                isSelected ? const Color(0xff303030) : const Color(0xff525252),
+                isSelected ? AppColors.blackthemeColor : AppColors.greyColor
           ),
           child: Padding(
             padding: const EdgeInsets.only(bottom: 5),

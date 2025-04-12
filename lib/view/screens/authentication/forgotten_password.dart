@@ -5,12 +5,9 @@ import 'package:stake_fair_app/view/screens/authentication/help_screen.dart';
 import 'package:stake_fair_app/view/screens/authentication/username_screen.dart';
 import 'package:stake_fair_app/view/widgets/date_of_birth.dart';
 import 'package:stake_fair_app/view/widgets/emial_username.dart';
-import 'package:stake_fair_app/view/widgets/password_validation_screen.dart'
-    show PasswordFieldWidget;
 
 import '../../../controllers/getx_controller/auth_controller.dart';
 import '../../../controllers/getx_controller/password_controller.dart';
-import '../../widgets/country_code_picker.dart';
 import '../../widgets/custom_button.dart';
 
 class ForgottenPassword extends StatefulWidget {

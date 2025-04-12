@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:stake_fair_app/checkdata.dart';
 import 'package:stake_fair_app/res/routs/app_routs.dart';
 import 'package:stake_fair_app/res/routs/app_routs_name.dart';
 import 'package:stake_fair_app/view/screens/app_Loacalization/app_local.dart';
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
             fallbackLocale: Locale('en', 'US'),
             initialRoute: RoutsName.virsion,
             getPages: AppRouts.pages,
-           // home: HomeScreen()
+            //  home: CategoryDisplayScreen()
             );
 
       },
