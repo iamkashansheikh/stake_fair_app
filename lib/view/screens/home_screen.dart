@@ -6,6 +6,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:stake_fair_app/controllers/Home/inplay_controller.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:stake_fair_app/my_code/common_screen.dart';
+import 'package:stake_fair_app/res/app_colors/app_colors.dart';
 import 'package:stake_fair_app/view/screens/inplay_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -28,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: const Color(0xffFFFFFF),
+        backgroundColor:  AppColors.whiteColor,
         appBar: _buildAppBar(context),
         body: Stack(
           children: [
@@ -95,7 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         bottomNavigationBar: Obx(() {
           return Container(
-            color: const Color(0xff525252),
+            color:  AppColors.greyColor,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -142,11 +143,11 @@ class _HomeScreenState extends State<HomeScreen> {
     return PreferredSize(
       preferredSize: Size.fromHeight(appBarHeight),
       child: Container(
-        decoration: const BoxDecoration(
+        decoration:  BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Color(0xffFFB300),
-              Color(0xffFF8801),
+              AppColors.baryelowColor,
+              AppColors.barorngColor
             ],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -225,10 +226,10 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(icon, color: Colors.white, size: 20),
+          Icon(icon, color: AppColors.whiteColor, size: 20),
           Text(text,
-              style: const TextStyle(
-                  color: Colors.white,
+              style:TextStyle(
+                  color: AppColors.whiteColor,
                   fontSize: 11,
                   fontWeight: FontWeight.w600)),
         ],
