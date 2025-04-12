@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 class CategoryDisplayScreen extends StatelessWidget {
   CategoryDisplayScreen({Key? key}) : super(key: key);
 
-  // GetX controller instance ko register karte hain
   final CategoryController categoryController = Get.put(CategoryController());
 
   @override
