@@ -1,9 +1,6 @@
 import 'package:get/get.dart';
-import 'package:flutter/foundation.dart';
-import 'package:http/http.dart' as http;
-import 'package:stake_fair_app/models/home_models/category_model.dart';
-import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:stake_fair_app/repositroy/home_repository/home_repository.dart';
 
 class CategoryDisplayScreen extends StatelessWidget {
   CategoryDisplayScreen({Key? key}) : super(key: key);
@@ -14,96 +11,71 @@ class CategoryDisplayScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Category List Model Data'),
+        title: const Text('Category List'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Obx(() {
-          // Agar data abhi load nahi hua to CircularProgressIndicator show karein
-          if (categoryController.categoryListModel.value == null) {
-            return const Center(child: CircularProgressIndicator());
-          } else {
-            // Model ko JSON map me convert kar lein for recursive display
-            final dataMap = categoryController.categoryListModel.value!.toJson();
-            return SingleChildScrollView(
-              child: _buildDataDisplay(dataMap),
-            );
-          }
-        }),
-      ),
+      body: Obx(() {
+        if (categoryController.isLoading.value) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (categoryController.errorMessage.value.isNotEmpty) {
+          return Center(child: Text(categoryController.errorMessage.value));
+        } else if (categoryController.categoryData.value == null) {
+          return const Center(child: Text('No data available'));
+        } else {
+          return SingleChildScrollView(
+            padding: const EdgeInsets.all(16.0),
+            child: buildDataDisplay(categoryController.categoryData.value),
+          );
+        }
+      }),
     );
   }
 
-  /// Recursive method to display the JSON data structure
-  Widget _buildDataDisplay(dynamic data) {
-    if (data is Map<String, dynamic>) {
-      List<Widget> displayWidgets = [];
-      data.forEach((key, value) {
-        displayWidgets.add(
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4.0),
-            child: _buildDataItem(key, value),
-          ),
-        );
-      });
+  /// Recursively build widget tree for JSON data (Map or List).
+  Widget buildDataDisplay(dynamic data) {
+    if (data is Map) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: displayWidgets,
+        children: data.entries.map((entry) {
+          return buildDataItem(entry.key.toString(), entry.value);
+        }).toList(),
       );
     } else if (data is List) {
-      List<Widget> items = [];
-      for (var item in data) {
-        items.add(_buildDataDisplay(item));
-      }
-      return Column(children: items);
+      return Column(
+        children: data.map<Widget>((item) => buildDataDisplay(item)).toList(),
+      );
     } else {
-      return Text(data.toString(), style: const TextStyle(fontSize: 16));
+      return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Text(data.toString(), style: const TextStyle(fontSize: 16)),
+      );
     }
   }
 
-  /// Recursive method to check each key/value pair and build expandable items if needed.
-  Widget _buildDataItem(String key, dynamic value) {
-    if (value is Map) {
-      List<Widget> children = [];
-      value.forEach((k, v) {
-        children.add(_buildDataItem(k.toString(), v));
-      });
+  /// Build widget for a single key-value pair.
+  Widget buildDataItem(String key, dynamic value) {
+    if (value is Map || value is List) {
       return ExpansionTile(
         title: Text(key, style: const TextStyle(fontWeight: FontWeight.bold)),
-        children: children,
-      );
-    } else if (value is List) {
-      List<Widget> children = [];
-      for (var item in value) {
-        if (item is Map) {
-          children.add(_buildDataItem(key, item));
-        } else {
-          children.add(
-            ListTile(title: Text("$key : $item")),
-          );
-        }
-      }
-      return ExpansionTile(
-        title: Text(key, style: const TextStyle(fontWeight: FontWeight.bold)),
-        children: children,
+        children: [buildDataDisplay(value)],
       );
     } else {
       return ListTile(
-        title: Text("$key : $value"),
+        title: Text('$key : $value'),
       );
     }
   }
 }
 
+
+
 class CategoryController extends GetxController {
-  var categoryListModel = Rxn<CategoryListModel>();
+  final HomeRepository repository = HomeRepository();
 
-  final String apiUrl = "https://eka247.com/api/navigation/menuList";
-
-  final Map<String, dynamic> postData = {
-    "key1": "value1",
-    "key2": "value2",
-  };
+  // Holds the fetched data (could be Map or List)
+  Rx<dynamic> categoryData = Rx<dynamic>(null);
+  // Loading & error states
+  RxBool isLoading = true.obs;
+  RxString errorMessage = ''.obs;
 
   @override
   void onInit() {
@@ -113,28 +85,16 @@ class CategoryController extends GetxController {
 
   Future<void> fetchCategoryData() async {
     try {
-      final response = await http
-          .post(Uri.parse(apiUrl), body: jsonEncode(postData))
-          .timeout(const Duration(seconds: 20));
-
-      if (response.statusCode == 200) {
-        // Parse JSON response to CategoryListModel
-        var model = CategoryListModel.fromJson(jsonDecode(response.body));
-        categoryListModel.value = model;
-        if (kDebugMode) {
-          print("Category API data: ${response.body}");
-        }
-      } else {
-        if (kDebugMode) {
-          print("Error: ${response.statusCode}");
-        }
-        // Handle error condition as needed
-      }
+      isLoading.value = true;
+      errorMessage.value = '';
+      // Pass your post data if needed
+      final data = await repository.categoryApi({"key1": "value1", "key2": "value2"});
+      categoryData.value = data;
     } catch (e) {
-      if (kDebugMode) {
-        print("Exception: $e");
-      }
-      // Exception handling (aap custom exception ya snackbar show kar sakte hain)
+      errorMessage.value = e.toString();
+    } finally {
+      isLoading.value = false;
     }
   }
 }
+
