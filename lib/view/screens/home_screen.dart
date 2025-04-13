@@ -18,8 +18,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final HomeController homeController = Get.put(HomeController());
-  final EventsTypeController eventsTypeController =
-      Get.put(EventsTypeController());
+  final EventsTypeController eventsTypeController = Get.put(EventsTypeController());
   final InplayController inplayController = Get.put(InplayController());
 
   @override
@@ -29,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor:  AppColors.whiteColor,
+        backgroundColor: AppColors.whiteColor,
         appBar: _buildAppBar(context),
         body: Stack(
           children: [
@@ -96,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         bottomNavigationBar: Obx(() {
           return Container(
-            color:  AppColors.greyColor,
+            color: AppColors.greyColor,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -131,7 +130,7 @@ class _HomeScreenState extends State<HomeScreen> {
         }),
       ),
     );
-    }
+  }
 
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     double appBarHeight = 50;
@@ -143,12 +142,9 @@ class _HomeScreenState extends State<HomeScreen> {
     return PreferredSize(
       preferredSize: Size.fromHeight(appBarHeight),
       child: Container(
-        decoration:  BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [
-              AppColors.baryelowColor,
-              AppColors.barorngColor
-            ],
+            colors: [AppColors.baryelowColor, AppColors.barorngColor],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
@@ -228,7 +224,7 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           Icon(icon, color: AppColors.whiteColor, size: 20),
           Text(text,
-              style:TextStyle(
+              style: TextStyle(
                   color: AppColors.whiteColor,
                   fontSize: 11,
                   fontWeight: FontWeight.w600)),
@@ -268,7 +264,8 @@ class _HomeScreenState extends State<HomeScreen> {
             onTap: () => homeController.isSearchFieldVisible.value = false,
             child: AutoSizeText(
               "Cancel",
-              style: TextStyle(color: AppColors.whiteColor, fontSize: 12 * textScale),
+              style: TextStyle(
+                  color: AppColors.whiteColor, fontSize: 12 * textScale),
               maxLines: 1,
             ),
           ),
@@ -284,9 +281,7 @@ class _HomeScreenState extends State<HomeScreen> {
       },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2.5),
-        decoration: BoxDecoration(
-          color: AppColors.inplaybtnColor
-        ),
+        decoration: BoxDecoration(color: AppColors.inplaybtnColor),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -340,59 +335,60 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildCategoryBar(double textScale) {
-  return Obx(() => Container(
-        width: MediaQuery.of(Get.context!).size.width, // Full width
-        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-        color: AppColors.blackthemeColor,
-        child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Wrap(
-            spacing: 5,
-            alignment: WrapAlignment.start, // Start alignment
-            children: [
-              _buildInPlayContainer(
-                  inplayController.liveMatchesCount.value, textScale),
-              ...eventsTypeController.categories.map((item) {
-                return GestureDetector(
-                  onTap: () {
-                    Get.to(() => CommonScreen(
-                          categoryId: item['id'],
-                          eventName: item['label'],
-                          eventIcon: item['icon'],
-                        ));
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 8, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: AppColors.greyColor,
-                    ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Center(
-                            child: Icon(item['icon'],
-                                color: AppColors.whiteColor, size: 19 * textScale)),
-                        const SizedBox(height: 1),
-                        Center(
-                          child: Text(
-                            item['label'],
-                            style: TextStyle(
-                                color: AppColors.whiteColor,
-                                fontSize: 10 * textScale),
-                            maxLines: 1,
+    return Obx(() => Container(
+          width: MediaQuery.of(Get.context!).size.width, // Full width
+          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+          color: AppColors.blackthemeColor,
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Wrap(
+              spacing: 5,
+              alignment: WrapAlignment.start, // Start alignment
+              children: [
+                _buildInPlayContainer(
+                    inplayController.liveMatchesCount.value, textScale),
+                ...eventsTypeController.categories.map((item) {
+                  return GestureDetector(
+                    onTap: () {
+                      Get.to(() => CommonScreen(
+                            categoryId: item['id'],
+                            eventName: item['label'],
+                            eventIcon: item['icon'],
+                          ));
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: AppColors.greyColor,
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Center(
+                              child: Icon(item['icon'],
+                                  color: AppColors.whiteColor,
+                                  size: 19 * textScale)),
+                          const SizedBox(height: 1),
+                          Center(
+                            child: Text(
+                              item['label'],
+                              style: TextStyle(
+                                  color: AppColors.whiteColor,
+                                  fontSize: 10 * textScale),
+                              maxLines: 1,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                );
-              }).toList(),
-            ],
+                  );
+                }).toList(),
+              ],
+            ),
           ),
-        ),
-      ));
-}
+        ));
+  }
 
   Widget _buildBanner(Size mediaQuery) {
     return Container(
@@ -471,8 +467,10 @@ class _HomeScreenState extends State<HomeScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       child: AutoSizeText(
         title,
-        style:  TextStyle(
-            fontWeight: FontWeight.w600, fontSize: 14, color: AppColors.whiteColor),
+        style: TextStyle(
+            fontWeight: FontWeight.w600,
+            fontSize: 14,
+            color: AppColors.whiteColor),
         maxLines: 1,
       ),
     );
@@ -848,8 +846,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Container(
           height: 48, // Fixed height; adjust if needed.
           decoration: BoxDecoration(
-            color:
-                isSelected ? AppColors.blackthemeColor : AppColors.greyColor,
+            color: isSelected ? AppColors.blackthemeColor : AppColors.greyColor,
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -888,9 +885,8 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Container(
           height: 48,
           decoration: BoxDecoration(
-            color:
-                isSelected ? AppColors.blackthemeColor : AppColors.greyColor
-          ),
+              color:
+                  isSelected ? AppColors.blackthemeColor : AppColors.greyColor),
           child: Padding(
             padding: const EdgeInsets.only(bottom: 5),
             child: Column(

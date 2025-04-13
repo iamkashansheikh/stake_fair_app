@@ -21,8 +21,7 @@ class CommonScreen extends StatefulWidget {
 }
 
 class _CommonScreenState extends State<CommonScreen> {
-  final CompetitionController competitionController =
-      Get.put(CompetitionController());
+  final CompetitionController competitionController = Get.put(CompetitionController());
   final HomeController homeController = Get.put(HomeController());
   @override
   Widget build(BuildContext context) {
@@ -131,8 +130,7 @@ class _CommonScreenState extends State<CommonScreen> {
   }
 
   Widget _buildHorseRacingSection(String title) {
-    final CompetitionController competitionController =
-        Get.put(CompetitionController());
+    final CompetitionController competitionController = Get.put(CompetitionController());
     return Column(
       children: [
         _buildContainer(title),
@@ -142,8 +140,7 @@ class _CommonScreenState extends State<CommonScreen> {
           }
           if (competitionController.competitionList.isEmpty) {
             return Center(
-                child:
-                    Text("No competitions available for ${widget.eventName}"));
+                child:Text("No competitions available for ${widget.eventName}"));
           }
           return ListView.builder(
             shrinkWrap: true,
