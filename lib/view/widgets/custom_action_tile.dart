@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:stake_fair_app/res/app_colors/app_colors.dart';
 
 class CustomActionTile extends StatelessWidget {
   final String title;
@@ -24,7 +25,8 @@ class CustomActionTile extends StatelessWidget {
         height: mediaQuerySize.height * 0.06,
         width: mediaQuerySize.width * 0.9,
         decoration: BoxDecoration(
-          color: const Color(0xff1c1b1a),
+          color: AppColors.helpScrenColor,
+         // color: Color(0xff2A2A2C),
           borderRadius: BorderRadius.circular(5),
         ),
         child: Row(

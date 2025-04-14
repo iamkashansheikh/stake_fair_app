@@ -28,7 +28,8 @@ class HelpScreen extends StatelessWidget {
                   height: mediaQuerySize.height*0.1,
                   width: mediaQuerySize.width*0.7,
                   decoration: BoxDecoration(
-                    color: Colors.blueGrey.withOpacity(0.6),
+                    color: Color(0xff364452),
+                    //color: Colors.blueGrey.withOpacity(0.6),
                     borderRadius: BorderRadius.circular(5)
                   ),
                 ),
@@ -39,7 +40,8 @@ class HelpScreen extends StatelessWidget {
                 
               //  height: mediaQuerySize.height*0.2,
                 decoration: BoxDecoration(
-                  color:  Colors.blueGrey.withOpacity(0.6),
+                  color: Color(0xff364452),
+                 // color:  Colors.blueGrey.withOpacity(0.6),
 
                 ),
                 child: Column(
@@ -96,7 +98,8 @@ SizedBox(height: mediaQuerySize.height*0.04,),
           height: mediaQuerySize.height*0.05,
           width: mediaQuerySize.width*0.4,
           decoration: BoxDecoration(
-            color: AppColors.helpScrenColor,
+            color: Color(0xff2A2A2C),
+           // color: AppColors.helpScrenColor,
             borderRadius: BorderRadius.circular(5)
             //color: Colors.grey.shade500,
           ),
@@ -360,7 +363,7 @@ SizedBox(height: mediaQuerySize.height*0.04,),
 
                   children: [
                     SizedBox(height: mediaQuerySize.height*0.04,),
-                    Center(child: Image.asset('assets/images/9.png')),
+                    Center(child: Image.asset('assets/images/dd.png')),
                     SizedBox(height: mediaQuerySize.height*0.02,),
                     Text('The quickest way to get in touch',style: TextStyle(color: Colors.white,fontWeight: FontWeight.w500),),
                     
@@ -512,7 +515,7 @@ SizedBox(height: mediaQuerySize.height*0.04,),
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                  Image.asset('assets/images/bt5.png'),
+                  Image.asset('assets/images/jj.png'),
                   SizedBox(width: mediaQuerySize.width*0.02,),
                   Image.asset('assets/images/bt4.png'),
                          SizedBox(width: mediaQuerySize.width*0.02,),
@@ -540,10 +543,12 @@ SizedBox(height: mediaQuerySize.height*0.04,),
     width: 60, // Size of the button
     decoration: BoxDecoration(
       shape: BoxShape.circle, // Make the button circular
-      color: Color.fromARGB(255, 61, 61, 52), // iOS-style background color (blue)
+    //  color: Color.fromARGB(255, 61, 61, 52), // iOS-style background color (blue)
+      color: AppColors.helpScrenColor,
       boxShadow: [
         BoxShadow(
-          color: Colors.black.withOpacity(0.4), // Shadow effect
+         // color: Colors.black.withOpacity(0.4), // Shadow effect
+           color: AppColors.helpScrenColor,
           blurRadius: 6,
           offset: Offset(0, 4),
         ),
