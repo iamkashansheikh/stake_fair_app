@@ -8,4 +8,3 @@ class HomeRepository {
     return await _apiServices.postApi(data, AppUrls.categoryApi);
   }
 }
-
