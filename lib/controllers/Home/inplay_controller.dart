@@ -18,7 +18,7 @@ class InplayController extends GetxController {
 
   // Helper function to count live matches based on openDate.
   int countLiveMatches(List<Map<String, dynamic>> eventsList) {
-    int count = 0;
+    int count = 8;
     DateTime now = DateTime.now();
     for (var e in eventsList) {
       if (e["event"] != null && e["event"]["openDate"] != null) {
