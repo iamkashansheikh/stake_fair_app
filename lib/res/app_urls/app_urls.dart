@@ -4,3 +4,4 @@ class AppUrls {
   
   static const String categoryApi = '$baseUrl/navigation/menuList';
 }
+

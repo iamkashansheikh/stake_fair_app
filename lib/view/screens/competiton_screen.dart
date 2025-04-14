@@ -1,15 +1,15 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:stake_fair_app/controllers/Home/competitions_controller.dart';
 import 'package:stake_fair_app/controllers/Home/home_controller.dart';
-import 'package:stake_fair_app/my_code/controllers/competitions_controller.dart';
 
-class CommonScreen extends StatefulWidget {
+class CompetitonScreen extends StatefulWidget {
   final dynamic categoryId; // Adjust type as needed (int or String)
   final String eventName;
   final IconData eventIcon;
 
-  const CommonScreen({
+  const CompetitonScreen({
     Key? key,
     required this.categoryId,
     required this.eventName,
@@ -17,18 +17,19 @@ class CommonScreen extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<CommonScreen> createState() => _CommonScreenState();
+  State<CompetitonScreen> createState() => _CompetitonScreenState();
 }
 
-class _CommonScreenState extends State<CommonScreen> {
-  final CompetitionController competitionController = Get.put(CompetitionController());
+class _CompetitonScreenState extends State<CompetitonScreen> {
+  final CompetitonController competitionController =
+      Get.put(CompetitonController());
   final HomeController homeController = Get.put(HomeController());
   @override
   Widget build(BuildContext context) {
     final double textScale = MediaQuery.of(context).textScaleFactor;
-    // Fetch competitions dynamically based on event type
+    //Fetch competitions dynamically based on event type
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      competitionController.fetchCompetitions(widget.eventName);
+      competitionController.fetchCategoryData();
     });
 
     Size mediaQuery = MediaQuery.of(context).size;
@@ -130,50 +131,66 @@ class _CommonScreenState extends State<CommonScreen> {
   }
 
   Widget _buildHorseRacingSection(String title) {
-    final CompetitionController competitionController = Get.put(CompetitionController());
+    final CompetitonController competitionController =
+        Get.find<CompetitonController>();
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildContainer(title),
-        Obx(() {
-          if (competitionController.isLoading.value) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          if (competitionController.competitionList.isEmpty) {
-            return Center(
-                child:Text("No competitions available for ${widget.eventName}"));
-          }
-          return ListView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: competitionController.competitionList.length,
-            itemBuilder: (context, index) {
-              var competition = competitionController.competitionList[index];
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 3),
-                    child: ListTile(
-                      dense: true,
-                      visualDensity:
-                          const VisualDensity(horizontal: -4, vertical: -4),
-                      contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 2, vertical: 0),
-                      title: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 5),
-                        child: Text(competition.competition?.name ??
-                            "Unknown Competition"),
-                      ),
-                      trailing: const Icon(Icons.arrow_forward_ios,
-                          size: 14, color: Colors.grey),
-                    ),
+       // Sample code snippet in CompetitonScreen widget
+Obx(() {
+  if (competitionController.categoryListModel.value == null) {
+    return const Center(child: CircularProgressIndicator());
+  } else {
+    final competitions = competitionController.categoryListModel.value?.data?.competitions;
+    
+    // Yahan hum optional chaining use kar rahe hain for lowerCase
+    final filteredCompetitions = (competitions ?? [])
+        .where((comp) =>
+            comp.eventType?.name?.toLowerCase() ==
+            widget.eventName.toLowerCase())
+        .toList();
+    
+    if (filteredCompetitions.isEmpty) {
+      return Center(child: Text("No Competitions Found for ${widget.eventName}"));
+    }
+    
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: filteredCompetitions.length,
+      itemBuilder: (context, index) {
+        var competition = filteredCompetitions[index];
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 3),
+              child: ListTile(
+                visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 2, vertical: 0),
+                title: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                  child: Text(
+                    competition.competition?.name ?? "Unknown Competition",
                   ),
-                  const Divider(height: 0.3, thickness: 0.3),
-                ],
-              );
-            },
-          );
-        })
+                ),
+                trailing: const Icon(
+                  Icons.arrow_forward_ios,
+                  size: 14,
+                  color: Colors.grey,
+                ),
+              ),
+            ),
+            const Divider(height: 0.3, thickness: 0.3),
+          ],
+        );
+      },
+    );
+  }
+})
+
+
       ],
     );
   }

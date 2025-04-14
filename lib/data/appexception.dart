@@ -28,3 +28,5 @@ class InvalidException extends AppExceptions {
 class FetchDataException extends AppExceptions {
   FetchDataException([String? message]) : super(message, 'Error occured while communicating with server');
 }
+
+

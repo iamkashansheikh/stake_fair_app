@@ -5,8 +5,8 @@ import 'package:stake_fair_app/controllers/Home/home_controller.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:stake_fair_app/controllers/Home/inplay_controller.dart';
 import 'package:badges/badges.dart' as badges;
-import 'package:stake_fair_app/my_code/common_screen.dart';
 import 'package:stake_fair_app/res/app_colors/app_colors.dart';
+import 'package:stake_fair_app/view/screens/competiton_screen.dart';
 import 'package:stake_fair_app/view/screens/inplay_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -274,7 +274,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildInPlayContainer(int count, double textScale) {
+  Widget _buildInPlayContainer(double textScale) {
     return InkWell(
       onTap: () {
         Get.to(() => InplayScreen());
@@ -305,7 +305,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       height: 9,
                       child: Center(
                         child: Text(
-                          '$count',
+                          '10',
                           style: const TextStyle(
                             color: AppColors.inplaybtnColor,
                             fontSize: 7,
@@ -334,61 +334,68 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildCategoryBar(double textScale) {
-    return Obx(() => Container(
-          width: MediaQuery.of(Get.context!).size.width, // Full width
-          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-          color: AppColors.blackthemeColor,
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Wrap(
-              spacing: 5,
-              alignment: WrapAlignment.start, // Start alignment
-              children: [
-                _buildInPlayContainer(
-                    inplayController.liveMatchesCount.value, textScale),
-                ...eventsTypeController.categories.map((item) {
-                  return GestureDetector(
-                    onTap: () {
-                      Get.to(() => CommonScreen(
-                            categoryId: item['id'],
-                            eventName: item['label'],
-                            eventIcon: item['icon'],
-                          ));
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 4),
-                      decoration: BoxDecoration(
-                        color: AppColors.greyColor,
-                      ),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Center(
-                              child: Icon(item['icon'],
-                                  color: AppColors.whiteColor,
-                                  size: 19 * textScale)),
-                          const SizedBox(height: 1),
-                          Center(
-                            child: Text(
-                              item['label'],
-                              style: TextStyle(
-                                  color: AppColors.whiteColor,
-                                  fontSize: 10 * textScale),
-                              maxLines: 1,
-                            ),
-                          ),
-                        ],
-                      ),
+ Widget _buildCategoryBar(double textScale) {
+  return Obx(() => Container(
+        // Screen ke full width tak container set karna.
+        width: MediaQuery.of(Get.context!).size.width,
+        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+        color: AppColors.blackthemeColor,
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal, // Horizontal scrolling enable.
+          child: Wrap(
+            spacing: 5, // Har item ke beech me spacing rakhe.
+            alignment: WrapAlignment.start, // Items left side se align ho.
+            children: [
+              _buildInPlayContainer(textScale), // Pehle item, InPlay container.
+              // Observable categories se mapping kar rahe hain.
+              ...eventsTypeController.categories.map((item) {
+                return GestureDetector(
+                  onTap: () {
+                    // Tap karne par CompetitonScreen ko navigate kar rahe hain,
+                    // jisme item ke id, label aur icon pass ho rahe hain.
+                    Get.to(() => CompetitonScreen(
+                          categoryId: item['id'],
+                          eventName: item['label'],
+                          eventIcon: item['icon'],
+                        ));
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: AppColors.greyColor, // Item ka background color.
                     ),
-                  );
-                }).toList(),
-              ],
-            ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min, // Container apne content ke hisaab se adjust ho.
+                      children: [
+                        Center(
+                          child: Icon(
+                            item['icon'],
+                            color: AppColors.whiteColor,
+                            size: 19 * textScale, // Icon ka size text scale ke hisaab se.
+                          ),
+                        ),
+                        const SizedBox(height: 1),
+                        Center(
+                          child: Text(
+                            item['label'], // Category label.
+                            style: TextStyle(
+                              color: AppColors.whiteColor,
+                              fontSize: 10 * textScale, // Text scale ke hisaab se size.
+                            ),
+                            maxLines: 1,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              }).toList(),
+            ],
           ),
-        ));
-  }
+        ),
+      ));
+}
+
 
   Widget _buildBanner(Size mediaQuery) {
     return Container(
