@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:stake_fair_app/res/app_colors/app_colors.dart';
+import 'package:stake_fair_app/services/auth_service.dart';
+import 'package:stake_fair_app/services/whatsapp_service.dart';
 import 'package:stake_fair_app/view/screens/authentication/forgotten_password.dart';
 import 'package:stake_fair_app/view/screens/authentication/sign_up_screen.dart';
 import 'package:stake_fair_app/view/screens/authentication/username_screen.dart';
@@ -24,6 +26,8 @@ class _LoginScreenState extends State<LoginScreen> {
   final AuthController controller = Get.put(AuthController());
   final PasswordController passwordController = Get.put(PasswordController());
   TextEditingController passwordfieldController = TextEditingController();
+  AuthService authService =AuthService();
+   final String whatsappNumber = "923047494839";
 
   FocusNode phoneFocus = FocusNode();
   FocusNode emailFocus = FocusNode();
@@ -240,9 +244,32 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          _buildSocialMediaIcon('assets/images/google.png'),
-                          _buildSocialMediaIcon('assets/images/fb.png'),
-                          _buildSocialMediaIcon('assets/images/wa.png'),
+                          GestureDetector(
+                            onTap: (){
+                              authService .signInWithGoogle();
+                            },
+                            child: _buildSocialMediaIcon('assets/images/google.png')),
+                          GestureDetector(
+                            onTap: (){
+                              authService.signInWithFacebook();
+                            },
+                            child: _buildSocialMediaIcon('assets/images/fb.png')),
+                  
+
+
+
+            GestureDetector(
+            onTap: () async {
+              await WhatsAppService.openWhatsApp(
+              whatsappNumber,
+                message: "Hello from Stake Fair App!",
+              );
+                },
+         child: _buildSocialMediaIcon('assets/images/wa.png'),
+),
+
+
+
                           _buildSocialMediaIcon('assets/images/apple.png'),
                         ],
                       ),

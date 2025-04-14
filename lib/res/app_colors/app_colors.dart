@@ -12,4 +12,5 @@ class AppColors {
   static const Color inplaybtnColor = Color(0xff20A052);
   static const Color markitblueColor = Color(0xffA6D8FF);
   static const Color markitpinkColor = Color(0xffFAC9D1);
-}
+  static const Color helpScrenColor = Color(0xff1c1b1a);
+  }
