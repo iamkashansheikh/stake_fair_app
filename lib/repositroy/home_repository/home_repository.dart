@@ -5,6 +5,12 @@ class HomeRepository {
   final NetworkApiServices _apiServices = NetworkApiServices();
 
   Future<dynamic> categoryApi(dynamic data) async {
-    return await _apiServices.postApi(data, AppUrls.categoryApi);
+    final String url = AppUrls.baseUrl + AppUrls.categoryApi;
+    return await _apiServices.postApi(data, url);
+  }
+
+  Future<dynamic> racingEventsListApi(dynamic data) async {
+    final String url = AppUrls.baseUrl + AppUrls.racingEventsListApi;
+    return await _apiServices.postApi(data, url);
   }
 }

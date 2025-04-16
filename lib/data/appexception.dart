@@ -1,11 +1,12 @@
 class AppExceptions implements Exception {
-  final _message;
-  final _prifix;
-  AppExceptions([this._message, this._prifix]);
+  final String? _message;
+  final String? _prefix;
+
+  AppExceptions([this._message, this._prefix]);
 
   @override
   String toString() {
-    return '$_message$_prifix';
+    return '$_prefix: $_message';
   }
 }
 
@@ -14,19 +15,17 @@ class InternetExceptions extends AppExceptions {
 }
 
 class RequestTimeOut extends AppExceptions {
-  RequestTimeOut([String? message]) : super(message, 'Request Time Out');
+  RequestTimeOut([String? message]) : super(message, 'Request Timeout');
 }
 
 class ServerExceptions extends AppExceptions {
-  ServerExceptions([String? message]) : super(message, 'Internal Server error');
+  ServerExceptions([String? message]) : super(message, 'Internal Server Error');
 }
 
 class InvalidException extends AppExceptions {
-  InvalidException([String? message]) : super(message, 'Invalid Url');
+  InvalidException([String? message]) : super(message, 'Invalid URL');
 }
 
 class FetchDataException extends AppExceptions {
-  FetchDataException([String? message]) : super(message, 'Error occured while communicating with server');
+  FetchDataException([String? message]) : super(message, 'Fetch Error');
 }
-
-

@@ -5,6 +5,7 @@ import 'package:stake_fair_app/controllers/Home/home_controller.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:stake_fair_app/controllers/Home/inplay_controller.dart';
 import 'package:badges/badges.dart' as badges;
+import 'package:stake_fair_app/controllers/Home/popularbets_controller.dart';
 import 'package:stake_fair_app/res/app_colors/app_colors.dart';
 import 'package:stake_fair_app/view/screens/competiton_screen.dart';
 import 'package:stake_fair_app/view/screens/inplay_screen.dart';
@@ -336,23 +337,19 @@ class _HomeScreenState extends State<HomeScreen> {
 
  Widget _buildCategoryBar(double textScale) {
   return Obx(() => Container(
-        // Screen ke full width tak container set karna.
         width: MediaQuery.of(Get.context!).size.width,
         padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
         color: AppColors.blackthemeColor,
         child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal, // Horizontal scrolling enable.
+          scrollDirection: Axis.horizontal,
           child: Wrap(
-            spacing: 5, // Har item ke beech me spacing rakhe.
-            alignment: WrapAlignment.start, // Items left side se align ho.
+            spacing: 5, 
+            alignment: WrapAlignment.start, 
             children: [
-              _buildInPlayContainer(textScale), // Pehle item, InPlay container.
-              // Observable categories se mapping kar rahe hain.
+              _buildInPlayContainer(textScale), 
               ...eventsTypeController.categories.map((item) {
                 return GestureDetector(
                   onTap: () {
-                    // Tap karne par CompetitonScreen ko navigate kar rahe hain,
-                    // jisme item ke id, label aur icon pass ho rahe hain.
                     Get.to(() => CompetitonScreen(
                           categoryId: item['id'],
                           eventName: item['label'],
@@ -362,25 +359,25 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
-                      color: AppColors.greyColor, // Item ka background color.
+                      color: AppColors.greyColor,
                     ),
                     child: Column(
-                      mainAxisSize: MainAxisSize.min, // Container apne content ke hisaab se adjust ho.
+                      mainAxisSize: MainAxisSize.min, 
                       children: [
                         Center(
                           child: Icon(
                             item['icon'],
                             color: AppColors.whiteColor,
-                            size: 19 * textScale, // Icon ka size text scale ke hisaab se.
+                            size: 19 * textScale, 
                           ),
                         ),
                         const SizedBox(height: 1),
                         Center(
                           child: Text(
-                            item['label'], // Category label.
+                            item['label'],
                             style: TextStyle(
                               color: AppColors.whiteColor,
-                              fontSize: 10 * textScale, // Text scale ke hisaab se size.
+                              fontSize: 10 * textScale, 
                             ),
                             maxLines: 1,
                           ),
@@ -484,11 +481,20 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildList(String leading, String label, String sub) {
-    return Obx(() => ListView.builder(
+    final PopularBetController controller = Get.put(PopularBetController());
+
+    return Obx((){
+          final matches = controller.matchList;
+
+    if (matches.isEmpty) {
+      return const Center(child: CircularProgressIndicator());
+    }
+      return ListView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          itemCount: homeController.cricket.length,
+          itemCount: 5,
           itemBuilder: (context, index) {
+            final match = matches[index];
             var team = homeController.cricket[index];
             return Container(
               padding: const EdgeInsets.symmetric(vertical: 0),
@@ -506,7 +512,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           horizontal: 3, vertical: 2),
                       leading: Icon(team[leading], size: 19),
                       title: AutoSizeText(
-                        team[label],
+                       "${match['competitionName'] ?? 'N/A'}",
                         style: const TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: 13,
@@ -515,7 +521,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         maxLines: 1,
                       ),
                       subtitle: AutoSizeText(
-                        team[sub],
+                        match['eventName'] ?? "No Event",
                         style: const TextStyle(
                             fontSize: 12, color: Color(0xff7f7f7f)),
                         maxLines: 1,
@@ -529,7 +535,8 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             );
           },
-        ));
+        );
+    } );
   }
 
   Widget _buildHorseRacingSection(String title) {
@@ -576,12 +583,19 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildQuickLinksSection(String title, String leading) {
-    return Obx(() => ListView.builder(
+    final PopularBetController controller = Get.put(PopularBetController());
+    return Obx((){
+                final matches = controller.matchList;
+    if (matches.isEmpty) {
+      return const Center(child:CircularProgressIndicator());
+    }
+      return ListView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          itemCount: homeController.quickLinks.length,
+          itemCount: 10,
           itemBuilder: (context, index) {
             var links = homeController.quickLinks[index];
+            final match = matches[index];
             return Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -595,12 +609,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     contentPadding:
                         const EdgeInsets.symmetric(horizontal: 3, vertical: 0),
                     leading: Icon(links[leading], size: 19),
-                    title: Text(
-                      links[title].toString(),
-                      style: const TextStyle(
-                          fontSize: 11, color: Color(0xff212529)),
-                      maxLines: 1,
-                    ),
+                    title:  AutoSizeText(
+                        match['eventName'] ?? "No Event",
+                        style: const TextStyle(
+                            fontSize: 11, color: Color(0xff212529)),
+                        maxLines: 1,
+                      ),
                     trailing: const Icon(Icons.keyboard_arrow_right, size: 18),
                   ),
                 ),
@@ -608,7 +622,8 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             );
           },
-        ));
+        );
+    } );
   }
 
   Widget _buildFooter(Size mediaQuery, double textScale) {
