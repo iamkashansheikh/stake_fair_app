@@ -13,4 +13,9 @@ class HomeRepository {
     final String url = AppUrls.baseUrl + AppUrls.racingEventsListApi;
     return await _apiServices.postApi(data, url);
   }
+
+  Future<dynamic> sportListApi(dynamic data)async{
+    final String url = AppUrls.baseUrl + AppUrls.sportList;
+    return await _apiServices.postApi(data, url);
+  }
 }
