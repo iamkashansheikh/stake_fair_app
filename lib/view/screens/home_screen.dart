@@ -6,6 +6,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:stake_fair_app/controllers/Home/inplay_controller.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:stake_fair_app/controllers/Home/popularbets_controller.dart';
+import 'package:stake_fair_app/controllers/Home/sport_controler.dart';
 import 'package:stake_fair_app/res/app_colors/app_colors.dart';
 import 'package:stake_fair_app/view/screens/competiton_screen.dart';
 import 'package:stake_fair_app/view/screens/inplay_screen.dart';
@@ -19,9 +20,10 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final HomeController homeController = Get.put(HomeController());
-  final EventsTypeController eventsTypeController = Get.put(EventsTypeController());
+  final EventsTypeController eventsTypeController =
+      Get.put(EventsTypeController());
   final InplayController inplayController = Get.put(InplayController());
-
+  final SportsController sportsController = Get.put(SportsController());
   @override
   Widget build(BuildContext context) {
     final double textScale = MediaQuery.of(context).textScaleFactor;
@@ -275,112 +277,132 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildInPlayContainer(double textScale) {
-    return InkWell(
-      onTap: () {
-        Get.to(() => InplayScreen());
-      },
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2.5),
-        decoration: BoxDecoration(color: AppColors.inplaybtnColor),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Stack(
-              clipBehavior: Clip.none,
-              children: [
-                Icon(Icons.timelapse, color: Colors.white, size: 24),
-                Positioned(
-                  bottom: 5,
-                  left: 16,
-                  child: badges.Badge(
-                    badgeStyle: badges.BadgeStyle(
-                      borderRadius: BorderRadius.circular(2.5),
-                      borderSide:
-                          BorderSide(color: AppColors.inplaybtnColor, width: 1),
-                      badgeColor: AppColors.whiteColor,
-                      shape: badges.BadgeShape.square,
+Widget _buildInPlayContainer(double textScale) {
+  // Calculate sizes exactly like category items
+  final double iconSize = 19 * textScale;
+  final double badgeTextSize = 7 * textScale;
+  final double badgeW = 11 * textScale;
+  final double badgeH = 9 * textScale;
+  final EdgeInsets padding = EdgeInsets.symmetric(
+    horizontal: 8 * textScale,
+    vertical: 4 * textScale,
+  );
+
+  return InkWell(
+    onTap: () => Get.to(() => InplayScreen()),
+    child: Container(
+      padding: padding,
+      decoration: BoxDecoration(color: AppColors.inplaybtnColor),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Stack(
+            clipBehavior: Clip.none,
+            children: [
+              Icon(
+                Icons.timelapse,
+                color: Colors.white,
+                size: iconSize,
+              ),
+              // Position badge so it overlaps the icon similarly
+              Positioned(
+                bottom: 0,
+                right: -badgeW * 1.1,
+                child: badges.Badge(
+                  badgeStyle: badges.BadgeStyle(
+                    shape: badges.BadgeShape.square,
+                    badgeColor: AppColors.whiteColor,
+                    borderSide: BorderSide(
+                      color: AppColors.inplaybtnColor,
+                      width: 1 * textScale,
                     ),
-                    badgeContent: SizedBox(
-                      width: 11,
-                      height: 9,
-                      child: Center(
-                        child: Text(
-                          '10',
-                          style: const TextStyle(
-                            color: AppColors.inplaybtnColor,
-                            fontSize: 7,
-                            fontWeight: FontWeight.bold,
-                          ),
+                    borderRadius: BorderRadius.circular(2.5 * textScale),
+                  ),
+                  badgeContent: SizedBox(
+                    width: badgeW,
+                    height: badgeH,
+                    child: Center(
+                      child: Text(
+                        '10',
+                        style: TextStyle(
+                          color: AppColors.inplaybtnColor,
+                          fontSize: badgeTextSize,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
                   ),
                 ),
-              ],
-            ),
-            const SizedBox(height: 1),
-            Center(
-              child: Text(
-                'In-Play',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 10 * textScale,
-                ),
               ),
+            ],
+          ),
+          SizedBox(height: 1 * textScale),
+          Text(
+            'In-Play',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 10 * textScale,
             ),
-          ],
-        ),
+          ),
+        ],
       ),
-    );
-  }
+    ),
+  );
+}
 
- Widget _buildCategoryBar(double textScale) {
-  return Obx(() => Container(
+
+
+
+  Widget _buildCategoryBar(double textScale) {
+    final controller = Get.find<SportsController>();
+    return Obx(() {
+      final sport = controller.categoryList.data?.data ?? [];
+      return Container(
         width: MediaQuery.of(Get.context!).size.width,
         padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
         color: AppColors.blackthemeColor,
         child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Wrap(
-            spacing: 5, 
-            alignment: WrapAlignment.start, 
+            spacing: 5,
+            alignment: WrapAlignment.start,
             children: [
-              _buildInPlayContainer(textScale), 
-              ...eventsTypeController.categories.map((item) {
+              _buildInPlayContainer(textScale),
+              ...sport.where((item) {
+                final name = item.sportName?.toLowerCase();
+                return name != 'casino' && name != 'lottery';
+              }).map((item) {
                 return GestureDetector(
                   onTap: () {
                     Get.to(() => CompetitonScreen(
-                          categoryId: item['id'],
-                          eventName: item['label'],
-                          eventIcon: item['icon'],
+                          categoryId: item.sportId ?? '',
+                          eventName: item.sportName ?? '',
+                          eventIcon: controller.getIconForSport(item.sportName),
                         ));
                   },
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
                       color: AppColors.greyColor,
                     ),
                     child: Column(
-                      mainAxisSize: MainAxisSize.min, 
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        Center(
-                          child: Icon(
-                            item['icon'],
-                            color: AppColors.whiteColor,
-                            size: 19 * textScale, 
-                          ),
+                        Icon(
+                          controller.getIconForSport(item.sportName),
+                          color: AppColors.whiteColor,
+                          size: 19 * textScale,
                         ),
                         const SizedBox(height: 1),
-                        Center(
-                          child: Text(
-                            item['label'],
-                            style: TextStyle(
-                              color: AppColors.whiteColor,
-                              fontSize: 10 * textScale, 
-                            ),
-                            maxLines: 1,
+                        Text(
+                          item.sportName ?? '',
+                          style: TextStyle(
+                            color: AppColors.whiteColor,
+                            fontSize: 10 * textScale,
                           ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ],
                     ),
@@ -390,9 +412,9 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
         ),
-      ));
-}
-
+      );
+    });
+  }
 
   Widget _buildBanner(Size mediaQuery) {
     return Container(
@@ -483,60 +505,59 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildList(String leading, String label, String sub) {
     final PopularBetController controller = Get.put(PopularBetController());
 
-    return Obx((){
-          final matches = controller.matchList;
+    return Obx(() {
+      final matches = controller.matchList;
 
-    if (matches.isEmpty) {
-      return const Center(child: CircularProgressIndicator());
-    }
+      if (matches.isEmpty) {
+        return const Center(child: CircularProgressIndicator());
+      }
       return ListView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: 5,
-          itemBuilder: (context, index) {
-            final match = matches[index];
-            var team = homeController.cricket[index];
-            return Container(
-              padding: const EdgeInsets.symmetric(vertical: 0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 3),
-                    child: ListTile(
-                      dense: true,
-                      minLeadingWidth: 0,
-                      visualDensity:
-                          const VisualDensity(horizontal: -4, vertical: -4),
-                      contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 3, vertical: 2),
-                      leading: Icon(team[leading], size: 19),
-                      title: AutoSizeText(
-                       "${match['competitionName'] ?? 'N/A'}",
-                        style: const TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 13,
-                            height: 1.0,
-                            color: Color(0xff212529)),
-                        maxLines: 1,
-                      ),
-                      subtitle: AutoSizeText(
-                        match['eventName'] ?? "No Event",
-                        style: const TextStyle(
-                            fontSize: 12, color: Color(0xff7f7f7f)),
-                        maxLines: 1,
-                      ),
-                      trailing:
-                          const Icon(Icons.keyboard_arrow_right, size: 18),
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: 5,
+        itemBuilder: (context, index) {
+          final match = matches[index];
+          var team = homeController.cricket[index];
+          return Container(
+            padding: const EdgeInsets.symmetric(vertical: 0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 3),
+                  child: ListTile(
+                    dense: true,
+                    minLeadingWidth: 0,
+                    visualDensity:
+                        const VisualDensity(horizontal: -4, vertical: -4),
+                    contentPadding:
+                        const EdgeInsets.symmetric(horizontal: 3, vertical: 2),
+                    leading: Icon(team[leading], size: 19),
+                    title: AutoSizeText(
+                      "${match['competitionName'] ?? 'N/A'}",
+                      style: const TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 13,
+                          height: 1.0,
+                          color: Color(0xff212529)),
+                      maxLines: 1,
                     ),
+                    subtitle: AutoSizeText(
+                      match['eventName'] ?? "No Event",
+                      style: const TextStyle(
+                          fontSize: 12, color: Color(0xff7f7f7f)),
+                      maxLines: 1,
+                    ),
+                    trailing: const Icon(Icons.keyboard_arrow_right, size: 18),
                   ),
-                  const Divider(height: 0.3, thickness: 0.3),
-                ],
-              ),
-            );
-          },
-        );
-    } );
+                ),
+                const Divider(height: 0.3, thickness: 0.3),
+              ],
+            ),
+          );
+        },
+      );
+    });
   }
 
   Widget _buildHorseRacingSection(String title) {
@@ -584,46 +605,46 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildQuickLinksSection(String title, String leading) {
     final PopularBetController controller = Get.put(PopularBetController());
-    return Obx((){
-                final matches = controller.matchList;
-    if (matches.isEmpty) {
-      return const Center(child:CircularProgressIndicator());
-    }
+    return Obx(() {
+      final matches = controller.matchList;
+      if (matches.isEmpty) {
+        return const Center(child: CircularProgressIndicator());
+      }
       return ListView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: 10,
-          itemBuilder: (context, index) {
-            var links = homeController.quickLinks[index];
-            final match = matches[index];
-            return Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 2),
-                  child: ListTile(
-                    dense: true,
-                    minLeadingWidth: 0,
-                    visualDensity:
-                        const VisualDensity(horizontal: -4, vertical: -4),
-                    contentPadding:
-                        const EdgeInsets.symmetric(horizontal: 3, vertical: 0),
-                    leading: Icon(links[leading], size: 19),
-                    title:  AutoSizeText(
-                        match['eventName'] ?? "No Event",
-                        style: const TextStyle(
-                            fontSize: 11, color: Color(0xff212529)),
-                        maxLines: 1,
-                      ),
-                    trailing: const Icon(Icons.keyboard_arrow_right, size: 18),
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: 10,
+        itemBuilder: (context, index) {
+          var links = homeController.quickLinks[index];
+          final match = matches[index];
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 2),
+                child: ListTile(
+                  dense: true,
+                  minLeadingWidth: 0,
+                  visualDensity:
+                      const VisualDensity(horizontal: -4, vertical: -4),
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 3, vertical: 0),
+                  leading: Icon(links[leading], size: 19),
+                  title: AutoSizeText(
+                    match['eventName'] ?? "No Event",
+                    style:
+                        const TextStyle(fontSize: 11, color: Color(0xff212529)),
+                    maxLines: 1,
                   ),
+                  trailing: const Icon(Icons.keyboard_arrow_right, size: 18),
                 ),
-                const Divider(height: 0.3, thickness: 0.3),
-              ],
-            );
-          },
-        );
-    } );
+              ),
+              const Divider(height: 0.3, thickness: 0.3),
+            ],
+          );
+        },
+      );
+    });
   }
 
   Widget _buildFooter(Size mediaQuery, double textScale) {

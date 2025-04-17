@@ -5,7 +5,6 @@ import 'package:stake_fair_app/models/home_models/category_model.dart';
 import 'package:stake_fair_app/repositroy/home_repository/home_repository.dart';
 
 class EventsTypeController extends GetxController {
-  // HomeRepository instance through which API call perform hogi
   final HomeRepository _homeRepository = HomeRepository();
 
   // Observable flag to track loading state
