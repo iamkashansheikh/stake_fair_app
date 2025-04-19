@@ -137,60 +137,63 @@ class _CompetitonScreenState extends State<CompetitonScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildContainer(title),
-       // Sample code snippet in CompetitonScreen widget
-Obx(() {
-  if (competitionController.categoryListModel.value == null) {
-    return const Center(child: CircularProgressIndicator());
-  } else {
-    final competitions = competitionController.categoryListModel.value?.data?.competitions;
-    
-    // Yahan hum optional chaining use kar rahe hain for lowerCase
-    final filteredCompetitions = (competitions ?? [])
-        .where((comp) =>
-            comp.eventType?.name?.toLowerCase() ==
-            widget.eventName.toLowerCase())
-        .toList();
-    
-    if (filteredCompetitions.isEmpty) {
-      return Center(child: Text("No Competitions Found for ${widget.eventName}"));
-    }
-    
-    return ListView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: filteredCompetitions.length,
-      itemBuilder: (context, index) {
-        var competition = filteredCompetitions[index];
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 3),
-              child: ListTile(
-                visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-                contentPadding: const EdgeInsets.symmetric(horizontal: 2, vertical: 0),
-                title: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 5),
-                  child: Text(
-                    competition.competition?.name ?? "Unknown Competition",
-                  ),
-                ),
-                trailing: const Icon(
-                  Icons.arrow_forward_ios,
-                  size: 14,
-                  color: Colors.grey,
-                ),
-              ),
-            ),
-            const Divider(height: 0.3, thickness: 0.3),
-          ],
-        );
-      },
-    );
-  }
-})
+        // Sample code snippet in CompetitonScreen widget
+        Obx(() {
+          if (competitionController.categoryListModel.value == null) {
+            return const Center(child: CircularProgressIndicator());
+          } else {
+            final competitions = competitionController
+                .categoryListModel.value?.data?.competitions;
 
+            // Yahan hum optional chaining use kar rahe hain for lowerCase
+            final filteredCompetitions = (competitions ?? [])
+                .where((comp) =>
+                    comp.eventType?.name?.toLowerCase() ==
+                    widget.eventName.toLowerCase())
+                .toList();
 
+            if (filteredCompetitions.isEmpty) {
+              return Center(
+                  child: Text("No Competitions Found for ${widget.eventName}"));
+            }
+
+            return ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: filteredCompetitions.length,
+              itemBuilder: (context, index) {
+                var competition = filteredCompetitions[index];
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 3),
+                      child: ListTile(
+                        visualDensity:
+                            const VisualDensity(horizontal: -4, vertical: -4),
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 2, vertical: 0),
+                        title: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 5),
+                          child: Text(
+                            competition.competition?.name ??
+                                "Unknown Competition",
+                          ),
+                        ),
+                        trailing: const Icon(
+                          Icons.arrow_forward_ios,
+                          size: 14,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ),
+                    const Divider(height: 0.3, thickness: 0.3),
+                  ],
+                );
+              },
+            );
+          }
+        })
       ],
     );
   }
