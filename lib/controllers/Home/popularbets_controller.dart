@@ -14,6 +14,7 @@ class PopularBetController extends GetxController {
   List<dynamic> eventTypes = [];
   List<dynamic> competitions = [];
   List<dynamic> events = [];
+  
 
   final String apiUrl = "https://eka247.com/api/navigation/menuList";
   final Map<String, dynamic> postData = {
