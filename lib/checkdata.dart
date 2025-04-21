@@ -30,7 +30,7 @@ class TestScreen extends StatelessWidget {
                     border: OutlineInputBorder(),
                     prefixIcon: Icon(Icons.search),
                   ),
-                  onChanged: controller.search,
+                 // onChanged: controller.search,
                 ),
               ),
               Expanded(
@@ -39,9 +39,17 @@ class TestScreen extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final item = controller.filteredData[index];
                     return ListTile(
-                      title: Text(item["eventName"] ?? "No event name"),
-                      subtitle: Text("Sport: ${item["sportName"] ?? "Unknown"}"),
-                      trailing: Text(item["marketName"] ?? ""),
+                      title:Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(item["eventName"] ?? "No event name"),
+                          Text(item["tournamentName"] ?? "No event name"),
+                         
+
+                        ],
+                      )
+                       
+
                     );
                   },
                 ),
@@ -95,19 +103,21 @@ class HomeController extends GetxController {
     }
   }
 
-  void search(String value) {
-    searchText.value = value;
-    final originalData = categoryResponse.value.data ?? [];
+  // void search(String value) {
+  //   searchText.value = value;
+  //   final originalData = categoryResponse.value.data ?? [];
 
-    if (value.isEmpty) {
-      filteredData.value = originalData;
-    } else {
-      filteredData.value = originalData.where((item) {
-        final eventName = item["eventName"]?.toString().toLowerCase() ?? '';
-        final sportName = item["sportName"]?.toString().toLowerCase() ?? '';
-        return eventName.contains(value.toLowerCase()) ||
-            sportName.contains(value.toLowerCase());
-      }).toList();
-    }
-  }
+  //   if (value.isEmpty) {
+  //     filteredData.value = originalData;
+  //   } else {
+  //     filteredData.value = originalData.where((item) {
+  //       final eventName = item["eventName"]?.toString().toLowerCase() ?? '';
+  //       final sportName = item["tournamentName"]?.toString().toLowerCase() ?? '';
+  //       return eventName.contains(value.toLowerCase()) ||
+  //           sportName.contains(value.toLowerCase());
+  //     }).toList();
+  //   }
+  // }
 }
+
+
