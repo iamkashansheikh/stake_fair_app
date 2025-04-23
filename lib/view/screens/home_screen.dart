@@ -3,11 +3,11 @@ import 'package:get/get.dart';
 import 'package:stake_fair_app/controllers/Home/eventType_controller.dart';
 import 'package:stake_fair_app/controllers/Home/home_controller.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:stake_fair_app/controllers/Home/inplay_controller.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:stake_fair_app/controllers/Home/popularbets_controller.dart';
 import 'package:stake_fair_app/controllers/Home/sport_controler.dart';
 import 'package:stake_fair_app/res/app_colors/app_colors.dart';
+import 'package:stake_fair_app/scrollable.dart';
 import 'package:stake_fair_app/view/screens/competiton_screen.dart';
 import 'package:stake_fair_app/view/screens/inplay_screen.dart';
 
@@ -20,9 +20,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final HomeController homeController = Get.put(HomeController());
-  final EventsTypeController eventsTypeController =
-      Get.put(EventsTypeController());
-  final InplayController inplayController = Get.put(InplayController());
+  final EventsTypeController eventsTypeController =Get.put(EventsTypeController());
   final SportsController sportsController = Get.put(SportsController());
   @override
   Widget build(BuildContext context) {
@@ -35,50 +33,52 @@ class _HomeScreenState extends State<HomeScreen> {
         appBar: _buildAppBar(context),
         body: Stack(
           children: [
-            SingleChildScrollView(
-              child: Column(
-                children: [
-                  _buildCategoryBar(textScale),
-                  _buildBanner(mediaQuery),
-                  Obx(() {
-                    return homeController.isBannerVisible.value
-                        ? _buildWhyWinBanner(mediaQuery)
-                        : const SizedBox.shrink();
-                  }),
-                  _buildSection('Most Popular Bets', 'icon', 'label', 'sub'),
-                  _buildHorseRacingSection('Horse Racing'),
-                  _buildContainer('Quick Links'),
-                  _buildQuickLinksSection('name', 'icon'),
-                  _buildFooter(mediaQuery, textScale),
-                  _buildWarningText(textScale),
-                  const SizedBox(height: 5),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Center(child: _buildSaferGamblingDropdown(textScale)),
-                      const SizedBox(height: 5),
-                      Center(child: _buildAboutStakefairDropdown(textScale)),
-                      const SizedBox(height: 5),
-                      _buildText('Help', textScale),
-                      _buildText('Affiliates', textScale),
-                      _buildText('18+', textScale),
-                      _buildText('Developers', textScale),
-                      _buildText('StakeFair Exchange Sitemap', textScale),
-                      _buildText('B2B Partnerships', textScale),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
-                        child: Divider(thickness: 0.6),
-                      ),
-                      const SizedBox(height: 10),
-                      _buildText('Privacy Policy', textScale),
-                      _buildText('Cookie Policy', textScale),
-                      _buildText('Privacy Preference Centre', textScale),
-                      _buildText('Rules & Regulations', textScale),
-                      _buildText('Terms & Conditions', textScale),
-                      const SizedBox(height: 20),
-                    ],
-                  ),
-                ],
+            NoBounceScrollWrapper(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    _buildCategoryBar(textScale),
+                    _buildBanner(mediaQuery),
+                    Obx(() {
+                      return homeController.isBannerVisible.value
+                          ? _buildWhyWinBanner(mediaQuery)
+                          : const SizedBox.shrink();
+                    }),
+                    _buildSection('Most Popular Bets', 'icon', 'label', 'sub'),
+                    _buildHorseRacingSection('Horse Racing'),
+                    _buildContainer('Quick Links'),
+                    _buildQuickLinksSection('name', 'icon'),
+                    _buildFooter(mediaQuery, textScale),
+                    _buildWarningText(textScale),
+                    const SizedBox(height: 5),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Center(child: _buildSaferGamblingDropdown(textScale)),
+                        const SizedBox(height: 5),
+                        Center(child: _buildAboutStakefairDropdown(textScale)),
+                        const SizedBox(height: 5),
+                        _buildText('Help', textScale),
+                        _buildText('Affiliates', textScale),
+                        _buildText('18+', textScale),
+                        _buildText('Developers', textScale),
+                        _buildText('StakeFair Exchange Sitemap', textScale),
+                        _buildText('B2B Partnerships', textScale),
+                        const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 10),
+                          child: Divider(thickness: 0.6),
+                        ),
+                        const SizedBox(height: 10),
+                        _buildText('Privacy Policy', textScale),
+                        _buildText('Cookie Policy', textScale),
+                        _buildText('Privacy Preference Centre', textScale),
+                        _buildText('Rules & Regulations', textScale),
+                        _buildText('Terms & Conditions', textScale),
+                        const SizedBox(height: 20),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
             Obx(() => AnimatedPositioned(
@@ -277,7 +277,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-Widget _buildInPlayContainer(double textScale) {
+  Widget _buildInPlayContainer(double textScale) {
   // Calculate sizes exactly like category items
   final double iconSize = 19 * textScale;
   final double badgeTextSize = 7 * textScale;
@@ -349,9 +349,6 @@ Widget _buildInPlayContainer(double textScale) {
     ),
   );
 }
-
-
-
 
   Widget _buildCategoryBar(double textScale) {
     final controller = Get.find<SportsController>();
@@ -768,7 +765,6 @@ Widget _buildInPlayContainer(double textScale) {
           style: TextStyle(
             fontSize: 11,
             color: Colors.black,
-            // fontWeight: FontWeight.w300
           ),
           maxLines: 1,
         ),

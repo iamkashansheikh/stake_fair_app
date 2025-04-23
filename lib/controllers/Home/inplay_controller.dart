@@ -2,22 +2,27 @@ import 'package:get/get.dart';
 
 class InplayController extends GetxController {
   var selectedIndex = 0.obs;
+  var oddsList = <Map<String, dynamic>>[].obs;
 
   @override
   void onInit() {
     super.onInit();
+
+    // Jab bhi selectedIndex change hoga, fetchOdds chalega
+    ever(selectedIndex, (_) {
+      fetchOdds();
+    });
+
+    // Pehle se ek default fetch karwa lete hain
     fetchOdds();
   }
+
   void changeIndex(int index) {
     selectedIndex.value = index;
   }
 
-
-
-
-
-  var oddsList = <Map<String, dynamic>>[].obs;
-    void fetchOdds() {
+  void fetchOdds() {
+    // Yahan tum real API ya switch-case bhi laga sakte ho future me
     oddsList.value = [
       {"odds": 6.12, "price": 30.123},
       {"odds": 8.23, "price": 16.334},

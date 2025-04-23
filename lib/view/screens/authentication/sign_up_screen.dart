@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:stake_fair_app/res/app_colors/app_colors.dart';
+import 'package:stake_fair_app/scrollable.dart';
 import 'package:stake_fair_app/view/widgets/custom_button.dart';
 import 'package:stake_fair_app/view/widgets/password_validation_screen.dart';
 import 'package:stake_fair_app/view/widgets/username_field_widget.dart';
@@ -80,80 +81,82 @@ class _SignUpScreenState extends State<SignUpScreen> {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: _buildAppBar(),
-        body: SingleChildScrollView(
-          child: SafeArea(
-            child: Form(
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: mediaQuerySize.width * 0.01.w),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildHeader(),
-                    Column(
-                      children: [
-                        SizedBox(height: mediaQuerySize.height * 0.04),
-                        _buildGenderSelection(),
-                        SizedBox(height: mediaQuerySize.height * 0.02),
-
-                        UsernameFieldWidget(controller: usernameController),
-
-                        // CustomField(
-                        //   focusNode: passwordFocus,
-                        //   controller: usernameController,
-                        //   hintText: "username".tr,
-                        // ),
-
-                        SizedBox(height: mediaQuerySize.height * 0.02),
-                        PasswordFieldWidget(
-                          controller: passwordfieldController,
-                          lableText: 'password'.tr,
-                        ),
-
-                        SizedBox(height: mediaQuerySize.height * 0.02),
-                        Obx(() {
-                          if (controller.selectedIcon.value == 1) {
-                            //               return  CustomField(
-                            //   hintText: "Email",
-                            //   controller: emailController,
-                            //   focusNode: emailFocusNode,
-                            //   validator: validateEmail,
-                            //   keyboardType: TextInputType.emailAddress,
-                            // ),
-                            return CustomField(
-                              validator: validateEmail,
-                              focusNode: emailFocus,
-                              controller: emailCOntroller,
-                              hintText: "email".tr,
-                            );
-                          } else if (controller.selectedIcon.value == 2) {
-                            return Padding(
-                              padding: const EdgeInsets.all(4.0),
-                              child: CountryCodePickerWidget(),
-                            );
-                          }
-                          return const SizedBox();
-                        }),
-                        SizedBox(height: mediaQuerySize.height * 0.01),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 5),
-                          child: RoundButtonWidget(
-                              title: 'continue to step 2/2'.tr,
-                              width: mediaQuerySize.width * 1,
-                              height: mediaQuerySize.height * 0.06),
-                        ),
-
-                        SizedBox(height: mediaQuerySize.height * 0.06),
-
-                        _buildInfoCard('safe_gambling'.tr),
-                        SizedBox(height: mediaQuerySize.height * 0.02),
-                        _buildInfoCard('help_contact'.tr),
-                        SizedBox(height: mediaQuerySize.height * 0.06),
-                      ],
-                    ),
-
-                    // PasswordValidationScreen(),
-                  ],
+        body: NoBounceScrollWrapper(
+          child: SingleChildScrollView(
+            child: SafeArea(
+              child: Form(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: mediaQuerySize.width * 0.01.w),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildHeader(),
+                      Column(
+                        children: [
+                          SizedBox(height: mediaQuerySize.height * 0.04),
+                          _buildGenderSelection(),
+                          SizedBox(height: mediaQuerySize.height * 0.02),
+          
+                          UsernameFieldWidget(controller: usernameController),
+          
+                          // CustomField(
+                          //   focusNode: passwordFocus,
+                          //   controller: usernameController,
+                          //   hintText: "username".tr,
+                          // ),
+          
+                          SizedBox(height: mediaQuerySize.height * 0.02),
+                          PasswordFieldWidget(
+                            controller: passwordfieldController,
+                            lableText: 'password'.tr,
+                          ),
+          
+                          SizedBox(height: mediaQuerySize.height * 0.02),
+                          Obx(() {
+                            if (controller.selectedIcon.value == 1) {
+                              //               return  CustomField(
+                              //   hintText: "Email",
+                              //   controller: emailController,
+                              //   focusNode: emailFocusNode,
+                              //   validator: validateEmail,
+                              //   keyboardType: TextInputType.emailAddress,
+                              // ),
+                              return CustomField(
+                                validator: validateEmail,
+                                focusNode: emailFocus,
+                                controller: emailCOntroller,
+                                hintText: "email".tr,
+                              );
+                            } else if (controller.selectedIcon.value == 2) {
+                              return Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: CountryCodePickerWidget(),
+                              );
+                            }
+                            return const SizedBox();
+                          }),
+                          SizedBox(height: mediaQuerySize.height * 0.01),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 5),
+                            child: RoundButtonWidget(
+                                title: 'continue to step 2/2'.tr,
+                                width: mediaQuerySize.width * 1,
+                                height: mediaQuerySize.height * 0.06),
+                          ),
+          
+                          SizedBox(height: mediaQuerySize.height * 0.06),
+          
+                          _buildInfoCard('safe_gambling'.tr),
+                          SizedBox(height: mediaQuerySize.height * 0.02),
+                          _buildInfoCard('help_contact'.tr),
+                          SizedBox(height: mediaQuerySize.height * 0.06),
+                        ],
+                      ),
+          
+                      // PasswordValidationScreen(),
+                    ],
+                  ),
                 ),
               ),
             ),
