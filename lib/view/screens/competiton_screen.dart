@@ -5,7 +5,7 @@ import 'package:stake_fair_app/controllers/Home/competitions_controller.dart';
 import 'package:stake_fair_app/controllers/Home/home_controller.dart';
 
 class CompetitonScreen extends StatefulWidget {
-  final dynamic categoryId; // Adjust type as needed (int or String)
+  final dynamic categoryId; 
   final String eventName;
   final IconData eventIcon;
 
@@ -27,6 +27,8 @@ class _CompetitonScreenState extends State<CompetitonScreen> {
   @override
   Widget build(BuildContext context) {
     final double textScale = MediaQuery.of(context).textScaleFactor;
+        final Size screenSize = MediaQuery.of(context).size;
+
     //Fetch competitions dynamically based on event type
     WidgetsBinding.instance.addPostFrameCallback((_) {
       competitionController.fetchCategoryData();
@@ -38,42 +40,59 @@ class _CompetitonScreenState extends State<CompetitonScreen> {
       child: Scaffold(
         backgroundColor: const Color(0xffFFFFFF),
         appBar: _buildAppBar(context),
-        body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: mediaQuery.width * 0.0),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                _buildContainer(widget.eventName),
-                _buildTimeSection('Time'),
-                _buildHorseRacingSection('Competitions'),
-                _buildContainer('Popular Sports'),
-                const SizedBox(height: 5),
-                _buildFooter(mediaQuery, textScale),
-                _buildWarningText(textScale),
-                Center(child: _buildSaferGamblingDropdown(textScale)),
-                const SizedBox(height: 5),
-                Center(child: _buildAboutStakefairDropdown(textScale)),
-                const SizedBox(height: 5),
-                _buildText('Help', textScale),
-                _buildText('Affiliates', textScale),
-                _buildText('18+', textScale),
-                _buildText('Developers', textScale),
-                _buildText('StakeFair Exchange Sitemap', textScale),
-                _buildText('B2B Partnerships', textScale),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  child: Divider(thickness: 0.6),
-                ),
-                const SizedBox(height: 10),
-                _buildText('Privacy Policy', textScale),
-                _buildText('Cookie Policy', textScale),
-                _buildText('Privacy Preference Centre', textScale),
-                _buildText('Rules & Regulations', textScale),
-                _buildText('Terms & Conditions', textScale),
-                const SizedBox(height: 20),
-              ],
+        body: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            SingleChildScrollView(
+              child: Column(
+                children: [
+                  _buildContainer(widget.eventName),
+                  _buildTimeSection('Time'),
+                  _buildHorseRacingSection('Competitions'),
+                  _buildTimeSection('Popular Sports'),
+                   const SizedBox(height: 5),
+                  _bettingInfoTile(),
+                  const SizedBox(height: 5),
+                  _buildFooter(mediaQuery, textScale),
+                  _buildWarningText(textScale),
+                  Center(child: _buildSaferGamblingDropdown(textScale)),
+                  const SizedBox(height: 5),
+                  Center(child: _buildAboutStakefairDropdown(textScale)),
+                  const SizedBox(height: 5),
+                  _buildText('Help', textScale),
+                  _buildText('Affiliates', textScale),
+                  _buildText('18+', textScale),
+                  _buildText('Developers', textScale),
+                  _buildText('StakeFair Exchange Sitemap', textScale),
+                  _buildText('B2B Partnerships', textScale),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    child: Divider(thickness: 0.6),
+                  ),
+                  const SizedBox(height: 10),
+                  _buildText('Privacy Policy', textScale),
+                  _buildText('Cookie Policy', textScale),
+                  _buildText('Privacy Preference Centre', textScale),
+                  _buildText('Rules & Regulations', textScale),
+                  _buildText('Terms & Conditions', textScale),
+                  const SizedBox(height: 20),
+                ],
+              ),
             ),
-          ),
+             Obx(() => AnimatedPositioned(
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeInOut,
+                  top: homeController.isSearchFieldVisible.value ? 0 : -80,
+                  left: 0,
+                  right: 0,
+                  child: AnimatedOpacity(
+                    duration: const Duration(milliseconds: 300),
+                    opacity:
+                        homeController.isSearchFieldVisible.value ? 1.0 : 0.0,
+                    child: _buildSearchField(screenSize, textScale),
+                  ),
+                )),
+          ],
         ),
         bottomNavigationBar: Obx(() {
           return Container(
@@ -114,7 +133,6 @@ class _CompetitonScreenState extends State<CompetitonScreen> {
     );
   }
 
-  // **Dynamic Title Instead of Hardcoded "Cricket"**
   Widget _buildContainer(String title) {
     return Container(
       width: double.infinity,
@@ -686,4 +704,54 @@ class _CompetitonScreenState extends State<CompetitonScreen> {
       ),
     );
   }
+
+  Widget _bettingInfoTile() {
+  return Container(
+    color: Colors.black,
+    child: Theme(
+      data: Theme.of(context).copyWith(
+        dividerColor: Colors.transparent,
+        listTileTheme: const ListTileThemeData(
+          dense: true,
+          contentPadding: EdgeInsets.zero,
+        ),
+      ),
+      child: ExpansionTile(
+        key: const Key('betting_info_tile'),
+        backgroundColor: Colors.white,
+        collapsedBackgroundColor: Colors.white,
+        tilePadding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
+        childrenPadding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
+        title: const Text(
+          'Soccer Betting Explained',
+          style: TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.w500,
+            color: Colors.black,
+          ),
+        ),
+        trailing: const Icon(
+          Icons.keyboard_arrow_down,
+          color: Colors.black54,
+        ),
+        children: const [
+          Divider(
+            height: 2,
+            thickness: 0.7,
+            color: Colors.grey,
+          ),
+          SizedBox(height: 3),
+          Text(
+            "Betting on Soccer is simple on the StakeFair Exchange. You can bet for or against an outcome – e.g. if you're betting on Brisbane Roar v Macarthur FC, you can place a lay bet if you think Brisbane Roar will lose, or you can place a back bet if you think Brisbane Roar will win.",
+            style: TextStyle(
+              fontSize: 14,
+              color: Colors.black87,
+              height: 1.0,
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:stake_fair_app/res/app_colors/app_colors.dart';
+import 'package:stake_fair_app/scrollable.dart';
 import 'package:stake_fair_app/view/screens/authentication/help_screen.dart';
 import 'package:stake_fair_app/view/screens/authentication/like_screen.dart';
 import 'package:stake_fair_app/view/widgets/emial_username.dart';
@@ -18,7 +19,7 @@ class UsernameScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<UsernameScreen> {
   final AuthController controller = Get.put(AuthController());
- TextEditingController emailController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
 
   FocusNode phoneFocus = FocusNode();
   FocusNode emailFocus = FocusNode();
@@ -32,137 +33,105 @@ class _LoginScreenState extends State<UsernameScreen> {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: _buildAppBar(),
-        body: SingleChildScrollView(
-          child: SafeArea(
-            child: Form(
-              //  key: formKey,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 5),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: mediaQuerySize.height * 0.04),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('Forgotten username?',
-                              style: TextStyle(
-                                  fontSize: 26, fontWeight: FontWeight.bold)),
-                         
-                        ],
-                      ),
-                    ),
-                  //  SizedBox(height: mediaQuerySize.height * 0.02),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        textAlign: TextAlign.start,
-                        'Please enter your registered email address or phone number so that we can send you a Username reminder.',style: TextStyle(fontSize: 11,fontWeight: FontWeight.w500),),
-                    ),
-                    SizedBox(height: mediaQuerySize.height * 0.02),
-
-                    Obx(() {
-                      if (controller.selectedIcon.value == 1) {
-                        //                     CustomField(
-                        //                       focusNode: emailFocus,
-                        // hintText: "Email or Username".tr,
-                        // obscureText: true, // For password fields
-                        // isSuffixIcon: true,
-
-                        // );
-                        return EmailUsername(
-                          controller: emailController,
-                          focusNode: emailFocus,
-                          hintText: 'Email or Phone number ',
-                        );
-                        // return CustomField(
-                        //   focusNode: emailFocus,
-                        //   hintText: "Email or Username".tr,
-                        // );
-                        // return CustomField(text: 'Email or Username');
-                      } else if (controller.selectedIcon.value == 2) {
-                        return Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: CountryCodePickerWidget(),
-                        );
-                      }
-                      return SizedBox();
-                    }),
-
-                    SizedBox(height: mediaQuerySize.height * 0.03),
-
-                   
-
-
-                    
-
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 5),
-                      child: RoundButtonWidget(
-  onPress: () {
-    if (emailController.text.isNotEmpty) {
-      // Navigate to next screen
-      Get.to(() =>LikeScreen()); // or use Navigator.push if you're not using GetX
-    } else {
-      // Show error or warning
-      Get.snackbar('Error', 'Please enter your email');
-    }
-  },
-  title: 'Send reminder',
-  width: mediaQuerySize.width * 1,
-  height: mediaQuerySize.height * 0.06,
-),
-
-                    ),
-
-                    SizedBox(height: mediaQuerySize.height * 0.02),
-
-                 
-                   
-                    Center(
-                      child: GestureDetector(
-                       onTap: (){
-                        Get.to(()=>HelpScreen());
-                       },
-                        child: Text('Help',
-                            style:
-                                TextStyle(color: Colors.blue, fontSize: 16)),
-                      ),
-                    ),
-
-                  
-
-                 
-
-                    SizedBox(
-                      height: mediaQuerySize.height * 0.35,
-                    ),
-                    Divider(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          width: 100,
-                          height: 50,
-                          child: Image.asset(
-                            'assets/images/mga.webp',
-                            fit: BoxFit.contain,
-                          ),
+        body: NoBounceScrollWrapper(
+          child: SingleChildScrollView(
+            child: SafeArea(
+              child: Form(
+                //  key: formKey,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: mediaQuerySize.height * 0.04),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('Forgotten username?',
+                                style: TextStyle(
+                                    fontSize: 26, fontWeight: FontWeight.bold)),
+                          ],
                         ),
-                        SizedBox(width: mediaQuerySize.width * 0.1),
-                        Container(
-                          width: 100,
-                          height: 50,
-                          child: Image.asset(
-                            'assets/images/commission.png',
-                            fit: BoxFit.contain,
-                          ),
-                        )
-                      ],
-                    )
-                  ],
+                      ),
+                      //  SizedBox(height: mediaQuerySize.height * 0.02),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          textAlign: TextAlign.start,
+                          'Please enter your registered email address or phone number so that we can send you a Username reminder.',
+                          style: TextStyle(
+                              fontSize: 11, fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                      SizedBox(height: mediaQuerySize.height * 0.02),
+
+                      Obx(() {
+                        if (controller.selectedIcon.value == 1) {
+                          //                     CustomField(
+                          //                       focusNode: emailFocus,
+                          // hintText: "Email or Username".tr,
+                          // obscureText: true, // For password fields
+                          // isSuffixIcon: true,
+
+                          // );
+                          return EmailUsername(
+                            controller: emailController,
+                            focusNode: emailFocus,
+                            hintText: 'Email or Phone number ',
+                          );
+                          // return CustomField(
+                          //   focusNode: emailFocus,
+                          //   hintText: "Email or Username".tr,
+                          // );
+                          // return CustomField(text: 'Email or Username');
+                        } else if (controller.selectedIcon.value == 2) {
+                          return Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: CountryCodePickerWidget(),
+                          );
+                        }
+                        return SizedBox();
+                      }),
+
+                      SizedBox(height: mediaQuerySize.height * 0.03),
+
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 5),
+                        child: RoundButtonWidget(
+                          onPress: () {
+                            if (emailController.text.isNotEmpty) {
+                              // Navigate to next screen
+                              Get.to(() =>
+                                  LikeScreen()); // or use Navigator.push if you're not using GetX
+                            } else {
+                              // Show error or warning
+                              Get.snackbar('Error', 'Please enter your email');
+                            }
+                          },
+                          title: 'Send reminder',
+                          width: mediaQuerySize.width * 1,
+                          height: mediaQuerySize.height * 0.06,
+                        ),
+                      ),
+
+                      SizedBox(height: mediaQuerySize.height * 0.02),
+
+                      Center(
+                        child: GestureDetector(
+                          onTap: () {
+                            Get.to(() => HelpScreen());
+                          },
+                          child: Text('Help',
+                              style:
+                                  TextStyle(color: Colors.blue, fontSize: 16)),
+                        ),
+                      ),
+
+                   
+                    ],
+                  ),
                 ),
               ),
             ),

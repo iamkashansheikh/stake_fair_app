@@ -44,11 +44,9 @@
 //                         children: [
 //                           Text(item["eventName"] ?? "No event name"),
 //                           Text(item["tournamentName"] ?? "No event name"),
-                         
 
 //                         ],
 //                       )
-                       
 
 //                     );
 //                   },
