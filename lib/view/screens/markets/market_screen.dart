@@ -1,62 +1,63 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:stake_fair_app/controllers/Home/competitions_controller.dart';
 import 'package:stake_fair_app/controllers/Home/home_controller.dart';
+import 'package:stake_fair_app/controllers/Home/inplay_controller.dart';
+import 'package:stake_fair_app/res/app_colors/app_colors.dart';
 import 'package:stake_fair_app/scrollable.dart';
+import 'package:stake_fair_app/view/screens/markets/widgets_classes/backlay.dart';
+import 'package:stake_fair_app/view/screens/markets/widgets_classes/title_container.dart';
 
-class CompetitonScreen extends StatefulWidget {
-  final dynamic categoryId;
-  final String eventName;
-  final IconData eventIcon;
-
-  const CompetitonScreen({
-    Key? key,
-    required this.categoryId,
-    required this.eventName,
-    required this.eventIcon,
-  }) : super(key: key);
+class MarketScreen extends StatefulWidget {
+  const MarketScreen({super.key});
 
   @override
-  State<CompetitonScreen> createState() => _CompetitonScreenState();
+  State<MarketScreen> createState() => _MarketScreenState();
 }
 
-class _CompetitonScreenState extends State<CompetitonScreen> {
-  final CompetitonController competitionController =
-      Get.put(CompetitonController());
+class _MarketScreenState extends State<MarketScreen> {
   final HomeController homeController = Get.put(HomeController());
+  final InplayController inplayController = Get.put(InplayController());
   @override
   Widget build(BuildContext context) {
     final double textScale = MediaQuery.of(context).textScaleFactor;
-    final Size screenSize = MediaQuery.of(context).size;
-
-    //Fetch competitions dynamically based on event type
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      competitionController.fetchCategoryData();
-    });
-
-    Size mediaQuery = MediaQuery.of(context).size;
-
+    final Size mediaQuery = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
-        backgroundColor: const Color(0xffFFFFFF),
+        backgroundColor: AppColors.whiteColor,
         appBar: _buildAppBar(context),
         body: Stack(
-          clipBehavior: Clip.none,
           children: [
             NoBounceScrollWrapper(
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    _buildContainer(widget.eventName),
-                    _buildTimeSection('Time'),
-                    _buildHorseRacingSection('Competitions'),
-                    _buildTimeSection('Popular Sports'),
-                    const SizedBox(height: 5),
-                    _bettingInfoTile(),
-                    const SizedBox(height: 5),
+                    SizedBox(height: 7),
+                    Row(
+                      children: [
+                        _buildShowMatches(
+                            index: 0,
+                            label: 'Soccer',
+                            onTap: () =>
+                                inplayController.selectedIndex.value = 0),
+                        _buildShowMatches(
+                          index: 1,
+                          label: 'Tennis',
+                          onTap: () => inplayController.selectedIndex.value = 1,
+                        ),
+                        _buildShowMatches(
+                          index: 2,
+                          label: 'Cricket',
+                          onTap: () => inplayController.selectedIndex.value = 2,
+                        ),
+                      ],
+                    ),
+                    _buildTalbe(context),
+                    TitleInfoContainer(title: 'Bookmaker IPL CUP', img: AssetImage('assets/images/cash.png'), icon: Icons.timelapse_sharp),
+                    BackLayInfoBar(matched: '25.80M', min: '100', max: '100K'),
                     _buildFooter(mediaQuery, textScale),
                     _buildWarningText(textScale),
+                    const SizedBox(height: 5),
                     Center(child: _buildSaferGamblingDropdown(textScale)),
                     const SizedBox(height: 5),
                     Center(child: _buildAboutStakefairDropdown(textScale)),
@@ -92,14 +93,14 @@ class _CompetitonScreenState extends State<CompetitonScreen> {
                     duration: const Duration(milliseconds: 300),
                     opacity:
                         homeController.isSearchFieldVisible.value ? 1.0 : 0.0,
-                    child: _buildSearchField(screenSize, textScale),
+                    child: _buildSearchField(mediaQuery, textScale),
                   ),
                 )),
           ],
         ),
         bottomNavigationBar: Obx(() {
           return Container(
-            color: const Color(0xff525252),
+            color: AppColors.greyColor,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -136,89 +137,6 @@ class _CompetitonScreenState extends State<CompetitonScreen> {
     );
   }
 
-  Widget _buildContainer(String title) {
-    return Container(
-      width: double.infinity,
-      height: 31,
-      color: const Color(0xff303030),
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-      child: AutoSizeText(
-        title, // Now event type will be shown dynamically
-        style: const TextStyle(
-            fontWeight: FontWeight.w600, fontSize: 14, color: Colors.white),
-        maxLines: 1,
-      ),
-    );
-  }
-
-  Widget _buildHorseRacingSection(String title) {
-    final CompetitonController competitionController =
-        Get.find<CompetitonController>();
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _buildContainer(title),
-        // Sample code snippet in CompetitonScreen widget
-        Obx(() {
-          if (competitionController.categoryListModel.value == null) {
-            return const Center(child: CircularProgressIndicator());
-          } else {
-            final competitions = competitionController
-                .categoryListModel.value?.data?.competitions;
-
-            // Yahan hum optional chaining use kar rahe hain for lowerCase
-            final filteredCompetitions = (competitions ?? [])
-                .where((comp) =>
-                    comp.eventType?.name?.toLowerCase() ==
-                    widget.eventName.toLowerCase())
-                .toList();
-
-            if (filteredCompetitions.isEmpty) {
-              return Center(
-                  child: Text("No Competitions Found for ${widget.eventName}"));
-            }
-
-            return ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: filteredCompetitions.length,
-              itemBuilder: (context, index) {
-                var competition = filteredCompetitions[index];
-                return Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 3),
-                      child: ListTile(
-                        visualDensity:
-                            const VisualDensity(horizontal: -4, vertical: -4),
-                        contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 2, vertical: 0),
-                        title: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 5),
-                          child: Text(
-                            competition.competition?.name ??
-                                "Unknown Competition",
-                          ),
-                        ),
-                        trailing: const Icon(
-                          Icons.arrow_forward_ios,
-                          size: 14,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
-                    const Divider(height: 0.3, thickness: 0.3),
-                  ],
-                );
-              },
-            );
-          }
-        })
-      ],
-    );
-  }
-
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     double appBarHeight = 50;
     double logoWidth = 133;
@@ -229,12 +147,9 @@ class _CompetitonScreenState extends State<CompetitonScreen> {
     return PreferredSize(
       preferredSize: Size.fromHeight(appBarHeight),
       child: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [
-              Color(0xffFFB300),
-              Color(0xffFF8801),
-            ],
+            colors: [AppColors.baryelowColor, AppColors.barorngColor],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
@@ -302,12 +217,33 @@ class _CompetitonScreenState extends State<CompetitonScreen> {
     );
   }
 
+  Widget _buildIconButton(IconData icon, String text, {double width = 85}) {
+    return Container(
+      width: width,
+      height: 38,
+      decoration: BoxDecoration(
+          color: AppColors.apbarbutonColor,
+          borderRadius: BorderRadius.circular(2)),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(icon, color: AppColors.whiteColor, size: 20),
+          Text(text,
+              style: TextStyle(
+                  color: AppColors.whiteColor,
+                  fontSize: 11,
+                  fontWeight: FontWeight.w600)),
+        ],
+      ),
+    );
+  }
+
   Widget _buildSearchField(Size mediaQuery, double textScale, {Key? key}) {
     return Container(
       key: key,
       width: mediaQuery.width,
       height: 55 * textScale,
-      color: const Color(0xff303030),
+      color: AppColors.blackthemeColor,
       padding: const EdgeInsets.all(10),
       child: Row(
         children: [
@@ -333,7 +269,8 @@ class _CompetitonScreenState extends State<CompetitonScreen> {
             onTap: () => homeController.isSearchFieldVisible.value = false,
             child: AutoSizeText(
               "Cancel",
-              style: TextStyle(color: Colors.white, fontSize: 12 * textScale),
+              style: TextStyle(
+                  color: AppColors.whiteColor, fontSize: 12 * textScale),
               maxLines: 1,
             ),
           ),
@@ -342,59 +279,43 @@ class _CompetitonScreenState extends State<CompetitonScreen> {
     );
   }
 
-  Widget _buildIconButton(IconData icon, String text, {double width = 85}) {
-    return Container(
-      width: width,
-      height: 38,
-      decoration: BoxDecoration(
-          color: const Color(0xff424242),
-          borderRadius: BorderRadius.circular(2)),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(icon, color: Colors.white, size: 20),
-          Text(text,
-              style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 11,
-                  fontWeight: FontWeight.w600)),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildTimeSection(String title) {
-    return Column(
-      children: [
-        _buildContainer(title),
-        ListView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: 3,
-          itemBuilder: (context, index) {
-            return Column(
-              mainAxisSize: MainAxisSize.min,
+  Widget _buildShowMatches({
+    required int index,
+    required String label,
+    required VoidCallback onTap,
+  }) {
+    return Obx(() {
+      bool select = (index == inplayController.selectedIndex.value);
+      return Expanded(
+        child: InkWell(
+          onTap: onTap,
+          child: Container(
+            height: 60,
+            decoration: BoxDecoration(
+                color:
+                    select ? const Color(0xffFFFFFF) : const Color(0xffF0F1F5),
+                border: select
+                    ? Border(top: BorderSide(color: Colors.black, width: 2))
+                    : null),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 3),
-                  child: ListTile(
-                    dense: true,
-                    visualDensity:
-                        const VisualDensity(horizontal: -4, vertical: -4),
-                    contentPadding:
-                        const EdgeInsets.symmetric(horizontal: 2, vertical: 0),
-                    title: Text('InPlay'),
-                    trailing: const Icon(Icons.arrow_forward_ios,
-                        size: 14, color: Colors.grey),
-                  ),
+                const SizedBox(height: 1),
+                Text(
+                  label,
+                  style: TextStyle(
+                      fontSize: 12,
+                      height: 1.0,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                  maxLines: 1,
                 ),
-                const Divider(height: 0.3, thickness: 0.3),
               ],
-            );
-          },
-        )
-      ],
-    );
+            ),
+          ),
+        ),
+      );
+    });
   }
 
   Widget _buildFooter(Size mediaQuery, double textScale) {
@@ -518,7 +439,6 @@ class _CompetitonScreenState extends State<CompetitonScreen> {
           style: TextStyle(
             fontSize: 11,
             color: Colors.black,
-            // fontWeight: FontWeight.w300
           ),
           maxLines: 1,
         ),
@@ -639,8 +559,7 @@ class _CompetitonScreenState extends State<CompetitonScreen> {
         child: Container(
           height: 48, // Fixed height; adjust if needed.
           decoration: BoxDecoration(
-            color:
-                isSelected ? const Color(0xff303030) : const Color(0xff525252),
+            color: isSelected ? AppColors.blackthemeColor : AppColors.greyColor,
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -679,9 +598,8 @@ class _CompetitonScreenState extends State<CompetitonScreen> {
         child: Container(
           height: 48,
           decoration: BoxDecoration(
-            color:
-                isSelected ? const Color(0xff303030) : const Color(0xff525252),
-          ),
+              color:
+                  isSelected ? AppColors.blackthemeColor : AppColors.greyColor),
           child: Padding(
             padding: const EdgeInsets.only(bottom: 5),
             child: Column(
@@ -708,53 +626,38 @@ class _CompetitonScreenState extends State<CompetitonScreen> {
     );
   }
 
-  Widget _bettingInfoTile() {
+  Widget _buildTalbe(BuildContext context) {
     return Container(
-      color: Colors.black,
-      child: Theme(
-        data: Theme.of(context).copyWith(
-          dividerColor: Colors.transparent,
-          listTileTheme: const ListTileThemeData(
-            dense: true,
-            contentPadding: EdgeInsets.zero,
-          ),
-        ),
-        child: ExpansionTile(
-          key: const Key('betting_info_tile'),
-          backgroundColor: Colors.white,
-          collapsedBackgroundColor: Colors.white,
-          tilePadding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
-          childrenPadding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
-          title: const Text(
-            'Soccer Betting Explained',
-            style: TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.w500,
-              color: Colors.black,
-            ),
-          ),
-          trailing: const Icon(
-            Icons.keyboard_arrow_down,
-            color: Colors.black54,
-          ),
-          children: const [
-            Divider(
-              height: 2,
-              thickness: 0.7,
-              color: Colors.grey,
-            ),
-            SizedBox(height: 3),
-            Text(
-              "Betting on Soccer is simple on the StakeFair Exchange. You can bet for or against an outcome – e.g. if you're betting on Brisbane Roar v Macarthur FC, you can place a lay bet if you think Brisbane Roar will lose, or you can place a back bet if you think Brisbane Roar will win.",
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.black87,
-                height: 1.0,
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(horizontal: 15),
+        decoration: BoxDecoration(color: Color(0xffFFFFFF)),
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height * 0.07,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Icon(
+                Icons.info,
+                size: 28,
               ),
-            ),
-          ],
-        ),
-      ),
-    );
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                height: 45,
+                decoration: BoxDecoration(
+                    color: Color(0xffC2C2C2),
+                    borderRadius: BorderRadius.circular(2)),
+                child: Center(
+                    child: Text(
+                  'P&L Tables',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
+                )),
+              ),
+            ],
+          ),
+        ));
   }
+
+ 
+
+
 }
