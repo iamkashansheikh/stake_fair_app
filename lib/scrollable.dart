@@ -14,7 +14,6 @@ class NoBounceScrollWrapper extends StatelessWidget {
   }
 }
 
-/// Custom ScrollBehavior that clamps at edges and removes the glow/bounce.
 class _NoBounceScrollBehavior extends ScrollBehavior {
   @override
   Widget buildOverscrollIndicator(
@@ -22,13 +21,11 @@ class _NoBounceScrollBehavior extends ScrollBehavior {
     Widget child,
     ScrollableDetails details,
   ) {
-    // Simply return the child; no glow, no bounce.
     return child;
   }
 
   @override
   ScrollPhysics getScrollPhysics(BuildContext context) {
-    // ClampingScrollPhysics prevents any stretch or bounce.
     return const ClampingScrollPhysics();
   }
 }

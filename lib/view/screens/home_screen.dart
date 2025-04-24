@@ -10,6 +10,7 @@ import 'package:stake_fair_app/res/app_colors/app_colors.dart';
 import 'package:stake_fair_app/scrollable.dart';
 import 'package:stake_fair_app/view/screens/competiton_screen.dart';
 import 'package:stake_fair_app/view/screens/inplay_screen.dart';
+import 'package:stake_fair_app/view/screens/markets/market_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -515,41 +516,46 @@ class _HomeScreenState extends State<HomeScreen> {
         itemBuilder: (context, index) {
           final match = matches[index];
           var team = homeController.cricket[index];
-          return Container(
-            padding: const EdgeInsets.symmetric(vertical: 0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 3),
-                  child: ListTile(
-                    dense: true,
-                    minLeadingWidth: 0,
-                    visualDensity:
-                        const VisualDensity(horizontal: -4, vertical: -4),
-                    contentPadding:
-                        const EdgeInsets.symmetric(horizontal: 3, vertical: 2),
-                    leading: Icon(team[leading], size: 19),
-                    title: AutoSizeText(
-                      "${match['competitionName'] ?? 'N/A'}",
-                      style: const TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 13,
-                          height: 1.0,
-                          color: Color(0xff212529)),
-                      maxLines: 1,
+          return InkWell(
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => MarketScreen()));
+            },
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 3),
+                    child: ListTile(
+                      dense: true,
+                      minLeadingWidth: 0,
+                      visualDensity:
+                          const VisualDensity(horizontal: -4, vertical: -4),
+                      contentPadding:
+                          const EdgeInsets.symmetric(horizontal: 3, vertical: 2),
+                      leading: Icon(team[leading], size: 19),
+                      title: AutoSizeText(
+                        "${match['competitionName'] ?? 'N/A'}",
+                        style: const TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 13,
+                            height: 1.0,
+                            color: Color(0xff212529)),
+                        maxLines: 1,
+                      ),
+                      subtitle: AutoSizeText(
+                        match['eventName'] ?? "No Event",
+                        style: const TextStyle(
+                            fontSize: 12, color: Color(0xff7f7f7f)),
+                        maxLines: 1,
+                      ),
+                      trailing: const Icon(Icons.keyboard_arrow_right, size: 18),
                     ),
-                    subtitle: AutoSizeText(
-                      match['eventName'] ?? "No Event",
-                      style: const TextStyle(
-                          fontSize: 12, color: Color(0xff7f7f7f)),
-                      maxLines: 1,
-                    ),
-                    trailing: const Icon(Icons.keyboard_arrow_right, size: 18),
                   ),
-                ),
-                const Divider(height: 0.3, thickness: 0.3),
-              ],
+                  const Divider(height: 0.3, thickness: 0.3),
+                ],
+              ),
             ),
           );
         },
