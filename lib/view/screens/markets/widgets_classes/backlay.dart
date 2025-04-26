@@ -23,25 +23,25 @@ class BackLayInfoBar extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
       child: Row(
         children: [
-          _buildTextBlock('Matched : ', matched),
+          _buildTextBlock('Matched : ', matched,context),
+          SizedBox(width: screenWidth * 0.06),
+          _buildTextBlock('Min : ', min,context),
           SizedBox(width: screenWidth * 0.03),
-          _buildTextBlock('Min : ', min),
-          SizedBox(width: screenWidth * 0.03),
-          _buildTextBlock('Max : ', max),
-          Spacer(),
+          _buildTextBlock('Max : ', max,context),
+          SizedBox(width: screenWidth * 0.15),
           Text(
             'Back',
             style: TextStyle(
               fontWeight: FontWeight.bold,
-              fontSize: screenWidth * 0.035,
+              fontSize: screenWidth * 0.030,
             ),
           ),
-          SizedBox(width: screenWidth * 0.07),
+          SizedBox(width: screenWidth * 0.08),
           Text(
             'Lay',
             style: TextStyle(
               fontWeight: FontWeight.bold,
-              fontSize: screenWidth * 0.035,
+              fontSize: screenWidth * 0.030,
             ),
           ),
         ],
@@ -49,14 +49,15 @@ class BackLayInfoBar extends StatelessWidget {
     );
   }
 
-  Widget _buildTextBlock(String label, String value) {
+  Widget _buildTextBlock(String label, String value,context) {
+     final screenWidth = MediaQuery.of(context).size.width;
     return Row(
       children: [
         Text(
           label,
-          style: const TextStyle(fontWeight: FontWeight.bold),
+          style:  TextStyle(fontWeight: FontWeight.bold,fontSize: screenWidth * 0.030,),
         ),
-        Text(value),
+        Text(value,style: TextStyle(fontSize: screenWidth * 0.030),),
       ],
     );
   }
