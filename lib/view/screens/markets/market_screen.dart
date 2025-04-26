@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:stake_fair_app/controllers/Home/home_controller.dart';
 import 'package:stake_fair_app/controllers/Home/inplay_controller.dart';
+import 'package:stake_fair_app/main.dart';
+import 'package:stake_fair_app/new.dart';
 import 'package:stake_fair_app/res/app_colors/app_colors.dart';
 import 'package:stake_fair_app/scrollable.dart';
+import 'package:stake_fair_app/view/screens/markets/oddsmarket.dart';
 import 'package:stake_fair_app/view/screens/markets/widgets_classes/backlay.dart';
 import 'package:stake_fair_app/view/screens/markets/widgets_classes/title_container.dart';
 
@@ -35,26 +38,47 @@ class _MarketScreenState extends State<MarketScreen> {
                     SizedBox(height: 7),
                     Row(
                       children: [
-                        _buildShowMatches(
-                            index: 0,
-                            label: 'Soccer',
-                            onTap: () =>
-                                inplayController.selectedIndex.value = 0),
-                        _buildShowMatches(
-                          index: 1,
-                          label: 'Tennis',
-                          onTap: () => inplayController.selectedIndex.value = 1,
-                        ),
-                        _buildShowMatches(
-                          index: 2,
-                          label: 'Cricket',
-                          onTap: () => inplayController.selectedIndex.value = 2,
-                        ),
+_buildScrollableRow(),
                       ],
                     ),
+                    
+                    // Row(
+                    //   children: [
+                    //     _buildShowMatches(
+                    //         index: 0,
+                    //         label: 'Soccer',
+                    //         onTap: () =>
+                    //             inplayController.selectedIndex.value = 0),
+                    //     _buildShowMatches(
+                    //       index: 1,
+                    //       label: 'Tennis',
+                    //       onTap: () => inplayController.selectedIndex.value = 1,
+                    //     ),
+                    //     _buildShowMatches(
+                    //       index: 2,
+                    //       label: 'Cricket',
+                    //       onTap: () => inplayController.selectedIndex.value = 2,
+                    //     ),
+                    //   ],
+                    // ),
                     _buildTalbe(context),
-                    TitleInfoContainer(title: 'Bookmaker IPL CUP', img: AssetImage('assets/images/cash.png'), icon: Icons.timelapse_sharp),
+                    TitleInfoContainer(
+                        title: 'Bookmaker IPL CUP',
+                        img: AssetImage('assets/images/cash.png'),
+                        icon: Icons.timelapse_sharp),
                     BackLayInfoBar(matched: '25.80M', min: '100', max: '100K'),
+                    SoccerMarketWidget(
+                      title: "Team A",
+                      backOdds: [
+                        {'price': '2.5', 'size': '120'},
+                         {'price': '2.', 'size': '0'},
+                          {'price': '0.5', 'size': '10'}
+                      ],
+                      layOdds: [
+                        {'price': '2.6', 'size': '90'}
+                      ],
+                    ),
+                    // PlayerMarketTile(title: 'IPL', image: AssetImage('assets/images/market.png'), backOdds: [{'price':'131.343','size':'3.53'}], layOdds: inplayController.oddsList),
                     _buildFooter(mediaQuery, textScale),
                     _buildWarningText(textScale),
                     const SizedBox(height: 5),
@@ -72,7 +96,7 @@ class _MarketScreenState extends State<MarketScreen> {
                       padding: EdgeInsets.symmetric(horizontal: 10),
                       child: Divider(thickness: 0.6),
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 10),            
                     _buildText('Privacy Policy', textScale),
                     _buildText('Cookie Policy', textScale),
                     _buildText('Privacy Preference Centre', textScale),
@@ -279,44 +303,61 @@ class _MarketScreenState extends State<MarketScreen> {
     );
   }
 
-  Widget _buildShowMatches({
-    required int index,
-    required String label,
-    required VoidCallback onTap,
-  }) {
-    return Obx(() {
-      bool select = (index == inplayController.selectedIndex.value);
-      return Expanded(
-        child: InkWell(
-          onTap: onTap,
-          child: Container(
-            height: 60,
-            decoration: BoxDecoration(
-                color:
-                    select ? const Color(0xffFFFFFF) : const Color(0xffF0F1F5),
-                border: select
-                    ? Border(top: BorderSide(color: Colors.black, width: 2))
-                    : null),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const SizedBox(height: 1),
-                Text(
-                  label,
-                  style: TextStyle(
-                      fontSize: 12,
-                      height: 1.0,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold),
-                  maxLines: 1,
-                ),
-              ],
+ Widget _buildShowMatches({
+  required int index,
+  required String label,
+  required VoidCallback onTap,
+}) {
+  return Obx(() {
+    bool select = (index == inplayController.selectedIndex.value);
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        height: 40,
+        decoration: BoxDecoration(
+          color: select ? const Color(0xffFFFFFF) : const Color(0xffF0F1F5),
+          border: select
+              ? Border(top: BorderSide(color: Colors.black, width: 2))
+              : null,
+        ),
+        child: Center(
+          child: Text(
+            label,
+            style: TextStyle(
+              fontSize: 12,
+              height: 1.0,
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
             ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis, // Prevent overflow
           ),
         ),
-      );
-    });
-  }
+      ),
+    );
+  });
+}
+
+Widget _buildScrollableRow() {
+  return Container(
+    width: MediaQuery.of(context).size.width, // Use full screen width
+    child: SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: List.generate(
+          inplayController.matchLabels.length,
+          (index) => _buildShowMatches(
+            index: index,
+            label: inplayController.matchLabels[index],
+            onTap: () => inplayController.selectedIndex.value = index,
+          ),
+        ),
+      ),
+    ),
+  );
+}
 
   Widget _buildFooter(Size mediaQuery, double textScale) {
     return Container(
@@ -656,8 +697,4 @@ class _MarketScreenState extends State<MarketScreen> {
           ),
         ));
   }
-
- 
-
-
 }

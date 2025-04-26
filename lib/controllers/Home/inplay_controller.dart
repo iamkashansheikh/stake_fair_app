@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 class InplayController extends GetxController {
   var selectedIndex = 0.obs;
   var oddsList = <Map<String, dynamic>>[].obs;
+  var matchLabels = <String>["Soccer", "TenniIIIIIIIIIIIs", "Cricket", "BasketbalCCCCCCCCCCCl", "BaseballCCCCCCCC","Baseball","BaseballBBBBBBBBBB",].obs; // Dynamic list of matches
 
   @override
   void onInit() {
