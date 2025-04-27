@@ -1,10 +1,12 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:stake_fair_app/controllers/Home/home_controller.dart';
 import 'package:stake_fair_app/controllers/Home/inplay_controller.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:stake_fair_app/res/app_colors/app_colors.dart';
+import 'package:stake_fair_app/res/responsive.dart';
 import 'package:stake_fair_app/scrollable.dart';
 
 class InplayScreen extends StatefulWidget {
@@ -22,248 +24,258 @@ class _InplayScreenState extends State<InplayScreen> {
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
     final double textScale = MediaQuery.of(context).textScaleFactor;
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: AppColors.whiteColor,
-        appBar: _buildAppBar(context),
-        body: Stack(
-          clipBehavior: Clip.none,
-          children: [
-            NoBounceScrollWrapper(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    _buildContainer(
-                      'In-Play',
-                      Icon(
-                        Icons.timelapse,
-                        color: AppColors.whiteColor,
-                        size: 22,
+    return BaseResponsiveScreen(
+      child: SafeArea(
+        child: Scaffold(
+          
+          backgroundColor: AppColors.whiteColor,
+          appBar:_buildAppBar(context),
+          body: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              NoBounceScrollWrapper(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      _buildContainer(
+                        'In-Play',
+                        Icon(
+                          Icons.timelapse,
+                          color: AppColors.whiteColor,
+                          size: 18.r,
+                        ),
                       ),
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.006,
-                    ),
-                    Row(
-                      children: [
-                        _buildShowMatches(
-                            index: 0,
-                            label: 'Soccer',
+                      SizedBox(
+                        height: 05.h,
+                      ),
+                      Row(
+                        children: [
+                          _buildShowMatches(
+                              index: 0,
+                              label: 'Soccer',
+                              badge: badges.Badge(
+                                badgeStyle: badges.BadgeStyle(
+                                    badgeColor: AppColors.inplaybtnColor,
+                                    shape: badges.BadgeShape.square,
+                                    padding: EdgeInsets.zero),
+                                badgeContent: SizedBox(
+                                  width: 22.w,
+                                  height: 12.h,
+                                  child: Center(
+                                    child: Text('1',
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 9.sp)),
+                                  ),
+                                ),
+                                child:  Icon(Icons.sports_soccer,
+                                    color: Colors.black,size: 18.r,),
+                              ),
+                              onTap: () =>
+                                  inplayController.selectedIndex.value = 0),
+                          _buildShowMatches(
+                            index: 1,
+                            label: 'Tennis',
                             badge: badges.Badge(
                               badgeStyle: badges.BadgeStyle(
-                                  borderRadius: BorderRadius.circular(2),
+                                badgeColor: AppColors.inplaybtnColor,
+                                shape: badges.BadgeShape.square,
+                                padding: EdgeInsets.zero,
+                              ),
+                              badgeContent: SizedBox(
+                                width: 22.w,
+                                height: 12.h,
+                                child: Center(
+                                  child: Text(
+                                    '2',
+                                    style:  TextStyle(
+                                        color: Colors.white, fontSize: 9.sp),
+                                  ),
+                                ),
+                              ),
+                              child:  Icon(Icons.sports_tennis,
+                                  color: Colors.black,size: 18.r,),
+                            ),
+                            onTap: () =>
+                                inplayController.selectedIndex.value = 1,
+                          ),
+                          _buildShowMatches(
+                            index: 2,
+                            label: 'Cricket',
+                            badge: badges.Badge(
+                              badgeStyle: badges.BadgeStyle(
                                   badgeColor: AppColors.inplaybtnColor,
                                   shape: badges.BadgeShape.square,
                                   padding: EdgeInsets.zero),
                               badgeContent: SizedBox(
-                                width: 22,
-                                height: 12,
+                                width: 22.w,
+                                height: 12.h,
                                 child: Center(
-                                  child: Text('1',
+                                  child: Text('5',
                                       style: TextStyle(
-                                          color: Colors.white, fontSize: 9)),
+                                          color: Colors.white, fontSize: 9.sp)),
                                 ),
                               ),
-                              child: const Icon(Icons.sports_soccer,
-                                  color: Colors.black),
+                              child:  Icon(Icons.sports_cricket,
+                                  color: Colors.black,size: 18.r,),
                             ),
                             onTap: () =>
-                                inplayController.selectedIndex.value = 0),
-                        _buildShowMatches(
-                          index: 1,
-                          label: 'Tennis',
-                          badge: badges.Badge(
-                            badgeStyle: badges.BadgeStyle(
-                              borderRadius: BorderRadius.circular(2),
-                              badgeColor: AppColors.inplaybtnColor,
-                              shape: badges.BadgeShape.square,
-                              padding: EdgeInsets.zero,
-                            ),
-                            badgeContent: SizedBox(
-                              width: 22,
-                              height: 12,
-                              child: Center(
-                                child: Text(
-                                  '2',
-                                  style: const TextStyle(
-                                      color: Colors.white, fontSize: 9),
-                                ),
-                              ),
-                            ),
-                            child: const Icon(Icons.sports_tennis,
-                                color: Colors.black),
+                                inplayController.selectedIndex.value = 2,
                           ),
-                          onTap: () => inplayController.selectedIndex.value = 1,
-                        ),
-                        _buildShowMatches(
-                          index: 2,
-                          label: 'Cricket',
-                          badge: badges.Badge(
-                            badgeStyle: badges.BadgeStyle(
-                                borderRadius: BorderRadius.circular(2),
-                                badgeColor: AppColors.inplaybtnColor,
-                                shape: badges.BadgeShape.square,
-                                padding: EdgeInsets.zero),
-                            badgeContent: SizedBox(
-                              width: 22,
-                              height: 12,
-                              child: Center(
-                                child: Text('5',
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 9)),
-                              ),
-                            ),
-                            child: const Icon(Icons.sports_cricket,
-                                color: Colors.black),
-                          ),
-                          onTap: () => inplayController.selectedIndex.value = 2,
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.006,
-                    ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: const [
-                            Text('1', style: TextStyle(fontWeight: FontWeight.w500, fontSize: 12)),
-                            Text('X', style: TextStyle(fontWeight: FontWeight.w500, fontSize: 12)),
-                            Text('2', style: TextStyle(fontWeight: FontWeight.w500, fontSize: 12)),
-                          ],
-                        ), 
-                    Divider(
-                      thickness: 0.5,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 5),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('South Korean Soccer'),
-                          Icon(Icons.keyboard_arrow_right)
                         ],
                       ),
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.01,
-                    ),
-                    Divider(
-                      thickness: 0.5,
-                      height: 0,
-                    ),
-                    Obx((){
-                      if (inplayController.selectedIndex == 0) {
-                        return Column(
+                      SizedBox(height: 05.h,),
+                      Row(
+                        children:  [
+                          SizedBox(width: 213.w,),
+                          Text('1',
+                              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 10.sp)),
+                                  SizedBox(width: 50.w,),
+                          Text('X',
+                              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 10.sp)),
+                                  SizedBox(width: 49.w,),
+                          Text('2',
+                              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 10.sp)),
+                        ],
+                      ),
+                      Divider(
+                        thickness: 0.5,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 5),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            _buildSoccerMarket(),
-                            _buildSoccerMarket(),
-                            _buildSoccerMarket(),
-                            _buildSoccerMarket(),
-                            _buildSoccerMarket(),
+                            Text('South Korean Soccer',style: TextStyle(fontSize: 11.sp),),
+                            Icon(Icons.keyboard_arrow_right,size: 18.r,)
                           ],
-                        );
-                      }if (inplayController.selectedIndex == 1) {
-                        return _buildTennisMarket();
-                      }if (inplayController.selectedIndex == 2) {
-                        return _buildCricketMarket();
-                      }
-                      return _buildCricketMarket();
-                    }),
-                    const SizedBox(height: 5),
-                    _buildFooter(screenSize, textScale),
-                    _buildWarningText(context),
-                    const SizedBox(height: 5),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Center(child: _buildSaferGamblingDropdown(textScale)),
-                        const SizedBox(height: 5),
-                        Center(child: _buildAboutStakefairDropdown(textScale)),
-                        const SizedBox(height: 5),
-                        _buildText('Help', textScale),
-                        _buildText('Affiliates', textScale),
-                        _buildText('18+', textScale),
-                        _buildText('Developers', textScale),
-                        _buildText('StakeFair Exchange Sitemap', textScale),
-                        _buildText('B2B Partnerships', textScale),
-                        const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 10),
-                          child: Divider(thickness: 0.6),
                         ),
-                        const SizedBox(height: 10),
-                        _buildText('Privacy Policy', textScale),
-                        _buildText('Cookie Policy', textScale),
-                        _buildText('Privacy Preference Centre', textScale),
-                        _buildText('Rules & Regulations', textScale),
-                        _buildText('Terms & Conditions', textScale),
-                        const SizedBox(height: 20),
-                      ],
-                    ),
-                  ],
+                      ),
+                      SizedBox(
+                        height: 4.h,
+                      ),
+                      Divider(
+                        thickness: 0.5,
+                        height: 0,
+                      ),
+                      Obx(() {
+                        if (inplayController.selectedIndex == 0) {
+                          return Column(
+                            children: [
+                              _buildSoccerMarket(),
+                              _buildSoccerMarket(),
+                              _buildSoccerMarket(),
+                              _buildSoccerMarket(),
+                              _buildSoccerMarket(),
+                            ],
+                          );
+                        }
+                        if (inplayController.selectedIndex == 1) {
+                          return _buildTennisMarket();
+                        }
+                        if (inplayController.selectedIndex == 2) {
+                          return _buildCricketMarket();
+                        }
+                        return _buildCricketMarket();
+                      }),
+                      const SizedBox(height: 5),
+                      _buildFooter(screenSize, textScale),
+                      _buildWarningText(),
+                      const SizedBox(height: 5),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Center(child: _buildSaferGamblingDropdown()),
+                          const SizedBox(height: 5),
+                          Center(
+                              child: _buildAboutStakefairDropdown()),
+                          const SizedBox(height: 5),
+                          _buildText('Help', ),
+                          _buildText('Affiliates', ),
+                          _buildText('18+', ),
+                          _buildText('Developers', ),
+                          _buildText('StakeFair Exchange Sitemap', ),
+                          _buildText('B2B Partnerships', ),
+                          const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 10),
+                            child: Divider(thickness: 0.6),
+                          ),
+                          const SizedBox(height: 10),
+                          _buildText('Privacy Policy', ),
+                          _buildText('Cookie Policy', ),
+                          _buildText('Privacy Preference Centre', ),
+                          _buildText('Rules & Regulations', ),
+                          _buildText('Terms & Conditions', ),
+                          const SizedBox(height: 20),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Obx(() => AnimatedPositioned(
-                  duration: const Duration(milliseconds: 300),
-                  curve: Curves.easeInOut,
-                  top: homeController.isSearchFieldVisible.value ? 0 : -80,
-                  left: 0,
-                  right: 0,
-                  child: AnimatedOpacity(
+              Obx(() => AnimatedPositioned(
                     duration: const Duration(milliseconds: 300),
-                    opacity:
-                        homeController.isSearchFieldVisible.value ? 1.0 : 0.0,
-                    child: _buildSearchField(screenSize, textScale),
-                  ),
-                )),
-          ],
+                    curve: Curves.easeInOut,
+                    top: homeController.isSearchFieldVisible.value ? 0 : -80,
+                    left: 0,
+                    right: 0,
+                    child: AnimatedOpacity(
+                      duration: const Duration(milliseconds: 300),
+                      opacity:
+                          homeController.isSearchFieldVisible.value ? 1.0 : 0.0,
+                      child: _buildSearchField(screenSize, ),
+                    ),
+                  )),
+            ],
+          ),
+          bottomNavigationBar: Obx(() {
+            return Container(
+              color: const Color(0xff525252),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _buildNavItem(
+                      index: 0,
+                      label: 'Home',
+                      icon: Icons.home,
+                      onTap: () => homeController.changeIndex(0)),
+                  _buildNavItem(
+                      index: 1,
+                      label: 'Menu',
+                      icon: Icons.menu,
+                      onTap: () => homeController.changeIndex(1)),
+                  _buildNavItem(
+                      index: 2,
+                      label: 'CashOut',
+                      icon: Icons.account_balance_wallet,
+                      onTap: () => homeController.changeIndex(2)),
+                  _buildNavItemWithAsset(
+                      index: 3,
+                      label: 'MyBets',
+                      assetPath: 'assets/images/money.png',
+                      onTap: () => homeController.changeIndex(3)),
+                  _buildNavItemWithAsset(
+                      index: 4,
+                      label: 'Casino',
+                      assetPath: 'assets/images/casino-chip (1).png',
+                      onTap: () => homeController.changeIndex(4)),
+                ],
+              ),
+            );
+          }),
         ),
-        bottomNavigationBar: Obx(() {
-          return Container(
-            color: const Color(0xff525252),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _buildNavItem(
-                    index: 0,
-                    label: 'Home',
-                    icon: Icons.home,
-                    onTap: () => homeController.changeIndex(0)),
-                _buildNavItem(
-                    index: 1,
-                    label: 'Menu',
-                    icon: Icons.menu,
-                    onTap: () => homeController.changeIndex(1)),
-                _buildNavItem(
-                    index: 2,
-                    label: 'CashOut',
-                    icon: Icons.account_balance_wallet,
-                    onTap: () => homeController.changeIndex(2)),
-                _buildNavItemWithAsset(
-                    index: 3,
-                    label: 'MyBets',
-                    assetPath: 'assets/images/money.png',
-                    onTap: () => homeController.changeIndex(3)),
-                _buildNavItemWithAsset(
-                    index: 4,
-                    label: 'Casino',
-                    assetPath: 'assets/images/casino-chip (1).png',
-                    onTap: () => homeController.changeIndex(4)),
-              ],
-            ),
-          );
-        }),
       ),
     );
   }
 
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     double appBarHeight = 50;
-    double logoWidth = 133;
-    double logoHeight = 18;
-    double searchButtonWidth = 50;
-    double loginButtonWidth = 66;
+    double logoWidth = 112;
+    double logoHeight = 16;
+    double searchButtonWidth = 35;
+    double loginButtonWidth = 57;
+
     return PreferredSize(
+      
       preferredSize: Size.fromHeight(appBarHeight),
       child: Container(
         decoration: BoxDecoration(
@@ -274,6 +286,7 @@ class _InplayScreenState extends State<InplayScreen> {
           ),
         ),
         child: AppBar(
+          automaticallyImplyLeading: true,
           toolbarHeight: appBarHeight,
           backgroundColor: Colors.transparent,
           elevation: 0,
@@ -285,8 +298,8 @@ class _InplayScreenState extends State<InplayScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    width: logoWidth,
-                    height: logoHeight,
+                    width: logoWidth.w,
+                    height: logoHeight.h,
                     decoration: const BoxDecoration(
                       image: DecorationImage(
                         image: AssetImage('assets/images/stakefair.png'),
@@ -294,12 +307,12 @@ class _InplayScreenState extends State<InplayScreen> {
                       ),
                     ),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 34),
+                  Padding(
+                    padding: EdgeInsets.only(left: 33),
                     child: Text(
                       'EXCHANGE',
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: 12.sp,
                         color: Colors.black,
                       ),
                     ),
@@ -313,10 +326,10 @@ class _InplayScreenState extends State<InplayScreen> {
                     child: _buildIconButton(
                       Icons.search_rounded,
                       'Search',
-                      width: searchButtonWidth,
+                      width: searchButtonWidth.w,
                     ),
                   ),
-                  const SizedBox(width: 4),
+                  SizedBox(width: 3.w),
                   InkWell(
                     onTap: () {
                       Get.toNamed('/login');
@@ -324,7 +337,7 @@ class _InplayScreenState extends State<InplayScreen> {
                     child: _buildIconButton(
                       Icons.person,
                       'Login / Join',
-                      width: loginButtonWidth,
+                      width: loginButtonWidth.w,
                     ),
                   ),
                 ],
@@ -336,39 +349,39 @@ class _InplayScreenState extends State<InplayScreen> {
     );
   }
 
-  Widget _buildIconButton(IconData icon, String text, {double width = 85}) {
+  Widget _buildIconButton(IconData icon, String text, {double width = 82}) {
     return Container(
-      width: width,
-      height: 38,
+      width: width.w,
+      height: 33.h,
       decoration: BoxDecoration(
           color: AppColors.apbarbutonColor,
           borderRadius: BorderRadius.circular(2)),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(icon, color: AppColors.whiteColor, size: 20),
+          Icon(icon, color: AppColors.whiteColor, size: 15.r),
           Text(text,
               style: TextStyle(
                   color: AppColors.whiteColor,
-                  fontSize: 11,
+                  fontSize: 10.sp,
                   fontWeight: FontWeight.w600)),
         ],
       ),
     );
   }
 
-  Widget _buildSearchField(Size mediaQuery, double textScale, {Key? key}) {
+  Widget _buildSearchField(Size mediaQuery, {Key? key}) {
     return Container(
       key: key,
-      width: mediaQuery.width,
-      height: 55 * textScale,
+      width: mediaQuery.width.w,
+      height: 45.h,
       color: AppColors.blackthemeColor,
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       child: Row(
         children: [
           Expanded(
             child: SizedBox(
-              height: 37,
+              height: 32.h,
               child: TextFormField(
                 cursorColor: Colors.grey,
                 decoration: const InputDecoration(
@@ -388,8 +401,7 @@ class _InplayScreenState extends State<InplayScreen> {
             onTap: () => homeController.isSearchFieldVisible.value = false,
             child: AutoSizeText(
               "Cancel",
-              style: TextStyle(
-                  color: AppColors.whiteColor, fontSize: 12 * textScale),
+              style: TextStyle(color: AppColors.whiteColor, fontSize: 10.sp),
               maxLines: 1,
             ),
           ),
@@ -398,90 +410,10 @@ class _InplayScreenState extends State<InplayScreen> {
     );
   }
 
-  Widget _buildNavItem({
-    required int index,
-    required String label,
-    required IconData icon,
-    required VoidCallback onTap,
-  }) {
-    bool isSelected = (index == homeController.selectedIndex.value);
-    return Expanded(
-      child: InkWell(
-        onTap: onTap,
-        child: Container(
-          height: 48, // Fixed height; adjust if needed.
-          decoration: BoxDecoration(
-            color: isSelected ? AppColors.blackthemeColor : AppColors.greyColor,
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                icon,
-                color: isSelected ? Colors.orange : Colors.white,
-                size: 24,
-              ),
-              Text(
-                label,
-                style: const TextStyle(
-                  fontSize: 10,
-                  height: 1.0,
-                  color: Colors.white,
-                ),
-                maxLines: 1,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildNavItemWithAsset({
-    required int index,
-    required String label,
-    required String assetPath,
-    required VoidCallback onTap,
-  }) {
-    bool isSelected = (index == homeController.selectedIndex.value);
-    return Expanded(
-      child: InkWell(
-        onTap: onTap,
-        child: Container(
-          height: 48,
-          decoration: BoxDecoration(
-              color:
-                  isSelected ? AppColors.blackthemeColor : AppColors.greyColor),
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: 5),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset(
-                  assetPath,
-                  width: 28,
-                ),
-                Text(
-                  label,
-                  style: const TextStyle(
-                    fontSize: 10,
-                    height: 1.0,
-                    color: Colors.white,
-                  ),
-                  maxLines: 1,
-                )
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
   Widget _buildContainer(String title, Icon icon) {
     return Container(
       width: double.infinity,
-      height: 31,
+      height: 28.h,
       color: AppColors.blackthemeColor,
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
       child: Row(
@@ -496,7 +428,7 @@ class _InplayScreenState extends State<InplayScreen> {
               title,
               style: TextStyle(
                   fontWeight: FontWeight.w600,
-                  fontSize: 14,
+                  fontSize: 12.sp,
                   color: AppColors.whiteColor),
               maxLines: 1,
             ),
@@ -518,7 +450,7 @@ class _InplayScreenState extends State<InplayScreen> {
         child: InkWell(
           onTap: onTap,
           child: Container(
-            height: 60,
+            height: 50.h,
             decoration: BoxDecoration(
                 color:
                     select ? const Color(0xffFFFFFF) : const Color(0xffF0F1F5),
@@ -529,11 +461,11 @@ class _InplayScreenState extends State<InplayScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 badge,
-                const SizedBox(height: 1),
+                 SizedBox(height: 1.h),
                 Text(
                   label,
                   style: TextStyle(
-                      fontSize: 12,
+                      fontSize: 10.sp,
                       height: 1.0,
                       color: Colors.black,
                       fontWeight: FontWeight.bold),
@@ -549,7 +481,7 @@ class _InplayScreenState extends State<InplayScreen> {
 
   Widget _buildTennisMarket() {
     inplayController.fetchOdds();
-    return Column(
+        return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         Container(
@@ -558,8 +490,8 @@ class _InplayScreenState extends State<InplayScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
-                width: 40,
-                height: 60,
+                width: 35.w,
+                height: 50.h,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   color: AppColors.inplaybtnColor,
@@ -567,34 +499,34 @@ class _InplayScreenState extends State<InplayScreen> {
                     bottom: BorderSide(color: Colors.white),
                   ),
                 ),
-                child: const Text(
+                child:  Text(
                   'In-Play',
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 10,
+                    fontSize: 9.sp,
                   ),
                 ),
               ),
-              const SizedBox(width: 15),
+               SizedBox(width: 13.w),
               Expanded(
                 flex: 2,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
+                  children:  [
                     Text(
                       'James Kent',
-                      style: TextStyle(fontSize: 12),
+                      style: TextStyle(fontSize: 10.sp),
                     ),
                     Text(
                       'Viktor',
-                      style: TextStyle(fontSize: 12),
+                      style: TextStyle(fontSize: 10.sp),
                     ),
                   ],
                 ),
               ),
               Container(
-                width: 167,
+                width: 174.w,
                 child: Obx(() {
                   return SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
@@ -633,7 +565,7 @@ class _InplayScreenState extends State<InplayScreen> {
     );
   }
 
-   Widget _buildCricketMarket() {
+  Widget _buildCricketMarket() {
     inplayController.fetchOdds();
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -644,8 +576,8 @@ class _InplayScreenState extends State<InplayScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
-                width: 40,
-                height: 60,
+                width: 35.w,
+                height: 50.h,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   color: AppColors.inplaybtnColor,
@@ -653,34 +585,34 @@ class _InplayScreenState extends State<InplayScreen> {
                     bottom: BorderSide(color: Colors.white),
                   ),
                 ),
-                child: const Text(
+                child:  Text(
                   'In-Play',
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 10,
+                    fontSize: 9.sp,
                   ),
                 ),
               ),
-              const SizedBox(width: 15),
+               SizedBox(width: 13.w),
               Expanded(
                 flex: 2,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
+                  children:  [
                     Text(
                       'ICC Trophy',
-                      style: TextStyle(fontSize: 12),
+                      style: TextStyle(fontSize: 10.sp),
                     ),
                     Text(
-                      'Indian League',
-                      style: TextStyle(fontSize: 12),
+                      'Indian Premier League',
+                      style: TextStyle(fontSize: 10.sp),
                     ),
                   ],
                 ),
               ),
               Container(
-                width: 167,
+                width: 174.w,
                 child: Obx(() {
                   return SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
@@ -719,7 +651,7 @@ class _InplayScreenState extends State<InplayScreen> {
     );
   }
 
-   Widget _buildSoccerMarket() {
+  Widget _buildSoccerMarket() {
     inplayController.fetchOdds();
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -730,8 +662,8 @@ class _InplayScreenState extends State<InplayScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
-                width: 40,
-                height: 60,
+                width: 35.w,
+                height: 50.h,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   color: AppColors.inplaybtnColor,
@@ -739,34 +671,34 @@ class _InplayScreenState extends State<InplayScreen> {
                     bottom: BorderSide(color: Colors.white),
                   ),
                 ),
-                child: const Text(
+                child:  Text(
                   'In-Play',
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 10,
+                    fontSize: 9.sp,
                   ),
                 ),
               ),
-              const SizedBox(width: 15),
+               SizedBox(width: 13.w),
               Expanded(
                 flex: 2,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
+                  children:  [
                     Text(
                       'FiFa World Cup',
-                      style: TextStyle(fontSize: 12),
+                      style: TextStyle(fontSize: 10.sp),
                     ),
                     Text(
                       'Portugal Team',
-                      style: TextStyle(fontSize: 12),
+                      style: TextStyle(fontSize: 10.sp),
                     ),
                   ],
                 ),
               ),
               Container(
-                width: 167,
+                width: 174.w,
                 child: Obx(() {
                   return SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
@@ -811,8 +743,8 @@ class _InplayScreenState extends State<InplayScreen> {
     required String amount,
   }) {
     return Container(
-      width: 50,
-      height: 40,
+      width: 53.w,
+      height: 38.h,
       decoration: BoxDecoration(
         color: backgroundColor,
         borderRadius: BorderRadius.circular(2),
@@ -822,12 +754,12 @@ class _InplayScreenState extends State<InplayScreen> {
         children: [
           Text(
             odds,
-            style: const TextStyle(
-                fontWeight: FontWeight.w600, fontSize: 14, height: 1.0),
+            style:  TextStyle(
+                fontWeight: FontWeight.w600, fontSize: 14.sp, height: 1.0),
           ),
           Text(
             amount,
-            style: const TextStyle(fontSize: 12, height: 1.0),
+            style:  TextStyle(fontSize: 10.sp, height: 1.0),
           ),
         ],
       ),
@@ -836,8 +768,8 @@ class _InplayScreenState extends State<InplayScreen> {
 
   Widget _buildFooter(Size mediaQuery, double textScale) {
     return Container(
-      height: mediaQuery.height * 0.06,
-      width: mediaQuery.width,
+      height: mediaQuery.height * 0.052.h,
+      width: mediaQuery.width.w,
       color: const Color(0xff1E1E1E),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -845,42 +777,42 @@ class _InplayScreenState extends State<InplayScreen> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
-              width: mediaQuery.width * 0.09,
-              height: mediaQuery.height * 0.09,
+              width: mediaQuery.width * 0.07.w,
+              height: mediaQuery.height * 0.07.h,
               decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border:
                       Border.all(color: const Color(0xffFF0000), width: 1.8)),
-              child: const Center(
+              child: Center(
                   child: AutoSizeText(
                 '18+',
-                style: TextStyle(color: Colors.white, fontSize: 15),
+                style: TextStyle(color: Colors.white, fontSize: 13.sp),
                 maxLines: 1,
               )),
             ),
           ),
-          const SizedBox(width: 7),
-          const Text('Please Gamble Responsibly',
+          SizedBox(width: 7.w),
+          Text('Please Gamble Responsibly',
               style: TextStyle(
                   color: Color(0xffC4C4C4),
-                  fontSize: 11,
+                  fontSize: 11.sp,
                   fontWeight: FontWeight.w600),
               maxLines: 1),
-          const SizedBox(width: 8),
+          SizedBox(width: 8.w),
           Container(
-            width: mediaQuery.width * 0.26,
-            height: 35,
+            width: mediaQuery.width * 0.22.w,
+            height: 31.h,
             decoration: BoxDecoration(
               color: const Color(0xffD4D4D4),
               borderRadius: BorderRadius.circular(2),
             ),
             alignment: Alignment.center,
-            child: const Text(
+            child: Text(
               'More details',
               style: TextStyle(
                 color: Colors.black,
                 fontWeight: FontWeight.bold,
-                fontSize: 11,
+                fontSize: 11.sp,
               ),
               maxLines: 1,
             ),
@@ -890,22 +822,16 @@ class _InplayScreenState extends State<InplayScreen> {
     );
   }
 
-  Widget _buildWarningText(BuildContext context) {
-    double textScale = MediaQuery.of(context).textScaleFactor;
-    double screenWidth = MediaQuery.of(context).size.width;
-
-    // Optional: Make it more adaptive to small screens
-    double baseFontSize = screenWidth < 360 ? 10 : 11;
-
+  Widget _buildWarningText() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 13),
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 13),
       child: RichText(
         text: TextSpan(
           children: [
             TextSpan(
               text: 'Warning',
               style: TextStyle(
-                fontSize: 12 * textScale,
+                fontSize: 12.sp,
                 fontWeight: FontWeight.bold,
                 color: Colors.black,
               ),
@@ -914,90 +840,69 @@ class _InplayScreenState extends State<InplayScreen> {
               text:
                   " : Although the current score, time elapsed, video and other ",
               style: TextStyle(
-                fontSize: 11.9 * textScale,
+                fontSize: 11.sp,
                 color: Colors.black,
               ),
             ),
             _buildWidgetSpan(
                 "data provided on this site is sourced from feeds provided by third",
-                0,
-                baseFontSize,
-                textScale),
+                0),
             _buildWidgetSpan(
                 " parties, you should be aware that this data may be subject to a time",
-                2,
-                baseFontSize,
-                textScale),
+                2),
             _buildWidgetSpan(
                 " delay and/or be inaccurate. Please also be aware that other",
-                22,
-                baseFontSize,
-                textScale),
+                22),
             _buildWidgetSpan(
                 " StakeFair customers may have access to data that is faster and/or ",
-                0,
-                baseFontSize,
-                textScale),
+                0),
             _buildWidgetSpan(
                 "more accurate than the data shown on the StakeFair site. If you rely",
-                6,
-                baseFontSize,
-                textScale),
+                6),
             _buildWidgetSpan(
                 "on this data to place bets, you do so entirely at your own risk.",
-                20,
-                baseFontSize,
-                textScale),
+                20),
             _buildWidgetSpan(
                 " StakeFair provides this data AS IS with no warranty as to the ,",
-                0,
-                baseFontSize,
-                textScale),
+                0),
             _buildWidgetSpan(
                 "accuracy completeness or timeliness of such data and accepts no",
-                10,
-                baseFontSize,
-                textScale),
+                10),
             _buildWidgetSpan(
                 " responsibility for any loss (direct or indirect) suffered by you as a",
-                20,
-                baseFontSize,
-                textScale),
-            _buildWidgetSpan(" result of your reliance on it.", 115,
-                baseFontSize, textScale),
+                20),
+            _buildWidgetSpan(" result of your reliance on it.", 115),
           ],
         ),
       ),
     );
   }
 
-  InlineSpan _buildWidgetSpan(String text, double horizontalPadding,
-      double baseFontSize, double textScale) {
+  InlineSpan _buildWidgetSpan(String text, double horizontalPadding) {
     return WidgetSpan(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
         child: Text(
           text,
           style: TextStyle(
-            fontSize: baseFontSize * textScale,
+            fontSize: 11.sp,
             color: Colors.black,
           ),
           maxLines: 1,
-          overflow: TextOverflow.visible,
         ),
       ),
     );
   }
 
-  Widget _buildText(String title, double textScale) {
+  Widget _buildText(String title) {
     return AutoSizeText(
       title,
-      style: TextStyle(fontSize: 12 * textScale, fontWeight: FontWeight.w500),
+      style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w500),
       maxLines: 1,
     );
   }
 
-  Widget _buildSaferGamblingDropdown(double textScale) {
+  Widget _buildSaferGamblingDropdown() {
     return Obx(() {
       bool expanded = homeController.isSaferGamblingExpanded.value;
       return Column(
@@ -1012,11 +917,13 @@ class _InplayScreenState extends State<InplayScreen> {
                   homeController.saferGambling[0],
                   style: TextStyle(
                       decoration: TextDecoration.underline,
-                      fontSize: 12 * textScale,
+                      fontSize: 12.sp,
                       fontWeight: FontWeight.w500),
                   maxLines: 1,
                 ),
-                Icon(expanded ? Icons.arrow_drop_up : Icons.arrow_drop_down),
+                Icon(
+                  expanded ? Icons.arrow_drop_up : Icons.arrow_drop_down,
+                ),
               ],
             ),
           ),
@@ -1031,7 +938,7 @@ class _InplayScreenState extends State<InplayScreen> {
                           item,
                           style: TextStyle(
                               color: Colors.black,
-                              fontSize: 12 * textScale,
+                              fontSize: 12.sp,
                               fontWeight: FontWeight.w500),
                           maxLines: 1,
                         ),
@@ -1043,7 +950,7 @@ class _InplayScreenState extends State<InplayScreen> {
     });
   }
 
-  Widget _buildAboutStakefairDropdown(double textScale) {
+  Widget _buildAboutStakefairDropdown() {
     return Obx(() {
       bool expanded = homeController.isAboutStakefairExpanded.value;
       return Column(
@@ -1058,7 +965,7 @@ class _InplayScreenState extends State<InplayScreen> {
                   homeController.aboutStakefair[0],
                   style: TextStyle(
                       decoration: TextDecoration.underline,
-                      fontSize: 12 * textScale,
+                      fontSize: 12.sp,
                       fontWeight: FontWeight.w500),
                   maxLines: 1,
                 ),
@@ -1077,7 +984,7 @@ class _InplayScreenState extends State<InplayScreen> {
                           item,
                           style: TextStyle(
                               color: Colors.black,
-                              fontSize: 12 * textScale,
+                              fontSize: 12.sp,
                               fontWeight: FontWeight.w500),
                           maxLines: 1,
                         ),
@@ -1089,5 +996,83 @@ class _InplayScreenState extends State<InplayScreen> {
     });
   }
 
- 
+  Widget _buildNavItem({
+    required int index,
+    required String label,
+    required IconData icon,
+    required VoidCallback onTap,
+  }) {
+    bool isSelected = (index == homeController.selectedIndex.value);
+    return Expanded(
+      child: InkWell(
+        onTap: onTap,
+        child: Container(
+          height: 40.h, // Fixed height; adjust if needed.
+          decoration: BoxDecoration(
+            color: isSelected ? AppColors.blackthemeColor : AppColors.greyColor,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                icon,
+                color: isSelected ? Colors.orange : Colors.white,
+                size: 20.r,
+              ),
+              Text(
+                label,
+                style: TextStyle(
+                  fontSize: 10.sp,
+                  height: 1.0,
+                  color: Colors.white,
+                ),
+                maxLines: 1,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildNavItemWithAsset({
+    required int index,
+    required String label,
+    required String assetPath,
+    required VoidCallback onTap,
+  }) {
+    bool isSelected = (index == homeController.selectedIndex.value);
+    return Expanded(
+      child: InkWell(
+        onTap: onTap,
+        child: Container(
+          height: 40.h,
+          decoration: BoxDecoration(
+              color:
+                  isSelected ? AppColors.blackthemeColor : AppColors.greyColor),
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 5),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  assetPath,
+                  width: 22.r,
+                ),
+                Text(
+                  label,
+                  style: TextStyle(
+                    fontSize: 10.sp,
+                    height: 1.0,
+                    color: Colors.white,
+                  ),
+                  maxLines: 1,
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }

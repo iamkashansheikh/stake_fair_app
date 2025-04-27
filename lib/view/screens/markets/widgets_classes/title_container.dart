@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:stake_fair_app/res/app_colors/app_colors.dart';
 
 class TitleInfoContainer extends StatelessWidget {
@@ -22,11 +23,11 @@ class TitleInfoContainer extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      height: screenWidth * 0.09,
+      height: screenWidth * 0.065.h,
       color: backgroundColor,
       padding: EdgeInsets.symmetric(
-        horizontal: screenWidth * 0.03,
-        vertical: screenWidth * 0.015,
+        horizontal: screenWidth * 0.02.w,
+        vertical: screenWidth * 0.015.h,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -36,7 +37,7 @@ class TitleInfoContainer extends StatelessWidget {
               title,
               style: TextStyle(
                 fontWeight: FontWeight.w600,
-                fontSize: screenWidth * 0.035,
+                fontSize: screenWidth * 0.027.sp,
                 color: Colors.white,
               ),
               maxLines: 1,
@@ -48,17 +49,17 @@ class TitleInfoContainer extends StatelessWidget {
             children: [
               Image(
                 image: img,
-                width: screenWidth * 0.05,
-                height: screenWidth * 0.05,
+                width: screenWidth * 0.037.r,
+                height: screenWidth * 0.037.r,
                 fit: BoxFit.contain,
               ),
             ],
           ),
-          SizedBox(width: screenWidth * 0.02),
+          SizedBox(width: screenWidth * 0.0049.w),
           Icon(
             icon,
             color: Colors.white,
-            size: screenWidth * 0.06,
+            size: screenWidth * 0.039.r,
           ),
         ],
       ),

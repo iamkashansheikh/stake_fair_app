@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:stake_fair_app/controllers/Home/eventType_controller.dart';
 import 'package:stake_fair_app/controllers/Home/home_controller.dart';
@@ -7,6 +8,7 @@ import 'package:badges/badges.dart' as badges;
 import 'package:stake_fair_app/controllers/Home/popularbets_controller.dart';
 import 'package:stake_fair_app/controllers/Home/sport_controler.dart';
 import 'package:stake_fair_app/res/app_colors/app_colors.dart';
+import 'package:stake_fair_app/res/responsive.dart';
 import 'package:stake_fair_app/scrollable.dart';
 import 'package:stake_fair_app/view/screens/competiton_screen.dart';
 import 'package:stake_fair_app/view/screens/inplay_screen.dart';
@@ -21,127 +23,131 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final HomeController homeController = Get.put(HomeController());
-  final EventsTypeController eventsTypeController =Get.put(EventsTypeController());
+  final EventsTypeController eventsTypeController =
+      Get.put(EventsTypeController());
   final SportsController sportsController = Get.put(SportsController());
   @override
   Widget build(BuildContext context) {
     final double textScale = MediaQuery.of(context).textScaleFactor;
     final Size mediaQuery = MediaQuery.of(context).size;
 
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: AppColors.whiteColor,
-        appBar: _buildAppBar(context),
-        body: Stack(
-          children: [
-            NoBounceScrollWrapper(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    _buildCategoryBar(textScale),
-                    _buildBanner(mediaQuery),
-                    Obx(() {
-                      return homeController.isBannerVisible.value
-                          ? _buildWhyWinBanner(mediaQuery)
-                          : const SizedBox.shrink();
-                    }),
-                    _buildSection('Most Popular Bets', 'icon', 'label', 'sub'),
-                    _buildHorseRacingSection('Horse Racing'),
-                    _buildContainer('Quick Links'),
-                    _buildQuickLinksSection('name', 'icon'),
-                    _buildFooter(mediaQuery, textScale),
-                    _buildWarningText(textScale),
-                    const SizedBox(height: 5),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Center(child: _buildSaferGamblingDropdown(textScale)),
-                        const SizedBox(height: 5),
-                        Center(child: _buildAboutStakefairDropdown(textScale)),
-                        const SizedBox(height: 5),
-                        _buildText('Help', textScale),
-                        _buildText('Affiliates', textScale),
-                        _buildText('18+', textScale),
-                        _buildText('Developers', textScale),
-                        _buildText('StakeFair Exchange Sitemap', textScale),
-                        _buildText('B2B Partnerships', textScale),
-                        const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 10),
-                          child: Divider(thickness: 0.6),
-                        ),
-                        const SizedBox(height: 10),
-                        _buildText('Privacy Policy', textScale),
-                        _buildText('Cookie Policy', textScale),
-                        _buildText('Privacy Preference Centre', textScale),
-                        _buildText('Rules & Regulations', textScale),
-                        _buildText('Terms & Conditions', textScale),
-                        const SizedBox(height: 20),
-                      ],
-                    ),
-                  ],
+    return BaseResponsiveScreen(
+      child: SafeArea(
+        child: Scaffold(
+          backgroundColor: AppColors.whiteColor,
+          appBar: _buildAppBar(context),
+          body: Stack(
+            children: [
+              NoBounceScrollWrapper(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      _buildCategoryBar(),
+                      _buildBanner(mediaQuery),
+                      Obx(() {
+                        return homeController.isBannerVisible.value
+                            ? _buildWhyWinBanner(mediaQuery)
+                            : const SizedBox.shrink();
+                      }),
+                      _buildSection('Most Popular Bets', 'icon', 'label', 'sub'),
+                      _buildHorseRacingSection('Horse Racing'),
+                      _buildContainer('Quick Links'),
+                      _buildQuickLinksSection('name', 'icon'),
+                      _buildFooter(mediaQuery, textScale),
+                      _buildWarningText(),
+                       SizedBox(height: 5.h),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Center(child: _buildSaferGamblingDropdown()),
+                           SizedBox(height: 5.h),
+                          Center(
+                              child: _buildAboutStakefairDropdown()),
+                           SizedBox(height: 5.h),
+                          _buildText('Help', ),
+                          _buildText('Affiliates', ),
+                          _buildText('18+', ),
+                          _buildText('Developers', ),
+                          _buildText('StakeFair Exchange Sitemap', ),
+                          _buildText('B2B Partnerships', ),
+                          const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 10),
+                            child: Divider(thickness: 0.6),
+                          ),
+                           SizedBox(height: 10.h),
+                          _buildText('Privacy Policy', ),
+                          _buildText('Cookie Policy', ),
+                          _buildText('Privacy Preference Centre', ),
+                          _buildText('Rules & Regulations', ),
+                          _buildText('Terms & Conditions', ),
+                           SizedBox(height: 20.h),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Obx(() => AnimatedPositioned(
-                  duration: const Duration(milliseconds: 300),
-                  curve: Curves.easeInOut,
-                  top: homeController.isSearchFieldVisible.value ? 0 : -80,
-                  left: 0,
-                  right: 0,
-                  child: AnimatedOpacity(
+              Obx(() => AnimatedPositioned(
                     duration: const Duration(milliseconds: 300),
-                    opacity:
-                        homeController.isSearchFieldVisible.value ? 1.0 : 0.0,
-                    child: _buildSearchField(mediaQuery, textScale),
-                  ),
-                )),
-          ],
+                    curve: Curves.easeInOut,
+                    top: homeController.isSearchFieldVisible.value ? 0 : -80,
+                    left: 0,
+                    right: 0,
+                    child: AnimatedOpacity(
+                      duration: const Duration(milliseconds: 300),
+                      opacity:
+                          homeController.isSearchFieldVisible.value ? 1.0 : 0.0,
+                      child: _buildSearchField(mediaQuery),
+                    ),
+                  )),
+            ],
+          ),
+          bottomNavigationBar: Obx(() {
+            return Container(
+              color: AppColors.greyColor,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _buildNavItem(
+                      index: 0,
+                      label: 'Home',
+                      icon: Icons.home,
+                      onTap: () => homeController.changeIndex(0)),
+                  _buildNavItem(
+                      index: 1,
+                      label: 'Menu',
+                      icon: Icons.menu,
+                      onTap: () => homeController.changeIndex(1)),
+                  _buildNavItem(
+                      index: 2,
+                      label: 'CashOut',
+                      icon: Icons.account_balance_wallet,
+                      onTap: () => homeController.changeIndex(2)),
+                  _buildNavItemWithAsset(
+                      index: 3,
+                      label: 'MyBets',
+                      assetPath: 'assets/images/money.png',
+                      onTap: () => homeController.changeIndex(3)),
+                  _buildNavItemWithAsset(
+                      index: 4,
+                      label: 'Casino',
+                      assetPath: 'assets/images/casino-chip (1).png',
+                      onTap: () => homeController.changeIndex(4)),
+                ],
+              ),
+            );
+          }),
         ),
-        bottomNavigationBar: Obx(() {
-          return Container(
-            color: AppColors.greyColor,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _buildNavItem(
-                    index: 0,
-                    label: 'Home',
-                    icon: Icons.home,
-                    onTap: () => homeController.changeIndex(0)),
-                _buildNavItem(
-                    index: 1,
-                    label: 'Menu',
-                    icon: Icons.menu,
-                    onTap: () => homeController.changeIndex(1)),
-                _buildNavItem(
-                    index: 2,
-                    label: 'CashOut',
-                    icon: Icons.account_balance_wallet,
-                    onTap: () => homeController.changeIndex(2)),
-                _buildNavItemWithAsset(
-                    index: 3,
-                    label: 'MyBets',
-                    assetPath: 'assets/images/money.png',
-                    onTap: () => homeController.changeIndex(3)),
-                _buildNavItemWithAsset(
-                    index: 4,
-                    label: 'Casino',
-                    assetPath: 'assets/images/casino-chip (1).png',
-                    onTap: () => homeController.changeIndex(4)),
-              ],
-            ),
-          );
-        }),
       ),
     );
   }
 
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     double appBarHeight = 50;
-    double logoWidth = 133;
-    double logoHeight = 18;
-    double searchButtonWidth = 50;
-    double loginButtonWidth = 66;
+    double logoWidth = 112;
+    double logoHeight = 16;
+    double searchButtonWidth = 35;
+    double loginButtonWidth = 57;
 
     return PreferredSize(
       preferredSize: Size.fromHeight(appBarHeight),
@@ -165,8 +171,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    width: logoWidth,
-                    height: logoHeight,
+                    width: logoWidth.w,
+                    height: logoHeight.h,
                     decoration: const BoxDecoration(
                       image: DecorationImage(
                         image: AssetImage('assets/images/stakefair.png'),
@@ -174,12 +180,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 34),
+                  Padding(
+                    padding: EdgeInsets.only(left: 33),
                     child: Text(
                       'EXCHANGE',
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: 12.sp,
                         color: Colors.black,
                       ),
                     ),
@@ -193,10 +199,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: _buildIconButton(
                       Icons.search_rounded,
                       'Search',
-                      width: searchButtonWidth,
+                      width: searchButtonWidth.w,
                     ),
                   ),
-                  const SizedBox(width: 4),
+                  SizedBox(width: 3.w),
                   InkWell(
                     onTap: () {
                       Get.toNamed('/login');
@@ -204,7 +210,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: _buildIconButton(
                       Icons.person,
                       'Login / Join',
-                      width: loginButtonWidth,
+                      width: loginButtonWidth.w,
                     ),
                   ),
                 ],
@@ -216,39 +222,39 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildIconButton(IconData icon, String text, {double width = 85}) {
+  Widget _buildIconButton(IconData icon, String text, {double width = 82}) {
     return Container(
-      width: width,
-      height: 38,
+      width: width.w,
+      height: 33.h,
       decoration: BoxDecoration(
           color: AppColors.apbarbutonColor,
           borderRadius: BorderRadius.circular(2)),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(icon, color: AppColors.whiteColor, size: 20),
+          Icon(icon, color: AppColors.whiteColor, size: 15.r),
           Text(text,
               style: TextStyle(
                   color: AppColors.whiteColor,
-                  fontSize: 11,
+                  fontSize: 10.sp,
                   fontWeight: FontWeight.w600)),
         ],
       ),
     );
   }
 
-  Widget _buildSearchField(Size mediaQuery, double textScale, {Key? key}) {
+  Widget _buildSearchField(Size mediaQuery, {Key? key}) {
     return Container(
       key: key,
-      width: mediaQuery.width,
-      height: 55 * textScale,
+      width: mediaQuery.width.w,
+      height: 45.h,
       color: AppColors.blackthemeColor,
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       child: Row(
         children: [
           Expanded(
             child: SizedBox(
-              height: 37,
+              height: 32.h,
               child: TextFormField(
                 cursorColor: Colors.grey,
                 decoration: const InputDecoration(
@@ -268,8 +274,7 @@ class _HomeScreenState extends State<HomeScreen> {
             onTap: () => homeController.isSearchFieldVisible.value = false,
             child: AutoSizeText(
               "Cancel",
-              style: TextStyle(
-                  color: AppColors.whiteColor, fontSize: 12 * textScale),
+              style: TextStyle(color: AppColors.whiteColor, fontSize: 10.sp),
               maxLines: 1,
             ),
           ),
@@ -278,85 +283,75 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildInPlayContainer(double textScale) {
-  // Calculate sizes exactly like category items
-  final double iconSize = 19 * textScale;
-  final double badgeTextSize = 7 * textScale;
-  final double badgeW = 11 * textScale;
-  final double badgeH = 9 * textScale;
-  final EdgeInsets padding = EdgeInsets.symmetric(
-    horizontal: 8 * textScale,
-    vertical: 4 * textScale,
-  );
-
-  return InkWell(
-    onTap: () => Get.to(() => InplayScreen()),
-    child: Container(
-      padding: padding,
-      decoration: BoxDecoration(color: AppColors.inplaybtnColor),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Stack(
-            clipBehavior: Clip.none,
-            children: [
-              Icon(
-                Icons.timelapse,
-                color: Colors.white,
-                size: iconSize,
-              ),
-              // Position badge so it overlaps the icon similarly
-              Positioned(
-                bottom: 0,
-                right: -badgeW * 1.1,
-                child: badges.Badge(
-                  badgeStyle: badges.BadgeStyle(
-                    shape: badges.BadgeShape.square,
-                    badgeColor: AppColors.whiteColor,
-                    borderSide: BorderSide(
-                      color: AppColors.inplaybtnColor,
-                      width: 1 * textScale,
+  Widget _buildInPlayContainer() {
+    return InkWell(
+      onTap: () => Get.to(() => InplayScreen()),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        decoration: BoxDecoration(color: AppColors.inplaybtnColor),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Icon(
+                  Icons.timelapse,
+                  color: Colors.white,
+                  size: 19.r,
+                ),
+                // Position badge so it overlaps the icon similarly
+                Positioned(
+                  // bottom: 0,
+                  right: -9.w,
+                  child: badges.Badge(
+                    badgeStyle: badges.BadgeStyle(
+                      shape: badges.BadgeShape.square,
+                      badgeColor: AppColors.whiteColor,
+                      borderSide: BorderSide(
+                        color: AppColors.inplaybtnColor,
+                        width: 1.w,
+                      ),
+                     
                     ),
-                    borderRadius: BorderRadius.circular(2.5 * textScale),
-                  ),
-                  badgeContent: SizedBox(
-                    width: badgeW,
-                    height: badgeH,
-                    child: Center(
-                      child: Text(
-                        '10',
-                        style: TextStyle(
-                          color: AppColors.inplaybtnColor,
-                          fontSize: badgeTextSize,
-                          fontWeight: FontWeight.bold,
+                    badgeContent: SizedBox(
+                      width: 9.w,
+                      height: 7.h,
+                      child: Center(
+                        child: Text(
+                          '25',
+                          style: TextStyle(
+                            color: AppColors.inplaybtnColor,
+                            fontSize: 7.sp,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          SizedBox(height: 1 * textScale),
-          Text(
-            'In-Play',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 10 * textScale,
+              ],
             ),
-          ),
-        ],
+            SizedBox(height: 1.h),
+            Text(
+              'In-Play',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 9.sp,
+              ),
+            ),
+          ],
+        ),
       ),
-    ),
-  );
-}
+    );
+  }
 
-  Widget _buildCategoryBar(double textScale) {
-    final controller = Get.find<SportsController>();
+  Widget _buildCategoryBar() {
+    final controller = Get.put(SportsController());
     return Obx(() {
       final sport = controller.categoryList.data?.data ?? [];
       return Container(
-        width: MediaQuery.of(Get.context!).size.width,
+        width: MediaQuery.of(Get.context!).size.width.w,
         padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
         color: AppColors.blackthemeColor,
         child: SingleChildScrollView(
@@ -365,7 +360,7 @@ class _HomeScreenState extends State<HomeScreen> {
             spacing: 5,
             alignment: WrapAlignment.start,
             children: [
-              _buildInPlayContainer(textScale),
+              _buildInPlayContainer(),
               ...sport.where((item) {
                 final name = item.sportName?.toLowerCase();
                 return name != 'casino' && name != 'lottery';
@@ -390,14 +385,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         Icon(
                           controller.getIconForSport(item.sportName),
                           color: AppColors.whiteColor,
-                          size: 19 * textScale,
+                          size: 19.r,
                         ),
                         const SizedBox(height: 1),
                         Text(
                           item.sportName ?? '',
                           style: TextStyle(
                             color: AppColors.whiteColor,
-                            fontSize: 10 * textScale,
+                            fontSize: 9.sp,
                           ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -416,8 +411,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildBanner(Size mediaQuery) {
     return Container(
-      width: mediaQuery.width,
-      height: mediaQuery.height * 0.081,
+      width: double.infinity.w,
+      height: 054.h,
       decoration: const BoxDecoration(
         image: DecorationImage(
           image: AssetImage('assets/images/top_banner.jpg'),
@@ -485,15 +480,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildContainer(String title) {
     return Container(
-      width: double.infinity,
-      height: 31,
+      width: double.infinity.w,
+      height: 26.h,
       color: AppColors.blackthemeColor,
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       child: AutoSizeText(
         title,
         style: TextStyle(
             fontWeight: FontWeight.w600,
-            fontSize: 14,
+            fontSize: 12.sp,
             color: AppColors.whiteColor),
         maxLines: 1,
       ),
@@ -518,7 +513,8 @@ class _HomeScreenState extends State<HomeScreen> {
           var team = homeController.cricket[index];
           return InkWell(
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => MarketScreen()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => MarketScreen()));
             },
             child: Container(
               padding: const EdgeInsets.symmetric(vertical: 0),
@@ -532,25 +528,26 @@ class _HomeScreenState extends State<HomeScreen> {
                       minLeadingWidth: 0,
                       visualDensity:
                           const VisualDensity(horizontal: -4, vertical: -4),
-                      contentPadding:
-                          const EdgeInsets.symmetric(horizontal: 3, vertical: 2),
-                      leading: Icon(team[leading], size: 19),
+                      contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 3, vertical: 2),
+                      leading: Icon(team[leading], size: 16.r),
                       title: AutoSizeText(
                         "${match['competitionName'] ?? 'N/A'}",
-                        style: const TextStyle(
+                        style:  TextStyle(
                             fontWeight: FontWeight.w600,
-                            fontSize: 13,
+                            fontSize: 11.sp,
                             height: 1.0,
                             color: Color(0xff212529)),
                         maxLines: 1,
                       ),
                       subtitle: AutoSizeText(
                         match['eventName'] ?? "No Event",
-                        style: const TextStyle(
-                            fontSize: 12, color: Color(0xff7f7f7f)),
+                        style:  TextStyle(
+                            fontSize: 10.sp, color: Color(0xff7f7f7f)),
                         maxLines: 1,
                       ),
-                      trailing: const Icon(Icons.keyboard_arrow_right, size: 18),
+                      trailing:
+                           Icon(Icons.keyboard_arrow_right, size: 15.r),
                     ),
                   ),
                   const Divider(height: 0.3, thickness: 0.3),
@@ -588,13 +585,13 @@ class _HomeScreenState extends State<HomeScreen> {
                           padding: const EdgeInsets.symmetric(horizontal: 5),
                           child: Text(
                             item,
-                            style: const TextStyle(
-                                fontSize: 11, color: Color(0xff212529)),
+                            style:  TextStyle(
+                                fontSize: 10.sp, color: Color(0xff212529)),
                             maxLines: 1,
                           ),
                         ),
                         trailing:
-                            const Icon(Icons.keyboard_arrow_right, size: 18),
+                             Icon(Icons.keyboard_arrow_right, size: 15.r),
                       ),
                     ),
                     const Divider(height: 0.3, thickness: 0.3),
@@ -632,14 +629,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       const VisualDensity(horizontal: -4, vertical: -4),
                   contentPadding:
                       const EdgeInsets.symmetric(horizontal: 3, vertical: 0),
-                  leading: Icon(links[leading], size: 19),
+                  leading: Icon(links[leading], size: 16.r),
                   title: AutoSizeText(
                     match['eventName'] ?? "No Event",
                     style:
-                        const TextStyle(fontSize: 11, color: Color(0xff212529)),
+                         TextStyle(fontSize: 10.sp, color: Color(0xff212529)),
                     maxLines: 1,
                   ),
-                  trailing: const Icon(Icons.keyboard_arrow_right, size: 18),
+                  trailing:  Icon(Icons.keyboard_arrow_right, size: 15.r),
                 ),
               ),
               const Divider(height: 0.3, thickness: 0.3),
@@ -650,10 +647,10 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  Widget _buildFooter(Size mediaQuery, double textScale) {
+   Widget _buildFooter(Size mediaQuery, double textScale) {
     return Container(
-      height: mediaQuery.height * 0.06,
-      width: mediaQuery.width,
+      height: mediaQuery.height * 0.052.h,
+      width: mediaQuery.width.w,
       color: const Color(0xff1E1E1E),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -661,42 +658,42 @@ class _HomeScreenState extends State<HomeScreen> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
-              width: mediaQuery.width * 0.09,
-              height: mediaQuery.height * 0.09,
+              width: mediaQuery.width * 0.07.w,
+              height: mediaQuery.height * 0.07.h,
               decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border:
                       Border.all(color: const Color(0xffFF0000), width: 1.8)),
-              child: const Center(
+              child: Center(
                   child: AutoSizeText(
                 '18+',
-                style: TextStyle(color: Colors.white, fontSize: 15),
+                style: TextStyle(color: Colors.white, fontSize: 13.sp),
                 maxLines: 1,
               )),
             ),
           ),
-          const SizedBox(width: 7),
-          const Text('Please Gamble Responsibly',
+          SizedBox(width: 7.w),
+          Text('Please Gamble Responsibly',
               style: TextStyle(
                   color: Color(0xffC4C4C4),
-                  fontSize: 11,
+                  fontSize: 11.sp,
                   fontWeight: FontWeight.w600),
               maxLines: 1),
-          const SizedBox(width: 8),
+          SizedBox(width: 8.w),
           Container(
-            width: mediaQuery.width * 0.26,
-            height: 35,
+            width: mediaQuery.width * 0.22.w,
+            height: 31.h,
             decoration: BoxDecoration(
               color: const Color(0xffD4D4D4),
               borderRadius: BorderRadius.circular(2),
             ),
             alignment: Alignment.center,
-            child: const Text(
+            child: Text(
               'More details',
               style: TextStyle(
                 color: Colors.black,
                 fontWeight: FontWeight.bold,
-                fontSize: 11,
+                fontSize: 11.sp,
               ),
               maxLines: 1,
             ),
@@ -706,16 +703,16 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildWarningText(double textScale) {
+  Widget _buildWarningText() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 13),
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 13),
       child: RichText(
         text: TextSpan(
           children: [
             TextSpan(
               text: 'Warning',
               style: TextStyle(
-                fontSize: 11 * textScale,
+                fontSize: 12.sp,
                 fontWeight: FontWeight.bold,
                 color: Colors.black,
               ),
@@ -724,7 +721,7 @@ class _HomeScreenState extends State<HomeScreen> {
               text:
                   " : Although the current score, time elapsed, video and other ",
               style: TextStyle(
-                fontSize: 11 * textScale,
+                fontSize: 11.sp,
                 color: Colors.black,
               ),
             ),
@@ -769,7 +766,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Text(
           text,
           style: TextStyle(
-            fontSize: 11,
+            fontSize: 11.sp,
             color: Colors.black,
           ),
           maxLines: 1,
@@ -778,15 +775,15 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildText(String title, double textScale) {
+  Widget _buildText(String title) {
     return AutoSizeText(
       title,
-      style: TextStyle(fontSize: 12 * textScale, fontWeight: FontWeight.w500),
+      style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w500),
       maxLines: 1,
     );
   }
 
-  Widget _buildSaferGamblingDropdown(double textScale) {
+  Widget _buildSaferGamblingDropdown() {
     return Obx(() {
       bool expanded = homeController.isSaferGamblingExpanded.value;
       return Column(
@@ -801,11 +798,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   homeController.saferGambling[0],
                   style: TextStyle(
                       decoration: TextDecoration.underline,
-                      fontSize: 12 * textScale,
+                      fontSize: 12.sp,
                       fontWeight: FontWeight.w500),
                   maxLines: 1,
                 ),
-                Icon(expanded ? Icons.arrow_drop_up : Icons.arrow_drop_down),
+                Icon(
+                  expanded ? Icons.arrow_drop_up : Icons.arrow_drop_down,
+                ),
               ],
             ),
           ),
@@ -820,7 +819,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           item,
                           style: TextStyle(
                               color: Colors.black,
-                              fontSize: 12 * textScale,
+                              fontSize: 12.sp,
                               fontWeight: FontWeight.w500),
                           maxLines: 1,
                         ),
@@ -832,7 +831,7 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  Widget _buildAboutStakefairDropdown(double textScale) {
+  Widget _buildAboutStakefairDropdown() {
     return Obx(() {
       bool expanded = homeController.isAboutStakefairExpanded.value;
       return Column(
@@ -847,7 +846,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   homeController.aboutStakefair[0],
                   style: TextStyle(
                       decoration: TextDecoration.underline,
-                      fontSize: 12 * textScale,
+                      fontSize: 12.sp,
                       fontWeight: FontWeight.w500),
                   maxLines: 1,
                 ),
@@ -866,7 +865,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           item,
                           style: TextStyle(
                               color: Colors.black,
-                              fontSize: 12 * textScale,
+                              fontSize: 12.sp,
                               fontWeight: FontWeight.w500),
                           maxLines: 1,
                         ),
@@ -889,7 +888,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: InkWell(
         onTap: onTap,
         child: Container(
-          height: 48, // Fixed height; adjust if needed.
+          height: 40.h, // Fixed height; adjust if needed.
           decoration: BoxDecoration(
             color: isSelected ? AppColors.blackthemeColor : AppColors.greyColor,
           ),
@@ -899,12 +898,12 @@ class _HomeScreenState extends State<HomeScreen> {
               Icon(
                 icon,
                 color: isSelected ? Colors.orange : Colors.white,
-                size: 24,
+                size: 20.r,
               ),
               Text(
                 label,
-                style: const TextStyle(
-                  fontSize: 10,
+                style: TextStyle(
+                  fontSize: 10.sp,
                   height: 1.0,
                   color: Colors.white,
                 ),
@@ -928,7 +927,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: InkWell(
         onTap: onTap,
         child: Container(
-          height: 48,
+          height: 40.h,
           decoration: BoxDecoration(
               color:
                   isSelected ? AppColors.blackthemeColor : AppColors.greyColor),
@@ -939,12 +938,12 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 Image.asset(
                   assetPath,
-                  width: 28,
+                  width: 22.r,
                 ),
                 Text(
                   label,
-                  style: const TextStyle(
-                    fontSize: 10,
+                  style: TextStyle(
+                    fontSize: 10.sp,
                     height: 1.0,
                     color: Colors.white,
                   ),
