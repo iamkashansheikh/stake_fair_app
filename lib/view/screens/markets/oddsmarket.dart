@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:stake_fair_app/res/responsive.dart';
 
 class SoccerMarketWidget extends StatelessWidget {
   final String title;
@@ -14,52 +16,54 @@ class SoccerMarketWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: 8,
-      itemBuilder: (context, index) {
-        return Container(
-          padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
-          decoration: const BoxDecoration(
-            border: Border(bottom: BorderSide(color: Colors.grey, width: 0.3)),
-          ),
-          child: Row(
-            children: [
-              Container(
-                width: 20,
-                height: 20,
-                decoration: BoxDecoration(
-                  image: DecorationImage(image: AssetImage('assets/images/market.png'), fit: BoxFit.contain),
-                ),
-              ),
-              const SizedBox(width: 8),
-              Expanded(
-                flex: 2,
-                child: Text(
-                  title,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 13,
-                    color: Color(0xff212529),
+    return BaseResponsiveScreen(
+      child: ListView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: 8,
+        itemBuilder: (context, index) {
+          return Container(
+            padding:  EdgeInsets.symmetric(vertical: 6, horizontal: 7.r),
+            decoration:  BoxDecoration(
+              border: Border(bottom: BorderSide(color: Colors.grey, width: 0.3.w)),
+            ),
+            child: Row(
+              children: [
+                Container(
+                  width: 14.r,
+                  height: 14.r,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(image: AssetImage('assets/images/market.png'), fit: BoxFit.contain),
                   ),
                 ),
-              ),
-              ...backOdds.take(1).map((odd) => _buildOddsBox(
-                    price: odd['price'].toString(),
-                    size: odd['size'].toString(),
-                    backgroundColor: Colors.blue.shade300,
-                  )),
-              const SizedBox(width: 6),
-              ...layOdds.take(1).map((odd) => _buildOddsBox(
-                    price: odd['price'].toString(),
-                    size: odd['size'].toString(),
-                    backgroundColor: Colors.pink.shade300,
-                  )),
-            ],
-          ),
-        );
-      },
+                 SizedBox(width: 4.w),
+                Expanded(
+                  flex: 2,
+                  child: Text(
+                    title,
+                    style:  TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 11.sp,
+                      color: Color(0xff212529),
+                    ),
+                  ),
+                ),
+                ...backOdds.take(1).map((odd) => _buildOddsBox(
+                      price: odd['price'].toString(),
+                      size: odd['size'].toString(),
+                      backgroundColor: Colors.blue.shade300,
+                    )),
+                const SizedBox(width: 6),
+                ...layOdds.take(1).map((odd) => _buildOddsBox(
+                      price: odd['price'].toString(),
+                      size: odd['size'].toString(),
+                      backgroundColor: Colors.pink.shade300,
+                    )),
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 
@@ -69,21 +73,22 @@ class SoccerMarketWidget extends StatelessWidget {
     required Color backgroundColor,
   }) {
     return Container(
-      width: 50,
-      height: 40,
+      width: 53.w,
+      height: 38.h,
       decoration: BoxDecoration(
         color: backgroundColor,
-        borderRadius: BorderRadius.circular(4),
+        borderRadius: BorderRadius.circular(2),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(price,
-              style: const TextStyle(
-                  fontSize: 14,
+              style:  TextStyle(
+                  fontSize: 14.sp,
+                  height: 1.0,
                   fontWeight: FontWeight.bold,
                   color: Colors.white)),
-          Text(size, style: const TextStyle(fontSize: 12, color: Colors.white)),
+          Text(size, style:  TextStyle(fontSize: 10.sp,height: 1.0, color: Colors.white)),
         ],
       ),
     );

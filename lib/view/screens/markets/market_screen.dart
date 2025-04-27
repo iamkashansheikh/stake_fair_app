@@ -1,11 +1,11 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:stake_fair_app/controllers/Home/home_controller.dart';
 import 'package:stake_fair_app/controllers/Home/inplay_controller.dart';
-import 'package:stake_fair_app/main.dart';
-import 'package:stake_fair_app/new.dart';
 import 'package:stake_fair_app/res/app_colors/app_colors.dart';
+import 'package:stake_fair_app/res/responsive.dart';
 import 'package:stake_fair_app/scrollable.dart';
 import 'package:stake_fair_app/view/screens/markets/oddsmarket.dart';
 import 'package:stake_fair_app/view/screens/markets/widgets_classes/backlay.dart';
@@ -25,148 +25,151 @@ class _MarketScreenState extends State<MarketScreen> {
   Widget build(BuildContext context) {
     final double textScale = MediaQuery.of(context).textScaleFactor;
     final Size mediaQuery = MediaQuery.of(context).size;
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: AppColors.whiteColor,
-        appBar: _buildAppBar(context),
-        body: Stack(
-          children: [
-            NoBounceScrollWrapper(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    SizedBox(height: 7),
-                    Row(
-                      children: [
-_buildScrollableRow(),
-                      ],
-                    ),
-                    
-                    // Row(
-                    //   children: [
-                    //     _buildShowMatches(
-                    //         index: 0,
-                    //         label: 'Soccer',
-                    //         onTap: () =>
-                    //             inplayController.selectedIndex.value = 0),
-                    //     _buildShowMatches(
-                    //       index: 1,
-                    //       label: 'Tennis',
-                    //       onTap: () => inplayController.selectedIndex.value = 1,
-                    //     ),
-                    //     _buildShowMatches(
-                    //       index: 2,
-                    //       label: 'Cricket',
-                    //       onTap: () => inplayController.selectedIndex.value = 2,
-                    //     ),
-                    //   ],
-                    // ),
-                    _buildTalbe(context),
-                    TitleInfoContainer(
-                        title: 'Bookmaker IPL CUP',
-                        img: AssetImage('assets/images/cash.png'),
-                        icon: Icons.timelapse_sharp),
-                    BackLayInfoBar(matched: '25.80M', min: '100', max: '100K'),
-                    SoccerMarketWidget(
-                      title: "Team A",
-                      backOdds: [
-                        {'price': '2.5', 'size': '120'},
-                         {'price': '2.', 'size': '0'},
+    return BaseResponsiveScreen(
+      child: SafeArea(
+        child: Scaffold(
+          backgroundColor: AppColors.whiteColor,
+          appBar: _buildAppBar(context),
+          body: Stack(
+            children: [
+              NoBounceScrollWrapper(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      SizedBox(height: 5.h),
+                      Row(
+                        children: [
+                          _buildScrollableRow(),
+                        ],
+                      ),
+
+                      // Row(
+                      //   children: [
+                      //     _buildShowMatches(
+                      //         index: 0,
+                      //         label: 'Soccer',
+                      //         onTap: () =>
+                      //             inplayController.selectedIndex.value = 0),
+                      //     _buildShowMatches(
+                      //       index: 1,
+                      //       label: 'Tennis',
+                      //       onTap: () => inplayController.selectedIndex.value = 1,
+                      //     ),
+                      //     _buildShowMatches(
+                      //       index: 2,
+                      //       label: 'Cricket',
+                      //       onTap: () => inplayController.selectedIndex.value = 2,
+                      //     ),
+                      //   ],
+                      // ),
+                      _buildTalbe(context),
+                      TitleInfoContainer(
+                          title: 'Bookmaker IPL CUP',
+                          img: AssetImage('assets/images/cash.png'),
+                          icon: Icons.timelapse_sharp),
+                      BackLayInfoBar(
+                          matched: '25.80M', min: '100', max: '100K'),
+                      SoccerMarketWidget(
+                        title: "Team A",
+                        backOdds: [
+                          {'price': '2500', 'size': '120000'},
+                          {'price': '2.', 'size': '0'},
                           {'price': '0.5', 'size': '10'}
-                      ],
-                      layOdds: [
-                        {'price': '2.6', 'size': '90'}
-                      ],
-                    ),
-                    // PlayerMarketTile(title: 'IPL', image: AssetImage('assets/images/market.png'), backOdds: [{'price':'131.343','size':'3.53'}], layOdds: inplayController.oddsList),
-                    _buildFooter(mediaQuery, textScale),
-                    _buildWarningText(textScale),
-                    const SizedBox(height: 5),
-                    Center(child: _buildSaferGamblingDropdown(textScale)),
-                    const SizedBox(height: 5),
-                    Center(child: _buildAboutStakefairDropdown(textScale)),
-                    const SizedBox(height: 5),
-                    _buildText('Help', textScale),
-                    _buildText('Affiliates', textScale),
-                    _buildText('18+', textScale),
-                    _buildText('Developers', textScale),
-                    _buildText('StakeFair Exchange Sitemap', textScale),
-                    _buildText('B2B Partnerships', textScale),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      child: Divider(thickness: 0.6),
-                    ),
-                    const SizedBox(height: 10),            
-                    _buildText('Privacy Policy', textScale),
-                    _buildText('Cookie Policy', textScale),
-                    _buildText('Privacy Preference Centre', textScale),
-                    _buildText('Rules & Regulations', textScale),
-                    _buildText('Terms & Conditions', textScale),
-                    const SizedBox(height: 20),
-                  ],
+                        ],
+                        layOdds: [
+                          {'price': '200', 'size': '98880'}
+                        ],
+                      ),
+                      // PlayerMarketTile(title: 'IPL', image: AssetImage('assets/images/market.png'), backOdds: [{'price':'131.343','size':'3.53'}], layOdds: inplayController.oddsList),
+                      _buildFooter(mediaQuery, textScale),
+                      _buildWarningText(),
+                      SizedBox(height: 5.h),
+                      Center(child: _buildSaferGamblingDropdown()),
+                      SizedBox(height: 5.h),
+                      Center(child: _buildAboutStakefairDropdown()),
+                      SizedBox(height: 5.h),
+                      _buildText('Help'),
+                      _buildText('Affiliates'),
+                      _buildText('18+'),
+                      _buildText('Developers'),
+                      _buildText('StakeFair Exchange Sitemap'),
+                      _buildText('B2B Partnerships'),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        child: Divider(thickness: 0.6),
+                      ),
+                      SizedBox(height: 10.h),
+                      _buildText('Privacy Policy'),
+                      _buildText('Cookie Policy'),
+                      _buildText('Privacy Preference Centre'),
+                      _buildText('Rules & Regulations'),
+                      _buildText('Terms & Conditions'),
+                      SizedBox(height: 20.h),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Obx(() => AnimatedPositioned(
-                  duration: const Duration(milliseconds: 300),
-                  curve: Curves.easeInOut,
-                  top: homeController.isSearchFieldVisible.value ? 0 : -80,
-                  left: 0,
-                  right: 0,
-                  child: AnimatedOpacity(
+              Obx(() => AnimatedPositioned(
                     duration: const Duration(milliseconds: 300),
-                    opacity:
-                        homeController.isSearchFieldVisible.value ? 1.0 : 0.0,
-                    child: _buildSearchField(mediaQuery, textScale),
-                  ),
-                )),
-          ],
+                    curve: Curves.easeInOut,
+                    top: homeController.isSearchFieldVisible.value ? 0 : -80,
+                    left: 0,
+                    right: 0,
+                    child: AnimatedOpacity(
+                      duration: const Duration(milliseconds: 300),
+                      opacity:
+                          homeController.isSearchFieldVisible.value ? 1.0 : 0.0,
+                      child: _buildSearchField(mediaQuery),
+                    ),
+                  )),
+            ],
+          ),
+          bottomNavigationBar: Obx(() {
+            return Container(
+              color: AppColors.greyColor,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _buildNavItem(
+                      index: 0,
+                      label: 'Home',
+                      icon: Icons.home,
+                      onTap: () => homeController.changeIndex(0)),
+                  _buildNavItem(
+                      index: 1,
+                      label: 'Menu',
+                      icon: Icons.menu,
+                      onTap: () => homeController.changeIndex(1)),
+                  _buildNavItem(
+                      index: 2,
+                      label: 'CashOut',
+                      icon: Icons.account_balance_wallet,
+                      onTap: () => homeController.changeIndex(2)),
+                  _buildNavItemWithAsset(
+                      index: 3,
+                      label: 'MyBets',
+                      assetPath: 'assets/images/money.png',
+                      onTap: () => homeController.changeIndex(3)),
+                  _buildNavItemWithAsset(
+                      index: 4,
+                      label: 'Casino',
+                      assetPath: 'assets/images/casino-chip (1).png',
+                      onTap: () => homeController.changeIndex(4)),
+                ],
+              ),
+            );
+          }),
         ),
-        bottomNavigationBar: Obx(() {
-          return Container(
-            color: AppColors.greyColor,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _buildNavItem(
-                    index: 0,
-                    label: 'Home',
-                    icon: Icons.home,
-                    onTap: () => homeController.changeIndex(0)),
-                _buildNavItem(
-                    index: 1,
-                    label: 'Menu',
-                    icon: Icons.menu,
-                    onTap: () => homeController.changeIndex(1)),
-                _buildNavItem(
-                    index: 2,
-                    label: 'CashOut',
-                    icon: Icons.account_balance_wallet,
-                    onTap: () => homeController.changeIndex(2)),
-                _buildNavItemWithAsset(
-                    index: 3,
-                    label: 'MyBets',
-                    assetPath: 'assets/images/money.png',
-                    onTap: () => homeController.changeIndex(3)),
-                _buildNavItemWithAsset(
-                    index: 4,
-                    label: 'Casino',
-                    assetPath: 'assets/images/casino-chip (1).png',
-                    onTap: () => homeController.changeIndex(4)),
-              ],
-            ),
-          );
-        }),
       ),
     );
   }
 
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     double appBarHeight = 50;
-    double logoWidth = 133;
-    double logoHeight = 18;
-    double searchButtonWidth = 50;
-    double loginButtonWidth = 66;
+    double logoWidth = 112;
+    double logoHeight = 16;
+    double searchButtonWidth = 35;
+    double loginButtonWidth = 57;
 
     return PreferredSize(
       preferredSize: Size.fromHeight(appBarHeight),
@@ -190,8 +193,8 @@ _buildScrollableRow(),
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    width: logoWidth,
-                    height: logoHeight,
+                    width: logoWidth.w,
+                    height: logoHeight.h,
                     decoration: const BoxDecoration(
                       image: DecorationImage(
                         image: AssetImage('assets/images/stakefair.png'),
@@ -199,12 +202,12 @@ _buildScrollableRow(),
                       ),
                     ),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 34),
+                  Padding(
+                    padding: EdgeInsets.only(left: 33),
                     child: Text(
                       'EXCHANGE',
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: 12.sp,
                         color: Colors.black,
                       ),
                     ),
@@ -218,10 +221,10 @@ _buildScrollableRow(),
                     child: _buildIconButton(
                       Icons.search_rounded,
                       'Search',
-                      width: searchButtonWidth,
+                      width: searchButtonWidth.w,
                     ),
                   ),
-                  const SizedBox(width: 4),
+                  SizedBox(width: 3.w),
                   InkWell(
                     onTap: () {
                       Get.toNamed('/login');
@@ -229,7 +232,7 @@ _buildScrollableRow(),
                     child: _buildIconButton(
                       Icons.person,
                       'Login / Join',
-                      width: loginButtonWidth,
+                      width: loginButtonWidth.w,
                     ),
                   ),
                 ],
@@ -241,39 +244,39 @@ _buildScrollableRow(),
     );
   }
 
-  Widget _buildIconButton(IconData icon, String text, {double width = 85}) {
+  Widget _buildIconButton(IconData icon, String text, {double width = 82}) {
     return Container(
-      width: width,
-      height: 38,
+      width: width.w,
+      height: 33.h,
       decoration: BoxDecoration(
           color: AppColors.apbarbutonColor,
           borderRadius: BorderRadius.circular(2)),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(icon, color: AppColors.whiteColor, size: 20),
+          Icon(icon, color: AppColors.whiteColor, size: 15.r),
           Text(text,
               style: TextStyle(
                   color: AppColors.whiteColor,
-                  fontSize: 11,
+                  fontSize: 10.sp,
                   fontWeight: FontWeight.w600)),
         ],
       ),
     );
   }
 
-  Widget _buildSearchField(Size mediaQuery, double textScale, {Key? key}) {
+  Widget _buildSearchField(Size mediaQuery, {Key? key}) {
     return Container(
       key: key,
-      width: mediaQuery.width,
-      height: 55 * textScale,
+      width: mediaQuery.width.w,
+      height: 45.h,
       color: AppColors.blackthemeColor,
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       child: Row(
         children: [
           Expanded(
             child: SizedBox(
-              height: 37,
+              height: 32.h,
               child: TextFormField(
                 cursorColor: Colors.grey,
                 decoration: const InputDecoration(
@@ -293,8 +296,7 @@ _buildScrollableRow(),
             onTap: () => homeController.isSearchFieldVisible.value = false,
             child: AutoSizeText(
               "Cancel",
-              style: TextStyle(
-                  color: AppColors.whiteColor, fontSize: 12 * textScale),
+              style: TextStyle(color: AppColors.whiteColor, fontSize: 10.sp),
               maxLines: 1,
             ),
           ),
@@ -303,66 +305,65 @@ _buildScrollableRow(),
     );
   }
 
- Widget _buildShowMatches({
-  required int index,
-  required String label,
-  required VoidCallback onTap,
-}) {
-  return Obx(() {
-    bool select = (index == inplayController.selectedIndex.value);
-    return InkWell(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-        height: 40,
-        decoration: BoxDecoration(
-          color: select ? const Color(0xffFFFFFF) : const Color(0xffF0F1F5),
-          border: select
-              ? Border(top: BorderSide(color: Colors.black, width: 2))
-              : null,
-        ),
-        child: Center(
-          child: Text(
-            label,
-            style: TextStyle(
-              fontSize: 12,
-              height: 1.0,
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
+  Widget _buildShowMatches({
+    required int index,
+    required String label,
+    required VoidCallback onTap,
+  }) {
+    return Obx(() {
+      bool select = (index == inplayController.selectedIndex.value);
+      return InkWell(
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          height: 30.h,
+          decoration: BoxDecoration(
+            color: select ? const Color(0xffFFFFFF) : const Color(0xffF0F1F5),
+            border: select
+                ? Border(top: BorderSide(color: Colors.black, width: 2.w))
+                : null,
+          ),
+          child: Center(
+            child: Text(
+              label,
+              style: TextStyle(
+                fontSize: 10.sp,
+                height: 1.0,
+                color: Colors.black,
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis, // Prevent overflow
             ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis, // Prevent overflow
+          ),
+        ),
+      );
+    });
+  }
+
+  Widget _buildScrollableRow() {
+    return Container(
+      width: MediaQuery.of(context).size.width, // Use full screen width
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: List.generate(
+            inplayController.matchLabels.length,
+            (index) => _buildShowMatches(
+              index: index,
+              label: inplayController.matchLabels[index],
+              onTap: () => inplayController.selectedIndex.value = index,
+            ),
           ),
         ),
       ),
     );
-  });
-}
-
-Widget _buildScrollableRow() {
-  return Container(
-    width: MediaQuery.of(context).size.width, // Use full screen width
-    child: SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: List.generate(
-          inplayController.matchLabels.length,
-          (index) => _buildShowMatches(
-            index: index,
-            label: inplayController.matchLabels[index],
-            onTap: () => inplayController.selectedIndex.value = index,
-          ),
-        ),
-      ),
-    ),
-  );
-}
+  }
 
   Widget _buildFooter(Size mediaQuery, double textScale) {
     return Container(
-      height: mediaQuery.height * 0.06,
-      width: mediaQuery.width,
+      height: mediaQuery.height * 0.052.h,
+      width: mediaQuery.width.w,
       color: const Color(0xff1E1E1E),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -370,42 +371,42 @@ Widget _buildScrollableRow() {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
-              width: mediaQuery.width * 0.09,
-              height: mediaQuery.height * 0.09,
+              width: mediaQuery.width * 0.07.w,
+              height: mediaQuery.height * 0.07.h,
               decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border:
                       Border.all(color: const Color(0xffFF0000), width: 1.8)),
-              child: const Center(
+              child: Center(
                   child: AutoSizeText(
                 '18+',
-                style: TextStyle(color: Colors.white, fontSize: 15),
+                style: TextStyle(color: Colors.white, fontSize: 13.sp),
                 maxLines: 1,
               )),
             ),
           ),
-          const SizedBox(width: 7),
-          const Text('Please Gamble Responsibly',
+          SizedBox(width: 7.w),
+          Text('Please Gamble Responsibly',
               style: TextStyle(
                   color: Color(0xffC4C4C4),
-                  fontSize: 11,
+                  fontSize: 11.sp,
                   fontWeight: FontWeight.w600),
               maxLines: 1),
-          const SizedBox(width: 8),
+          SizedBox(width: 8.w),
           Container(
-            width: mediaQuery.width * 0.26,
-            height: 35,
+            width: mediaQuery.width * 0.22.w,
+            height: 31.h,
             decoration: BoxDecoration(
               color: const Color(0xffD4D4D4),
               borderRadius: BorderRadius.circular(2),
             ),
             alignment: Alignment.center,
-            child: const Text(
+            child: Text(
               'More details',
               style: TextStyle(
                 color: Colors.black,
                 fontWeight: FontWeight.bold,
-                fontSize: 11,
+                fontSize: 11.sp,
               ),
               maxLines: 1,
             ),
@@ -415,16 +416,16 @@ Widget _buildScrollableRow() {
     );
   }
 
-  Widget _buildWarningText(double textScale) {
+  Widget _buildWarningText() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 13),
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 13),
       child: RichText(
         text: TextSpan(
           children: [
             TextSpan(
               text: 'Warning',
               style: TextStyle(
-                fontSize: 11 * textScale,
+                fontSize: 12.sp,
                 fontWeight: FontWeight.bold,
                 color: Colors.black,
               ),
@@ -433,7 +434,7 @@ Widget _buildScrollableRow() {
               text:
                   " : Although the current score, time elapsed, video and other ",
               style: TextStyle(
-                fontSize: 11 * textScale,
+                fontSize: 11.sp,
                 color: Colors.black,
               ),
             ),
@@ -478,7 +479,7 @@ Widget _buildScrollableRow() {
         child: Text(
           text,
           style: TextStyle(
-            fontSize: 11,
+            fontSize: 11.sp,
             color: Colors.black,
           ),
           maxLines: 1,
@@ -487,15 +488,15 @@ Widget _buildScrollableRow() {
     );
   }
 
-  Widget _buildText(String title, double textScale) {
+  Widget _buildText(String title) {
     return AutoSizeText(
       title,
-      style: TextStyle(fontSize: 12 * textScale, fontWeight: FontWeight.w500),
+      style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w500),
       maxLines: 1,
     );
   }
 
-  Widget _buildSaferGamblingDropdown(double textScale) {
+  Widget _buildSaferGamblingDropdown() {
     return Obx(() {
       bool expanded = homeController.isSaferGamblingExpanded.value;
       return Column(
@@ -510,11 +511,13 @@ Widget _buildScrollableRow() {
                   homeController.saferGambling[0],
                   style: TextStyle(
                       decoration: TextDecoration.underline,
-                      fontSize: 12 * textScale,
+                      fontSize: 12.sp,
                       fontWeight: FontWeight.w500),
                   maxLines: 1,
                 ),
-                Icon(expanded ? Icons.arrow_drop_up : Icons.arrow_drop_down),
+                Icon(
+                  expanded ? Icons.arrow_drop_up : Icons.arrow_drop_down,
+                ),
               ],
             ),
           ),
@@ -529,7 +532,7 @@ Widget _buildScrollableRow() {
                           item,
                           style: TextStyle(
                               color: Colors.black,
-                              fontSize: 12 * textScale,
+                              fontSize: 12.sp,
                               fontWeight: FontWeight.w500),
                           maxLines: 1,
                         ),
@@ -541,7 +544,7 @@ Widget _buildScrollableRow() {
     });
   }
 
-  Widget _buildAboutStakefairDropdown(double textScale) {
+  Widget _buildAboutStakefairDropdown() {
     return Obx(() {
       bool expanded = homeController.isAboutStakefairExpanded.value;
       return Column(
@@ -556,7 +559,7 @@ Widget _buildScrollableRow() {
                   homeController.aboutStakefair[0],
                   style: TextStyle(
                       decoration: TextDecoration.underline,
-                      fontSize: 12 * textScale,
+                      fontSize: 12.sp,
                       fontWeight: FontWeight.w500),
                   maxLines: 1,
                 ),
@@ -575,7 +578,7 @@ Widget _buildScrollableRow() {
                           item,
                           style: TextStyle(
                               color: Colors.black,
-                              fontSize: 12 * textScale,
+                              fontSize: 12.sp,
                               fontWeight: FontWeight.w500),
                           maxLines: 1,
                         ),
@@ -598,7 +601,7 @@ Widget _buildScrollableRow() {
       child: InkWell(
         onTap: onTap,
         child: Container(
-          height: 48, // Fixed height; adjust if needed.
+          height: 40.h, // Fixed height; adjust if needed.
           decoration: BoxDecoration(
             color: isSelected ? AppColors.blackthemeColor : AppColors.greyColor,
           ),
@@ -608,12 +611,12 @@ Widget _buildScrollableRow() {
               Icon(
                 icon,
                 color: isSelected ? Colors.orange : Colors.white,
-                size: 24,
+                size: 20.r,
               ),
               Text(
                 label,
-                style: const TextStyle(
-                  fontSize: 10,
+                style: TextStyle(
+                  fontSize: 10.sp,
                   height: 1.0,
                   color: Colors.white,
                 ),
@@ -637,7 +640,7 @@ Widget _buildScrollableRow() {
       child: InkWell(
         onTap: onTap,
         child: Container(
-          height: 48,
+          height: 40.h,
           decoration: BoxDecoration(
               color:
                   isSelected ? AppColors.blackthemeColor : AppColors.greyColor),
@@ -648,12 +651,12 @@ Widget _buildScrollableRow() {
               children: [
                 Image.asset(
                   assetPath,
-                  width: 28,
+                  width: 22.r,
                 ),
                 Text(
                   label,
-                  style: const TextStyle(
-                    fontSize: 10,
+                  style: TextStyle(
+                    fontSize: 10.sp,
                     height: 1.0,
                     color: Colors.white,
                   ),
@@ -670,27 +673,28 @@ Widget _buildScrollableRow() {
   Widget _buildTalbe(BuildContext context) {
     return Container(
         width: double.infinity,
-        padding: const EdgeInsets.symmetric(horizontal: 15),
+        padding: EdgeInsets.symmetric(horizontal: 10.w),
         decoration: BoxDecoration(color: Color(0xffFFFFFF)),
         child: SizedBox(
-          height: MediaQuery.of(context).size.height * 0.07,
+          height: MediaQuery.of(context).size.height * 0.042.h,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Icon(
                 Icons.info,
-                size: 28,
+                size: 20.r,
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                height: 45,
+                padding: EdgeInsets.symmetric(horizontal: 10.r),
+                height: 28.h,
                 decoration: BoxDecoration(
                     color: Color(0xffC2C2C2),
                     borderRadius: BorderRadius.circular(2)),
                 child: Center(
                     child: Text(
                   'P&L Tables',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
+                  style:
+                      TextStyle(fontSize: 10.sp, fontWeight: FontWeight.w400),
                 )),
               ),
             ],
