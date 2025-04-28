@@ -267,108 +267,116 @@ class _InplayScreenState extends State<InplayScreen> {
     );
   }
 
-  PreferredSizeWidget _buildAppBar(BuildContext context) {
-    double appBarHeight = 50;
-    double logoWidth = 112;
-    double logoHeight = 16;
-    double searchButtonWidth = 35;
-    double loginButtonWidth = 57;
+PreferredSizeWidget _buildAppBar(BuildContext context) {
+  double appBarHeight = 40.h;
+  double logoWidth = 112.w;
+  double logoHeight = 13.h;
+  double searchButtonWidth = 45.w;
+  double loginButtonWidth = 63.w;
 
-    return PreferredSize(
-      
-      preferredSize: Size.fromHeight(appBarHeight),
-      child: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [AppColors.baryelowColor, AppColors.barorngColor],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
-        child: AppBar(
-          automaticallyImplyLeading: true,
-          toolbarHeight: appBarHeight,
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    width: logoWidth.w,
-                    height: logoHeight.h,
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage('assets/images/stakefair.png'),
-                        fit: BoxFit.contain,
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 33),
-                    child: Text(
-                      'EXCHANGE',
-                      style: TextStyle(
-                        fontSize: 12.sp,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  InkWell(
-                    onTap: () => homeController.isSearchFieldVisible.toggle(),
-                    child: _buildIconButton(
-                      Icons.search_rounded,
-                      'Search',
-                      width: searchButtonWidth.w,
-                    ),
-                  ),
-                  SizedBox(width: 3.w),
-                  InkWell(
-                    onTap: () {
-                      Get.toNamed('/login');
-                    },
-                    child: _buildIconButton(
-                      Icons.person,
-                      'Login / Join',
-                      width: loginButtonWidth.w,
-                    ),
-                  ),
-                ],
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildIconButton(IconData icon, String text, {double width = 82}) {
-    return Container(
-      width: width.w,
-      height: 33.h,
+  return PreferredSize(
+    preferredSize: Size.fromHeight(appBarHeight),
+    child: Container(
       decoration: BoxDecoration(
-          color: AppColors.apbarbutonColor,
-          borderRadius: BorderRadius.circular(2)),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(icon, color: AppColors.whiteColor, size: 15.r),
-          Text(text,
-              style: TextStyle(
-                  color: AppColors.whiteColor,
-                  fontSize: 10.sp,
-                  fontWeight: FontWeight.w600)),
-        ],
+        gradient: LinearGradient(
+          colors: [AppColors.baryelowColor, AppColors.barorngColor],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+        ),
       ),
-    );
-  }
+      child: AppBar(
+        toolbarHeight: appBarHeight,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: logoWidth,
+                  height: logoHeight,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('assets/images/stakefair.png'),
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 28.w),
+                  child: Text(
+                    'EXCHANGE',
+                    style: TextStyle(
+                      fontSize: 12.sp,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                InkWell(
+                  onTap: () => homeController.isSearchFieldVisible.toggle(),
+                  child: _buildIconButton(
+                    Icons.search_rounded,
+                    'Search',
+                    width: searchButtonWidth,
+                  ),
+                ),
+                SizedBox(width: 3.w), // Thoda zyada spacing
+                InkWell(
+                  onTap: () {
+                    Get.toNamed('/login');
+                  },
+                  child: _buildIconButton(
+                    Icons.person,
+                    'Login / Join',
+                    width: loginButtonWidth,
+                  ),
+                ),
+              ],
+            )
+          ],
+        ),
+      ),
+    ),
+  );
+}
+
+Widget _buildIconButton(IconData icon, String text, {required double width}) {
+  return Container(
+    width: width,
+    height: 31.h,
+    decoration: BoxDecoration(
+      color: AppColors.apbarbutonColor,
+      borderRadius: BorderRadius.circular(2.r), // Responsive radius
+    ),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(
+          icon,
+          color: AppColors.whiteColor,
+          size: 15.sp, // Responsive icon size
+        ),
+        Text(
+          text,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: AppColors.whiteColor,
+            fontSize: 10.sp, // Responsive font
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ],
+    ),
+  );
+}
 
   Widget _buildSearchField(Size mediaQuery, {Key? key}) {
     return Container(
