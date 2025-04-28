@@ -49,8 +49,8 @@ class TitleInfoContainer extends StatelessWidget {
             children: [
               Image(
                 image: img,
-                width: screenWidth * 0.037.r,
-                height: screenWidth * 0.037.r,
+                width: screenWidth * 0.037.w,
+                height: screenWidth * 0.037.h,
                 fit: BoxFit.contain,
               ),
             ],
