@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:stake_fair_app/res/responsive.dart';
 
-class SoccerMarketWidget extends StatelessWidget {
+class OddsMarketWidget extends StatelessWidget {
   final String title;
   final List<Map<String, dynamic>> backOdds;
   final List<Map<String, dynamic>> layOdds;
 
-  const SoccerMarketWidget({
+  const OddsMarketWidget({
     super.key,
     required this.title,
     required this.backOdds,
@@ -20,7 +20,7 @@ class SoccerMarketWidget extends StatelessWidget {
       child: ListView.builder(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
-        itemCount: 8,
+        itemCount: 1,
         itemBuilder: (context, index) {
           return Container(
             padding:  EdgeInsets.symmetric(vertical: 5.h, horizontal: 6.w),
