@@ -333,7 +333,7 @@ Widget _buildIconButton(IconData icon, String text, {required double width}) {
                           style: TextStyle(
                             color: AppColors.inplaybtnColor,
                             fontSize: 7,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.w900,
                           ),
                         ),
                       ),

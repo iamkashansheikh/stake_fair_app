@@ -60,7 +60,7 @@ class _VersionCheckState extends State<VersionCheck> {
     debugPrint("Current version: $_currentVersion");
 
     // Thoda delay de sakte hain jisse HomeScreen pahle load ho jaye.
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 1));
 
     DatabaseReference updateRef = FirebaseDatabase.instance.ref('app_update');
     final snapshot = await updateRef.get();

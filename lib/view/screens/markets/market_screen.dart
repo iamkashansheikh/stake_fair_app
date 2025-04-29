@@ -8,6 +8,7 @@ import 'package:stake_fair_app/res/app_colors/app_colors.dart';
 import 'package:stake_fair_app/res/responsive.dart';
 import 'package:stake_fair_app/scrollable.dart';
 import 'package:stake_fair_app/view/screens/markets/oddsmarket.dart';
+import 'package:stake_fair_app/view/screens/markets/placebetods.dart';
 import 'package:stake_fair_app/view/screens/markets/widgets_classes/backlay.dart';
 import 'package:stake_fair_app/view/screens/markets/widgets_classes/title_container.dart';
 
@@ -21,6 +22,7 @@ class MarketScreen extends StatefulWidget {
 class _MarketScreenState extends State<MarketScreen> {
   final HomeController homeController = Get.put(HomeController());
   final InplayController inplayController = Get.put(InplayController());
+  bool showPlaceBet = false;
   @override
   Widget build(BuildContext context) {
     final double textScale = MediaQuery.of(context).textScaleFactor;
@@ -69,17 +71,37 @@ class _MarketScreenState extends State<MarketScreen> {
                           icon: Icons.timelapse_sharp),
                       BackLayInfoBar(
                           matched: '25.80M', min: '100', max: '100K'),
-                      SoccerMarketWidget(
-                        title: "Team A",
-                        backOdds: [
-                          {'price': '2500', 'size': '120000'},
-                          {'price': '2.', 'size': '0'},
-                          {'price': '0.5', 'size': '10'}
-                        ],
-                        layOdds: [
-                          {'price': '200', 'size': '98880'}
+                      Column(
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                showPlaceBet = !showPlaceBet;
+                              });
+                            },
+                            child: OddsMarketWidget(
+                              title: "Team A",
+                              backOdds: [
+                                {'price': '2500', 'size': '120000'},
+                                {'price': '2.', 'size': '0'},
+                                {'price': '0.5', 'size': '10'}
+                              ],
+                              layOdds: [
+                                {'price': '200', 'size': '98880'}
+                              ],
+                            ),
+                          )
                         ],
                       ),
+                      AnimatedSwitcher(
+                        duration: Duration(milliseconds: 300),
+                        child: showPlaceBet
+                            ? SizedBox(
+                                height: 264,
+                                child: _buildBets()) // Constrain the size
+                            : SizedBox.shrink(),
+                      ),
+
                       // PlayerMarketTile(title: 'IPL', image: AssetImage('assets/images/market.png'), backOdds: [{'price':'131.343','size':'3.53'}], layOdds: inplayController.oddsList),
                       _buildFooter(mediaQuery, textScale),
                       _buildWarningText(),
@@ -94,7 +116,7 @@ class _MarketScreenState extends State<MarketScreen> {
                       _buildText('Developers'),
                       _buildText('StakeFair Exchange Sitemap'),
                       _buildText('B2B Partnerships'),
-                       Padding(
+                      Padding(
                         padding: EdgeInsets.symmetric(horizontal: 10.w),
                         child: Divider(thickness: 0.6),
                       ),
@@ -164,117 +186,116 @@ class _MarketScreenState extends State<MarketScreen> {
     );
   }
 
-PreferredSizeWidget _buildAppBar(BuildContext context) {
-  double appBarHeight = 40.h;
-  double logoWidth = 112.w;
-  double logoHeight = 13.h;
-  double searchButtonWidth = 45.w;
-  double loginButtonWidth = 63.w;
+  PreferredSizeWidget _buildAppBar(BuildContext context) {
+    double appBarHeight = 40.h;
+    double logoWidth = 112.w;
+    double logoHeight = 13.h;
+    double searchButtonWidth = 45.w;
+    double loginButtonWidth = 63.w;
 
-  return PreferredSize(
-    preferredSize: Size.fromHeight(appBarHeight),
-    child: Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [AppColors.baryelowColor, AppColors.barorngColor],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-        ),
-      ),
-      child: AppBar(
-        toolbarHeight: appBarHeight,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  width: logoWidth,
-                  height: logoHeight,
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('assets/images/stakefair.png'),
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 28.w),
-                  child: Text(
-                    'EXCHANGE',
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                InkWell(
-                  onTap: () => homeController.isSearchFieldVisible.toggle(),
-                  child: _buildIconButton(
-                    Icons.search_rounded,
-                    'Search',
-                    width: searchButtonWidth,
-                  ),
-                ),
-                SizedBox(width: 3.w), // Thoda zyada spacing
-                InkWell(
-                  onTap: () {
-                    Get.toNamed('/login');
-                  },
-                  child: _buildIconButton(
-                    Icons.person,
-                    'Login / Join',
-                    width: loginButtonWidth,
-                  ),
-                ),
-              ],
-            )
-          ],
-        ),
-      ),
-    ),
-  );
-}
-
-Widget _buildIconButton(IconData icon, String text, {required double width}) {
-  return Container(
-    width: width,
-    height: 31.h,
-    decoration: BoxDecoration(
-      color: AppColors.apbarbutonColor,
-      borderRadius: BorderRadius.circular(2.r), // Responsive radius
-    ),
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Icon(
-          icon,
-          color: AppColors.whiteColor,
-          size: 15.sp, // Responsive icon size
-        ),
-        Text(
-          text,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: AppColors.whiteColor,
-            fontSize: 10.sp, // Responsive font
-            fontWeight: FontWeight.w600,
+    return PreferredSize(
+      preferredSize: Size.fromHeight(appBarHeight),
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [AppColors.baryelowColor, AppColors.barorngColor],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
           ),
         ),
-      ],
-    ),
-  );
-}
+        child: AppBar(
+          toolbarHeight: appBarHeight,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: logoWidth,
+                    height: logoHeight,
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage('assets/images/stakefair.png'),
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 28.w),
+                    child: Text(
+                      'EXCHANGE',
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  InkWell(
+                    onTap: () => homeController.isSearchFieldVisible.toggle(),
+                    child: _buildIconButton(
+                      Icons.search_rounded,
+                      'Search',
+                      width: searchButtonWidth,
+                    ),
+                  ),
+                  SizedBox(width: 3.w), // Thoda zyada spacing
+                  InkWell(
+                    onTap: () {
+                      Get.toNamed('/login');
+                    },
+                    child: _buildIconButton(
+                      Icons.person,
+                      'Login / Join',
+                      width: loginButtonWidth,
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 
+  Widget _buildIconButton(IconData icon, String text, {required double width}) {
+    return Container(
+      width: width,
+      height: 31.h,
+      decoration: BoxDecoration(
+        color: AppColors.apbarbutonColor,
+        borderRadius: BorderRadius.circular(2.r), // Responsive radius
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            icon,
+            color: AppColors.whiteColor,
+            size: 15.sp, // Responsive icon size
+          ),
+          Text(
+            text,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: AppColors.whiteColor,
+              fontSize: 10.sp, // Responsive font
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
   Widget _buildSearchField(Size mediaQuery, {Key? key}) {
     return Container(
@@ -711,5 +732,178 @@ Widget _buildIconButton(IconData icon, String text, {required double width}) {
             ],
           ),
         ));
+  }
+
+  Widget _buildBets() {
+    return SizedBox(
+      height: 220.h,
+      child: Column(
+        children: [
+          Container(
+            width: double.infinity,
+            padding: EdgeInsets.all(10.w),
+            decoration: BoxDecoration(
+              color: const Color(0xffDBEFFF),
+            ),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      'Back',
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        color: AppColors.blackthemeColor,
+                      ),
+                    ),
+                    Text(
+                      ' (BetFor): ',
+                      style: TextStyle(fontSize: 12.sp),
+                    ),
+                    Expanded(
+                      child: Text(
+                        'Almeria - Match Odds',
+                        style: TextStyle(
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 5.h),
+                Row(
+                  children: [
+                    Expanded(
+                      child: _buildValueSelector('-', "Stake", '+'),
+                    ),
+                    SizedBox(width: 5.w),
+                    Expanded(
+                      child: _buildValueSelector('-', "Odds", '+'),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 10.h),
+                Row(
+                  children: [
+                    Expanded(
+                      child: _buildActionButton(
+                          'Cancel', const Color(0xffDCDCDC), Colors.black),
+                    ),
+                    SizedBox(width: 5.w),
+                    Expanded(
+                      child: _buildActionButton(
+                          'Place Bet', const Color(0xffFFDC86), Colors.black87),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          Container(
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    _buildNumberButton('+25'),
+                    SizedBox(width: 1.w),
+                    _buildNumberButton('+50'),
+                    SizedBox(width: 1.w),
+                    _buildNumberButton('+100'),
+                    SizedBox(width: 1.w),
+                    _buildNumberButton('+125')
+                  ],
+                ),
+                SizedBox(height: 1.h),
+                //_buildKeypadGrid(),
+                CustomKeypad(
+                  onKeyTap: (val) => print('Tapped: $val'),
+                  onBackspace: () => print('Backspace pressed'),
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _buildValueSelector(String dec, String label, String inc) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(color: Colors.grey.shade300),
+      ),
+      child: Row(
+        children: [
+          _buildButton(dec),
+          Expanded(
+            child: Center(
+              child: Text(
+                label,
+                style: TextStyle(fontSize: 11.sp, fontWeight: FontWeight.w500),
+              ),
+            ),
+          ),
+          _buildButton(inc),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildButton(String label) {
+    return Container(
+      width: 28.w,
+      height: 25.h,
+      decoration: BoxDecoration(
+        color: const Color(0xffDCDCDC),
+      ),
+      child: Center(
+        child: Text(
+          label,
+          style: TextStyle(
+            fontSize: 14.sp,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildActionButton(String title, Color bgColor, Color textColor) {
+    return Container(
+      height: 25.h,
+      decoration: BoxDecoration(
+        color: bgColor,
+      ),
+      child: Center(
+        child: Text(
+          title,
+          style: TextStyle(
+            fontSize: 12.sp,
+            color: textColor,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildNumberButton(var label) {
+    return Container(
+      width: 89.w,
+      height: 35.h,
+      decoration: BoxDecoration(
+        color: const Color(0xffDCDCDC),
+      ),
+      child: Center(
+        child: Text(
+          label,
+          style: TextStyle(
+            fontSize: 12.sp,
+          ),
+        ),
+      ),
+    );
   }
 }
