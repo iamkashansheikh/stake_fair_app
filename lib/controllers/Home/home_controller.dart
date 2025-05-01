@@ -10,6 +10,9 @@ class HomeController extends GetxController {
   var isSaferGamblingExpanded = false.obs;
   var isAboutStakefairExpanded = false.obs;
   var isSearchFieldVisible = false.obs;
+  RxBool isCashWidgetVisible = false.obs;
+  
+  var increment  = 0.obs;
 
   final List<String> saferGambling = [
     'Safer Gambling',

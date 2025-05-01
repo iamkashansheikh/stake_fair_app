@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:stake_fair_app/checkdata.dart';
 import 'package:stake_fair_app/controllers/Home/home_controller.dart';
 import 'package:stake_fair_app/controllers/Home/inplay_controller.dart';
 import 'package:stake_fair_app/res/app_colors/app_colors.dart';
@@ -64,11 +65,22 @@ class _MarketScreenState extends State<MarketScreen> {
                       //     ),
                       //   ],
                       // ),
+
                       _buildTalbe(context),
-                      TitleInfoContainer(
-                          title: 'Bookmaker IPL CUP',
-                          img: AssetImage('assets/images/cash.png'),
-                          icon: Icons.timelapse_sharp),
+                      Column(
+                        children: [
+                          TitleInfoContainer(
+  title: 'Bookmaker IPL CUP',
+  img: AssetImage('assets/images/cash.png'),
+  icon: Icons.timelapse_sharp,
+  onTap: () {
+    homeController.isCashWidgetVisible.toggle(); // 👈 Toggle cash widget
+  },
+),
+
+                        ],
+                      ),
+
                       BackLayInfoBar(
                           matched: '25.80M', min: '100', max: '100K'),
                       Column(
@@ -83,8 +95,6 @@ class _MarketScreenState extends State<MarketScreen> {
                               title: "Team A",
                               backOdds: [
                                 {'price': '2500', 'size': '120000'},
-                                {'price': '2.', 'size': '0'},
-                                {'price': '0.5', 'size': '10'}
                               ],
                               layOdds: [
                                 {'price': '200', 'size': '98880'}
@@ -97,12 +107,10 @@ class _MarketScreenState extends State<MarketScreen> {
                         duration: Duration(milliseconds: 300),
                         child: showPlaceBet
                             ? SizedBox(
-                                height: 264,
+                                height: 219.h,
                                 child: _buildBets()) // Constrain the size
                             : SizedBox.shrink(),
                       ),
-
-                      // PlayerMarketTile(title: 'IPL', image: AssetImage('assets/images/market.png'), backOdds: [{'price':'131.343','size':'3.53'}], layOdds: inplayController.oddsList),
                       _buildFooter(mediaQuery, textScale),
                       _buildWarningText(),
                       SizedBox(height: 5.h),
@@ -144,6 +152,26 @@ class _MarketScreenState extends State<MarketScreen> {
                       child: _buildSearchField(mediaQuery),
                     ),
                   )),
+
+Obx(() => AnimatedPositioned(
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+      top: homeController.isCashWidgetVisible.value ? 140.h : -300.h, // 👈 Adjust this value based on image position
+      left: 0,
+      right: 0,
+      child: AnimatedOpacity(
+        duration: const Duration(milliseconds: 300),
+        opacity: homeController.isCashWidgetVisible.value ? 1.0 : 0.0,
+        child: Center(
+          child: SizedBox(
+            height: 214.h, // 👈 Keep a fixed height
+            child: _buildShowCashWidget(),
+          ),
+        ),
+      ),
+    )),
+
+
             ],
           ),
           bottomNavigationBar: Obx(() {
@@ -225,7 +253,7 @@ class _MarketScreenState extends State<MarketScreen> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(left: 28.w),
+                    padding: EdgeInsets.only(left: 28.dm),
                     child: Text(
                       'EXCHANGE',
                       style: TextStyle(
@@ -281,7 +309,7 @@ class _MarketScreenState extends State<MarketScreen> {
           Icon(
             icon,
             color: AppColors.whiteColor,
-            size: 15.sp, // Responsive icon size
+            size: 15.r, // Responsive icon size
           ),
           Text(
             text,
@@ -347,7 +375,7 @@ class _MarketScreenState extends State<MarketScreen> {
       return InkWell(
         onTap: onTap,
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
+          padding: EdgeInsets.symmetric(horizontal: 10.w),
           height: 30.h,
           decoration: BoxDecoration(
             color: select ? const Color(0xffFFFFFF) : const Color(0xffF0F1F5),
@@ -735,12 +763,13 @@ class _MarketScreenState extends State<MarketScreen> {
   }
 
   Widget _buildBets() {
+    final BetController controller = Get.put(BetController());
     return SizedBox(
       height: 220.h,
       child: Column(
         children: [
           Container(
-            width: double.infinity,
+            width: double.infinity.w,
             padding: EdgeInsets.all(10.w),
             decoration: BoxDecoration(
               color: const Color(0xffDBEFFF),
@@ -776,25 +805,24 @@ class _MarketScreenState extends State<MarketScreen> {
                 Row(
                   children: [
                     Expanded(
-                      child: _buildValueSelector('-', "Stake", '+'),
+                      child: _buildBackOdData(context, 0),
                     ),
                     SizedBox(width: 5.w),
                     Expanded(
-                      child: _buildValueSelector('-', "Odds", '+'),
-                    ),
+                        child: _buildNumberValue(
+                            () => controller.betInput.value, 1)),
                   ],
                 ),
                 SizedBox(height: 10.h),
                 Row(
                   children: [
                     Expanded(
-                      child: _buildActionButton(
-                          'Cancel', const Color(0xffDCDCDC), Colors.black),
-                    ),
+                        child: _buildActionButton('Cancel',
+                            const Color(0xffDCDCDC), Colors.black, () {})),
                     SizedBox(width: 5.w),
                     Expanded(
-                      child: _buildActionButton(
-                          'Place Bet', const Color(0xffFFDC86), Colors.black87),
+                      child: _buildActionButton('Place Bet',
+                          const Color(0xffFFDC86), Colors.black87, () {}),
                     ),
                   ],
                 ),
@@ -818,8 +846,8 @@ class _MarketScreenState extends State<MarketScreen> {
                 SizedBox(height: 1.h),
                 //_buildKeypadGrid(),
                 CustomKeypad(
-                  onKeyTap: (val) => print('Tapped: $val'),
-                  onBackspace: () => print('Backspace pressed'),
+                  onKeyTap: (val) => controller.onKeyTap(val),
+                  onBackspace: () => controller.onBackspace(),
                 ),
               ],
             ),
@@ -829,7 +857,8 @@ class _MarketScreenState extends State<MarketScreen> {
     );
   }
 
-  Widget _buildValueSelector(String dec, String label, String inc) {
+  Widget _buildBackOdData(BuildContext context, int idx) {
+    final BetController controller = Get.put(BetController());
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -837,52 +866,90 @@ class _MarketScreenState extends State<MarketScreen> {
       ),
       child: Row(
         children: [
-          _buildButton(dec),
+          _buildButton('-', () => controller.Inc(idx)),
           Expanded(
             child: Center(
-              child: Text(
-                label,
+                child: Obx(
+              () => Text(
+                controller.selectorValues[idx].toString(),
                 style: TextStyle(fontSize: 11.sp, fontWeight: FontWeight.w500),
               ),
-            ),
+            )),
           ),
-          _buildButton(inc),
+          _buildButton('+', () => controller.Dec(idx)),
         ],
       ),
     );
   }
 
-  Widget _buildButton(String label) {
-    return Container(
-      width: 28.w,
-      height: 25.h,
-      decoration: BoxDecoration(
-        color: const Color(0xffDCDCDC),
+  Widget _buildNumberValue(VoidCallback onTap, int idx) {
+    final BetController controller = Get.put(BetController());
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(color: Colors.grey.shade300),
+        ),
+        child: Row(
+          children: [
+            _buildButton('-', () => controller.decrement(idx)),
+            Expanded(
+              child: Center(
+                child: Obx(
+                  () => Text(
+                    controller.betInput.value, // SHOWING TYPED VALUE
+                    style:
+                        TextStyle(fontSize: 11.sp, fontWeight: FontWeight.w500),
+                  ),
+                ),
+              ),
+            ),
+            _buildButton('+', () => controller.increment(idx)),
+          ],
+        ),
       ),
-      child: Center(
-        child: Text(
-          label,
-          style: TextStyle(
-            fontSize: 14.sp,
-            fontWeight: FontWeight.bold,
+    );
+  }
+
+  Widget _buildButton(String label, VoidCallback onTap) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 28.w,
+        height: 25.h,
+        decoration: BoxDecoration(
+          color: const Color(0xffDCDCDC),
+        ),
+        child: Center(
+          child: Text(
+            label,
+            style: TextStyle(
+              fontSize: 14.sp,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ),
     );
   }
 
-  Widget _buildActionButton(String title, Color bgColor, Color textColor) {
-    return Container(
-      height: 25.h,
-      decoration: BoxDecoration(
-        color: bgColor,
-      ),
-      child: Center(
-        child: Text(
-          title,
-          style: TextStyle(
-            fontSize: 12.sp,
-            color: textColor,
+  Widget _buildActionButton(
+      String title, Color bg, Color fg, VoidCallback onTap) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        height: 25.h,
+        decoration: BoxDecoration(
+          color: bg,
+        ),
+        child: Center(
+          child: Text(
+            title,
+            style: TextStyle(
+              fontSize: 12.sp,
+              color: fg,
+            ),
           ),
         ),
       ),
@@ -890,19 +957,149 @@ class _MarketScreenState extends State<MarketScreen> {
   }
 
   Widget _buildNumberButton(var label) {
-    return Container(
-      width: 89.w,
-      height: 35.h,
-      decoration: BoxDecoration(
-        color: const Color(0xffDCDCDC),
-      ),
-      child: Center(
-        child: Text(
-          label,
-          style: TextStyle(
-            fontSize: 12.sp,
+    final BetController controller = Get.put(BetController());
+    return InkWell(
+      onTap: () => controller.addPreset(label),
+      child: Container(
+        width: 89.w,
+        height: 35.h,
+        decoration: BoxDecoration(
+          color: const Color(0xffDCDCDC),
+        ),
+        child: Center(
+          child: Text(
+            label,
+            style: TextStyle(
+              fontSize: 10.sp,
+            ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildShowCashWidget() {
+    return Container(
+      width: 270.w,
+      color: Colors.white,
+      child: Column(
+        children: [
+          _buildHeader('Cash Out'),
+          _buildInfoRow('Liability', '\$25.00'),
+          _buildInfoRow('Cash Out', '\$24.76'),
+          _buildInfoRow('Profit', '\$0.24'),
+          Divider(),
+          _buildNote(),
+          SizedBox(height: 8.h),
+          _buildActionButtons(),
+          SizedBox(height: 8.h),
+          _buildToggleSwitch('Show Cash Out confirmation screen'),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildHeader(String title) {
+    return Container(
+      width: double.infinity,
+      height: 25.h,
+      color: AppColors.blackthemeColor,
+      alignment: Alignment.centerLeft,
+      padding: EdgeInsets.symmetric(horizontal: 12.w),
+      child: AutoSizeText(
+        title,
+        style: TextStyle(
+          fontWeight: FontWeight.w600,
+          fontSize: 16.sp,
+          color: AppColors.whiteColor,
+        ),
+        maxLines: 1,
+      ),
+    );
+  }
+
+  Widget _buildInfoRow(String label, String value) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 1.h),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(label, style: TextStyle(fontSize: 12.sp)),
+          Text(value, style: TextStyle(fontWeight: FontWeight.bold)),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildNote() {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 12.w,),
+      child: Text(
+        'If the odds change during submission, the amount may be increased, rejected or partially accepted.',
+        style: TextStyle(fontSize: 12.sp,height: 1.0.h),
+        textAlign: TextAlign.justify,
+        
+      ),
+    );
+  }
+
+  Widget _buildActionButtons() {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 8.w),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          _buildConfirmButton('Cancel', const Color(0xffdcdcdc)),
+          _buildConfirmButton('Confirm', const Color(0xffffb80a)),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildConfirmButton(String label, Color bgColor) {
+    return Container(
+      width: 110.w,
+      height: 25.h,
+      color: bgColor,
+      alignment: Alignment.center,
+      child: AutoSizeText(
+        label,
+        style: TextStyle(
+          fontWeight: FontWeight.w600,
+          fontSize: 14.sp,
+          color: AppColors.blackthemeColor,
+        ),
+        maxLines: 1,
+      ),
+    );
+  }
+
+  Widget _buildToggleSwitch(String title) {
+    final BetController betController = Get.put(BetController());
+    return Container(
+      width: double.infinity,
+      height: 35.h,
+      color: const Color(0xfff0f1f4),
+      padding: EdgeInsets.symmetric(horizontal: 12.w),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          AutoSizeText(
+            title,
+            style: TextStyle(fontSize: 10.sp, color: AppColors.blackthemeColor),
+            maxLines: 1,
+          ),
+          Obx(() => Switch(
+                value: betController.isOn.value,
+                onChanged: (val) => betController.toggle(),
+                activeColor: Colors.white,
+                activeTrackColor: Colors.green,
+                inactiveThumbColor: Colors.white,
+                inactiveTrackColor: Colors.transparent,
+                splashRadius: 0,
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              )),
+        ],
       ),
     );
   }
