@@ -15,11 +15,11 @@ class BackLayInfoBar extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 9.w, vertical: 4.h),
       child: Row(
         children: [
-          _textBlock('Matched:', matched), SizedBox(width: 30.w),
-          _textBlock('Min:', min), SizedBox(width: 7.w),
-          _textBlock('Max:', max), SizedBox(width: 40.w),
-          Text('Back', style: TextStyle(fontSize: 10.sp, fontWeight: FontWeight.bold)), SizedBox(width: 36.w),
-          Text('Lay', style: TextStyle(fontSize: 10.sp, fontWeight: FontWeight.bold)),
+          Expanded(child: _textBlock('Matched:', matched),flex: 2), 
+          Expanded(child: _textBlock('Min:', min),flex: 1,), 
+          Expanded(child: _textBlock('Max:', max),flex: 2),
+          Expanded(child: Text('Back'.padLeft(5), style: TextStyle(fontSize: 10.sp, fontWeight: FontWeight.bold))),
+          Expanded(child: Text('Lay'.padLeft(7), style: TextStyle(fontSize: 10.sp, fontWeight: FontWeight.bold)))
         ],
       ),
     );

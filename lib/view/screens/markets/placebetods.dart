@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:stake_fair_app/res/app_colors/app_colors.dart';
-import 'package:stake_fair_app/res/responsive.dart';
 
 // class PlaceBetOdds extends StatefulWidget {
 //   const PlaceBetOdds({super.key});
@@ -258,7 +256,7 @@ class CustomKeypad extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: const Color(0xff0DCDCDC),
-      padding: const EdgeInsets.all(4),
+      padding:  EdgeInsets.all(4.r),
       child: Row(
         children: [
           Expanded(
@@ -270,7 +268,7 @@ class CustomKeypad extends StatelessWidget {
                       .map((label) => _buildKey(label))
                       .toList(),
                 ),
-                const SizedBox(height: 4),
+                 SizedBox(height: 3.h),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: ['7', '8', '9', '0', '00', '.']
@@ -280,7 +278,7 @@ class CustomKeypad extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(width: 1),
+           SizedBox(width: 2.w),
           _buildBackspaceKey(),
         ],
       ),
@@ -289,8 +287,8 @@ class CustomKeypad extends StatelessWidget {
 
   Widget _buildKey(String label) {
     return SizedBox(
-      width: 55,
-      height: 40,
+      width: 48.w,
+      height: 33.h,
       child: ElevatedButton(
         onPressed: () => onKeyTap(label),
         style: ElevatedButton.styleFrom(
@@ -300,18 +298,18 @@ class CustomKeypad extends StatelessWidget {
           foregroundColor: Colors.black,
           padding: EdgeInsets.zero,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(3),
+            borderRadius: BorderRadius.circular(3.r),
           ),
         ),
-        child: Text(label, style: const TextStyle(fontSize: 12)),
+        child: Text(label, style:  TextStyle(fontSize: 10.sp)),
       ),
     );
   }
 
   Widget _buildBackspaceKey() {
     return SizedBox(
-      width: 50,
-      height: 84.7,
+      width: 46.w,
+       height: 69.h,
       child: ElevatedButton(
         onPressed: onBackspace,
         style: ElevatedButton.styleFrom(
@@ -321,10 +319,10 @@ class CustomKeypad extends StatelessWidget {
           foregroundColor: Colors.black,
           padding: EdgeInsets.zero,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(1),
+            borderRadius: BorderRadius.circular(3.r),
           ),
         ),
-        child: const Icon(Icons.clear),
+        child:  Icon(Icons.clear,size: 20.r),
       ),
     );
   }

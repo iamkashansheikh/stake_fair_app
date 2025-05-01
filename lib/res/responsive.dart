@@ -19,7 +19,6 @@ class BaseResponsiveScreen extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, childWidget) {
-        // Clamp OS font scaling between 1.0 and 1.2
         final mq = MediaQuery.of(context);
         final double textScale = mq.textScaleFactor.clamp(1.0, 1.2);
 

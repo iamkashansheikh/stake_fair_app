@@ -181,7 +181,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: 28.w),
+                  padding: EdgeInsets.only(left: 28.dm),
                   child: Text(
                     'EXCHANGE',
                     style: TextStyle(
@@ -332,7 +332,7 @@ Widget _buildIconButton(IconData icon, String text, {required double width}) {
                           '25',
                           style: TextStyle(
                             color: AppColors.inplaybtnColor,
-                            fontSize: 7,
+                            fontSize: 5.sp,
                             fontWeight: FontWeight.w900,
                           ),
                         ),
@@ -666,18 +666,18 @@ Widget _buildIconButton(IconData icon, String text, {required double width}) {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding:  EdgeInsets.all(8.0.r),
             child: Container(
               width: mediaQuery.width * 0.07.w,
               height: mediaQuery.height * 0.07.h,
               decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border:
-                      Border.all(color: const Color(0xffFF0000), width: 1.8)),
+                      Border.all(color: const Color(0xffFF0000), width: 1.8.w)),
               child: Center(
                   child: AutoSizeText(
                 '18+',
-                style: TextStyle(color: Colors.white, fontSize: 13.sp),
+                style: TextStyle(color: Colors.white, fontSize: 12.sp),
                 maxLines: 1,
               )),
             ),
