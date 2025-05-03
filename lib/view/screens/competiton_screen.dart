@@ -141,7 +141,7 @@ class _CompetitonScreenState extends State<CompetitonScreen> {
     );
   }
 
- Widget _buildContainer(String title) {
+  Widget _buildContainer(String title) {
     return Container(
       width: double.infinity,
       height: 28.h,
@@ -234,7 +234,7 @@ class _CompetitonScreenState extends State<CompetitonScreen> {
     );
   }
 
-PreferredSizeWidget _buildAppBar(BuildContext context) {
+  PreferredSizeWidget _buildAppBar(BuildContext context) {
   double appBarHeight = 40.h;
   double logoWidth = 112.w;
   double logoHeight = 13.h;
@@ -314,7 +314,7 @@ PreferredSizeWidget _buildAppBar(BuildContext context) {
   );
 }
 
-Widget _buildIconButton(IconData icon, String text, {required double width}) {
+  Widget _buildIconButton(IconData icon, String text, {required double width}) {
   return Container(
     width: width,
     height: 31.h,
@@ -385,7 +385,6 @@ Widget _buildIconButton(IconData icon, String text, {required double width}) {
     );
   }
 
-
   Widget _buildTimeSection(String title) {
     return Column(
       children: [
@@ -420,7 +419,7 @@ Widget _buildIconButton(IconData icon, String text, {required double width}) {
     );
   }
 
-    Widget _buildFooter(Size mediaQuery, double textScale) {
+  Widget _buildFooter(Size mediaQuery, double textScale) {
     return Container(
       height: mediaQuery.height * 0.052.h,
       width: mediaQuery.width.w,
