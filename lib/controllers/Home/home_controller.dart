@@ -83,4 +83,18 @@ class HomeController extends GetxController {
   void changeIndex(int index) {
     selectedIndex.value = index;
   }
+
+    final List<String> ruleInfo = [
+    'To Qualify',
+    'Over/Under 1.5 Goals',
+    'Over/Under 2.5 Goals',
+    'Correct Score'
+    'Over/Under 3.5 Goals'
+  ];
+
+    var isExpanded = false.obs;
+
+  void toggleExpanded() {
+    isExpanded.value = !isExpanded.value;
+  }
 }

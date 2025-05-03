@@ -5,6 +5,7 @@ import 'package:stake_fair_app/view/screens/authentication/login_screen.dart';
 import 'package:stake_fair_app/view/screens/authentication/sign_up_screen.dart';
 import 'package:stake_fair_app/view/screens/home_screen.dart';
 import 'package:stake_fair_app/view/screens/inplay_screen.dart';
+import 'package:stake_fair_app/view/screens/markets/rules.dart';
 import 'package:stake_fair_app/virsionCheck/virsion_check.dart';
 
 class AppRouts {
@@ -15,7 +16,7 @@ class AppRouts {
     GetPage(name: RoutsName.homeScreen, page: () =>  HomeScreen()),
     GetPage(name: RoutsName.virsion, page: () => const VersionCheck()),
     GetPage(name: RoutsName.inplay, page: () =>  InplayScreen()),
-   // GetPage(name: RoutsName.common, page: () => const CommonScreen(categoryId: categoryId, eventName: eventName, eventIcon: eventIcon))
+    GetPage(name: RoutsName.ruleScreen, page: () =>  RulesScreen()),
   ];
   
 }

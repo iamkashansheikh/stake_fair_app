@@ -70,14 +70,35 @@ class _MarketScreenState extends State<MarketScreen> {
                       Column(
                         children: [
                           TitleInfoContainer(
-  title: 'Bookmaker IPL CUP',
-  img: AssetImage('assets/images/cash.png'),
-  icon: Icons.timelapse_sharp,
-  onTap: () {
-    homeController.isCashWidgetVisible.toggle(); // 👈 Toggle cash widget
-  },
-),
-
+                            title: 'Bookmaker IPL CUP',
+                            img: AssetImage('assets/images/cash.png'),
+                            icon: Icons.timelapse_sharp,
+                            onTap: () {
+                              Get.dialog(
+                                BaseResponsiveScreen(
+                                  child: Dialog(
+                                    backgroundColor: Colors.transparent,
+                                    child: Material(
+                                      color: Colors.transparent,
+                                      child: Center(
+                                        child: SizedBox(
+                                          height: 235.h,
+                                          child: Container(
+                                            width: 255.w,
+                                            child: _buildShowCashWidget(),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                barrierDismissible:
+                                    true, // Tap outside to dismiss
+                                barrierColor: Colors.black
+                                    .withOpacity(0.6), // Dim background
+                              );
+                            },
+                          ),
                         ],
                       ),
 
@@ -111,6 +132,10 @@ class _MarketScreenState extends State<MarketScreen> {
                                 child: _buildBets()) // Constrain the size
                             : SizedBox.shrink(),
                       ),
+                      SizedBox(height: 5.h),
+                      _buildRotateContainer('All Markets', (){},Icons.keyboard_arrow_right ),
+                      Divider(thickness: 0.3,),
+                      _buildRotateContainer('Rotate Screen to see market depth', (){},Icons.screen_rotation,),
                       _buildFooter(mediaQuery, textScale),
                       _buildWarningText(),
                       SizedBox(height: 5.h),
@@ -152,26 +177,27 @@ class _MarketScreenState extends State<MarketScreen> {
                       child: _buildSearchField(mediaQuery),
                     ),
                   )),
-
-Obx(() => AnimatedPositioned(
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.easeInOut,
-      top: homeController.isCashWidgetVisible.value ? 140.h : -300.h, // 👈 Adjust this value based on image position
-      left: 0,
-      right: 0,
-      child: AnimatedOpacity(
-        duration: const Duration(milliseconds: 300),
-        opacity: homeController.isCashWidgetVisible.value ? 1.0 : 0.0,
-        child: Center(
-          child: SizedBox(
-            height: 214.h, // 👈 Keep a fixed height
-            child: _buildShowCashWidget(),
-          ),
-        ),
-      ),
-    )),
-
-
+              // Obx(() => AnimatedPositioned(
+              //       duration: const Duration(milliseconds: 300),
+              //       curve: Curves.easeInOut,
+              //       top: homeController.isCashWidgetVisible.value
+              //           ? 170.h
+              //           : -300
+              //               .h, // 👈 Adjust this value based on image position
+              //       left: 0,
+              //       right: 0,
+              //       child: AnimatedOpacity(
+              //         duration: const Duration(milliseconds: 300),
+              //         opacity:
+              //             homeController.isCashWidgetVisible.value ? 1.0 : 0.0,
+              //         child: Center(
+              //           child: SizedBox(
+              //             height: 222.h, // 👈 Keep a fixed height
+              //             child: _buildShowCashWidget(),
+              //           ),
+              //         ),
+              //       ),
+              //     )),
             ],
           ),
           bottomNavigationBar: Obx(() {
@@ -420,6 +446,34 @@ Obx(() => AnimatedPositioned(
     );
   }
 
+    Widget _buildRotateContainer(String title,VoidCallback onTap,IconData icon) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: double.infinity.w,
+        height: 28.h,
+        padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 5.h),
+        //decoration: BoxDecoration(border: Border(top: BorderSide(width: 0.3))),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            AutoSizeText(
+              title,
+              style: TextStyle(
+                  fontSize: 10.sp,
+                  ),
+              maxLines: 1,
+            ),
+            Icon(icon,color: Colors.black,size: 22.r),
+            
+          ],
+        ),
+        
+      ),
+    );
+    
+  }
+
   Widget _buildFooter(Size mediaQuery, double textScale) {
     return Container(
       height: mediaQuery.height * 0.052.h,
@@ -440,7 +494,7 @@ Obx(() => AnimatedPositioned(
               child: Center(
                   child: AutoSizeText(
                 '18+',
-                style: TextStyle(color: Colors.white, fontSize: 13.sp),
+                style: TextStyle(color: Colors.white, fontSize: 12.sp),
                 maxLines: 1,
               )),
             ),
@@ -740,9 +794,14 @@ Obx(() => AnimatedPositioned(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Icon(
-                Icons.info,
-                size: 20.r,
+              GestureDetector(
+                onTap: () {
+                  Get.toNamed('/ruleScreen');
+                },
+                child: Icon(
+                  Icons.info,
+                  size: 20.r,
+                ),
               ),
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 10.r),
@@ -980,17 +1039,16 @@ Obx(() => AnimatedPositioned(
 
   Widget _buildShowCashWidget() {
     return Container(
-      width: 270.w,
       color: Colors.white,
       child: Column(
         children: [
           _buildHeader('Cash Out'),
-          _buildInfoRow('Liability', '\$25.00'),
-          _buildInfoRow('Cash Out', '\$24.76'),
-          _buildInfoRow('Profit', '\$0.24'),
-          Divider(),
+          _buildInfoRow('Liability', '\$25.00', Colors.black),
+          _buildInfoRow('Cash Out', '\$24.76', Colors.black),
+          _buildInfoRow('Profit', '-\$0.24', Colors.red),
+          Divider(thickness: 0.5),
           _buildNote(),
-          SizedBox(height: 8.h),
+          SizedBox(height: 10.h),
           _buildActionButtons(),
           SizedBox(height: 8.h),
           _buildToggleSwitch('Show Cash Out confirmation screen'),
@@ -1005,12 +1063,12 @@ Obx(() => AnimatedPositioned(
       height: 25.h,
       color: AppColors.blackthemeColor,
       alignment: Alignment.centerLeft,
-      padding: EdgeInsets.symmetric(horizontal: 12.w),
+      padding: EdgeInsets.symmetric(horizontal: 10.w),
       child: AutoSizeText(
         title,
         style: TextStyle(
           fontWeight: FontWeight.w600,
-          fontSize: 16.sp,
+          fontSize: 12.sp,
           color: AppColors.whiteColor,
         ),
         maxLines: 1,
@@ -1018,14 +1076,16 @@ Obx(() => AnimatedPositioned(
     );
   }
 
-  Widget _buildInfoRow(String label, String value) {
+  Widget _buildInfoRow(String label, String value, Color color) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 1.h),
+      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: TextStyle(fontSize: 12.sp)),
-          Text(value, style: TextStyle(fontWeight: FontWeight.bold)),
+          Text(label, style: TextStyle(fontSize: 10.sp)),
+          Text(value,
+              style: TextStyle(
+                  fontSize: 10.sp, fontWeight: FontWeight.bold, color: color)),
         ],
       ),
     );
@@ -1033,19 +1093,24 @@ Obx(() => AnimatedPositioned(
 
   Widget _buildNote() {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 12.w,),
+      padding: EdgeInsets.symmetric(
+        horizontal: 12.w,
+      ),
       child: Text(
         'If the odds change during submission, the amount may be increased, rejected or partially accepted.',
-        style: TextStyle(fontSize: 12.sp,height: 1.0.h),
+        style: TextStyle(
+          fontSize: 11.sp,
+          height: 1.0.h,
+          letterSpacing: 0,
+        ),
         textAlign: TextAlign.justify,
-        
       ),
     );
   }
 
   Widget _buildActionButtons() {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 8.w),
+      padding: EdgeInsets.symmetric(horizontal: 15.w),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -1057,19 +1122,28 @@ Obx(() => AnimatedPositioned(
   }
 
   Widget _buildConfirmButton(String label, Color bgColor) {
-    return Container(
-      width: 110.w,
-      height: 25.h,
-      color: bgColor,
-      alignment: Alignment.center,
-      child: AutoSizeText(
-        label,
-        style: TextStyle(
-          fontWeight: FontWeight.w600,
-          fontSize: 14.sp,
-          color: AppColors.blackthemeColor,
+    return GestureDetector(
+      onTap: () {
+        if (label == 'Cancel') {
+          Get.back(); // Close the dialog
+        } else {
+          // Handle Confirm action here
+        }
+      },
+      child: Container(
+        width: 110.w,
+        height: 25.h,
+        color: bgColor,
+        alignment: Alignment.center,
+        child: AutoSizeText(
+          label,
+          style: TextStyle(
+            fontWeight: FontWeight.w600,
+            fontSize: 10.sp,
+            color: AppColors.blackthemeColor,
+          ),
+          maxLines: 1,
         ),
-        maxLines: 1,
       ),
     );
   }
@@ -1077,27 +1151,35 @@ Obx(() => AnimatedPositioned(
   Widget _buildToggleSwitch(String title) {
     final BetController betController = Get.put(BetController());
     return Container(
-      width: double.infinity,
+      width: double.infinity.w,
       height: 35.h,
       color: const Color(0xfff0f1f4),
-      padding: EdgeInsets.symmetric(horizontal: 12.w),
+      //  padding: EdgeInsets.symmetric(horizontal: 12.w),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          AutoSizeText(
-            title,
-            style: TextStyle(fontSize: 10.sp, color: AppColors.blackthemeColor),
-            maxLines: 1,
+          Expanded(
+            flex: 4,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 14),
+              child: AutoSizeText(
+                title,
+                style: TextStyle(
+                    fontSize: 10.sp, color: AppColors.blackthemeColor),
+                maxLines: 1,
+              ),
+            ),
           ),
-          Obx(() => Switch(
-                value: betController.isOn.value,
-                onChanged: (val) => betController.toggle(),
-                activeColor: Colors.white,
-                activeTrackColor: Colors.green,
-                inactiveThumbColor: Colors.white,
-                inactiveTrackColor: Colors.transparent,
-                splashRadius: 0,
-                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          Obx(() => Expanded(
+                child: Switch(
+                  value: betController.isOn.value,
+                  onChanged: (val) => betController.toggle(),
+                  activeColor: Colors.white,
+                  activeTrackColor: Colors.green,
+                  inactiveThumbColor: Colors.white,
+                  inactiveTrackColor: Colors.transparent,
+                  splashRadius: 0,
+                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                ),
               )),
         ],
       ),
