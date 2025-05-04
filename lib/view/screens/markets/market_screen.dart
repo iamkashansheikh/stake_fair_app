@@ -82,7 +82,7 @@ class _MarketScreenState extends State<MarketScreen> {
                                       color: Colors.transparent,
                                       child: Center(
                                         child: SizedBox(
-                                          height: 235.h,
+                                          height: 225.h,
                                           child: Container(
                                             width: 255.w,
                                             child: _buildShowCashWidget(),
@@ -129,13 +129,24 @@ class _MarketScreenState extends State<MarketScreen> {
                         child: showPlaceBet
                             ? SizedBox(
                                 height: 219.h,
-                                child: _buildBets()) // Constrain the size
+                                child: _buildBets(() {
+                                  setState(() {
+                                    showPlaceBet = false;
+                                  });
+                                })) // Constrain the size
                             : SizedBox.shrink(),
                       ),
                       SizedBox(height: 5.h),
-                      _buildRotateContainer('All Markets', (){},Icons.keyboard_arrow_right ),
-                      Divider(thickness: 0.3,),
-                      _buildRotateContainer('Rotate Screen to see market depth', (){},Icons.screen_rotation,),
+                      _buildRotateContainer(
+                          'All Markets', () {}, Icons.keyboard_arrow_right),
+                      Divider(
+                        thickness: 0.3,
+                      ),
+                      _buildRotateContainer(
+                        'Rotate Screen to see market depth',
+                        () {},
+                        Icons.screen_rotation,
+                      ),
                       _buildFooter(mediaQuery, textScale),
                       _buildWarningText(),
                       SizedBox(height: 5.h),
@@ -446,7 +457,8 @@ class _MarketScreenState extends State<MarketScreen> {
     );
   }
 
-    Widget _buildRotateContainer(String title,VoidCallback onTap,IconData icon) {
+  Widget _buildRotateContainer(
+      String title, VoidCallback onTap, IconData icon) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -460,18 +472,15 @@ class _MarketScreenState extends State<MarketScreen> {
             AutoSizeText(
               title,
               style: TextStyle(
-                  fontSize: 10.sp,
-                  ),
+                fontSize: 10.sp,
+              ),
               maxLines: 1,
             ),
-            Icon(icon,color: Colors.black,size: 22.r),
-            
+            Icon(icon, color: Colors.black, size: 22.r),
           ],
         ),
-        
       ),
     );
-    
   }
 
   Widget _buildFooter(Size mediaQuery, double textScale) {
@@ -483,10 +492,10 @@ class _MarketScreenState extends State<MarketScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(8.0.r),
             child: Container(
-              width: mediaQuery.width * 0.07.w,
-              height: mediaQuery.height * 0.07.h,
+              width: mediaQuery.width * 0.08.w,
+              height: mediaQuery.height * 0.08.h,
               decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border:
@@ -508,11 +517,11 @@ class _MarketScreenState extends State<MarketScreen> {
               maxLines: 1),
           SizedBox(width: 8.w),
           Container(
-            width: mediaQuery.width * 0.22.w,
-            height: 31.h,
+            width: mediaQuery.width * 0.23.w,
+            height: 29.h,
             decoration: BoxDecoration(
               color: const Color(0xffD4D4D4),
-              borderRadius: BorderRadius.circular(2),
+              borderRadius: BorderRadius.circular(2.r),
             ),
             alignment: Alignment.center,
             child: Text(
@@ -532,71 +541,30 @@ class _MarketScreenState extends State<MarketScreen> {
 
   Widget _buildWarningText() {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 13.h),
+      padding: EdgeInsets.all(10.0.r),
       child: RichText(
+        textAlign: TextAlign.justify,
         text: TextSpan(
+          style: TextStyle(
+            fontSize: 11.sp,
+            color: Colors.black87,
+            height: 1.4,
+          ),
           children: [
             TextSpan(
-              text: 'Warning',
-              style: TextStyle(
-                fontSize: 12.sp,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-              ),
+              text: 'Warning: ',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12.sp),
             ),
             TextSpan(
               text:
-                  " : Although the current score, time elapsed, video and other ",
-              style: TextStyle(
-                fontSize: 11.sp,
-                color: Colors.black,
-              ),
+                  'Although the current score, time elapsed, video and other data provided on this site is sourced from \'live\' '
+                  'feeds provided by third parties, you should be aware that this data may be subject to a time delay and/or be inaccurate. '
+                  'Please also be aware that other StakeFair customers may have access to data that is faster and/or more accurate than the '
+                  'data shown on the StakeFair site. If you rely on this data to place bets, you do so entirely at your own risk. StakeFair '
+                  'provides this data AS IS with no warranty as to the accuracy, completeness or timeliness of such data and accepts no '
+                  'responsibility for any loss (direct or indirect) suffered by you as a result of your reliance on it.',
             ),
-            _buildWidgetSpan(
-                "data provided on this site is sourced from feeds provided by third",
-                0),
-            _buildWidgetSpan(
-                " parties, you should be aware that this data may be subject to a time",
-                2),
-            _buildWidgetSpan(
-                " delay and/or be inaccurate. Please also be aware that other",
-                22),
-            _buildWidgetSpan(
-                " StakeFair customers may have access to data that is faster and/or ",
-                0),
-            _buildWidgetSpan(
-                "more accurate than the data shown on the StakeFair site. If you rely",
-                6),
-            _buildWidgetSpan(
-                "on this data to place bets, you do so entirely at your own risk.",
-                20),
-            _buildWidgetSpan(
-                " StakeFair provides this data AS IS with no warranty as to the ,",
-                0),
-            _buildWidgetSpan(
-                "accuracy completeness or timeliness of such data and accepts no",
-                10),
-            _buildWidgetSpan(
-                " responsibility for any loss (direct or indirect) suffered by you as a",
-                20),
-            _buildWidgetSpan(" result of your reliance on it.", 115),
           ],
-        ),
-      ),
-    );
-  }
-
-  InlineSpan _buildWidgetSpan(String text, double horizontalPadding) {
-    return WidgetSpan(
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: horizontalPadding.w),
-        child: Text(
-          text,
-          style: TextStyle(
-            fontSize: 11.sp,
-            color: Colors.black,
-          ),
-          maxLines: 1,
         ),
       ),
     );
@@ -821,7 +789,7 @@ class _MarketScreenState extends State<MarketScreen> {
         ));
   }
 
-  Widget _buildBets() {
+  Widget _buildBets(VoidCallback onCancel) {
     final BetController controller = Get.put(BetController());
     return SizedBox(
       height: 220.h,
@@ -876,8 +844,11 @@ class _MarketScreenState extends State<MarketScreen> {
                 Row(
                   children: [
                     Expanded(
-                        child: _buildActionButton('Cancel',
-                            const Color(0xffDCDCDC), Colors.black, () {})),
+                        child: _buildActionButton(
+                            'Cancel', const Color(0xffDCDCDC), Colors.black,
+                            () {
+                      onCancel();
+                    })),
                     SizedBox(width: 5.w),
                     Expanded(
                       child: _buildActionButton('Place Bet',
@@ -903,7 +874,6 @@ class _MarketScreenState extends State<MarketScreen> {
                   ],
                 ),
                 SizedBox(height: 1.h),
-                //_buildKeypadGrid(),
                 CustomKeypad(
                   onKeyTap: (val) => controller.onKeyTap(val),
                   onBackspace: () => controller.onBackspace(),

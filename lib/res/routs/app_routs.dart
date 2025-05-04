@@ -14,7 +14,7 @@ class AppRouts {
     GetPage(name: RoutsName.signup, page: () =>  SignUpScreen()),
     GetPage(name: RoutsName.forgotpass, page: () =>  ForgottenPassword()),
     GetPage(name: RoutsName.homeScreen, page: () =>  HomeScreen()),
-    GetPage(name: RoutsName.virsion, page: () => const VersionCheck()),
+    GetPage(name: RoutsName.virsion, page: () =>  VersionCheck()),
     GetPage(name: RoutsName.inplay, page: () =>  InplayScreen()),
     GetPage(name: RoutsName.ruleScreen, page: () =>  RulesScreen()),
   ];

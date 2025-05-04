@@ -19,7 +19,7 @@ class BackLayInfoBar extends StatelessWidget {
           Expanded(child: _textBlock('Min:', min),flex: 1,), 
           Expanded(child: _textBlock('Max:', max),flex: 2),
           Expanded(child: Text('Back'.padLeft(5), style: TextStyle(fontSize: 10.sp, fontWeight: FontWeight.bold))),
-          Expanded(child: Text('Lay'.padLeft(7), style: TextStyle(fontSize: 10.sp, fontWeight: FontWeight.bold)))
+          Expanded(child: Text('Lay'.padLeft(8), style: TextStyle(fontSize: 10.sp, fontWeight: FontWeight.bold)))
         ],
       ),
     );
