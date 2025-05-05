@@ -112,12 +112,18 @@ class _HomeScreenState extends State<HomeScreen> {
                       index: 0,
                       label: 'Home',
                       icon: Icons.home,
-                      onTap: () => homeController.changeIndex(0)),
+                      onTap: (){
+                        homeController.changeIndex(0);
+                        Get.toNamed('/homeScreen');
+                      }),
                   _buildNavItem(
                       index: 1,
                       label: 'Menu',
                       icon: Icons.menu,
-                      onTap: () => homeController.changeIndex(1)),
+                      onTap: (){
+                        homeController.changeIndex(1);
+                        Get.toNamed('/menuScreen');
+                      }),
                   _buildNavItem(
                       index: 2,
                       label: 'CashOut',
@@ -143,14 +149,8 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   PreferredSizeWidget _buildAppBar(BuildContext context) {
-    double appBarHeight = 40.h;
-    double logoWidth = 112.w;
-    double logoHeight = 13.h;
-    double searchButtonWidth = 45.w;
-    double loginButtonWidth = 63.w;
-
     return PreferredSize(
-      preferredSize: Size.fromHeight(appBarHeight),
+      preferredSize:Size.fromHeight(40.h),
       child: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -160,7 +160,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         child: AppBar(
-          toolbarHeight: appBarHeight,
+          toolbarHeight: 40.h,
           backgroundColor: Colors.transparent,
           elevation: 0,
           title: Row(
@@ -171,8 +171,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    width: logoWidth,
-                    height: logoHeight,
+                    width: 112.w,
+                    height: 13.h,
                     decoration: const BoxDecoration(
                       image: DecorationImage(
                         image: AssetImage('assets/images/stakefair.png'),
@@ -181,7 +181,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(left: 25.dm),
+                    padding: EdgeInsets.only(left: 30.w),
                     child: Text(
                       'EXCHANGE',
                       style: TextStyle(
@@ -199,7 +199,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: _buildIconButton(
                       Icons.search_rounded,
                       'Search',
-                      width: searchButtonWidth,
+                      width: 45.w,
                     ),
                   ),
                   SizedBox(width: 3.w), // Thoda zyada spacing
@@ -210,7 +210,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: _buildIconButton(
                       Icons.person,
                       'Login / Join',
-                      width: loginButtonWidth,
+                      width: 63.w,
                     ),
                   ),
                 ],
@@ -224,7 +224,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildIconButton(IconData icon, String text, {required double width}) {
     return Container(
-      width: width,
+      width: width.w,
       height: 31.h,
       decoration: BoxDecoration(
         color: AppColors.apbarbutonColor,
@@ -237,7 +237,7 @@ class _HomeScreenState extends State<HomeScreen> {
           Icon(
             icon,
             color: AppColors.whiteColor,
-            size: 15.r, // Responsive icon size
+            size: 15.sp, // Responsive icon size
           ),
           Text(
             text,
