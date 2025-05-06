@@ -44,4 +44,33 @@ class SportsController extends GetxController {
   IconData getIconForSport(String? sportName) {
     return sportIcons[sportName] ?? Icons.sports; 
   }
+
+RxList<String> imgsList = <String>[
+  'assets/images/cricket.png',        // cricket
+  'assets/images/tennis.png',    // tennis
+  'assets/images/soccer.png',    // soccer
+  'assets/images/horseracing.png',     // horse racing
+].obs;
+
+String getImgForSport(String? sportName) {
+  switch (sportName?.toLowerCase()) {
+    case 'cricket':
+      return imgsList[0];
+    case 'tennis':
+      return imgsList[1];
+    case 'soccer':
+      return imgsList[2];
+    case 'horse racing':
+      return imgsList[3];
+    default:
+      return imgsList[0]; // default image
+  }
+}
+
+RxList<String> help = [
+  'Terms and Conditions',
+  'FAQs',
+  'Contact Us',
+  'Safer Gambling',
+].obs;
 }

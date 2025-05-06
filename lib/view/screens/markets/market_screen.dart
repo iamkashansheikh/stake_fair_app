@@ -46,26 +46,6 @@ class _MarketScreenState extends State<MarketScreen> {
                         ],
                       ),
 
-                      // Row(
-                      //   children: [
-                      //     _buildShowMatches(
-                      //         index: 0,
-                      //         label: 'Soccer',
-                      //         onTap: () =>
-                      //             inplayController.selectedIndex.value = 0),
-                      //     _buildShowMatches(
-                      //       index: 1,
-                      //       label: 'Tennis',
-                      //       onTap: () => inplayController.selectedIndex.value = 1,
-                      //     ),
-                      //     _buildShowMatches(
-                      //       index: 2,
-                      //       label: 'Cricket',
-                      //       onTap: () => inplayController.selectedIndex.value = 2,
-                      //     ),
-                      //   ],
-                      // ),
-
                       _buildTalbe(context),
                       Column(
                         children: [
@@ -188,27 +168,7 @@ class _MarketScreenState extends State<MarketScreen> {
                       child: _buildSearchField(mediaQuery),
                     ),
                   )),
-              // Obx(() => AnimatedPositioned(
-              //       duration: const Duration(milliseconds: 300),
-              //       curve: Curves.easeInOut,
-              //       top: homeController.isCashWidgetVisible.value
-              //           ? 170.h
-              //           : -300
-              //               .h, // 👈 Adjust this value based on image position
-              //       left: 0,
-              //       right: 0,
-              //       child: AnimatedOpacity(
-              //         duration: const Duration(milliseconds: 300),
-              //         opacity:
-              //             homeController.isCashWidgetVisible.value ? 1.0 : 0.0,
-              //         child: Center(
-              //           child: SizedBox(
-              //             height: 222.h, // 👈 Keep a fixed height
-              //             child: _buildShowCashWidget(),
-              //           ),
-              //         ),
-              //       ),
-              //     )),
+             
             ],
           ),
           bottomNavigationBar: Obx(() {
@@ -251,15 +211,9 @@ class _MarketScreenState extends State<MarketScreen> {
     );
   }
 
-  PreferredSizeWidget _buildAppBar(BuildContext context) {
-    double appBarHeight = 40.h;
-    double logoWidth = 112.w;
-    double logoHeight = 13.h;
-    double searchButtonWidth = 45.w;
-    double loginButtonWidth = 63.w;
-
+ PreferredSizeWidget _buildAppBar(BuildContext context) {
     return PreferredSize(
-      preferredSize: Size.fromHeight(appBarHeight),
+      preferredSize:Size.fromHeight(40.h),
       child: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -269,7 +223,7 @@ class _MarketScreenState extends State<MarketScreen> {
           ),
         ),
         child: AppBar(
-          toolbarHeight: appBarHeight,
+          toolbarHeight: 40.h,
           backgroundColor: Colors.transparent,
           elevation: 0,
           title: Row(
@@ -280,8 +234,8 @@ class _MarketScreenState extends State<MarketScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    width: logoWidth,
-                    height: logoHeight,
+                    width: 112.w,
+                    height: 13.h,
                     decoration: const BoxDecoration(
                       image: DecorationImage(
                         image: AssetImage('assets/images/stakefair.png'),
@@ -290,7 +244,7 @@ class _MarketScreenState extends State<MarketScreen> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(left: 28.dm),
+                    padding: EdgeInsets.only(left: 30.w),
                     child: Text(
                       'EXCHANGE',
                       style: TextStyle(
@@ -308,7 +262,7 @@ class _MarketScreenState extends State<MarketScreen> {
                     child: _buildIconButton(
                       Icons.search_rounded,
                       'Search',
-                      width: searchButtonWidth,
+                      width: 45.w,
                     ),
                   ),
                   SizedBox(width: 3.w), // Thoda zyada spacing
@@ -319,7 +273,7 @@ class _MarketScreenState extends State<MarketScreen> {
                     child: _buildIconButton(
                       Icons.person,
                       'Login / Join',
-                      width: loginButtonWidth,
+                      width: 63.w,
                     ),
                   ),
                 ],
@@ -333,8 +287,8 @@ class _MarketScreenState extends State<MarketScreen> {
 
   Widget _buildIconButton(IconData icon, String text, {required double width}) {
     return Container(
-      width: width,
-      height: 31.h,
+      width: width.w,
+      height: 30.h,
       decoration: BoxDecoration(
         color: AppColors.apbarbutonColor,
         borderRadius: BorderRadius.circular(2.r), // Responsive radius
@@ -346,7 +300,7 @@ class _MarketScreenState extends State<MarketScreen> {
           Icon(
             icon,
             color: AppColors.whiteColor,
-            size: 15.r, // Responsive icon size
+            size: 15.sp, // Responsive icon size
           ),
           Text(
             text,
@@ -963,8 +917,7 @@ class _MarketScreenState extends State<MarketScreen> {
     );
   }
 
-  Widget _buildActionButton(
-      String title, Color bg, Color fg, VoidCallback onTap) {
+  Widget _buildActionButton(String title, Color bg, Color fg, VoidCallback onTap) {
     return InkWell(
       onTap: onTap,
       child: Container(

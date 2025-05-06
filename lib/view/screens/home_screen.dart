@@ -112,18 +112,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       index: 0,
                       label: 'Home',
                       icon: Icons.home,
-                      onTap: (){
-                        homeController.changeIndex(0);
-                        Get.toNamed('/homeScreen');
-                      }),
+                      onTap: (){homeController.changeIndex(0);Get.toNamed('/homeScreen'); }),
                   _buildNavItem(
                       index: 1,
                       label: 'Menu',
                       icon: Icons.menu,
-                      onTap: (){
-                        homeController.changeIndex(1);
-                        Get.toNamed('/menuScreen');
-                      }),
+                      onTap: (){homeController.changeIndex(1); Get.toNamed('/menuScreen'); }),
                   _buildNavItem(
                       index: 2,
                       label: 'CashOut',
@@ -225,7 +219,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildIconButton(IconData icon, String text, {required double width}) {
     return Container(
       width: width.w,
-      height: 31.h,
+      height: 30.h,
       decoration: BoxDecoration(
         color: AppColors.apbarbutonColor,
         borderRadius: BorderRadius.circular(2.r), // Responsive radius
@@ -657,7 +651,7 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-   Widget _buildFooter(Size mediaQuery, double textScale) {
+  Widget _buildFooter(Size mediaQuery, double textScale) {
     return Container(
       height: mediaQuery.height * 0.052.h,
       width: mediaQuery.width.w,
@@ -713,7 +707,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
- Widget _buildWarningText() {
+  Widget _buildWarningText() {
  return Padding(
       padding:  EdgeInsets.all(10.0.r),
       child: RichText(
@@ -748,8 +742,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
 }
-
-
 
   Widget _buildText(String title) {
     return AutoSizeText(

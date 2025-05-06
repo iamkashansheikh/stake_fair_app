@@ -26,48 +26,47 @@ class MenuScreen extends StatelessWidget {
           body: Stack(
             children: [
               NoBounceScrollWrapper(
-                  child: Column(
-                children: [
-                  Center(
-                      child: Text(
-                    'QUICK LINKS',
-                    style: TextStyle(
-                        fontSize: 12.sp,
-                        color: AppColors.whiteColor,
-                        fontWeight: FontWeight.bold),
-                  )),
-                  Row(
-                    children: [
-                      _buildLinks(
-                          'In-Play', () {}, AssetImage('assets/images/2.png')),
-                      _buildLinks(
-                          'In-Play', () {}, AssetImage('assets/images/2.png')),
-                      _buildLinks(
-                          'In-Play', () {}, AssetImage('assets/images/2.png')),
-                      _buildLinks(
-                          'In-Play', () {}, AssetImage('assets/images/2.png'))
-                    ],
-                  ),
-                  SizedBox(height: 2.h),
-                  Center(
-                      child: Text(
-                    'POPULAR SPORTS',
-                    style: TextStyle(
-                        fontSize: 12.sp,
-                        color: AppColors.whiteColor,
-                        fontWeight: FontWeight.bold),
-                  )),
-                  _buildSports(),
-                   SizedBox(height: 2.h),
-                  Center(
-                      child: Text(
-                    'MORE FORM STAKEFAIR',
-                    style: TextStyle(
-                        fontSize: 12.sp,
-                        color: AppColors.whiteColor,
-                        fontWeight: FontWeight.bold),
-                  )),
-                ],
+                  child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    _buildtext('QUICK LINKS'),
+                    Row(
+                      children: [
+                        _buildLinks('In-Play', () {
+                          Get.toNamed('/inplay');
+                        }, AssetImage('assets/images/inplay.png')),
+                        _buildLinks('Promotions', () {},
+                            AssetImage('assets/images/promotion.png')),
+                        _buildLinks('My Markets', () {},
+                            AssetImage('assets/images/myMarket.png')),
+                        _buildLinks('Settings', () {},
+                            AssetImage('assets/images/setting.png'))
+                      ],
+                    ),
+                    SizedBox(height: 2.h),
+                    _buildtext('POPULAR SPORTS'),
+                    _buildPopularSports(),
+                    SizedBox(height: 2.h),
+                    _buildtext('MORE FROM STAKEFAIR'),
+                    SizedBox(height: 2.h),
+                    Row(
+                      children: [
+                        _buildMoreFromSFContainer('LIVE CASINO',
+                            AssetImage('assets/images/casinoSF.png')),
+                        _buildMoreFromSFContainer('TIPS & PREVIEW',
+                            AssetImage('assets/images/tipSF.png'))
+                      ],
+                    ),
+                    SizedBox(height: 2.h),
+                    _buildtext('ALL SPORTS'),
+                    SizedBox(height: 2.h),
+                    _buildAllSports(),
+                    SizedBox(height: 2.h),
+                    _buildtext('HELP & SUPPORT'),
+                    SizedBox(height: 2.h),
+                    _buildHelp()
+                  ],
+                ),
               )),
               Obx(() => AnimatedPositioned(
                     duration: const Duration(milliseconds: 300),
@@ -94,7 +93,7 @@ class MenuScreen extends StatelessWidget {
                       index: 0,
                       label: 'Home',
                       icon: Icons.home,
-                      onTap: (){
+                      onTap: () {
                         homeController.changeIndex(0);
                         Get.toNamed('/homeScreen');
                       }),
@@ -201,6 +200,17 @@ class MenuScreen extends StatelessWidget {
     );
   }
 
+  Widget _buildtext(String title) {
+    return Center(
+        child: Text(
+      title,
+      style: TextStyle(
+          fontSize: 12.sp,
+          color: AppColors.whiteColor,
+          fontWeight: FontWeight.bold),
+    ));
+  }
+
   Widget _buildIconButton(IconData icon, String text, {required double width}) {
     return Container(
       width: width.w,
@@ -274,16 +284,45 @@ class MenuScreen extends StatelessWidget {
 
   Widget _buildLinks(String title, VoidCallback onTap, ImageProvider img) {
     return Expanded(
+      child: InkWell(
+        onTap: onTap,
+        child: Container(
+          width: 90.sw,
+          height: 80.h,
+          decoration: BoxDecoration(
+              color: Color(0xff1E1E1E),
+              border: Border.all(color: Colors.grey, width: 0.03)),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image(
+                image: img,
+                width: 30.w,
+                height: 30.h,
+                fit: BoxFit.contain,
+              ),
+              SizedBox(height: 5.h),
+              Text(
+                title,
+                style: TextStyle(color: AppColors.whiteColor, fontSize: 10.sp),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMoreFromSFContainer(String title, ImageProvider img) {
+    return Expanded(
       child: Container(
         width: 90.sw,
-        height: 80.h,
-        decoration: BoxDecoration(
-            color: Color(0xff1E1E1E),
-            border: Border.all(color: Colors.grey, width: 0.03)),
+        height: 85.h,
+        decoration: BoxDecoration(color: Color(0xff1E1E1E)),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image(image: img),
+            Image(image: img, width: 52.w, height: 45.h, fit: BoxFit.contain),
             Text(
               title,
               style: TextStyle(color: AppColors.whiteColor, fontSize: 10.sp),
@@ -294,7 +333,7 @@ class MenuScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildSports() {
+  Widget _buildPopularSports() {
     final controller = Get.put(SportsController());
 
     return Obx(() {
@@ -323,15 +362,17 @@ class MenuScreen extends StatelessWidget {
               height: 80.h, // Fixed height
               decoration: BoxDecoration(
                 color: const Color(0xff1E1E1E),
-                border: Border.all(color: Colors.grey, width: 0.03),
+                border: Border.all(color: Colors.grey, width: 0.03.r),
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(
-                    controller.getIconForSport(item.sportName),
-                    color: AppColors.whiteColor,
-                    size: 20.r,
+                  Image.asset(
+                    controller.getImgForSport(
+                        item.sportName), // ✅ har sport ke liye alag image
+                    width: 30.w,
+                    height: 30.h,
+                    fit: BoxFit.contain,
                   ),
                   SizedBox(height: 5.h),
                   Text(
@@ -350,7 +391,117 @@ class MenuScreen extends StatelessWidget {
     });
   }
 
- 
+  Widget _buildAllSports() {
+    final controller = Get.put(SportsController());
+    return Obx(() {
+      final allSportList = controller.categoryList.data?.data ?? [];
+      final filteredSports = allSportList.where((item) {
+        final name = item.sportName?.toLowerCase();
+        return name == 'cricket' ||
+            name == 'casino' ||
+            name == 'tennis' ||
+            name == 'soccer' ||
+            name == 'horse racing' ||
+            name == 'greyhound racing' ||
+            name == 'basketball';
+      }).toList();
+      return ListView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: filteredSports.length,
+        itemBuilder: (context, index) {
+          final item = filteredSports[index];
+          final sportName = item.sportName ?? '';
+          return Column(
+            children: [
+              GestureDetector(
+                onTap: () {
+                  if (sportName.toLowerCase() != 'casino') {
+                    Get.to(() => CompetitonScreen(
+                          categoryId: item.sportId ?? '',
+                          eventName: item.sportName ?? '',
+                          eventIcon: controller.getIconForSport(item.sportName),
+                        ));
+                  }
+                },
+                child: Container(
+                  color: const Color(0xff1E1E1E),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 7),
+                    child: ListTile(
+                      dense: true,
+                      minLeadingWidth: 0,
+                      visualDensity:
+                          const VisualDensity(horizontal: -4, vertical: -4),
+                      contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 3, vertical: 0),
+                      title: AutoSizeText(
+                        sportName,
+                        style: TextStyle(
+                          color: AppColors.whiteColor,
+                          fontSize: 12.sp,
+                        ),
+                        maxLines: 1,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const Divider(
+                height: 0.5,
+                thickness: 0.13,
+              ),
+            ],
+          );
+        },
+      );
+    });
+  }
+
+  Widget _buildHelp() {
+    final controller = Get.put(SportsController());
+    return Obx(() {
+      return ListView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: controller.help.length,
+        itemBuilder: (context, index) {
+          final item = controller.help[index];
+          return Column(
+            children: [
+              Container(
+                color: const Color(0xff1E1E1E),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 7),
+                  child: ListTile(
+                    dense: true,
+                    minLeadingWidth: 0,
+                    visualDensity:
+                        const VisualDensity(horizontal: -4, vertical: -4),
+                    contentPadding:
+                        const EdgeInsets.symmetric(horizontal: 3, vertical: 0),
+                    title: AutoSizeText(
+                      item,
+                      style: TextStyle(
+                        color: AppColors.whiteColor,
+                        fontSize: 12.sp,
+                      ),
+                      maxLines: 1,
+                    ),
+                  ),
+                ),
+              ),
+              const Divider(
+                height: 0.5,
+                thickness: 0.13,
+              ),
+            ],
+          );
+        },
+      );
+    });
+  }
+
   Widget _buildNavItem({
     required int index,
     required String label,
