@@ -8,4 +8,5 @@ abstract class RoutsName {
   static const String inplay = '/inplay';
   static const String common = '/common';
   static const String ruleScreen = '/ruleScreen';
+  static const String menuScreen = '/menuScreen';
 }

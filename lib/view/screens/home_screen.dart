@@ -112,12 +112,18 @@ class _HomeScreenState extends State<HomeScreen> {
                       index: 0,
                       label: 'Home',
                       icon: Icons.home,
-                      onTap: () => homeController.changeIndex(0)),
+                      onTap: (){
+                        homeController.changeIndex(0);
+                        Get.toNamed('/homeScreen');
+                      }),
                   _buildNavItem(
                       index: 1,
                       label: 'Menu',
                       icon: Icons.menu,
-                      onTap: () => homeController.changeIndex(1)),
+                      onTap: (){
+                        homeController.changeIndex(1);
+                        Get.toNamed('/menuScreen');
+                      }),
                   _buildNavItem(
                       index: 2,
                       label: 'CashOut',
@@ -142,116 +148,110 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
- PreferredSizeWidget _buildAppBar(BuildContext context) {
-  double appBarHeight = 40.h;
-  double logoWidth = 112.w;
-  double logoHeight = 13.h;
-  double searchButtonWidth = 45.w;
-  double loginButtonWidth = 63.w;
-
-  return PreferredSize(
-    preferredSize: Size.fromHeight(appBarHeight),
-    child: Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [AppColors.baryelowColor, AppColors.barorngColor],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-        ),
-      ),
-      child: AppBar(
-        toolbarHeight: appBarHeight,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  width: logoWidth,
-                  height: logoHeight,
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('assets/images/stakefair.png'),
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 28.dm),
-                  child: Text(
-                    'EXCHANGE',
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                InkWell(
-                  onTap: () => homeController.isSearchFieldVisible.toggle(),
-                  child: _buildIconButton(
-                    Icons.search_rounded,
-                    'Search',
-                    width: searchButtonWidth,
-                  ),
-                ),
-                SizedBox(width: 3.w), // Thoda zyada spacing
-                InkWell(
-                  onTap: () {
-                    Get.toNamed('/login');
-                  },
-                  child: _buildIconButton(
-                    Icons.person,
-                    'Login / Join',
-                    width: loginButtonWidth,
-                  ),
-                ),
-              ],
-            )
-          ],
-        ),
-      ),
-    ),
-  );
-}
-
-Widget _buildIconButton(IconData icon, String text, {required double width}) {
-  return Container(
-    width: width,
-    height: 31.h,
-    decoration: BoxDecoration(
-      color: AppColors.apbarbutonColor,
-      borderRadius: BorderRadius.circular(2.r), // Responsive radius
-    ),
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Icon(
-          icon,
-          color: AppColors.whiteColor,
-          size: 15.sp, // Responsive icon size
-        ),
-        Text(
-          text,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: AppColors.whiteColor,
-            fontSize: 10.sp, // Responsive font
-            fontWeight: FontWeight.w600,
+  PreferredSizeWidget _buildAppBar(BuildContext context) {
+    return PreferredSize(
+      preferredSize:Size.fromHeight(40.h),
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [AppColors.baryelowColor, AppColors.barorngColor],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
           ),
         ),
-      ],
-    ),
-  );
-}
+        child: AppBar(
+          toolbarHeight: 40.h,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: 112.w,
+                    height: 13.h,
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage('assets/images/stakefair.png'),
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 30.w),
+                    child: Text(
+                      'EXCHANGE',
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  InkWell(
+                    onTap: () => homeController.isSearchFieldVisible.toggle(),
+                    child: _buildIconButton(
+                      Icons.search_rounded,
+                      'Search',
+                      width: 45.w,
+                    ),
+                  ),
+                  SizedBox(width: 3.w), // Thoda zyada spacing
+                  InkWell(
+                    onTap: () {
+                      Get.toNamed('/login');
+                    },
+                    child: _buildIconButton(
+                      Icons.person,
+                      'Login / Join',
+                      width: 63.w,
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildIconButton(IconData icon, String text, {required double width}) {
+    return Container(
+      width: width.w,
+      height: 31.h,
+      decoration: BoxDecoration(
+        color: AppColors.apbarbutonColor,
+        borderRadius: BorderRadius.circular(2.r), // Responsive radius
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            icon,
+            color: AppColors.whiteColor,
+            size: 15.sp, // Responsive icon size
+          ),
+          Text(
+            text,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: AppColors.whiteColor,
+              fontSize: 10.sp, // Responsive font
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
   Widget _buildSearchField(Size mediaQuery, {Key? key}) {
     return Container(
@@ -668,12 +668,12 @@ Widget _buildIconButton(IconData icon, String text, {required double width}) {
           Padding(
             padding:  EdgeInsets.all(8.0.r),
             child: Container(
-              width: mediaQuery.width * 0.07.w,
-              height: mediaQuery.height * 0.07.h,
+              width: mediaQuery.width * 0.08.w,
+              height: mediaQuery.height * 0.08.h,
               decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border:
-                      Border.all(color: const Color(0xffFF0000), width: 1.8.w)),
+                      Border.all(color: const Color(0xffFF0000), width: 1.8)),
               child: Center(
                   child: AutoSizeText(
                 '18+',
@@ -691,11 +691,11 @@ Widget _buildIconButton(IconData icon, String text, {required double width}) {
               maxLines: 1),
           SizedBox(width: 8.w),
           Container(
-            width: mediaQuery.width * 0.22.w,
-            height: 31.h,
+            width: mediaQuery.width * 0.23.w,
+            height: 29.h,
             decoration: BoxDecoration(
               color: const Color(0xffD4D4D4),
-              borderRadius: BorderRadius.circular(2),
+              borderRadius: BorderRadius.circular(2.r),
             ),
             alignment: Alignment.center,
             child: Text(
@@ -713,77 +713,43 @@ Widget _buildIconButton(IconData icon, String text, {required double width}) {
     );
   }
 
-  Widget _buildWarningText() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 13.h),
+ Widget _buildWarningText() {
+ return Padding(
+      padding:  EdgeInsets.all(10.0.r),
       child: RichText(
+        textAlign: TextAlign.justify,
         text: TextSpan(
-          children: [
+          style:  TextStyle(
+            fontSize: 11.sp,
+            color: Colors.black87,
+            height: 1.4, 
+            
+          ),
+          children:  [
             TextSpan(
-              text: 'Warning',
+              text: 'Warning: ',
               style: TextStyle(
-                fontSize: 12.sp,
                 fontWeight: FontWeight.bold,
-                color: Colors.black,
+                fontSize: 12.sp
               ),
             ),
             TextSpan(
               text:
-                  " : Although the current score, time elapsed, video and other ",
-              style: TextStyle(
-                fontSize: 11.sp,
-                color: Colors.black,
-              ),
+                  'Although the current score, time elapsed, video and other data provided on this site is sourced from \'live\' '
+                  'feeds provided by third parties, you should be aware that this data may be subject to a time delay and/or be inaccurate. '
+                  'Please also be aware that other StakeFair customers may have access to data that is faster and/or more accurate than the '
+                  'data shown on the StakeFair site. If you rely on this data to place bets, you do so entirely at your own risk. StakeFair '
+                  'provides this data AS IS with no warranty as to the accuracy, completeness or timeliness of such data and accepts no '
+                  'responsibility for any loss (direct or indirect) suffered by you as a result of your reliance on it.',
             ),
-            _buildWidgetSpan(
-                "data provided on this site is sourced from feeds provided by third",
-                0),
-            _buildWidgetSpan(
-                " parties, you should be aware that this data may be subject to a time",
-                2),
-            _buildWidgetSpan(
-                " delay and/or be inaccurate. Please also be aware that other",
-                22),
-            _buildWidgetSpan(
-                " StakeFair customers may have access to data that is faster and/or ",
-                0),
-            _buildWidgetSpan(
-                "more accurate than the data shown on the StakeFair site. If you rely",
-                6),
-            _buildWidgetSpan(
-                "on this data to place bets, you do so entirely at your own risk.",
-                20),
-            _buildWidgetSpan(
-                " StakeFair provides this data AS IS with no warranty as to the ,",
-                0),
-            _buildWidgetSpan(
-                "accuracy completeness or timeliness of such data and accepts no",
-                10),
-            _buildWidgetSpan(
-                " responsibility for any loss (direct or indirect) suffered by you as a",
-                20),
-            _buildWidgetSpan(" result of your reliance on it.", 115),
+            
           ],
         ),
       ),
     );
-  }
+}
 
-  InlineSpan _buildWidgetSpan(String text, double horizontalPadding) {
-    return WidgetSpan(
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
-        child: Text(
-          text,
-          style: TextStyle(
-            fontSize: 11.sp,
-            color: Colors.black,
-          ),
-          maxLines: 1,
-        ),
-      ),
-    );
-  }
+
 
   Widget _buildText(String title) {
     return AutoSizeText(

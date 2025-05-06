@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:stake_fair_app/res/routs/app_routs_name.dart';
+import 'package:stake_fair_app/view/screens/Menu/menu_screen.dart';
 import 'package:stake_fair_app/view/screens/authentication/forgotten_password.dart';
 import 'package:stake_fair_app/view/screens/authentication/login_screen.dart';
 import 'package:stake_fair_app/view/screens/authentication/sign_up_screen.dart';
@@ -14,9 +15,10 @@ class AppRouts {
     GetPage(name: RoutsName.signup, page: () =>  SignUpScreen()),
     GetPage(name: RoutsName.forgotpass, page: () =>  ForgottenPassword()),
     GetPage(name: RoutsName.homeScreen, page: () =>  HomeScreen()),
-    GetPage(name: RoutsName.virsion, page: () => const VersionCheck()),
+    GetPage(name: RoutsName.virsion, page: () =>  VersionCheck()),
     GetPage(name: RoutsName.inplay, page: () =>  InplayScreen()),
     GetPage(name: RoutsName.ruleScreen, page: () =>  RulesScreen()),
+    GetPage(name: RoutsName.menuScreen, page: () =>  MenuScreen()),
   ];
   
 }

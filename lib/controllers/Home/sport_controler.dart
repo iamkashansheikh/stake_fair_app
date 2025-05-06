@@ -42,6 +42,6 @@ class SportsController extends GetxController {
 
   /// 🔹 Get the right Flutter icon for sport
   IconData getIconForSport(String? sportName) {
-    return sportIcons[sportName] ?? Icons.sports; // default icon if not found
+    return sportIcons[sportName] ?? Icons.sports; 
   }
 }
