@@ -419,7 +419,6 @@ class _MarketScreenState extends State<MarketScreen> {
         width: double.infinity.w,
         height: 28.h,
         padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 5.h),
-        //decoration: BoxDecoration(border: Border(top: BorderSide(width: 0.3))),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
