@@ -9,8 +9,8 @@ import 'package:stake_fair_app/scrollable.dart';
 import 'package:stake_fair_app/view/screens/cash_out/sportdropdown.dart';
 import 'package:stake_fair_app/view/screens/cash_out/widget.dart';
 
-class CashoutScreen extends StatelessWidget {
-  CashoutScreen({super.key});
+class MyBetsScreen extends StatelessWidget {
+  MyBetsScreen({super.key});
   final HomeController homeController = Get.put(HomeController());
   @override
   Widget build(BuildContext context) {
@@ -32,9 +32,9 @@ class CashoutScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         CustomContainer(
-                          title: 'Cash Out ',
+                          title: 'My Bets',
                           iconColor: Colors.white,
-                          leftIcon: Icons.account_balance_wallet,
+                          leftIcon: Icons.attach_money,
                           rightIcon: Icons.refresh,
                           color: AppColors.blackthemeColor,
                           height: 30.h,
@@ -50,23 +50,12 @@ class CashoutScreen extends StatelessWidget {
                           height: 100.h,
                           color: Colors.white,
                           child: Center(
-                              child: Text('Please Log in, in order to see your Cash Out Markets',
+                              child: Text('Please Login,to see your Bets',
                                  style: TextStyle(fontSize: 11.sp),
                           )),
                         ),
-                        SizedBox(height: 3.h),
-                        CustomContainer(
-                          title: 'Cash Out Multiples ',
-                          color: Colors.white,
-                          rightIcon: Icons.keyboard_arrow_right,
-                          height: 33.h,
-                          width: double.infinity,
-                          textStyle: TextStyle(
-                            fontSize: 11.sp,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(height: 3.h),
+                       
+                        SizedBox(height: 5.h),
                         CustomContainer(
                           title: 'Popular Competitions',
                           color: Colors.white,

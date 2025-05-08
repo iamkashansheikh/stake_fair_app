@@ -102,16 +102,21 @@ class MenuScreen extends StatelessWidget {
                       label: 'Menu',
                       icon: Icons.menu,
                       onTap: () => homeController.changeIndex(1)),
-                  _buildNavItem(
-                      index: 2,
-                      label: 'CashOut',
-                      icon: Icons.account_balance_wallet,
-                      onTap: () => homeController.changeIndex(2)),
-                  _buildNavItemWithAsset(
-                      index: 3,
-                      label: 'MyBets',
-                      assetPath: 'assets/images/money.png',
-                      onTap: () => homeController.changeIndex(3)),
+              _buildNavItem(
+                  index: 2,
+                  label: 'CashOut',
+                  icon: Icons.account_balance_wallet,
+                  onTap: () {
+                    homeController.changeIndex(2);
+                    Get.toNamed('/CashoutScreen');
+                  }),
+              _buildNavItemWithAsset(
+                  index: 3,
+                  label: 'MyBets',
+                  assetPath: 'assets/images/money.png',
+                  onTap: () {
+                    homeController.changeIndex(3);
+                    Get.toNamed('/MyBetsScreen');}),
                   _buildNavItemWithAsset(
                       index: 4,
                       label: 'Casino',

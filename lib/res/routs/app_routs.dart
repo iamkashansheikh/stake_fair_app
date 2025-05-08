@@ -4,9 +4,11 @@ import 'package:stake_fair_app/view/screens/Menu/menu_screen.dart';
 import 'package:stake_fair_app/view/screens/authentication/forgotten_password.dart';
 import 'package:stake_fair_app/view/screens/authentication/login_screen.dart';
 import 'package:stake_fair_app/view/screens/authentication/sign_up_screen.dart';
+import 'package:stake_fair_app/view/screens/cash_out/cashout_screen.dart';
 import 'package:stake_fair_app/view/screens/home_screen.dart';
 import 'package:stake_fair_app/view/screens/inplay_screen.dart';
 import 'package:stake_fair_app/view/screens/markets/rules.dart';
+import 'package:stake_fair_app/view/screens/mybets.dart';
 import 'package:stake_fair_app/virsionCheck/virsion_check.dart';
 
 class AppRouts {
@@ -19,6 +21,8 @@ class AppRouts {
     GetPage(name: RoutsName.inplay, page: () =>  InplayScreen()),
     GetPage(name: RoutsName.ruleScreen, page: () =>  RulesScreen()),
     GetPage(name: RoutsName.menuScreen, page: () =>  MenuScreen()),
+    GetPage(name: RoutsName.CashoutScreen, page: () =>  CashoutScreen()),
+    GetPage(name: RoutsName.MyBetsScreen, page: () =>  MyBetsScreen()),
   ];
   
 }
