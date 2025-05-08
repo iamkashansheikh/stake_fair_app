@@ -108,26 +108,38 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  _buildNavItem(
-                      index: 0,
-                      label: 'Home',
-                      icon: Icons.home,
-                      onTap: (){homeController.changeIndex(0);Get.toNamed('/homeScreen'); }),
-                  _buildNavItem(
-                      index: 1,
-                      label: 'Menu',
-                      icon: Icons.menu,
-                      onTap: (){homeController.changeIndex(1); Get.toNamed('/menuScreen'); }),
-                  _buildNavItem(
-                      index: 2,
-                      label: 'CashOut',
-                      icon: Icons.account_balance_wallet,
-                      onTap: () => homeController.changeIndex(2)),
-                  _buildNavItemWithAsset(
-                      index: 3,
-                      label: 'MyBets',
-                      assetPath: 'assets/images/money.png',
-                      onTap: () => homeController.changeIndex(3)),
+               _buildNavItem(
+                  index: 0,
+                  label: 'Home',
+                  icon: Icons.home,
+                  onTap: () {
+                    homeController.changeIndex(0);
+                    Get.toNamed('/homeScreen');
+                  }),
+              _buildNavItem(
+                  index: 1,
+                  label: 'Menu',
+                  icon: Icons.menu,
+                  onTap: () {
+                    homeController.changeIndex(1);
+                    Get.toNamed('/menuScreen');
+                  }),
+              _buildNavItem(
+                  index: 2,
+                  label: 'CashOut',
+                  icon: Icons.account_balance_wallet,
+                  onTap: () {
+                    homeController.changeIndex(2);
+                    Get.toNamed('/CashoutScreen');
+                  }),
+              _buildNavItemWithAsset(
+                  index: 3,
+                  label: 'MyBets',
+                  assetPath: 'assets/images/money.png',
+                  onTap: () {
+                    homeController.changeIndex(3);
+                    Get.toNamed('/MyBetsScreen');
+                  }),
                   _buildNavItemWithAsset(
                       index: 4,
                       label: 'Casino',

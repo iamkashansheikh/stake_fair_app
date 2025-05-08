@@ -10,6 +10,7 @@ class CustomContainer extends StatelessWidget {
   final double? width;
   final Color? color;
   final TextStyle? textStyle;
+  final Color? iconColor;
 
   const CustomContainer({
     super.key,
@@ -20,6 +21,7 @@ class CustomContainer extends StatelessWidget {
     this.width,
     this.color,
     this.textStyle,
+    this.iconColor,
   });
 
   @override
@@ -31,7 +33,9 @@ class CustomContainer extends StatelessWidget {
         decoration: BoxDecoration(
           color: color ?? Colors.grey[200],
         ),
-        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
+        padding: EdgeInsets.symmetric(
+          horizontal: 12.w,
+        ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -41,6 +45,7 @@ class CustomContainer extends StatelessWidget {
                   Icon(
                     leftIcon,
                     size: 18.sp,
+                    color: iconColor,
                   ),
                 if (leftIcon != null) SizedBox(width: 8.w),
                 Text(
@@ -48,18 +53,16 @@ class CustomContainer extends StatelessWidget {
                   style: textStyle ??
                       TextStyle(
                         fontSize: 12.sp,
-                        fontWeight: FontWeight.w500,
                         color: Colors.black,
                       ),
                 ),
               ],
             ),
-
-            // Right icon (if provided)
             if (rightIcon != null)
               Icon(
                 rightIcon,
                 size: 18.sp,
+                color: iconColor,
               ),
           ],
         ),
