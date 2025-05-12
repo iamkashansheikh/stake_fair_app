@@ -17,7 +17,7 @@ class BaseResponsiveScreen extends StatelessWidget {
         final double textScale = mq.textScaleFactor.clamp(1.0, 1.2);
 
         return MediaQuery(
-          data: mq.copyWith(textScaleFactor: textScale),
+          data: mq.copyWith(textScaler: TextScaler.linear(textScale)),
           child: childWidget!,
         );
       },

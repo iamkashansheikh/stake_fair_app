@@ -52,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       _buildSection('Most Popular Bets', 'icon', 'label', 'sub'),
                       _buildHorseRacingSection('Horse Racing'),
                       _buildContainer('Quick Links'),
-                      _buildQuickLinksSection('name', 'icon'),
+                      _buildQuickLinksSection('name','icon'),
                       _buildFooter(mediaQuery, textScale),
                       _buildWarningText(),
                        SizedBox(height: 5.h),
@@ -140,7 +140,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     homeController.changeIndex(3);
                     Get.toNamed('/MyBetsScreen');
                   }),
-                  _buildNavItemWithAsset(
+              _buildNavItemWithAsset(
                       index: 4,
                       label: 'Casino',
                       assetPath: 'assets/images/casino-chip (1).png',

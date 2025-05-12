@@ -11,4 +11,7 @@ abstract class RoutsName {
   static const String menuScreen = '/menuScreen';
   static const String CashoutScreen = '/CashoutScreen';
   static const String MyBetsScreen = '/MyBetsScreen';
+  static const String myMarket = '/myMarket';
+  static const String setting = '/setting';
+  static const String selectLanguage = '/selectLanguage';
 }

@@ -37,9 +37,13 @@ class MenuScreen extends StatelessWidget {
                         }, AssetImage('assets/images/inplay.png')),
                         _buildLinks('Promotions', () {},
                             AssetImage('assets/images/promotion.png')),
-                        _buildLinks('My Markets', () {},
+                        _buildLinks('My Markets', () {
+                          Get.toNamed('/myMarket');
+                        },
                             AssetImage('assets/images/myMarket.png')),
-                        _buildLinks('Settings', () {},
+                        _buildLinks('Settings', () {
+                          Get.toNamed('/setting');
+                        },
                             AssetImage('assets/images/setting.png'))
                       ],
                     ),

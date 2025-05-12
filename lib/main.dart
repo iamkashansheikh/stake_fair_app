@@ -5,8 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:stake_fair_app/res/routs/app_routs.dart';
 import 'package:stake_fair_app/res/routs/app_routs_name.dart';
+import 'package:stake_fair_app/view/screens/Menu/My_Markets/my_market.dart';
 import 'package:stake_fair_app/view/screens/app_Loacalization/app_local.dart';
-import 'package:stake_fair_app/view/screens/cash_out/cashout_screen.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
             fallbackLocale: Locale('en', 'US'),
             initialRoute: RoutsName.virsion,
             getPages: AppRouts.pages,
-            //  home:CashoutScreen()
+            //  home:MyMarketScreen()
             );
 
       },
