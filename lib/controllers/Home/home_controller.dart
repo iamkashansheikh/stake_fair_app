@@ -97,4 +97,18 @@ class HomeController extends GetxController {
   void toggleExpanded() {
     isExpanded.value = !isExpanded.value;
   }
+
+  var selectedLang = "English - IRL".obs;
+
+  final languages = <String>[
+    "English - UK",
+    "English - IRL",
+    "Deutsch",
+    "Español",
+    "Suomi",
+  ];
+
+  void selectLanguage(String lang) {
+    selectedLang.value = lang;
+  }
 }

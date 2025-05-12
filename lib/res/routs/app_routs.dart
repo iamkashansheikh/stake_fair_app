@@ -1,5 +1,8 @@
 import 'package:get/get.dart';
 import 'package:stake_fair_app/res/routs/app_routs_name.dart';
+import 'package:stake_fair_app/view/screens/Menu/My_Markets/my_market.dart';
+import 'package:stake_fair_app/view/screens/Menu/Settings/select_language.dart';
+import 'package:stake_fair_app/view/screens/Menu/Settings/setting.dart';
 import 'package:stake_fair_app/view/screens/Menu/menu_screen.dart';
 import 'package:stake_fair_app/view/screens/authentication/forgotten_password.dart';
 import 'package:stake_fair_app/view/screens/authentication/login_screen.dart';
@@ -23,6 +26,9 @@ class AppRouts {
     GetPage(name: RoutsName.menuScreen, page: () =>  MenuScreen()),
     GetPage(name: RoutsName.CashoutScreen, page: () =>  CashoutScreen()),
     GetPage(name: RoutsName.MyBetsScreen, page: () =>  MyBetsScreen()),
+    GetPage(name: RoutsName.myMarket, page: () =>  MyMarketScreen()),
+    GetPage(name: RoutsName.setting, page: () =>  SettingScreen()),
+    GetPage(name: RoutsName.selectLanguage, page: () =>  SelectLanguageScreen()),
   ];
   
 }

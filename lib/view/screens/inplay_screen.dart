@@ -68,7 +68,7 @@ class _InplayScreenState extends State<InplayScreen> {
                                   ),
                                 ),
                                 child:  Icon(Icons.sports_soccer,
-                                    color: Colors.black,size: 18.r,),
+                                    color: Colors.black,size: 18.sp,),
                               ),
                               onTap: () =>
                                   inplayController.selectedIndex.value = 0),
@@ -93,7 +93,7 @@ class _InplayScreenState extends State<InplayScreen> {
                                 ),
                               ),
                               child:  Icon(Icons.sports_tennis,
-                                  color: Colors.black,size: 18.r,),
+                                  color: Colors.black,size: 18.sp,),
                             ),
                             onTap: () =>
                                 inplayController.selectedIndex.value = 1,
@@ -116,7 +116,7 @@ class _InplayScreenState extends State<InplayScreen> {
                                 ),
                               ),
                               child:  Icon(Icons.sports_cricket,
-                                  color: Colors.black,size: 18.r,),
+                                  color: Colors.black,size: 18.sp,),
                             ),
                             onTap: () =>
                                 inplayController.selectedIndex.value = 2,
@@ -146,7 +146,7 @@ class _InplayScreenState extends State<InplayScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text('South Korean Soccer',style: TextStyle(fontSize: 11.sp),),
-                            Icon(Icons.keyboard_arrow_right,size: 18.r,)
+                            Icon(Icons.keyboard_arrow_right,size: 18.sp,)
                           ],
                         ),
                       ),
@@ -267,7 +267,7 @@ class _InplayScreenState extends State<InplayScreen> {
     );
   }
 
- PreferredSizeWidget _buildAppBar(BuildContext context) {
+  PreferredSizeWidget _buildAppBar(BuildContext context) {
     return PreferredSize(
       preferredSize:Size.fromHeight(40.h),
       child: Container(
@@ -414,7 +414,7 @@ class _InplayScreenState extends State<InplayScreen> {
 
   Widget _buildContainer(String title, Icon icon) {
     return Container(
-      width: double.infinity,
+      width: 10.sw,
       height: 28.h,
       color: AppColors.blackthemeColor,
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
@@ -422,7 +422,7 @@ class _InplayScreenState extends State<InplayScreen> {
         children: [
           icon,
           SizedBox(
-            width: MediaQuery.of(context).size.width * 0.02,
+            width: 7.w
           ),
           Padding(
             padding: const EdgeInsets.only(top: 1),
@@ -757,7 +757,7 @@ class _InplayScreenState extends State<InplayScreen> {
           Text(
             odds,
             style:  TextStyle(
-                fontWeight: FontWeight.w600, fontSize: 14.sp, height: 1.0),
+                fontWeight: FontWeight.w600, fontSize: 12.sp, height: 1.0),
           ),
           Text(
             amount,
@@ -768,7 +768,7 @@ class _InplayScreenState extends State<InplayScreen> {
     );
   }
 
-    Widget _buildFooter(Size mediaQuery, double textScale) {
+  Widget _buildFooter(Size mediaQuery, double textScale) {
     return Container(
       height: mediaQuery.height * 0.052.h,
       width: mediaQuery.width.w,
@@ -824,7 +824,7 @@ class _InplayScreenState extends State<InplayScreen> {
     );
   }
 
- Widget _buildWarningText() {
+  Widget _buildWarningText() {
  return Padding(
       padding:  EdgeInsets.all(10.0.r),
       child: RichText(
