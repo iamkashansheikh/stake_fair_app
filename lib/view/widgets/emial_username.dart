@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class EmailUsername extends StatefulWidget {
@@ -61,17 +62,17 @@ class _EmailUsernameState extends State<EmailUsername> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 3),
+      padding: EdgeInsets.symmetric(horizontal: 3.w),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
             decoration: BoxDecoration(
               color: widget.color ?? Colors.black.withOpacity(0.07),
-              borderRadius: BorderRadius.circular(3),
+              borderRadius: BorderRadius.circular(3.r),
             ),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 2),
+              padding:  EdgeInsets.symmetric(horizontal: 9.0.w, vertical: 1.h),
               child: TextField(
                 controller: widget.controller,
                 focusNode: widget.focusNode,
@@ -86,10 +87,10 @@ class _EmailUsernameState extends State<EmailUsername> {
                   prefixIcon: widget.isPrefixIcon ? widget.prefixIcon : null,
                   suffixIcon: widget.isSuffixIcon ? widget.suffixIcon : null,
                   labelText: widget.hintText,
-                  labelStyle: const TextStyle(color: Colors.grey,fontSize: 12,fontWeight: FontWeight.w500),
+                  labelStyle:  TextStyle(color: Colors.grey,fontSize: 11.sp),
                   hintStyle: const TextStyle(color: Colors.grey),
                   counterText: "",
-                  contentPadding: const EdgeInsets.symmetric(vertical: 2),
+                  contentPadding:  EdgeInsets.symmetric(vertical: 1.h),
                   border: InputBorder.none,
                 ),
                 onChanged: (value) {

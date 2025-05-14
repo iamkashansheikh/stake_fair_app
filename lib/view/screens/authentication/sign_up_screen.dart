@@ -111,7 +111,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             SizedBox(height: mediaQuerySize.height * 0.02),
                             PasswordFieldWidget(
                               controller: passwordfieldController,
-                              lableText: 'password'.tr,
+                              labelText: 'password'.tr,
                             ),
             
                             SizedBox(height: mediaQuerySize.height * 0.02),
