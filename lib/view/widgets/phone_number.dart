@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:stake_fair_app/main.dart';
 import 'package:stake_fair_app/res/responsive.dart';
 
 class PhoneNumber extends StatefulWidget {
@@ -72,7 +71,7 @@ class _PhoneNumberState extends State<PhoneNumber> {
                 border: Border(
                   bottom: BorderSide(
                     color: borderColor,
-                    width: 1, // ✅ Border thickness
+                    width: 0.5 // ✅ Border thickness
                   ),
                 ),
               ),

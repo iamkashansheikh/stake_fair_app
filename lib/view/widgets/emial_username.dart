@@ -51,11 +51,11 @@ class _EmailUsernameState extends State<EmailUsername> {
 
   void _handleFocusChange() {
     if (widget.focusNode.hasFocus) {
-      borderColor.value = Color(0xffffb80c); // Orange when focused
+      borderColor.value = const Color(0xffffb80c); // Orange on focus
     } else if (isTextEntered.value) {
-      borderColor.value = Colors.green; // Green if text was entered
+      borderColor.value = Colors.green; // Green when text entered
     } else {
-      borderColor.value = Colors.transparent; // Default when empty
+      borderColor.value = Colors.transparent; // Default
     }
   }
 
@@ -66,52 +66,55 @@ class _EmailUsernameState extends State<EmailUsername> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            decoration: BoxDecoration(
-              color: widget.color ?? Colors.black.withOpacity(0.07),
-              borderRadius: BorderRadius.circular(3.r),
-            ),
-            child: Padding(
-              padding:  EdgeInsets.symmetric(horizontal: 9.0.w, vertical: 1.h),
-              child: TextField(
-                controller: widget.controller,
-                focusNode: widget.focusNode,
-                obscureText: widget.obscureText,
-                keyboardType: widget.keyboardType,
-                maxLength: widget.maxLength,
-                inputFormatters: widget.inputFormatters,
-                maxLines: 1,
-                textAlignVertical: TextAlignVertical.center,
-                style: const TextStyle(color: Colors.black),
-                decoration: InputDecoration(
-                  prefixIcon: widget.isPrefixIcon ? widget.prefixIcon : null,
-                  suffixIcon: widget.isSuffixIcon ? widget.suffixIcon : null,
-                  labelText: widget.hintText,
-                  labelStyle:  TextStyle(color: Colors.grey,fontSize: 11.sp),
-                  hintStyle: const TextStyle(color: Colors.grey),
-                  counterText: "",
-                  contentPadding:  EdgeInsets.symmetric(vertical: 1.h),
-                  border: InputBorder.none,
-                ),
-                onChanged: (value) {
-                  isTextEntered.value = value.isNotEmpty; // Track if text was entered
-                  widget.onChanged?.call(value);
-                  _handleFocusChange(); // Call focus change to update border color
-                },
-              ),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 2),
-            child: Obx(
-              () => AnimatedContainer(
+          Obx(() => AnimatedContainer(
                 duration: const Duration(milliseconds: 300),
-                height: 1,
-                width: double.infinity,
-                color: borderColor.value,
-              ),
-            ),
-          ),
+                decoration: BoxDecoration(
+                  color: widget.color ?? Colors.black.withOpacity(0.07),
+                  borderRadius: BorderRadius.circular(5.r),
+                  border: Border(
+                    bottom: BorderSide(
+                      color: borderColor.value,
+                      width: 0.5,
+                    ),
+                  ),
+                ),
+                child: Padding(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 9.0.w, vertical: 1.h),
+                  child: TextField(
+                     cursorColor: Colors.black,
+                  cursorWidth: 1.w,
+                  cursorHeight: 18.h,
+                    controller: widget.controller,
+                    focusNode: widget.focusNode,
+                    obscureText: widget.obscureText,
+                    keyboardType: widget.keyboardType,
+                    maxLength: widget.maxLength,
+                    inputFormatters: widget.inputFormatters,
+                    maxLines: 1,
+                    textAlignVertical: TextAlignVertical.center,
+                    style: const TextStyle(color: Colors.black),
+                    decoration: InputDecoration(
+                      prefixIcon:
+                          widget.isPrefixIcon ? widget.prefixIcon : null,
+                      suffixIcon:
+                          widget.isSuffixIcon ? widget.suffixIcon : null,
+                      labelText: widget.hintText,
+                      labelStyle:
+                          TextStyle(color: Colors.grey, fontSize: 11.sp),
+                      hintStyle: const TextStyle(color: Colors.grey),
+                      counterText: "",
+                      contentPadding: EdgeInsets.symmetric(vertical: 1.h),
+                      border: InputBorder.none,
+                    ),
+                    onChanged: (value) {
+                      isTextEntered.value = value.isNotEmpty;
+                      widget.onChanged?.call(value);
+                      _handleFocusChange();
+                    },
+                  ),
+                ),
+              )),
         ],
       ),
     );

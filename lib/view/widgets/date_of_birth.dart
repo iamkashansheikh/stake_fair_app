@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:stake_fair_app/res/responsive.dart';
 
 class DateOfBirthField extends StatefulWidget {
   final FocusNode focusNode;
@@ -17,7 +19,7 @@ class DateOfBirthField extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _DateOfBirthFieldState createState() => _DateOfBirthFieldState();
+  State<DateOfBirthField> createState() => _DateOfBirthFieldState();
 }
 
 class _DateOfBirthFieldState extends State<DateOfBirthField> {
@@ -32,18 +34,16 @@ class _DateOfBirthFieldState extends State<DateOfBirthField> {
   }
 
   void _handleFocusChange() {
-    if (widget.focusNode.hasFocus) {
-      borderColor.value = Color(0xffffb80c); // Orange when focused
-    } else if (isTextEntered.value) {
-      borderColor.value = Colors.green; // Green if valid
-    } else {
-      borderColor.value = Colors.transparent; // Default
-    }
+    borderColor.value = widget.focusNode.hasFocus
+        ? const Color(0xffffb80c)
+        : isTextEntered.value
+            ? Colors.green
+            : Colors.transparent;
   }
 
-  void _pickDate() async {
-    FocusScope.of(context).unfocus(); // Close keyboard
-    final DateTime? pickedDate = await showDatePicker(
+  Future<void> _pickDate() async {
+    FocusScope.of(context).unfocus();
+    final pickedDate = await showDatePicker(
       context: context,
       initialDate: DateTime(2000),
       firstDate: DateTime(1900),
@@ -77,65 +77,53 @@ class _DateOfBirthFieldState extends State<DateOfBirthField> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 3),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          GestureDetector(
-            onTap: _pickDate,
-            child: AbsorbPointer(
+    return Obx(() {
+      return BaseResponsiveScreen(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            GestureDetector(
+              onTap: _pickDate,
               child: Container(
+                height: 42.h,
+                padding: EdgeInsets.symmetric(horizontal: 9.0.w, vertical: 1.h),
                 decoration: BoxDecoration(
-                  color: widget.color ?? Colors.black.withOpacity(0.07),
-                  borderRadius: BorderRadius.circular(3),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 2),
+                    color: widget.color ?? Colors.black.withOpacity(0.07),
+                    borderRadius: BorderRadius.circular(4.r),
+                    border: Border(
+                        bottom:
+                            BorderSide(color: borderColor.value, width: 0.5))),
+                child: AbsorbPointer(
                   child: TextField(
                     controller: widget.controller,
                     focusNode: widget.focusNode,
                     style: const TextStyle(color: Colors.black),
                     decoration: InputDecoration(
                       labelText: widget.hintText ?? 'Date of Birth',
-                      labelStyle: const TextStyle(
+                      labelStyle: TextStyle(
                         color: Colors.grey,
-                        fontSize: 12,
+                        fontSize: 11.sp,
                         fontWeight: FontWeight.w500,
                       ),
-                      hintStyle: const TextStyle(color: Colors.grey),
-                      counterText: "",
-                      contentPadding: const EdgeInsets.symmetric(vertical: 2),
                       border: InputBorder.none,
-                      suffixIcon: const Icon(Icons.calendar_today, size: 20, color: Colors.grey),
+                      suffixIcon: Icon(Icons.calendar_today,
+                          size: 18.sp, color: Colors.grey),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 2),
-            child: Obx(
-              () => AnimatedContainer(
-                duration: const Duration(milliseconds: 300),
-                height: 1,
-                width: double.infinity,
-                color: borderColor.value,
+            if (errorText.value.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.only(top: 4, left: 5),
+                child: Text(
+                  errorText.value,
+                  style: TextStyle(color: Colors.red, fontSize: 10.sp),
+                ),
               ),
-            ),
-          ),
-          Obx(() => errorText.value.isNotEmpty
-              ? Padding(
-                  padding: const EdgeInsets.only(top: 4, left: 5),
-                  child: Text(
-                    errorText.value,
-                    style: const TextStyle(color: Colors.red, fontSize: 11),
-                  ),
-                )
-              : SizedBox.shrink()),
-        ],
-      ),
-    );
+          ],
+        ),
+      );
+    });
   }
 }

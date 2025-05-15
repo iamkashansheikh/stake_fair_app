@@ -10,7 +10,8 @@ import 'package:stake_fair_app/view/screens/authentication/forgotten_password.da
 import 'package:stake_fair_app/view/screens/authentication/sign_up_screen.dart';
 import 'package:stake_fair_app/view/screens/authentication/username_screen.dart';
 import 'package:stake_fair_app/view/widgets/emial_username.dart';
-import 'package:stake_fair_app/view/widgets/password_validation_screen.dart' show PasswordFieldWidget;
+import 'package:stake_fair_app/view/widgets/password_validation_screen.dart'
+    show PasswordFieldWidget;
 import '../../../controllers/getx_controller/auth_controller.dart';
 import '../../../controllers/getx_controller/password_controller.dart';
 import '../../widgets/country_code_picker.dart';
@@ -57,16 +58,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(height: 5.h),
                     PasswordFieldWidget(
                       controller: passwordFieldController,
-                       labelText: 'Password',
+                      labelText: 'Password',
                     ),
                     _buildForgotSection(size),
                     SizedBox(height: size.height * 0.03),
                     Center(
                       child: RoundButtonWidget(
-                        title: 'Login',
-                        width: 300.w,
-                        height: 35.h
-                      ),
+                          title: 'Login', width: 300.w, height: 35.h),
                     ),
                     SizedBox(height: size.height * 0.02),
                     _buildSignUpSection(size),
@@ -75,7 +73,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(height: size.height * 0.02),
                     _buildSocialIconsRow(),
                     SizedBox(height: size.height * 0.26),
-                    Divider(thickness: 0.3,),
+                    Divider(
+                      thickness: 0.3,
+                    ),
                     _buildBottomLogos(size),
                   ],
                 ),
@@ -140,7 +140,7 @@ class _LoginScreenState extends State<LoginScreen> {
             style: TextStyle(fontSize: 22.sp, fontWeight: FontWeight.bold)),
         Container(
           height: size.height * 0.05,
-          width: size.width * 0.21,
+          width: size.width * 0.19,
           decoration: BoxDecoration(
             color: Colors.black.withOpacity(0.07),
             borderRadius: BorderRadius.circular(20.r),
@@ -165,8 +165,8 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               if (controller.selectedIcon.value == value)
                 Container(
-                  width: 30.w,
-                  height: 30.h,
+                  width: 28.w,
+                  height: 28.h,
                   decoration: BoxDecoration(
                       shape: BoxShape.circle, color: AppColors.buttonColor),
                 ),
@@ -188,8 +188,8 @@ class _LoginScreenState extends State<LoginScreen> {
     return GestureDetector(
       onTap: passwordController.isChecked.toggle,
       child: Obx(() => Padding(
-        padding:  EdgeInsets.symmetric(horizontal: 1.w),
-        child: Row(
+            padding: EdgeInsets.symmetric(horizontal: 1.w),
+            child: Row(
               children: [
                 Icon(
                   passwordController.isChecked.value
@@ -203,7 +203,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Text('Remember me', style: TextStyle(fontSize: 11.sp)),
               ],
             ),
-      )),
+          )),
     );
   }
 
@@ -255,7 +255,8 @@ class _LoginScreenState extends State<LoginScreen> {
         Expanded(child: Divider()),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: Text('OR', style: TextStyle(fontWeight: FontWeight.w500,fontSize: 12.sp)),
+          child: Text('OR',
+              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 12.sp)),
         ),
         Expanded(child: Divider()),
       ],
@@ -264,7 +265,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget _buildSocialIconsRow() {
     return Padding(
-      padding:  EdgeInsets.symmetric(horizontal: 35.w),
+      padding: EdgeInsets.symmetric(horizontal: 35.w),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -305,9 +306,4 @@ class _LoginScreenState extends State<LoginScreen> {
       ],
     );
   }
-
 }
-
-
-
-

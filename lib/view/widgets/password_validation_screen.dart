@@ -49,7 +49,7 @@ class _PasswordFieldWidgetState extends State<PasswordFieldWidget> {
     return Row(
       children: [
         Icon(
-          isValid ? Icons.check_circle : Icons.cancel,
+          isValid ? Icons.check_circle_outline : Icons.cancel_outlined,
           color: isValid ? Colors.green : Colors.red,
           size: 16.sp,
         ),
@@ -88,11 +88,14 @@ class _PasswordFieldWidgetState extends State<PasswordFieldWidget> {
                               : isFieldFocused.value
                                   ? const Color(0xffffb80c)
                                   : Colors.transparent,
-                      width: 1,
+                      width: 0.5,
                     ),
                   ),
                 ),
                 child: TextField(
+                   cursorColor: Colors.black,
+                  cursorWidth: 1.w,
+                  cursorHeight: 18.h,
                   controller: widget.controller,
                   focusNode: focusNode,
                   obscureText: !isPasswordVisible.value,
@@ -127,7 +130,7 @@ class _PasswordFieldWidgetState extends State<PasswordFieldWidget> {
               if (validationController.isPasswordStrong.value) {
                 return Row(
                   children: [
-                    Icon(Icons.check_circle, color: Colors.green, size: 16.sp),
+                    Icon(Icons.check_circle_outline, color: Colors.green, size: 16.sp),
                     SizedBox(width: 5.w),
                     Text(
                       "Strong. Well done!",

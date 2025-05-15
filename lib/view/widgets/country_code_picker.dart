@@ -80,7 +80,7 @@ class _CountryCodePickerWidgetState extends State<CountryCodePickerWidget> {
                           border: Border(
                             bottom: BorderSide(
                               color: Colors.green,
-                              width: 1,
+                              width: 0.5
                             ),
                           ),
                         ),
