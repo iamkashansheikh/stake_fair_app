@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:stake_fair_app/res/responsive.dart';
 
 class CustomField extends StatefulWidget {
   final bool isPrefixIcon;
@@ -41,13 +43,14 @@ class CustomField extends StatefulWidget {
 
 class _CustomFieldState extends State<CustomField> {
   String? _errorText;
-  Color _borderColor = Colors.transparent;
+  bool _isFocused = false;
+  bool _isValid = false;
 
   void _validate() {
     final error = widget.validator?.call(widget.controller?.text ?? "");
     setState(() {
-      _errorText = error; // Ensure error message is set
-      _borderColor = (error == null) ? Colors.orange : Color(0xffD65151);
+      _errorText = error;
+      _isValid = error == null && widget.controller?.text.isNotEmpty == true;
     });
   }
 
@@ -55,95 +58,98 @@ class _CustomFieldState extends State<CustomField> {
   void initState() {
     super.initState();
     widget.focusNode.addListener(() {
+      setState(() {
+        _isFocused = widget.focusNode.hasFocus;
+      });
       if (!widget.focusNode.hasFocus) {
         _validate();
       }
     });
   }
 
+  Color get _borderColor {
+    if (_errorText != null && _errorText!.isNotEmpty) {
+      return const Color(0xffD65151); // red
+    } else if (_isValid || _isFocused) {
+      return const Color(0xffffb80c); // orange
+    } else {
+      return Colors.transparent;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 3),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            height: 48,
-            decoration: BoxDecoration(
-              color: widget.color ?? Colors.black.withOpacity(0.07),
-              borderRadius: BorderRadius.circular(3),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 6.0, vertical: 2),
-              child: Focus(
-                onFocusChange: (hasFocus) {
-                  setState(() {
-                    _borderColor = hasFocus ? Color(0xffffb80c) : Colors.transparent;
-                  });
-                },
-                child: TextField(
-                  controller: widget.controller,
-                  focusNode: widget.focusNode,
-                  obscureText: widget.obscureText,
-                  keyboardType: widget.keyboardType,
-                  maxLength: widget.maxLength,
-                  inputFormatters: widget.inputFormatters,
-                  maxLines: 1,
-                  textAlignVertical: TextAlignVertical.center,
-                  style: const TextStyle(
-                    color: Colors.black,
+    return BaseResponsiveScreen(
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 1.9.w),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: 42.h,
+              decoration: BoxDecoration(
+                color: widget.color ?? Colors.black.withOpacity(0.07),
+                borderRadius: BorderRadius.circular(3.r),
+                border: Border(
+                  bottom: BorderSide(
+                    color: _borderColor,
+                    width: 0.5,
                   ),
-                  decoration: InputDecoration(
-                    prefixIcon: widget.isPrefixIcon ? widget.prefixIcon : null,
-                    suffixIcon: widget.isSuffixIcon ? widget.suffixIcon : null,
-                    labelText: widget.hintText,
-                    labelStyle: const TextStyle(color: Colors.grey),
-                    hintStyle: const TextStyle(color: Colors.grey),
-                    counterText: "",
-                    contentPadding: const EdgeInsets.symmetric(vertical: 2,horizontal: 4),
-                    border: InputBorder.none,
-                  ),
-                  onChanged: (value) {
-                    _validate();
-                    widget.onChanged?.call(value);
-                  },
                 ),
               ),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 2),
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 300),
-              height: 1,
-              width: double.infinity,
-              color: _borderColor,
-            ),
-          ),
-          if (_errorText != null && _errorText!.isNotEmpty)
-            Padding(
-              padding: const EdgeInsets.only(top: 5),
-              child: Row(
-                children: [
-                  Icon(Icons.cancel, color: Colors.red, size: 14), // ❌ Icon before text
-                  SizedBox(width: 5),
-                  Expanded( // Ensures text does not overflow
-                    child: Text(
-                      _errorText!,
-                      style: const TextStyle(color: Colors.red, fontSize: 12),
-                      overflow: TextOverflow.ellipsis, // Prevents overflow issues
-                    ),
-                  ),
-                ],
+              padding: EdgeInsets.symmetric(horizontal: 9.0.w),
+              alignment: Alignment.center,
+              child: TextField(
+                
+                 cursorColor: Colors.black,
+                  cursorWidth: 1.w,
+                  cursorHeight: 18.h,
+                controller: widget.controller,
+                focusNode: widget.focusNode,
+                obscureText: widget.obscureText,
+                keyboardType: TextInputType.emailAddress,
+                maxLength: widget.maxLength,
+                inputFormatters: widget.inputFormatters,
+                maxLines: 1,
+                textAlignVertical: TextAlignVertical.center,
+                style: const TextStyle(color: Colors.black),
+                decoration: InputDecoration(
+                  
+                  prefixIcon: widget.isPrefixIcon ? widget.prefixIcon : null,
+                  suffixIcon: widget.isSuffixIcon ? widget.suffixIcon : null,
+                  labelText: widget.hintText,
+                  labelStyle:  TextStyle(color: Colors.grey,fontSize: 11.sp),
+                  hintStyle: const TextStyle(color: Colors.grey),
+                  counterText: "",
+                   contentPadding:  EdgeInsets.symmetric(vertical: 1.h),
+                  border: InputBorder.none,
+                ),
+                onChanged: (value) {
+                  _validate();
+                  widget.onChanged?.call(value);
+                },
               ),
             ),
-        ],
+            if (_errorText != null && _errorText!.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.only(top: 5),
+                child: Row(
+                  children: [
+                     Icon(Icons.cancel_outlined, color: Colors.red, size: 16.sp),
+                     SizedBox(width: 5.w),
+                    Expanded(
+                      child: Text(
+                        _errorText!,
+                        style:  TextStyle(fontSize: 10.sp),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+          ],
+        ),
       ),
     );
   }
 }
-
-
-
-

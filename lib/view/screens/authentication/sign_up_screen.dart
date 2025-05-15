@@ -48,13 +48,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return null; // ✅ Valid input
   }
 
-  // String? validateEmail(String? value) {
-  //   if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value!)) {
-  //     return "Enter a valid email".tr;
-  //   }
-  //   return null; // ✅ Valid input
-  // }
-
   final PasswordController passwordController = Get.put(PasswordController());
   final GenderController genderController = Get.put(GenderController());
   final AuthController controller = Get.put(AuthController());
@@ -77,6 +70,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     Size mediaQuerySize = MediaQuery.of(context).size;
+    Size size = MediaQuery.of(context).size;
 
     return BaseResponsiveScreen(
       child: SafeArea(
@@ -87,43 +81,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
             child: SingleChildScrollView(
               child: SafeArea(
                 child: Form(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: mediaQuerySize.width * 0.01.w),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _buildHeader(),
-                        Column(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildHeader(),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 4.w),
+                        child: Column(
                           children: [
-                            SizedBox(height: mediaQuerySize.height * 0.04),
-                            _buildGenderSelection(),
-                            SizedBox(height: mediaQuerySize.height * 0.02),
-            
+                            SizedBox(height: mediaQuerySize.height * 0.08),
+                            _buildGenderSelection(size),
+                            SizedBox(height: mediaQuerySize.height * 0.03),
                             UsernameFieldWidget(controller: usernameController),
-            
-                            // CustomField(
-                            //   focusNode: passwordFocus,
-                            //   controller: usernameController,
-                            //   hintText: "username".tr,
-                            // ),
-            
                             SizedBox(height: mediaQuerySize.height * 0.02),
                             PasswordFieldWidget(
                               controller: passwordfieldController,
-                              lableText: 'password'.tr,
+                              labelText: 'password'.tr,
                             ),
-            
-                            SizedBox(height: mediaQuerySize.height * 0.02),
+                            SizedBox(height: mediaQuerySize.height * 0.018),
                             Obx(() {
                               if (controller.selectedIcon.value == 1) {
-                                //               return  CustomField(
-                                //   hintText: "Email",
-                                //   controller: emailController,
-                                //   focusNode: emailFocusNode,
-                                //   validator: validateEmail,
-                                //   keyboardType: TextInputType.emailAddress,
-                                // ),
                                 return CustomField(
                                   validator: validateEmail,
                                   focusNode: emailFocus,
@@ -140,25 +117,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             }),
                             SizedBox(height: mediaQuerySize.height * 0.01),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 5),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 5),
                               child: RoundButtonWidget(
-                                  title: 'continue to step 2/2'.tr,
+                                  title: 'Continue to step 2/2'.tr,
                                   width: mediaQuerySize.width * 1,
-                                  height: mediaQuerySize.height * 0.06),
+                                  height: mediaQuerySize.height * 0.05),
                             ),
-            
-                            SizedBox(height: mediaQuerySize.height * 0.06),
-            
+                            SizedBox(height: mediaQuerySize.height * 0.04),
                             _buildInfoCard('safe_gambling'.tr),
                             SizedBox(height: mediaQuerySize.height * 0.02),
-                            _buildInfoCard('help_contact'.tr),
+                            GestureDetector(child: _buildInfoCard('help_contact'.tr),onTap: () {
+                              
+                            },),
                             SizedBox(height: mediaQuerySize.height * 0.06),
                           ],
                         ),
-            
-                        // PasswordValidationScreen(),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -169,10 +145,56 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
+  PreferredSizeWidget _buildAppBar() {
+    return PreferredSize(
+      preferredSize: Size.fromHeight(40.h),
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [AppColors.baryelowColor, AppColors.barorngColor],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: AppBar(
+          leading: IconButton(
+            icon: Icon(Icons.keyboard_arrow_left),
+            onPressed: () => Get.back(),
+          ),
+          toolbarHeight: 40.h,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          actions: [
+            Padding(
+              padding: EdgeInsets.all(8.0.r),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  GestureDetector(
+                    onTap: () => Get.to(() => const LoginScreen()),
+                    child: Text(
+                      'login'.tr,
+                      style: TextStyle(
+                          fontSize: 12.sp, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  SizedBox(width: 10.w),
+                  Flexible(
+                    child: LanguageDropdown(),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _buildHeader() {
     return Container(
-      height: 40.h,
-      width: 415.w,
+      height: 35.h,
+      width: 45.sw,
       decoration: BoxDecoration(
         color: const Color(0xffF0F0F1),
         boxShadow: [
@@ -180,45 +202,44 @@ class _SignUpScreenState extends State<SignUpScreen> {
               color: Colors.grey.withOpacity(0.5), offset: const Offset(0, 0)),
         ],
       ),
-      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+      padding: EdgeInsets.symmetric(horizontal: 10.w),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text('account_details'.tr,
-              style:
-                   TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold)),
+              style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.bold)),
           Text(
             'step1'.tr,
-            style: TextStyle(color: Colors.grey),
+            style: TextStyle(color: Colors.grey, fontSize: 10.sp),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildGenderSelection() {
+  Widget _buildGenderSelection(Size size) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10),
+          padding: EdgeInsets.symmetric(horizontal: 5.w),
           child: Text(
             'gender'.tr,
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+            style: TextStyle(fontSize: 12.sp),
           ),
         ),
-        //SizedBox(height: 10),
+        SizedBox(height: 5.h),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Row(
               children: [
                 _genderOption(0, 'male'.tr),
-                SizedBox(width: 30),
+                SizedBox(width: 25.w),
                 _genderOption(1, 'female'.tr),
               ],
             ),
-            _buildIconSelection(),
+            _buildIconSelection(size)
           ],
         ),
       ],
@@ -228,78 +249,76 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget _genderOption(int index, String text) {
     return GestureDetector(
       onTap: () => genderController.selectIndex(index),
-      child: Row(
-        children: [
-          Obx(() => Icon(
-                genderController.selectedIndex.value == index
-                    ? Icons.check_circle
-                    : Icons.circle_outlined,
-                size: 28,
-                color: genderController.selectedIndex.value == index
-                    ? Colors.green
-                    : Colors.grey,
-              )),
-          const SizedBox(width: 10),
-          Text(
-            text,
-            style: const TextStyle(color: Colors.black, fontSize: 16),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildIconSelection() {
-    return Container(
-      height: 45,
-      width: 80,
-      decoration: BoxDecoration(
-        color: Colors.black.withOpacity(0.07),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          _buildIcon(Icons.mobile_screen_share_rounded, 2),
-          _buildIcon(Icons.person, 1),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildIcon(IconData icon, int value) {
-    return GestureDetector(
-      onTap: () => controller.selectedIcon.value = value,
-      child: Obx(
-        () => Stack(
-          alignment: Alignment.center,
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 1.w),
+        child: Row(
           children: [
-            if (controller.selectedIcon.value == value)
-              AnimatedContainer(
-                duration: Duration(milliseconds: 150), // Smooth Transition
-                width: 35,
-                height: 35,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: AppColors.buttonColor,
-                ),
-              ),
-            Icon(icon, color: Colors.black),
+            Obx(() => Icon(
+                  genderController.selectedIndex.value == index
+                      ? Icons.check_circle
+                      : Icons.circle_outlined,
+                  size: 22.sp,
+                  color: genderController.selectedIndex.value == index
+                      ? Colors.green
+                      : Colors.grey,
+                )),
+            SizedBox(width: 5.w),
+            Text(
+              text,
+              style: TextStyle(color: Colors.black, fontSize: 12.sp),
+            ),
           ],
         ),
       ),
     );
   }
 
+  Widget _buildIconSelection(Size size) {
+    return Container(
+      height: size.height * 0.05,
+      width: size.width * 0.19,
+      decoration: BoxDecoration(
+        color: Colors.black.withOpacity(0.07),
+        borderRadius: BorderRadius.circular(20.r),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          _buildIcon(Icons.person, 1),
+          _buildIcon(Icons.mobile_screen_share_rounded, 2),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildIcon(IconData icon, int value) {
+    return Obx(() => GestureDetector(
+          onTap: () => controller.selectedIcon.value = value,
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              if (controller.selectedIcon.value == value)
+                Container(
+                  width: 28.w,
+                  height: 28.h,
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle, color: AppColors.buttonColor),
+                ),
+              Icon(icon, color: Colors.black),
+            ],
+          ),
+        ));
+  }
+
   Widget _buildInfoCard(String text) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 5),
+      padding: EdgeInsets.symmetric(horizontal: 5.w),
       child: Container(
         width: double.infinity,
-        padding: const EdgeInsets.all(15),
+        padding: EdgeInsets.all(10.r),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(5),
+          borderRadius: BorderRadius.circular(3.r),
           boxShadow: [
             BoxShadow(
               color: Colors.grey.shade300,
@@ -314,60 +333,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
           children: [
             Text(
               text,
-              style: const TextStyle(fontSize: 16),
+              style: TextStyle(fontSize: 11.sp),
               textAlign: TextAlign.center,
             ),
-            Icon(Icons.arrow_forward),
+            Icon(
+              Icons.arrow_forward,
+              size: 18.sp,
+            ),
           ],
         ),
       ),
     );
-  }
-
-  PreferredSizeWidget _buildAppBar() {
-    return PreferredSize(
-        preferredSize: const Size.fromHeight(48),
-        child: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Color(0xffFFB300),
-                Color(0xffFF8801),
-              ],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            ),
-          ),
-          child: AppBar(
-            toolbarHeight: 48,
-            backgroundColor: Colors.transparent,
-            leading: IconButton(
-              onPressed: () => Navigator.pop(context),
-              icon: const Icon(Icons.arrow_back_ios),
-            ),
-            actions: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    GestureDetector(
-                      onTap: () => Get.to(() => const LoginScreen()),
-                      child: Text(
-                        'login'.tr,
-                        style: const TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    SizedBox(width: 8),
-                    Flexible(
-                      child: LanguageDropdown(),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ));
   }
 }

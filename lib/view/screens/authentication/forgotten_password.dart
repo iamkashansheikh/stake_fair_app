@@ -1,147 +1,90 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:stake_fair_app/res/app_colors/app_colors.dart';
+import 'package:stake_fair_app/res/responsive.dart';
 import 'package:stake_fair_app/scrollable.dart';
 import 'package:stake_fair_app/view/screens/authentication/help_screen.dart';
 import 'package:stake_fair_app/view/screens/authentication/username_screen.dart';
 import 'package:stake_fair_app/view/widgets/date_of_birth.dart';
 import 'package:stake_fair_app/view/widgets/emial_username.dart';
-
 import '../../../controllers/getx_controller/auth_controller.dart';
 import '../../../controllers/getx_controller/password_controller.dart';
 import '../../widgets/custom_button.dart';
 
-class ForgottenPassword extends StatefulWidget {
-  const ForgottenPassword({super.key});
+class ForgottenPassword extends StatelessWidget {
+  ForgottenPassword({super.key});
 
-  @override
-  State<ForgottenPassword> createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<ForgottenPassword> {
   final AuthController controller = Get.put(AuthController());
   final PasswordController passwordController = Get.put(PasswordController());
-  TextEditingController passwordfieldController = TextEditingController();
-  TextEditingController dobController = TextEditingController();
-
-  FocusNode phoneFocus = FocusNode();
-  FocusNode emailFocus = FocusNode();
-  // final GlobalKey<FormState> formKey = GlobalKey();
+  final TextEditingController dobController = TextEditingController();
+  final FocusNode emailFocus = FocusNode();
 
   @override
   Widget build(BuildContext context) {
-    Size mediaQuerySize = MediaQuery.of(context).size;
+    final size = MediaQuery.of(context).size;
 
     return SafeArea(
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: _buildAppBar(),
-        body: NoBounceScrollWrapper(
-          child: SingleChildScrollView(
-            child: SafeArea(
-              child: Form(
-                //  key: formKey,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 5),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height: mediaQuerySize.height * 0.04),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('Forgotten password?',
-                                style: TextStyle(
-                                    fontSize: 26, fontWeight: FontWeight.bold)),
-                          ],
-                        ),
-                      ),
-                      //  SizedBox(height: mediaQuerySize.height * 0.02),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          textAlign: TextAlign.start,
-                          'Please enter your StakeFair username or email or phone number and DOB so you can resest your password.',
-                          style: TextStyle(
-                              fontSize: 11, fontWeight: FontWeight.w500),
-                        ),
-                      ),
-                      SizedBox(height: mediaQuerySize.height * 0.02),
-          
-                      EmailUsername(
-                        focusNode: emailFocus,
-                        hintText: 'Email or Phone number or Phone number ',
-                      ),
-          
-                      // Obx(() {
-                      //   if (controller.selectedIcon.value == 1) {
-          
-                      //     return EmailUsername(
-                      //       focusNode: emailFocus,
-                      //       hintText: 'Email or Phone number or Phone number ',
-                      //     );
-          
-                      //   } else if (controller.selectedIcon.value == 2) {
-                      //     return Padding(
-                      //       padding: const EdgeInsets.all(4.0),
-                      //       child: CountryCodePickerWidget(),
-                      //     );
-                      //   }
-                      //   return SizedBox();
-                      // }),
-          
-                      SizedBox(height: mediaQuerySize.height * 0.02),
-          
-                      Center(
-                        child: GestureDetector(
-                          onTap: () {
-                            Get.to(() => UsernameScreen());
-                          },
-                          child: Text('Forgot your username?',
-                              style: TextStyle(color: Colors.blue, fontSize: 16)),
-                        ),
-                      ),
-          
-                      SizedBox(height: mediaQuerySize.height * 0.02),
-                      DateOfBirthField(
-                        focusNode: FocusNode(),
-                        controller: dobController,
-                        hintText: "Enter Date of Birth",
-                      ),
-          
-                      //  EmailUsername(
-                      //             focusNode: emailFocus,
-                      //             hintText: 'Date of birth ',
-          
-                      //           ),
-                      SizedBox(height: mediaQuerySize.height * 0.02),
-          
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 5),
-                        child: RoundButtonWidget(
-                          title: 'Send reminder',
-                          width: mediaQuerySize.width * 1,
-                          height: mediaQuerySize.height * 0.06,
-                        ),
-                      ),
-          
-                      SizedBox(height: mediaQuerySize.height * 0.02),
-                      Center(
-                        child: GestureDetector(
-                          onTap: () {
-                            Get.to(() => HelpScreen());
-                          },
-                          child: Text('Help',
-                              style: TextStyle(color: Colors.blue, fontSize: 16)),
-                        ),
-                      ),
-          
-                    
-                    ],
+      child: BaseResponsiveScreen(
+        child: Scaffold(
+          backgroundColor: Colors.white,
+          appBar: _buildAppBar(),
+          body: NoBounceScrollWrapper(
+            child: SingleChildScrollView(
+              padding: EdgeInsets.symmetric(horizontal: 8.w),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: size.height * 0.04),
+                  Text('Forgotten username?',
+                      style: TextStyle(
+                          fontSize: 21.sp, fontWeight: FontWeight.bold)),
+                  SizedBox(height: 8.h),
+                  Text(
+                    'Please enter your StakeFair username or email or phone number and DOB so you can reset your password.',
+                    style: TextStyle(fontSize: 11.sp),
                   ),
-                ),
+                  SizedBox(height: size.height * 0.02),
+                  Obx(() {
+                    return controller.selectedIcon.value == 1
+                        ? EmailUsername(
+                            focusNode: emailFocus,
+                            hintText: 'Email or Phone number',
+                          )
+                        : Padding(
+                            padding: EdgeInsets.all(4.r),
+                          );
+                  }),
+                  SizedBox(height: 10.w),
+                  Center(
+                    child: GestureDetector(
+                      onTap: () => Get.to(() => UsernameScreen()),
+                      child: Text(
+                        'Forgot your username?',
+                        style: TextStyle(color: Colors.blue, fontSize: 13.sp),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10.h),
+                  DateOfBirthField(
+                    focusNode: FocusNode(),
+                    controller: dobController,
+                    hintText: "Enter Date of Birth",
+                  ),
+                  SizedBox(height: 25.h),
+                  RoundButtonWidget(
+                      title: 'Send reminder', width: 300.w, height: 35.h),
+                  const SizedBox(height: 25),
+                  Center(
+                    child: GestureDetector(
+                      onTap: () => Get.to(() => HelpScreen()),
+                      child: Text(
+                        'Help',
+                        style: TextStyle(color: Colors.blue, fontSize: 13.sp),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -152,74 +95,45 @@ class _LoginScreenState extends State<ForgottenPassword> {
 
   PreferredSizeWidget _buildAppBar() {
     return PreferredSize(
-        preferredSize: const Size.fromHeight(48),
-        child: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Color(0xffFFB300),
-                Color(0xffFF8801),
-              ],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            ),
+      preferredSize: Size.fromHeight(40.h),
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [AppColors.baryelowColor, AppColors.barorngColor],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
           ),
-          child: AppBar(
-            leading: IconButton(
-                onPressed: () {
-                  Get.back();
-                },
-                icon: Icon(Icons.arrow_back_ios)),
-            toolbarHeight: 48,
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            title: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    children: [
-                      Container(
-                        width: 133,
-                        height: 20,
-                        decoration: const BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage('assets/images/stakefair.png'),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ]),
+        ),
+        child: AppBar(
+          leading: IconButton(
+            icon: Icon(Icons.keyboard_arrow_left),
+            onPressed: () => Get.back(),
           ),
-        ));
-  }
-
-  Widget _buildIcon(IconData icon, int value) {
-    return Obx(() => GestureDetector(
-          onTap: () => controller.selectedIcon.value = value,
-          child: Stack(
-            alignment: Alignment.center,
+          toolbarHeight: 40.h,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              if (controller.selectedIcon.value == value)
-                Container(
-                  width: 35,
-                  height: 35,
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle, color: AppColors.buttonColor),
-                ),
-              Icon(icon, color: Colors.black),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: 125.w,
+                    height: 20.h,
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage('assets/images/stakefair.png'),
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
-        ));
-  }
-
-  Widget _buildSocialMediaIcon(String assetPath) {
-    return Container(
-      height: 40,
-      width: 40,
-      child: Image.asset(
-        assetPath,
-        fit: BoxFit.contain, // Ya BoxFit.cover, jo bhi aapko suit kare
+        ),
       ),
     );
   }

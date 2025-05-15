@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:stake_fair_app/res/responsive.dart';
 
 class PhoneNumber extends StatefulWidget {
   final TextEditingController controller;
@@ -57,51 +59,53 @@ class _PhoneNumberState extends State<PhoneNumber> {
         borderColor = Colors.transparent; // **No Focus, No Error**
       }
 
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            height: 54,
-            decoration: BoxDecoration(
-              color: Colors.black.withOpacity(0.07),
-              borderRadius: BorderRadius.circular(5),
-              border: Border(
-                bottom: BorderSide(
-                  color: borderColor,
-                  width: 1, // ✅ Border thickness
+      return BaseResponsiveScreen(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: 45.h,
+              decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.07),
+                borderRadius: BorderRadius.circular(5),
+                border: Border(
+                  bottom: BorderSide(
+                    color: borderColor,
+                    width: 0.5 // ✅ Border thickness
+                  ),
+                ),
+              ),
+              child: TextField(
+                controller: widget.controller,
+                focusNode: widget.focusNode,
+                keyboardType: widget.keyboardType,
+                maxLength: widget.maxLength,
+                onChanged: (value) {
+                  validatePhoneNumber(value);
+                  if (widget.onChanged != null) {
+                    widget.onChanged!(value);
+                  }
+                },
+                decoration: InputDecoration(
+                  labelText: 'Mobile Number'.tr,
+                  labelStyle: TextStyle(color: Colors.grey,fontSize: 11.sp),
+                  contentPadding: EdgeInsets.symmetric(vertical: 2, horizontal: 8),
+                  border: InputBorder.none,
+                  counterText: "",
                 ),
               ),
             ),
-            child: TextField(
-              controller: widget.controller,
-              focusNode: widget.focusNode,
-              keyboardType: widget.keyboardType,
-              maxLength: widget.maxLength,
-              onChanged: (value) {
-                validatePhoneNumber(value);
-                if (widget.onChanged != null) {
-                  widget.onChanged!(value);
-                }
-              },
-              decoration: InputDecoration(
-                labelText: 'Mobile Number'.tr,
-                labelStyle: TextStyle(color: Colors.grey),
-                contentPadding: EdgeInsets.symmetric(vertical: 2, horizontal: 8),
-                border: InputBorder.none,
-                counterText: "",
+            // ✅ Show Validation Error Message
+            if (phoneError.value != null)
+              Padding(
+                padding: const EdgeInsets.only(top: 0, left: 4,bottom: 4),
+                child: Text(
+                  phoneError.value!,
+                  style: TextStyle(color: Colors.red, fontSize: 12.sp),
+                ),
               ),
-            ),
-          ),
-          // ✅ Show Validation Error Message
-          if (phoneError.value != null)
-            Padding(
-              padding: const EdgeInsets.only(top: 0, left: 4,bottom: 4),
-              child: Text(
-                phoneError.value!,
-                style: TextStyle(color: Colors.red, fontSize: 12),
-              ),
-            ),
-        ],
+          ],
+        ),
       );
     });
   }

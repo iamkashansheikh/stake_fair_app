@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:stake_fair_app/res/app_colors/app_colors.dart';
 
 
@@ -7,7 +8,7 @@ class RoundButtonWidget extends StatelessWidget {
       {super.key,
       this.loading = false,
       required this.title,
-      this.height = 50,
+      this.height = 40,
       this.width = 50,
       this.onPress,
       this.textColor = AppColors.greyColor,
@@ -24,8 +25,8 @@ class RoundButtonWidget extends StatelessWidget {
     return InkWell(
       onTap: onPress,
       child: Container(
-          height: height,
-          width: width,
+          height: height.h,
+          width: width.w,
           decoration: BoxDecoration(
               color: buttonColor, borderRadius: BorderRadius.circular(5)),
           child: loading
@@ -39,39 +40,9 @@ class RoundButtonWidget extends StatelessWidget {
                   style: Theme.of(context)
                       .textTheme
                       .titleMedium!
-                      .copyWith(color: textColor, fontSize: 16),
+                      .copyWith(color: textColor, fontSize: 12.sp,),
                 ))),
     );
   }
 }
 
-
-// class CustomButton extends StatelessWidget {
-//   final String name;
-//   Color color;
-//   Function()? onTap;
-//   final double width;
-//   final bool isEnabled;
-
-//   CustomButton(
-//       {super.key,
-//       required this.name,
-//       this.color = AppColors.buttonColor,
-//       this.onTap, this.width = 20,this.isEnabled=false});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     Size mediaQuerySize = MediaQuery.of(context).size;
-//     return Container(
-//       height: mediaQuerySize.height * 0.07,
-//       width: mediaQuerySize.width * 0.9,
-//       decoration: BoxDecoration(border: Border.all(color: AppColors.buttonColor), color: color, borderRadius: BorderRadius.circular(5)),
-//       child: TextButton(
-//           onPressed: onTap,
-//           child: Text(
-//             name,
-            
-//           )),
-//     );
-//   }
-// }
