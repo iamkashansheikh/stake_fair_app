@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">stake_fair_app</string>
-    <string name="facebook_app_id">YOUR_FACEBOOK_APP_ID</string>
-    <string name="facebook_client_token">YOUR_FACEBOOK_CLIENT_TOKEN</string>
-    <string name="fb_login_protocol_scheme">fbYOUR_FACEBOOK_APP_ID</string>
+    <string name="app_name">Stake Fair App</string>
+    <string name="facebook_app_id">3125547367594926</string>
+    <string name="facebook_client_token">768e39d1963c7dedf8fc3ede269b190d</string>
+    <string name="fb_login_protocol_scheme">fb3125547367594926</string>
 </resources>
