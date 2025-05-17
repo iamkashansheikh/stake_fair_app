@@ -34,9 +34,11 @@ dependencies:
   intl: ^0.20.2
   firebase_auth: ^5.5.2
   google_sign_in: ^6.2.2
-  flutter_facebook_auth: ^7.1.1
+  flutter_facebook_auth: ^7.1.2
   url_launcher: ^6.3.1
   responsive_framework: ^1.5.1
+  pinput: ^5.0.1
+  otp_text_field: ^1.1.3
 
 dev_dependencies:
   flutter_test:
