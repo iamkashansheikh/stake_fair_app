@@ -79,8 +79,7 @@ class _UsernameScreenState extends State<UsernameScreen> {
                       },
                       title: 'Send reminder',
                       width: mediaQuerySize.width * 1,
-                      height: mediaQuerySize.height * 0.05
-                      ),
+                      height: mediaQuerySize.height * 0.05),
                   SizedBox(height: size.height * 0.02),
                   Center(
                     child: GestureDetector(
