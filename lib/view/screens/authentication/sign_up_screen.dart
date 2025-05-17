@@ -127,9 +127,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             SizedBox(height: mediaQuerySize.height * 0.04),
                             _buildInfoCard('safe_gambling'.tr),
                             SizedBox(height: mediaQuerySize.height * 0.02),
-                            GestureDetector(child: _buildInfoCard('help_contact'.tr),onTap: () {
-                              
-                            },),
+                            GestureDetector(
+                              child: _buildInfoCard('help_contact'.tr),
+                              onTap: () {},
+                            ),
                             SizedBox(height: mediaQuerySize.height * 0.06),
                           ],
                         ),
