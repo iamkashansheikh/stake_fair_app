@@ -1,229 +1,231 @@
+import 'dart:convert';
+
+/// Top-level helpers
+CategoryListModel categoryListModelFromJson(String str) =>
+    CategoryListModel.fromJson(json.decode(str) as Map<String, dynamic>);
+
+String categoryListModelToJson(CategoryListModel data) =>
+    json.encode(data.toJson());
+
+/// ─────────────────── CategoryListModel ─────────────────────────
 class CategoryListModel {
-  Data? data;
-  Meta? meta;
+  final Data? data;
+  final Meta? meta;
 
   CategoryListModel({this.data, this.meta});
 
-  CategoryListModel.fromJson(Map<String, dynamic> json) {
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
-    meta = json['meta'] != null ? new Meta.fromJson(json['meta']) : null;
-  }
+  factory CategoryListModel.fromJson(Map<String, dynamic> json) =>
+      CategoryListModel(
+        data: json['data'] == null
+            ? null
+            : Data.fromJson(json['data'] as Map<String, dynamic>),
+        meta: json['meta'] == null
+            ? null
+            : Meta.fromJson(json['meta'] as Map<String, dynamic>),
+      );
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.data != null) {
-      data['data'] = this.data!.toJson();
-    }
-    if (this.meta != null) {
-      data['meta'] = this.meta!.toJson();
-    }
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+        'data': data?.toJson(),
+        'meta': meta?.toJson(),
+      };
 }
 
+/// ─────────────────── Data ──────────────────────────────────────
 class Data {
-  List<EventTypes>? eventTypes;
-  List<Competitions>? competitions;
-  List<Events>? events;
+  final List<EventType> eventTypes;
+  final List<CompetitionElement> competitions;
+  final List<CompetitionElement> events;
 
-  Data({this.eventTypes, this.competitions, this.events});
+  Data({
+    this.eventTypes = const [],
+    this.competitions = const [],
+    this.events = const [],
+  });
 
-  Data.fromJson(Map<String, dynamic> json) {
-    if (json['eventTypes'] != null) {
-      eventTypes = <EventTypes>[];
-      json['eventTypes'].forEach((v) {
-        eventTypes!.add(new EventTypes.fromJson(v));
-      });
-    }
-    if (json['competitions'] != null) {
-      competitions = <Competitions>[];
-      json['competitions'].forEach((v) {
-        competitions!.add(new Competitions.fromJson(v));
-      });
-    }
-    if (json['events'] != null) {
-      events = <Events>[];
-      json['events'].forEach((v) {
-        events!.add(new Events.fromJson(v));
-      });
-    }
-  }
+  factory Data.fromJson(Map<String, dynamic> json) => Data(
+        eventTypes: (json['eventTypes'] as List<dynamic>? ?? [])
+            .map((e) => EventType.fromJson(e as Map<String, dynamic>))
+            .toList(),
+        competitions: (json['competitions'] as List<dynamic>? ?? [])
+            .map((e) => CompetitionElement.fromJson(e as Map<String, dynamic>))
+            .toList(),
+        events: (json['events'] as List<dynamic>? ?? [])
+            .map((e) => CompetitionElement.fromJson(e as Map<String, dynamic>))
+            .toList(),
+      );
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.eventTypes != null) {
-      data['eventTypes'] = this.eventTypes!.map((v) => v.toJson()).toList();
-    }
-    if (this.competitions != null) {
-      data['competitions'] = this.competitions!.map((v) => v.toJson()).toList();
-    }
-    if (this.events != null) {
-      data['events'] = this.events!.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+        'eventTypes': eventTypes.map((e) => e.toJson()).toList(),
+        'competitions': competitions.map((e) => e.toJson()).toList(),
+        'events': events.map((e) => e.toJson()).toList(),
+      };
 }
 
-class EventTypes {
-  EventType? eventType;
-  int? marketCount;
+/// ─────────────────── CompetitionElement ────────────────────────
+class CompetitionElement {
+  final EventTypeClass? competition;
+  final EventTypeClass? eventType;
+  final String? competitionRegion;
+  final int? marketCount;
+  final Event? event;
 
-  EventTypes({this.eventType, this.marketCount});
+  CompetitionElement({
+    this.competition,
+    this.eventType,
+    this.competitionRegion,
+    this.marketCount,
+    this.event,
+  });
 
-  EventTypes.fromJson(Map<String, dynamic> json) {
-    eventType = json['eventType'] != null
-        ? new EventType.fromJson(json['eventType'])
-        : null;
-    marketCount = json['marketCount'];
-  }
+  factory CompetitionElement.fromJson(Map<String, dynamic> json) =>
+      CompetitionElement(
+        competition: json['competition'] == null
+            ? null
+            : EventTypeClass.fromJson(
+                json['competition'] as Map<String, dynamic>),
+        eventType: json['eventType'] == null
+            ? null
+            : EventTypeClass.fromJson(
+                json['eventType'] as Map<String, dynamic>),
+        competitionRegion: json['competitionRegion'] as String?,
+        marketCount: json['marketCount'] as int?,
+        event: json['event'] == null
+            ? null
+            : Event.fromJson(json['event'] as Map<String, dynamic>),
+      );
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.eventType != null) {
-      data['eventType'] = this.eventType!.toJson();
-    }
-    data['marketCount'] = this.marketCount;
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+        'competition': competition?.toJson(),
+        'eventType': eventType?.toJson(),
+        'competitionRegion': competitionRegion,
+        'marketCount': marketCount,
+        'event': event?.toJson(),
+      };
 }
 
-class EventType {
-  String? id;
-  String? name;
+/// ─────────────────── EventTypeClass ────────────────────────────
+class EventTypeClass {
+  final String? id;
+  final String? name;
 
-  EventType({this.id, this.name});
+  EventTypeClass({this.id, this.name});
 
-  EventType.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
-  }
+  factory EventTypeClass.fromJson(Map<String, dynamic> json) => EventTypeClass(
+        id: json['id']?.toString(),
+        name: json['name']?.toString(),
+      );
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'name': name,
+      };
 }
 
-class Competitions {
-  EventType? competition;
-  EventType? eventType;
-  String? competitionRegion;
-  int? marketCount;
-
-  Competitions(
-      {this.competition,
-      this.eventType,
-      this.competitionRegion,
-      this.marketCount});
-
-  Competitions.fromJson(Map<String, dynamic> json) {
-    competition = json['competition'] != null
-        ? new EventType.fromJson(json['competition'])
-        : null;
-    eventType = json['eventType'] != null
-        ? new EventType.fromJson(json['eventType'])
-        : null;
-    competitionRegion = json['competitionRegion'];
-    marketCount = json['marketCount'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.competition != null) {
-      data['competition'] = this.competition!.toJson();
-    }
-    if (this.eventType != null) {
-      data['eventType'] = this.eventType!.toJson();
-    }
-    data['competitionRegion'] = this.competitionRegion;
-    data['marketCount'] = this.marketCount;
-    return data;
-  }
-}
-
-class Events {
-  Event? event;
-  EventType? competition;
-  EventType? eventType;
-  int? marketCount;
-
-  Events({this.event, this.competition, this.eventType, this.marketCount});
-
-  Events.fromJson(Map<String, dynamic> json) {
-    event = json['event'] != null ? new Event.fromJson(json['event']) : null;
-    competition = json['competition'] != null
-        ? new EventType.fromJson(json['competition'])
-        : null;
-    eventType = json['eventType'] != null
-        ? new EventType.fromJson(json['eventType'])
-        : null;
-    marketCount = json['marketCount'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.event != null) {
-      data['event'] = this.event!.toJson();
-    }
-    if (this.competition != null) {
-      data['competition'] = this.competition!.toJson();
-    }
-    if (this.eventType != null) {
-      data['eventType'] = this.eventType!.toJson();
-    }
-    data['marketCount'] = this.marketCount;
-    return data;
-  }
-}
-
+/// ─────────────────── Event ─────────────────────────────────────
 class Event {
-  String? id;
-  String? name;
-  String? countryCode;
-  String? timezone;
-  String? openDate;
+  final String? id;
+  final String? name;
+  final CountryCode? countryCode;
+  final Timezone? timezone;
+  final DateTime? openDate;
 
-  Event({this.id, this.name, this.countryCode, this.timezone, this.openDate});
+  Event({
+    this.id,
+    this.name,
+    this.countryCode,
+    this.timezone,
+    this.openDate,
+  });
 
-  Event.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
-    countryCode = json['countryCode'];
-    timezone = json['timezone'];
-    openDate = json['openDate'];
-  }
+  factory Event.fromJson(Map<String, dynamic> json) => Event(
+        id: json['id']?.toString(),
+        name: json['name']?.toString(),
+        countryCode: countryCodeValues.map[json['countryCode']],
+        timezone: timezoneValues.map[json['timezone']],
+        openDate: _parseDate(json['openDate']),
+      );
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['countryCode'] = this.countryCode;
-    data['timezone'] = this.timezone;
-    data['openDate'] = this.openDate;
-    return data;
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'name': name,
+        'countryCode': countryCodeValues.reverse[countryCode],
+        'timezone': timezoneValues.reverse[timezone],
+        'openDate': openDate?.toIso8601String(),
+      };
+
+  static DateTime? _parseDate(dynamic value) {
+    if (value == null) return null;
+    try {
+      return DateTime.parse(value.toString());
+    } catch (_) {
+      return null; // silently ignore bad date formats
+    }
   }
 }
 
+/// ─────────────────── EventType ─────────────────────────────────
+class EventType {
+  final EventTypeClass? eventType;
+  final int? marketCount;
+
+  EventType({this.eventType, this.marketCount});
+
+  factory EventType.fromJson(Map<String, dynamic> json) => EventType(
+        eventType: json['eventType'] == null
+            ? null
+            : EventTypeClass.fromJson(
+                json['eventType'] as Map<String, dynamic>),
+        marketCount: json['marketCount'] as int?,
+      );
+
+  Map<String, dynamic> toJson() => {
+        'eventType': eventType?.toJson(),
+        'marketCount': marketCount,
+      };
+}
+
+/// ─────────────────── Meta ──────────────────────────────────────
 class Meta {
-  String? message;
-  int? statusCode;
-  bool? status;
+  final String? message;
+  final int? statusCode;
+  final bool? status;
 
   Meta({this.message, this.statusCode, this.status});
 
-  Meta.fromJson(Map<String, dynamic> json) {
-    message = json['message'];
-    statusCode = json['status_code'];
-    status = json['status'];
-  }
+  factory Meta.fromJson(Map<String, dynamic> json) => Meta(
+        message: json['message']?.toString(),
+        statusCode: json['status_code'] as int?,
+        status: json['status'] as bool?,
+      );
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['message'] = this.message;
-    data['status_code'] = this.statusCode;
-    data['status'] = this.status;
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+        'message': message,
+        'status_code': statusCode,
+        'status': status,
+      };
 }
+
+/// ─────────────────── Enums & Helpers ───────────────────────────
+enum CountryCode { GB, IN, PK }
+
+enum Timezone { EUROPE_LONDON, GMT }
+
+class EnumValues<T> {
+  EnumValues(this.map);
+  final Map<String, T> map;
+  Map<T, String>? _reverseMap;
+
+  Map<T, String> get reverse =>
+      _reverseMap ??= map.map((k, v) => MapEntry(v, k));
+}
+
+final countryCodeValues = EnumValues({
+  'GB': CountryCode.GB,
+  'IN': CountryCode.IN,
+  'PK': CountryCode.PK,
+});
+
+final timezoneValues = EnumValues({
+  'Europe/London': Timezone.EUROPE_LONDON,
+  'GMT': Timezone.GMT,
+});
