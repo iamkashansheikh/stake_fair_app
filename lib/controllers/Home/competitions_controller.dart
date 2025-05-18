@@ -8,7 +8,7 @@ import 'package:stake_fair_app/repositroy/home_repository/home_repository.dart';
 class CompetitonController extends GetxController {
   var categoryListModel = Rxn<CategoryListModel>();
 
-  var competitionList = <Competitions>[].obs;
+  var competitionList = <CompetitionElement>[].obs;
 
   var isLoading = false.obs;
 
@@ -27,7 +27,7 @@ class CompetitonController extends GetxController {
 
   Future<void> fetchCategoryData() async {
     try {
-      isLoading.value = true; 
+      isLoading.value = true;
       final response = await _homeRepository.categoryApi(postData);
       var model = CategoryListModel.fromJson(response);
       categoryListModel.value = model;
@@ -46,11 +46,10 @@ class CompetitonController extends GetxController {
     }
   }
 
-  List<Competitions> getCompetitionsByEvent(String eventName) {
+  List<CompetitionElement> getCompetitionsByEvent(String eventName) {
     if (categoryListModel.value?.data?.competitions != null) {
       return categoryListModel.value!.data!.competitions!
-          .where((comp) =>
-              comp.eventType?.name == eventName.toLowerCase())
+          .where((comp) => comp.eventType?.name == eventName.toLowerCase())
           .toList();
     }
     return [];
