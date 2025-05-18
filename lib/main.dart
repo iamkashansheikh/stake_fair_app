@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:stake_fair_app/res/routs/app_routs.dart';
 import 'package:stake_fair_app/res/routs/app_routs_name.dart';
 import 'package:stake_fair_app/view/screens/app_Loacalization/app_local.dart';
-import 'package:stake_fair_app/view/screens/authentication/sign_up_screen.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -27,19 +26,16 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       builder: (context, child) {
         return GetMaterialApp(
-            title: 'Stake Fair App',
-            debugShowCheckedModeBanner: false,
-            translations: AppTranslations(),
-            locale: Locale('en', 'US'),
-            fallbackLocale: Locale('en', 'US'),
-            initialRoute: RoutsName.virsion,
-            getPages: AppRouts.pages,
-            //  home:SignUpScreen()
-            );
+          title: 'Stake Fair App',
+          debugShowCheckedModeBanner: false,
+          translations: AppTranslations(),
+          locale: Locale('en', 'US'),
+          fallbackLocale: Locale('en', 'US'),
+          initialRoute: RoutsName.virsion,
+          getPages: AppRouts.pages,
+          //  home:SignUpScreen()
+        );
       },
     );
   }
 }
-
-
-
