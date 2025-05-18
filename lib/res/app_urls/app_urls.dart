@@ -7,5 +7,5 @@ class AppUrls {
   static const String racingEventsListApi = '/navigation/racingEventsList';
 
   static const String sportList = '/exchange/sports/sportsList';
-  static const String allevenlist = '/navigation/allEventsList';
+  // static const String allevenlist = '/exchange/market/matchodds/allEventsList';
 }
