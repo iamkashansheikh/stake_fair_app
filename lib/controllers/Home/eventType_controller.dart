@@ -1,17 +1,11 @@
-import 'dart:developer';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:stake_fair_app/models/home_models/category_model.dart';
 import 'package:stake_fair_app/repositroy/home_repository/home_repository.dart';
-import 'all_event_list_controller.dart';
-import 'market_list_controller.dart';
 
 class EventsTypeController extends GetxController {
   final HomeRepository _homeRepository = HomeRepository();
-  AllEventListController marketListController =
-      Get.put(AllEventListController());
 
   // Observable flag to track loading state
   var isLoading = true.obs;
@@ -22,7 +16,6 @@ class EventsTypeController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    marketListController.fetchAllEvent();
     fetchCategories();
   }
 
