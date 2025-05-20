@@ -23,4 +23,14 @@ class HomeRepository {
     final String url = AppUrls.baseUrl + AppUrls.allevenlist;
     return await _apiServices.postApi(data, url);
   }
+
+  Future<dynamic> competitionMarketList(Map<String, dynamic> data) async {
+    final String url = AppUrls.baseUrl + AppUrls.competitionmarketlist;
+    return await _apiServices.postApi(data, url);
+  }
+
+  Future<dynamic> marketList(Map<String, dynamic> data) async {
+    final String url = AppUrls.baseUrl + AppUrls.marketlist;
+    return await _apiServices.postApi(data, url);
+  }
 }

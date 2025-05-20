@@ -1,26 +1,26 @@
 // To parse this JSON data, do
 //
-//     final allEventListModel = allEventListModelFromJson(jsonString);
+//     final marketListModel = marketListModelFromJson(jsonString);
 
 import 'dart:convert';
 
-AllEventListModel allEventListModelFromJson(String str) =>
-    AllEventListModel.fromJson(json.decode(str));
+MarketListModel marketListModelFromJson(String str) =>
+    MarketListModel.fromJson(json.decode(str));
 
-String allEventListModelToJson(AllEventListModel data) =>
+String marketListModelToJson(MarketListModel data) =>
     json.encode(data.toJson());
 
-class AllEventListModel {
+class MarketListModel {
   Data? data;
   Meta? meta;
 
-  AllEventListModel({
+  MarketListModel({
     this.data,
     this.meta,
   });
 
-  factory AllEventListModel.fromJson(Map<String, dynamic> json) =>
-      AllEventListModel(
+  factory MarketListModel.fromJson(Map<String, dynamic> json) =>
+      MarketListModel(
         data: json["data"] == null ? null : Data.fromJson(json["data"]),
         meta: json["meta"] == null ? null : Meta.fromJson(json["meta"]),
       );
@@ -32,43 +32,88 @@ class AllEventListModel {
 }
 
 class Data {
-  List<The4>? the4;
+  List<dynamic>? fancyData;
+  List<MatchOddsDatum>? matchOddsData;
+  List<dynamic>? bookmakersData;
+  List<dynamic>? sportsbookData;
+  List<dynamic>? binaryData;
+  List<dynamic>? lotteryData;
+  bool? isScore;
 
   Data({
-    this.the4,
+    this.fancyData,
+    this.matchOddsData,
+    this.bookmakersData,
+    this.sportsbookData,
+    this.binaryData,
+    this.lotteryData,
+    this.isScore,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        the4: json["4"] == null
+        fancyData: json["fancyData"] == null
             ? []
-            : List<The4>.from(json["4"]!.map((x) => The4.fromJson(x))),
+            : List<dynamic>.from(json["fancyData"]!.map((x) => x)),
+        matchOddsData: json["matchOddsData"] == null
+            ? []
+            : List<MatchOddsDatum>.from(
+                json["matchOddsData"]!.map((x) => MatchOddsDatum.fromJson(x))),
+        bookmakersData: json["bookmakersData"] == null
+            ? []
+            : List<dynamic>.from(json["bookmakersData"]!.map((x) => x)),
+        sportsbookData: json["sportsbookData"] == null
+            ? []
+            : List<dynamic>.from(json["sportsbookData"]!.map((x) => x)),
+        binaryData: json["binaryData"] == null
+            ? []
+            : List<dynamic>.from(json["binaryData"]!.map((x) => x)),
+        lotteryData: json["lotteryData"] == null
+            ? []
+            : List<dynamic>.from(json["lotteryData"]!.map((x) => x)),
+        isScore: json["isScore"],
       );
 
   Map<String, dynamic> toJson() => {
-        "4": the4 == null
+        "fancyData": fancyData == null
             ? []
-            : List<dynamic>.from(the4!.map((x) => x.toJson())),
+            : List<dynamic>.from(fancyData!.map((x) => x)),
+        "matchOddsData": matchOddsData == null
+            ? []
+            : List<dynamic>.from(matchOddsData!.map((x) => x.toJson())),
+        "bookmakersData": bookmakersData == null
+            ? []
+            : List<dynamic>.from(bookmakersData!.map((x) => x)),
+        "sportsbookData": sportsbookData == null
+            ? []
+            : List<dynamic>.from(sportsbookData!.map((x) => x)),
+        "binaryData": binaryData == null
+            ? []
+            : List<dynamic>.from(binaryData!.map((x) => x)),
+        "lotteryData": lotteryData == null
+            ? []
+            : List<dynamic>.from(lotteryData!.map((x) => x)),
+        "isScore": isScore,
       };
 }
 
-class The4 {
-  Event? event;
-  Competition? competition;
-  Competition? eventType;
+class MatchOddsDatum {
   String? id;
   String? marketId;
   int? v;
   int? betDelay;
   bool? bspReconciled;
+  Competition? competition;
   bool? complete;
   DateTime? createdAt;
   bool? crossMatching;
   Description? description;
+  Event? event;
+  Competition? eventType;
   bool? inplay;
   bool? isMarketDataDelayed;
   int? isSettlement;
   int? isVoid;
-  MarketName? marketName;
+  String? marketName;
   DateTime? marketStartTime;
   int? numberOfActiveRunners;
   int? numberOfRunners;
@@ -77,26 +122,26 @@ class The4 {
   List<RunnersName>? runnersName;
   bool? runnersVoidable;
   int? sequence;
-  The4Status? status;
-  TableFlag? tableFlag;
+  String? status;
+  String? tableFlag;
   double? totalAvailable;
   double? totalMatched;
   DateTime? updatedAt;
   int? version;
 
-  The4({
-    this.event,
-    this.competition,
-    this.eventType,
+  MatchOddsDatum({
     this.id,
     this.marketId,
     this.v,
     this.betDelay,
     this.bspReconciled,
+    this.competition,
     this.complete,
     this.createdAt,
     this.crossMatching,
     this.description,
+    this.event,
+    this.eventType,
     this.inplay,
     this.isMarketDataDelayed,
     this.isSettlement,
@@ -118,19 +163,15 @@ class The4 {
     this.version,
   });
 
-  factory The4.fromJson(Map<String, dynamic> json) => The4(
-        event: json["event"] == null ? null : Event.fromJson(json["event"]),
-        competition: json["competition"] == null
-            ? null
-            : Competition.fromJson(json["competition"]),
-        eventType: json["eventType"] == null
-            ? null
-            : Competition.fromJson(json["eventType"]),
+  factory MatchOddsDatum.fromJson(Map<String, dynamic> json) => MatchOddsDatum(
         id: json["_id"],
         marketId: json["marketId"],
         v: json["__v"],
         betDelay: json["betDelay"],
         bspReconciled: json["bspReconciled"],
+        competition: json["competition"] == null
+            ? null
+            : Competition.fromJson(json["competition"]),
         complete: json["complete"],
         createdAt: json["createdAt"] == null
             ? null
@@ -139,11 +180,15 @@ class The4 {
         description: json["description"] == null
             ? null
             : Description.fromJson(json["description"]),
+        event: json["event"] == null ? null : Event.fromJson(json["event"]),
+        eventType: json["eventType"] == null
+            ? null
+            : Competition.fromJson(json["eventType"]),
         inplay: json["inplay"],
         isMarketDataDelayed: json["isMarketDataDelayed"],
         isSettlement: json["isSettlement"],
         isVoid: json["isVoid"],
-        marketName: marketNameValues.map[json["marketName"]]!,
+        marketName: json["marketName"],
         marketStartTime: json["marketStartTime"] == null
             ? null
             : DateTime.parse(json["marketStartTime"]),
@@ -160,8 +205,8 @@ class The4 {
                 json["runnersName"]!.map((x) => RunnersName.fromJson(x))),
         runnersVoidable: json["runnersVoidable"],
         sequence: json["sequence"],
-        status: the4StatusValues.map[json["status"]]!,
-        tableFlag: tableFlagValues.map[json["tableFlag"]]!,
+        status: json["status"],
+        tableFlag: json["tableFlag"],
         totalAvailable: json["totalAvailable"]?.toDouble(),
         totalMatched: json["totalMatched"]?.toDouble(),
         updatedAt: json["updatedAt"] == null
@@ -171,23 +216,23 @@ class The4 {
       );
 
   Map<String, dynamic> toJson() => {
-        "event": event?.toJson(),
-        "competition": competition?.toJson(),
-        "eventType": eventType?.toJson(),
         "_id": id,
         "marketId": marketId,
         "__v": v,
         "betDelay": betDelay,
         "bspReconciled": bspReconciled,
+        "competition": competition?.toJson(),
         "complete": complete,
         "createdAt": createdAt?.toIso8601String(),
         "crossMatching": crossMatching,
         "description": description?.toJson(),
+        "event": event?.toJson(),
+        "eventType": eventType?.toJson(),
         "inplay": inplay,
         "isMarketDataDelayed": isMarketDataDelayed,
         "isSettlement": isSettlement,
         "isVoid": isVoid,
-        "marketName": marketNameValues.reverse[marketName],
+        "marketName": marketName,
         "marketStartTime": marketStartTime?.toIso8601String(),
         "numberOfActiveRunners": numberOfActiveRunners,
         "numberOfRunners": numberOfRunners,
@@ -200,8 +245,8 @@ class The4 {
             : List<dynamic>.from(runnersName!.map((x) => x.toJson())),
         "runnersVoidable": runnersVoidable,
         "sequence": sequence,
-        "status": the4StatusValues.reverse[status],
-        "tableFlag": tableFlagValues.reverse[tableFlag],
+        "status": status,
+        "tableFlag": tableFlag,
         "totalAvailable": totalAvailable,
         "totalMatched": totalMatched,
         "updatedAt": updatedAt?.toIso8601String(),
@@ -234,13 +279,13 @@ class Description {
   bool? bspMarket;
   DateTime? marketTime;
   DateTime? suspendTime;
-  BettingType? bettingType;
+  String? bettingType;
   bool? turnInPlayEnabled;
-  TableFlag? marketType;
-  Regulator? regulator;
+  String? marketType;
+  String? regulator;
   int? marketBaseRate;
   bool? discountAllowed;
-  Wallet? wallet;
+  String? wallet;
   String? rules;
   bool? rulesHasDate;
   PriceLadderDescription? priceLadderDescription;
@@ -271,13 +316,13 @@ class Description {
         suspendTime: json["suspendTime"] == null
             ? null
             : DateTime.parse(json["suspendTime"]),
-        bettingType: bettingTypeValues.map[json["bettingType"]]!,
+        bettingType: json["bettingType"],
         turnInPlayEnabled: json["turnInPlayEnabled"],
-        marketType: tableFlagValues.map[json["marketType"]]!,
-        regulator: regulatorValues.map[json["regulator"]]!,
+        marketType: json["marketType"],
+        regulator: json["regulator"],
         marketBaseRate: json["marketBaseRate"],
         discountAllowed: json["discountAllowed"],
-        wallet: walletValues.map[json["wallet"]]!,
+        wallet: json["wallet"],
         rules: json["rules"],
         rulesHasDate: json["rulesHasDate"],
         priceLadderDescription: json["priceLadderDescription"] == null
@@ -290,29 +335,21 @@ class Description {
         "bspMarket": bspMarket,
         "marketTime": marketTime?.toIso8601String(),
         "suspendTime": suspendTime?.toIso8601String(),
-        "bettingType": bettingTypeValues.reverse[bettingType],
+        "bettingType": bettingType,
         "turnInPlayEnabled": turnInPlayEnabled,
-        "marketType": tableFlagValues.reverse[marketType],
-        "regulator": regulatorValues.reverse[regulator],
+        "marketType": marketType,
+        "regulator": regulator,
         "marketBaseRate": marketBaseRate,
         "discountAllowed": discountAllowed,
-        "wallet": walletValues.reverse[wallet],
+        "wallet": wallet,
         "rules": rules,
         "rulesHasDate": rulesHasDate,
         "priceLadderDescription": priceLadderDescription?.toJson(),
       };
 }
 
-enum BettingType { ODDS }
-
-final bettingTypeValues = EnumValues({"ODDS": BettingType.ODDS});
-
-enum TableFlag { MATCH_ODDS }
-
-final tableFlagValues = EnumValues({"MATCH_ODDS": TableFlag.MATCH_ODDS});
-
 class PriceLadderDescription {
-  Type? type;
+  String? type;
 
   PriceLadderDescription({
     this.type,
@@ -320,34 +357,19 @@ class PriceLadderDescription {
 
   factory PriceLadderDescription.fromJson(Map<String, dynamic> json) =>
       PriceLadderDescription(
-        type: typeValues.map[json["type"]]!,
+        type: json["type"],
       );
 
   Map<String, dynamic> toJson() => {
-        "type": typeValues.reverse[type],
+        "type": type,
       };
 }
-
-enum Type { CLASSIC }
-
-final typeValues = EnumValues({"CLASSIC": Type.CLASSIC});
-
-enum Regulator { MALTA_LOTTERIES_AND_GAMBLING_AUTHORITY }
-
-final regulatorValues = EnumValues({
-  "MALTA LOTTERIES AND GAMBLING AUTHORITY":
-      Regulator.MALTA_LOTTERIES_AND_GAMBLING_AUTHORITY
-});
-
-enum Wallet { UK_WALLET }
-
-final walletValues = EnumValues({"UK wallet": Wallet.UK_WALLET});
 
 class Event {
   String? id;
   String? name;
-  CountryCode? countryCode;
-  Timezone? timezone;
+  String? countryCode;
+  String? timezone;
   DateTime? openDate;
 
   Event({
@@ -361,8 +383,8 @@ class Event {
   factory Event.fromJson(Map<String, dynamic> json) => Event(
         id: json["id"],
         name: json["name"],
-        countryCode: countryCodeValues.map[json["countryCode"]]!,
-        timezone: timezoneValues.map[json["timezone"]]!,
+        countryCode: json["countryCode"],
+        timezone: json["timezone"],
         openDate:
             json["openDate"] == null ? null : DateTime.parse(json["openDate"]),
       );
@@ -370,28 +392,16 @@ class Event {
   Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
-        "countryCode": countryCodeValues.reverse[countryCode],
-        "timezone": timezoneValues.reverse[timezone],
+        "countryCode": countryCode,
+        "timezone": timezone,
         "openDate": openDate?.toIso8601String(),
       };
 }
 
-enum CountryCode { GB }
-
-final countryCodeValues = EnumValues({"GB": CountryCode.GB});
-
-enum Timezone { GMT }
-
-final timezoneValues = EnumValues({"GMT": Timezone.GMT});
-
-enum MarketName { MATCH_ODDS }
-
-final marketNameValues = EnumValues({"Match Odds": MarketName.MATCH_ODDS});
-
 class Runner {
   int? selectionId;
   int? handicap;
-  RunnerStatus? status;
+  String? status;
   double? lastPriceTraded;
   double? totalMatched;
   Ex? ex;
@@ -408,7 +418,7 @@ class Runner {
   factory Runner.fromJson(Map<String, dynamic> json) => Runner(
         selectionId: json["selectionId"],
         handicap: json["handicap"],
-        status: runnerStatusValues.map[json["status"]]!,
+        status: json["status"],
         lastPriceTraded: json["lastPriceTraded"]?.toDouble(),
         totalMatched: json["totalMatched"]?.toDouble(),
         ex: json["ex"] == null ? null : Ex.fromJson(json["ex"]),
@@ -417,7 +427,7 @@ class Runner {
   Map<String, dynamic> toJson() => {
         "selectionId": selectionId,
         "handicap": handicap,
-        "status": runnerStatusValues.reverse[status],
+        "status": status,
         "lastPriceTraded": lastPriceTraded,
         "totalMatched": totalMatched,
         "ex": ex?.toJson(),
@@ -482,10 +492,6 @@ class AvailableTo {
       };
 }
 
-enum RunnerStatus { ACTIVE }
-
-final runnerStatusValues = EnumValues({"ACTIVE": RunnerStatus.ACTIVE});
-
 class RunnersName {
   int? selectionId;
   String? runnerName;
@@ -514,10 +520,6 @@ class RunnersName {
       };
 }
 
-enum The4Status { OPEN }
-
-final the4StatusValues = EnumValues({"OPEN": The4Status.OPEN});
-
 class Meta {
   String? message;
   int? statusCode;
@@ -540,16 +542,4 @@ class Meta {
         "status_code": statusCode,
         "status": status,
       };
-}
-
-class EnumValues<T> {
-  Map<String, T> map;
-  late Map<T, String> reverseMap;
-
-  EnumValues(this.map);
-
-  Map<T, String> get reverse {
-    reverseMap = map.map((k, v) => MapEntry(v, k));
-    return reverseMap;
-  }
 }

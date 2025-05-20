@@ -1,11 +1,17 @@
+import 'dart:developer';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:stake_fair_app/models/home_models/category_model.dart';
 import 'package:stake_fair_app/repositroy/home_repository/home_repository.dart';
+import 'all_event_list_controller.dart';
+import 'market_list_controller.dart';
 
 class EventsTypeController extends GetxController {
   final HomeRepository _homeRepository = HomeRepository();
+  AllEventListController marketListController =
+      Get.put(AllEventListController());
 
   // Observable flag to track loading state
   var isLoading = true.obs;
@@ -16,10 +22,10 @@ class EventsTypeController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    marketListController.fetchAllEvent();
     fetchCategories();
   }
 
-  // API call karke, sirf eventTypes extract karna.
   void fetchCategories() async {
     try {
       isLoading.value = true;
@@ -39,16 +45,17 @@ class EventsTypeController extends GetxController {
 
           // Ab sirf eventTypes list ko map karke ek List<Map<String, dynamic>> bana lo.
           categories.assignAll(model.data?.eventTypes?.map((e) {
-            // EventType ka naam se label set karo. Agar naam null ho to 'Unknown' use karo.
-            String label = e.eventType?.name ?? 'Unknown';
-            return {
-              'id': e.eventType?.id,
-              'icon': mapIconFromCategoryName(label),
-              'label': label,
-              'isHighlighted': false,
-              'marketCount': e.marketCount ?? 0,
-            };
-          }).toList() ?? []);
+                // EventType ka naam se label set karo. Agar naam null ho to 'Unknown' use karo.
+                String label = e.eventType?.name ?? 'Unknown';
+                return {
+                  'id': e.eventType?.id,
+                  'icon': mapIconFromCategoryName(label),
+                  'label': label,
+                  'isHighlighted': false,
+                  'marketCount': e.marketCount ?? 0,
+                };
+              }).toList() ??
+              []);
         } catch (e) {
           if (kDebugMode) {
             print("Error parsing eventTypes data: $e");

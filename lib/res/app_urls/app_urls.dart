@@ -8,4 +8,7 @@ class AppUrls {
 
   static const String sportList = '/exchange/sports/sportsList';
   static const String allevenlist = '/navigation/allEventsList';
+  static const String competitionmarketlist =
+      '/navigation/competitionMarketList';
+  static const String marketlist = '/navigation/marketList';
 }
