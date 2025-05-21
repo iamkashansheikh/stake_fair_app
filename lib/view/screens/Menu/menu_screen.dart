@@ -39,12 +39,10 @@ class MenuScreen extends StatelessWidget {
                             AssetImage('assets/images/promotion.png')),
                         _buildLinks('My Markets', () {
                           Get.toNamed('/myMarket');
-                        },
-                            AssetImage('assets/images/myMarket.png')),
+                        }, AssetImage('assets/images/myMarket.png')),
                         _buildLinks('Settings', () {
                           Get.toNamed('/setting');
-                        },
-                            AssetImage('assets/images/setting.png'))
+                        }, AssetImage('assets/images/setting.png'))
                       ],
                     ),
                     SizedBox(height: 2.h),
@@ -106,21 +104,22 @@ class MenuScreen extends StatelessWidget {
                       label: 'Menu',
                       icon: Icons.menu,
                       onTap: () => homeController.changeIndex(1)),
-              _buildNavItem(
-                  index: 2,
-                  label: 'CashOut',
-                  icon: Icons.account_balance_wallet,
-                  onTap: () {
-                    homeController.changeIndex(2);
-                    Get.toNamed('/CashoutScreen');
-                  }),
-              _buildNavItemWithAsset(
-                  index: 3,
-                  label: 'MyBets',
-                  assetPath: 'assets/images/money.png',
-                  onTap: () {
-                    homeController.changeIndex(3);
-                    Get.toNamed('/MyBetsScreen');}),
+                  _buildNavItem(
+                      index: 2,
+                      label: 'CashOut',
+                      icon: Icons.account_balance_wallet,
+                      onTap: () {
+                        homeController.changeIndex(2);
+                        Get.toNamed('/CashoutScreen');
+                      }),
+                  _buildNavItemWithAsset(
+                      index: 3,
+                      label: 'MyBets',
+                      assetPath: 'assets/images/money.png',
+                      onTap: () {
+                        homeController.changeIndex(3);
+                        Get.toNamed('/MyBetsScreen');
+                      }),
                   _buildNavItemWithAsset(
                       index: 4,
                       label: 'Casino',
@@ -344,7 +343,6 @@ class MenuScreen extends StatelessWidget {
 
   Widget _buildPopularSports() {
     final controller = Get.put(SportsController());
-
     return Obx(() {
       final sport = controller.categoryList.data?.data ?? [];
 
@@ -355,7 +353,6 @@ class MenuScreen extends StatelessWidget {
             name == 'soccer' ||
             name == 'horse racing';
       }).toList();
-
       return Row(
         children: filteredSports.map((item) {
           return GestureDetector(

@@ -1,782 +1,348 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'package:stake_fair_app/controllers/getx_controller/scroll_controller.dart';
-import 'package:stake_fair_app/res/app_colors/app_colors.dart';
-import 'package:stake_fair_app/scrollable.dart';
-import 'package:stake_fair_app/view/widgets/custom_action_tile.dart';
+import '../../../res/app_colors/app_colors.dart';
+import 'package:stake_fair_app/res/responsive.dart';
 
-class HelpScreen extends StatelessWidget {
+class HelpScreen extends StatefulWidget {
   const HelpScreen({super.key});
 
   @override
+  State<HelpScreen> createState() => _HelpScreenState();
+}
+
+class _HelpScreenState extends State<HelpScreen> {
+  final PageController _pageController = PageController();
+  int _currentPage = 0;
+
+  final List<Map<String, String>> infoList = [
+    {
+      "title":
+          'Liverpool v Fulham Featured OddsBoost - D Nunez to have 2+ shots on target & J Palhinha to commit 2+ fouls',
+      "desc":
+          'Nunez is not starting for Liverpool. Featured Oddsboost will be settled on remaining legs at evens (1/1) unless Nunez comes on in which case will be settled as normal. Cashout open until KO.',
+    },
+    {
+      "title":
+          'Liverpool v Fulham Featured OddsBoost - D Nunez to have 2+ shots on target & J Palhinha to commit 2+ fouls',
+      "desc":
+          'Nunez is not starting for Liverpool. Featured Oddsboost will be settled on remaining legs at evens (1/1) unless Nunez comes on in which case will be settled as normal. Cashout open until KO.',
+    },
+  ];
+
+  final List<Map<String, String>> actionTiles = [
+    {'title': 'Login & Registration', 'image': 'assets/images/h1.png'},
+    {'title': 'Promotions & Rewards', 'image': 'assets/images/2.png'},
+    {'title': 'Deposits & Withdrawals', 'image': 'assets/images/3.png'},
+    {'title': 'Football Season 2023/24', 'image': 'assets/images/4.png'},
+    {'title': 'Verifying Your Account', 'image': 'assets/images/5.png'},
+    {'title': 'Sports', 'image': 'assets/images/6.png'},
+    {'title': 'Gaming', 'image': 'assets/images/7.png'},
+    {'title': 'Safer Gambling', 'image': 'assets/images/8.png'},
+    {'title': 'Other', 'image': 'assets/images/9.png'},
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, _autoSlide);
+  }
+
+  void _autoSlide() async {
+    while (mounted) {
+      await Future.delayed(const Duration(seconds: 4));
+      _currentPage = (_currentPage + 1) % infoList.length;
+      _pageController.animateToPage(
+        _currentPage,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final ScrollControllerX scrollControllerX = Get.put(ScrollControllerX());
-    Size mediaQuerySize = MediaQuery.of(context).size;
+    final size = MediaQuery.of(context).size;
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.black,
-        body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: mediaQuerySize.width * 0.02),
-          child: NoBounceScrollWrapper(
-            child: SingleChildScrollView(
-              controller: scrollControllerX.scrollController,
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: mediaQuerySize.height * 0.1,
+        body: BaseResponsiveScreen(
+          child: Stack(
+            children: [
+              Container(
+                width: double.infinity,
+                height: size.height * 0.35,
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage('assets/images/bgImg.png'),
+                    fit: BoxFit.cover,
                   ),
-                  Center(
-                    child: Container(
-                      height: mediaQuerySize.height * 0.1,
-                      width: mediaQuerySize.width * 0.7,
-                      decoration: BoxDecoration(
-                          color: Color(0xff364452),
-                          //color: Colors.blueGrey.withOpacity(0.6),
-                          borderRadius: BorderRadius.circular(5)),
-                    ),
-                  ),
-                  SizedBox(
-                    height: mediaQuerySize.height * 0.04,
-                  ),
-                  Container(
-                    width: mediaQuerySize.width,
-            
-                    //  height: mediaQuerySize.height*0.2,
-                    decoration: BoxDecoration(
-                      color: Color(0xff364452),
-                      // color:  Colors.blueGrey.withOpacity(0.6),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(
-                          height: mediaQuerySize.height * 0.02,
-                        ),
-                        Text(
-                          "text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: mediaQuerySize.height * 0.04,
-                  ),
-                  Center(
-                    child: Text(
-                      'How can we help out?',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500),
-                    ),
-                  ),
-                  SizedBox(
-                    height: mediaQuerySize.height * 0.02,
-                  ),
-                  Container(
-                    height: mediaQuerySize.height * 0.07,
-                    width: mediaQuerySize.width * 0.8,
-                    padding: EdgeInsets.symmetric(horizontal: 12),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Row(
-                      children: [
-                        Icon(Icons.search, color: Colors.grey),
-                        SizedBox(width: 10),
-                        Expanded(
-                          child: TextField(
-                            decoration: InputDecoration(
-                              hintText: 'Tell us what you are looking for',
-                              hintStyle: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500),
-                              border: InputBorder.none,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: mediaQuerySize.height * 0.04,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Popular Questions',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold),
-                        )),
-                  ),
-                  SizedBox(
-                    height: mediaQuerySize.height * 0.02,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: mediaQuerySize.width * 0.02),
-                    child: Row(
-                      children: [
-                        Container(
-                          height: mediaQuerySize.height * 0.05,
-                          width: mediaQuerySize.width * 0.4,
-                          decoration: BoxDecoration(
-                              color: Color(0xff2A2A2C),
-                              // color: AppColors.helpScrenColor,
-                              borderRadius: BorderRadius.circular(5)
-                              //color: Colors.grey.shade500,
-                              ),
-                          child: Row(
-                            children: [
-                              Container(
-                                height: mediaQuerySize.height * 0.05,
-                                width: mediaQuerySize.width * 0.01,
-                                decoration: BoxDecoration(color: Colors.amber),
-                              ),
-                              SizedBox(
-                                width: mediaQuerySize.width * 0.02,
-                              ),
-                              Text(
-                                'Account Access(Login)',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold),
-                              )
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          width: mediaQuerySize.width * 0.02,
-                        ),
-                        Container(
-                          height: mediaQuerySize.height * 0.05,
-                          width: mediaQuerySize.width * 0.4,
-                          decoration: BoxDecoration(
-                              color: AppColors.helpScrenColor,
-                              borderRadius: BorderRadius.circular(5)
-                              //color: Colors.grey.shade500,
-                              ),
-                          child: Row(
-                            children: [
-                              Container(
-                                height: mediaQuerySize.height * 0.05,
-                                width: mediaQuerySize.width * 0.01,
-                                decoration: BoxDecoration(color: Colors.amber),
-                              ),
-                              SizedBox(
-                                width: mediaQuerySize.width * 0.02,
-                              ),
-                              Text(
-                                'Free Bet Information',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: mediaQuerySize.height * 0.01,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: mediaQuerySize.width * 0.02),
-                    child: Row(
-                      children: [
-                        Container(
-                          height: mediaQuerySize.height * 0.05,
-                          width: mediaQuerySize.width * 0.35,
-                          decoration: BoxDecoration(
-                              color: AppColors.helpScrenColor,
-                              borderRadius: BorderRadius.circular(5)
-                              //color: Colors.grey.shade500,
-                              ),
-                          child: Row(
-                            children: [
-                              Container(
-                                height: mediaQuerySize.height * 0.05,
-                                width: mediaQuerySize.width * 0.01,
-                                decoration: BoxDecoration(color: Colors.amber),
-                              ),
-                              SizedBox(
-                                width: mediaQuerySize.width * 0.02,
-                              ),
-                              Text(
-                                'Account Access(Login)',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.bold),
-                              )
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          width: mediaQuerySize.width * 0.02,
-                        ),
-                        Container(
-                          height: mediaQuerySize.height * 0.05,
-                          width: mediaQuerySize.width * 0.35,
-                          decoration: BoxDecoration(
-                              color: AppColors.helpScrenColor,
-                              borderRadius: BorderRadius.circular(5)
-                              //color: Colors.grey.shade500,
-                              ),
-                          child: Row(
-                            children: [
-                              Container(
-                                height: mediaQuerySize.height * 0.05,
-                                width: mediaQuerySize.width * 0.01,
-                                decoration: BoxDecoration(color: Colors.amber),
-                              ),
-                              SizedBox(
-                                width: mediaQuerySize.width * 0.02,
-                              ),
-                              Text(
-                                'Free Bet Information',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: mediaQuerySize.height * 0.01,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: mediaQuerySize.width * 0.02),
-                    child: Row(
-                      children: [
-                        Container(
-                          height: mediaQuerySize.height * 0.05,
-                          width: mediaQuerySize.width * 0.5,
-                          decoration: BoxDecoration(
-                              color: AppColors.helpScrenColor,
-                              borderRadius: BorderRadius.circular(5)
-                              //color: Colors.grey.shade500,
-                              ),
-                          child: Row(
-                            children: [
-                              Container(
-                                height: mediaQuerySize.height * 0.05,
-                                width: mediaQuerySize.width * 0.01,
-                                decoration: BoxDecoration(color: Colors.amber),
-                              ),
-                              SizedBox(
-                                width: mediaQuerySize.width * 0.02,
-                              ),
-                              Text(
-                                'Updating or removing your card',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.bold),
-                              )
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          width: mediaQuerySize.width * 0.02,
-                        ),
-                        Container(
-                          height: mediaQuerySize.height * 0.05,
-                          width: mediaQuerySize.width * 0.27,
-                          decoration: BoxDecoration(
-                              color: AppColors.helpScrenColor,
-                              borderRadius: BorderRadius.circular(5)
-                              //color: Colors.grey.shade500,
-                              ),
-                          child: Row(
-                            children: [
-                              Container(
-                                height: mediaQuerySize.height * 0.05,
-                                width: mediaQuerySize.width * 0.01,
-                                decoration: BoxDecoration(color: Colors.amber),
-                              ),
-                              SizedBox(
-                                width: mediaQuerySize.width * 0.02,
-                              ),
-                              Text(
-                                'Contact Us',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: mediaQuerySize.height * 0.03,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Find our more about one of these areas',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold),
-                        )),
-                  ),
-                  SizedBox(
-                    height: mediaQuerySize.height * 0.01,
-                  ),
-                  CustomActionTile(
-                    title: 'Login & Registration',
-                    leading: Image.asset('assets/images/h1.png'),
-                    trailingIcon: Icons.arrow_forward,
-                    onTap: () {},
-                    mediaQuerySize: mediaQuerySize,
-                  ),
-                  SizedBox(
-                    height: mediaQuerySize.height * 0.01,
-                  ),
-                  CustomActionTile(
-                    title: 'Permotions & Rewards',
-                    leading: Image.asset('assets/images/2.png'),
-                    trailingIcon: Icons.arrow_forward,
-                    onTap: () {},
-                    mediaQuerySize: mediaQuerySize,
-                  ),
-                  SizedBox(
-                    height: mediaQuerySize.height * 0.01,
-                  ),
-                  CustomActionTile(
-                    title: 'Deposits & Withdrawals',
-                    leading: Image.asset('assets/images/3.png'),
-                    trailingIcon: Icons.arrow_forward,
-                    onTap: () {},
-                    mediaQuerySize: mediaQuerySize,
-                  ),
-                  SizedBox(
-                    height: mediaQuerySize.height * 0.01,
-                  ),
-                  CustomActionTile(
-                    title: 'Football Season 2023/24',
-                    leading: Image.asset('assets/images/4.png'),
-                    trailingIcon: Icons.arrow_forward,
-                    onTap: () {},
-                    mediaQuerySize: mediaQuerySize,
-                  ),
-                  SizedBox(
-                    height: mediaQuerySize.height * 0.01,
-                  ),
-                  CustomActionTile(
-                    title: 'Verifying Your Account',
-                    leading: Image.asset('assets/images/5.png'),
-                    trailingIcon: Icons.arrow_forward,
-                    onTap: () {},
-                    mediaQuerySize: mediaQuerySize,
-                  ),
-                  SizedBox(
-                    height: mediaQuerySize.height * 0.01,
-                  ),
-                  CustomActionTile(
-                    title: 'Sports',
-                    leading: Image.asset('assets/images/6.png'),
-                    trailingIcon: Icons.arrow_forward,
-                    onTap: () {},
-                    mediaQuerySize: mediaQuerySize,
-                  ),
-                  SizedBox(
-                    height: mediaQuerySize.height * 0.01,
-                  ),
-                  CustomActionTile(
-                    title: 'Gaming',
-                    leading: Image.asset('assets/images/7.png'),
-                    trailingIcon: Icons.arrow_forward,
-                    onTap: () {},
-                    mediaQuerySize: mediaQuerySize,
-                  ),
-                  SizedBox(
-                    height: mediaQuerySize.height * 0.01,
-                  ),
-                  CustomActionTile(
-                    title: 'Safer Gambling',
-                    leading: Image.asset('assets/images/8.png'),
-                    trailingIcon: Icons.arrow_forward,
-                    onTap: () {},
-                    mediaQuerySize: mediaQuerySize,
-                  ),
-                  SizedBox(
-                    height: mediaQuerySize.height * 0.01,
-                  ),
-                  CustomActionTile(
-                    title: 'Other',
-                    leading: Image.asset('assets/images/9.png'),
-                    trailingIcon: Icons.arrow_forward,
-                    onTap: () {},
-                    mediaQuerySize: mediaQuerySize,
-                  ),
-                  SizedBox(
-                    height: mediaQuerySize.height * 0.03,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Not found the answer you were found?',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold),
-                        )),
-                  ),
-                  SizedBox(
-                    height: mediaQuerySize.height * 0.01,
-                  ),
-                  Container(
-                    height: mediaQuerySize.height * 0.25,
-                    width: mediaQuerySize.width * 0.9,
-                    decoration: BoxDecoration(
-                      color: const Color(0xff1c1b1a),
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: Container(
-                      height: mediaQuerySize.height * 0.05,
-                      width: mediaQuerySize.width * 0.08,
-                      decoration: BoxDecoration(
-                        color: const Color(0xff1c1b1a),
-                        borderRadius: BorderRadius.circular(2),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.7),
-                            //color:  Color(0xff1c1b1a), // Example shadow
-                            blurRadius: 3,
-                            spreadRadius: 0,
-                            offset: const Offset(0, 0),
-                          )
-                        ],
-                      ),
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: mediaQuerySize.height * 0.04,
-                          ),
-                          Center(child: Image.asset('assets/images/dd.png')),
-                          SizedBox(
-                            height: mediaQuerySize.height * 0.02,
-                          ),
-                          Text(
-                            'The quickest way to get in touch',
-                            style: TextStyle(
-                                color: Colors.white, fontWeight: FontWeight.w500),
-                          ),
-                          SizedBox(
-                            height: mediaQuerySize.height * 0.02,
-                          ),
-                          Container(
-                            height: mediaQuerySize.height * 0.06,
-                            width: mediaQuerySize.width * 0.6,
-                            decoration: BoxDecoration(
-                                border: Border.all(color: Colors.white),
-                                borderRadius: BorderRadius.circular(5)),
-                            child: Center(
-                                child: Text(
-                              'Get in touch',
-                              style: TextStyle(
-                                  color: Colors.white, fontWeight: FontWeight.bold),
-                            )),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: mediaQuerySize.height * 0.02,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Row(
-                      children: [
-                        Container(
-                          height: mediaQuerySize.height * 0.045,
-                          width: mediaQuerySize.width * 0.45,
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey.shade900),
-                              borderRadius: BorderRadius.circular(5)),
-                          child: Center(
-                              child: Text(
-                            'Privacy Policy',
-                            style: TextStyle(
-                                color: Colors.grey.shade700,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 11),
-                          )),
-                        ),
-                        SizedBox(
-                          width: mediaQuerySize.width * 0.02,
-                        ),
-                        Container(
-                          height: mediaQuerySize.height * 0.045,
-                          width: mediaQuerySize.width * 0.45,
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey.shade900),
-                              borderRadius: BorderRadius.circular(5)),
-                          child: Center(
-                              child: Text(
-                            'Terms & Conditions',
-                            style: TextStyle(
-                                color: Colors.grey.shade700,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 11),
-                          )),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Row(
-                      children: [
-                        Container(
-                          height: mediaQuerySize.height * 0.045,
-                          width: mediaQuerySize.width * 0.45,
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey.shade900),
-                              borderRadius: BorderRadius.circular(5)),
-                          child: Center(
-                              child: Text(
-                            'Cookie Policy',
-                            style: TextStyle(
-                                color: Colors.grey.shade700,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 11),
-                          )),
-                        ),
-                        SizedBox(
-                          width: mediaQuerySize.width * 0.02,
-                        ),
-                        Container(
-                          height: mediaQuerySize.height * 0.065,
-                          width: mediaQuerySize.width * 0.45,
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey.shade900),
-                              borderRadius: BorderRadius.circular(5)),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Center(
-                                child: Text(
-                              textAlign: TextAlign.center,
-                              'Underage Gambling is an Offence',
-                              style: TextStyle(
-                                  color: Colors.grey.shade700,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 11),
-                            )),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Row(
-                      children: [
-                        Container(
-                          height: mediaQuerySize.height * 0.045,
-                          width: mediaQuerySize.width * 0.45,
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey.shade900),
-                              borderRadius: BorderRadius.circular(5)),
-                          child: Center(
-                              child: Text(
-                            'Rules & Regulations',
-                            style: TextStyle(
-                                color: Colors.grey.shade700,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 11),
-                          )),
-                        ),
-                        SizedBox(
-                          width: mediaQuerySize.width * 0.02,
-                        ),
-                        Container(
-                          height: mediaQuerySize.height * 0.045,
-                          width: mediaQuerySize.width * 0.45,
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey.shade900),
-                              borderRadius: BorderRadius.circular(5)),
-                          child: Center(
-                              child: Text('Betfair.com',
-                                  style: TextStyle(
-                                      color: Colors.grey.shade700,
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 11))),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: mediaQuerySize.height * 0.01,
-                  ),
-                  Container(
-                    height: mediaQuerySize.height * 0.09,
-                    width: mediaQuerySize.width * 0.5,
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey.shade900),
-                        borderRadius: BorderRadius.circular(5)),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Center(
-                          child: Text(
-                        textAlign: TextAlign.center,
-                        'Gambling can be addictive, use our online tools for a safer way to play',
-                        style: TextStyle(
-                            color: Colors.grey.shade700,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 11),
-                      )),
-                    ),
-                  ),
-                  SizedBox(
-                    height: mediaQuerySize.height * 0.03,
-                  ),
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Image.asset('assets/images/bt6.png'),
-                      SizedBox(
-                        width: mediaQuerySize.width * 0.02,
-                      ),
-                      Image.asset('assets/images/commission.png'),
-                      SizedBox(
-                        width: mediaQuerySize.width * 0.02,
-                      ),
-                      Image.asset('assets/images/bt1.png'),
-                    ],
-                  ),
-                  SizedBox(
-                    height: mediaQuerySize.height * 0.02,
-                  ),
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Image.asset('assets/images/bt5.png'),
-                      SizedBox(
-                        width: mediaQuerySize.width * 0.02,
-                      ),
-                      Image.asset('assets/images/bt3.png'),
-                      SizedBox(
-                        width: mediaQuerySize.width * 0.02,
-                      ),
-                      Image.asset('assets/images/bt8.png'),
-                    ],
-                  ),
-                  SizedBox(
-                    height: mediaQuerySize.height * 0.02,
-                  ),
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Image.asset('assets/images/jj.png'),
-                      SizedBox(
-                        width: mediaQuerySize.width * 0.02,
-                      ),
-                      Image.asset('assets/images/bt4.png'),
-                      SizedBox(
-                        width: mediaQuerySize.width * 0.02,
-                      ),
-                      Image.asset('assets/images/bt10.png'),
-                    ],
-                  ),
-                  SizedBox(
-                    height: mediaQuerySize.height * 0.02,
-                  ),
-                  Center(child: Image.asset('assets/images/bt11.png')),
-                  SizedBox(
-                    height: mediaQuerySize.height * 0.03,
-                  ),
-                  Center(child: Image.asset('assets/images/bt2.png')),
-                  SizedBox(
-                    height: mediaQuerySize.height * 0.1,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            scrollControllerX.scrollUp(); // Your scroll functionality
-          },
-          backgroundColor: Colors.transparent, // Make the background transparent
-          elevation: 4, // Add a shadow effect to give it a floating look
-          child: Container(
-            height: 60, // Size of the button
-            width: 60, // Size of the button
-            decoration: BoxDecoration(
-              shape: BoxShape.circle, // Make the button circular
-              //  color: Color.fromARGB(255, 61, 61, 52), // iOS-style background color (blue)
-              color: AppColors.helpScrenColor,
-              boxShadow: [
-                BoxShadow(
-                  // color: Colors.black.withOpacity(0.4), // Shadow effect
-                  color: AppColors.helpScrenColor,
-                  blurRadius: 6,
-                  offset: Offset(0, 4),
                 ),
-              ],
-            ),
-            child: Center(
-              child: Icon(
-                Icons.arrow_upward,
-                color: Colors.blue, // White color for the icon
-                size: 30, // Icon size
               ),
-            ),
+              SingleChildScrollView(
+                padding: EdgeInsets.symmetric(horizontal: 12.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: size.height * 0.01),
+                    SizedBox(
+                      width: double.infinity,
+                      height: size.height * 0.185,
+                      child: PageView.builder(
+                        controller: _pageController,
+                        itemCount: infoList.length,
+                        itemBuilder: (_, index) {
+                          final item = infoList[index];
+                          return Container(
+                            margin: EdgeInsets.symmetric(horizontal: 10.w),
+                            padding: EdgeInsets.all(8.r),
+                            decoration: BoxDecoration(
+                              color: const Color(0xff354351).withOpacity(0.8),
+                              borderRadius: BorderRadius.circular(5.r),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  item['title']!,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12.sp,
+                                    height: 1.1,
+                                  ),
+                                ),
+                                SizedBox(height: 5.h),
+                                Text(
+                                  item['desc']!,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12.sp,
+                                    height: 1.1,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                    SizedBox(height: 12.h),
+                    Center(
+                      child: Text('HERE TO HELP', style: _headerTextStyle()),
+                    ),
+                    Center(
+                      child: Text('How can we help out?',
+                          style: _subHeaderTextStyle()),
+                    ),
+                    SizedBox(height: 12.h),
+                    _buildSearchBar(),
+                    SizedBox(height: 15.h),
+                    Text(
+                      'Popular Questions',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: size.height * 0.006),
+                    _rowHelpItems([
+                      _helpItem(size, 'Account Access(Login)', 0.4),
+                      _helpItem(size, 'Free Bet Information', 0.4),
+                    ]),
+                    SizedBox(height: size.height * 0.01),
+                    _rowHelpItems([
+                      _helpItem(size, 'Account Access(Login)', 0.35),
+                      _helpItem(size, 'Free Bet Information', 0.35),
+                    ]),
+                    SizedBox(height: size.height * 0.01),
+                    _rowHelpItems([
+                      _helpItem(size, 'Updating or removing your card', 0.5),
+                      _helpItem(size, 'Contact Us', 0.27),
+                    ]),
+                    SizedBox(height: size.height * 0.006),
+                    _buildActionTilesSection(),
+                    SizedBox(height: size.height * 0.006),
+                    Text('Not found the answer you were after',style: TextStyle(color: Colors.white,fontSize: 14.sp, fontWeight: FontWeight.bold)),
+                    SizedBox(height: size.height * 0.006),
+                    _buildGetInTouch(),
+                    SizedBox(height: size.height * 0.006),
+                    
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
-      
-        // floatingActionButton:FloatingActionButton(
-        //   onPressed: (){
-        //     scrollControllerX.scrollUp();
-        //   },
-        //   child: Icon(Icons.arrow_upward_sharp,),
-        // ),
       ),
     );
   }
+
+  Widget _buildSearchBar() {
+    return SizedBox(
+      height: 33.h,
+      child: TextFormField(
+        showCursor: false,
+        style: TextStyle(
+          color: Colors.black,
+          fontSize: 12.sp,
+        ),
+        decoration: InputDecoration(
+          filled: true,
+          fillColor: Colors.white,
+          contentPadding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 0),
+          hintText: 'Tell us what you are looking for',
+          hintStyle: TextStyle(
+            color: Colors.grey,
+            fontSize: 12.sp,
+          ),
+          prefixIcon: const Icon(Icons.search, color: Colors.grey),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(2.r),
+            borderSide: BorderSide.none,
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(2.r),
+            borderSide: BorderSide.none,
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(2.r),
+            borderSide: BorderSide.none,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _rowHelpItems(List<Widget> children) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 1.w),
+      child: Row(
+        children: [
+          ...children,
+          if (children.length == 1) const Spacer(),
+        ],
+      ),
+    );
+  }
+
+  Widget _helpItem(Size size, String title, double width) {
+    return Container(
+      margin: const EdgeInsets.only(right: 8),
+      height: size.height * 0.05,
+      width: size.width * width,
+      decoration: BoxDecoration(
+        color: AppColors.helpScrenColor,
+        borderRadius: BorderRadius.circular(2.r),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: size.width * 0.004,
+            color: Colors.amber,
+          ),
+          SizedBox(width: size.width * 0.02),
+          Expanded(
+            child: Text(
+              title,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 10.sp,
+                fontWeight: FontWeight.bold,
+              ),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildActionTilesSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(vertical: 6.h),
+          child: Text(
+            'Find our more about one of these areas',
+            style: _sectionTitleStyle(),
+          ),
+        ),
+        ...actionTiles.map(_buildActionTile).toList(),
+      ],
+    );
+  }
+
+  Widget _buildActionTile(Map<String, String> tile) {
+    return Padding(
+      padding: EdgeInsets.only(bottom: 7.h), // Optional vertical spacing
+      child: SizedBox(
+        height: 45.h,
+        child: Container(
+          decoration: BoxDecoration(
+            color: const Color(0xff2A2A2C),
+            borderRadius: BorderRadius.circular(3.r),
+          ),
+          child: ListTile(
+            contentPadding: EdgeInsets.symmetric(horizontal: 15.w),
+            leading: Image.asset(tile['image']!, width: 20.w),
+            title: Text(tile['title']!, style: _tileTextStyle()),
+            trailing: Icon(
+              Icons.arrow_forward,
+              color: Colors.grey,
+              size: 16.sp,
+            ),
+            onTap: () {},
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildGetInTouch(){
+   return Container(
+    height: 110.h,
+    width: 10.sw,
+    decoration: BoxDecoration(
+      color: const Color(0xff2A2A2C),
+      borderRadius: BorderRadius.circular(3.r)
+    ),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Image(image: AssetImage('assets/images/dd.png')),
+        SizedBox(height: 8.h),
+        Text('The quickest way to get in touch',style: TextStyle(color: Colors.white,fontSize: 12.sp),),
+        SizedBox(height: 10.h),
+        Container(
+          width: 250.w,
+          height: 30.h,
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.white)
+          ),
+        
+          child: Center(child: Text('Get in touch',style: TextStyle(color: Colors.white,fontSize: 12.sp))),
+          
+        ),
+        SizedBox(height: 10.h),
+      ],
+    ),
+   );
+  }
+
+
+  TextStyle _headerTextStyle() => TextStyle(
+      fontSize: 28.sp, color: Colors.white, fontWeight: FontWeight.bold);
+
+  TextStyle _subHeaderTextStyle() => TextStyle(
+      color: Colors.white, fontSize: 12.sp, fontWeight: FontWeight.w500);
+
+  TextStyle _sectionTitleStyle() => TextStyle(
+      color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.bold);
+
+  TextStyle _tileTextStyle() => TextStyle(
+      color: Colors.white, fontSize: 12.sp, fontWeight: FontWeight.w600);
 }
