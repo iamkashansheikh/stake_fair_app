@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'package:get/get.dart';
+import 'package:stake_fair_app/scrollable.dart';
+import '../../../controllers/getx_controller/scroll_controller.dart';
 import '../../../res/app_colors/app_colors.dart';
 import 'package:stake_fair_app/res/responsive.dart';
 
@@ -13,6 +15,7 @@ class HelpScreen extends StatefulWidget {
 
 class _HelpScreenState extends State<HelpScreen> {
   final PageController _pageController = PageController();
+  final ScrollControllerX scrollControllerX = Get.put(ScrollControllerX());
   int _currentPage = 0;
 
   final List<Map<String, String>> infoList = [
@@ -80,101 +83,189 @@ class _HelpScreenState extends State<HelpScreen> {
                   ),
                 ),
               ),
-              SingleChildScrollView(
-                padding: EdgeInsets.symmetric(horizontal: 12.w),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: size.height * 0.01),
-                    SizedBox(
-                      width: double.infinity,
-                      height: size.height * 0.185,
-                      child: PageView.builder(
-                        controller: _pageController,
-                        itemCount: infoList.length,
-                        itemBuilder: (_, index) {
-                          final item = infoList[index];
-                          return Container(
-                            margin: EdgeInsets.symmetric(horizontal: 10.w),
-                            padding: EdgeInsets.all(8.r),
-                            decoration: BoxDecoration(
-                              color: const Color(0xff354351).withOpacity(0.8),
-                              borderRadius: BorderRadius.circular(5.r),
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  item['title']!,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 12.sp,
-                                    height: 1.1,
+              NoBounceScrollWrapper(
+                child: SingleChildScrollView(
+                  controller: scrollControllerX.scrollController,
+                  padding: EdgeInsets.symmetric(horizontal: 12.w),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: size.height * 0.01),
+                      SizedBox(
+                        width: double.infinity,
+                        height: size.height * 0.185,
+                        child: PageView.builder(
+                          controller: _pageController,
+                          itemCount: infoList.length,
+                          itemBuilder: (_, index) {
+                            final item = infoList[index];
+                            return Container(
+                              margin: EdgeInsets.symmetric(horizontal: 10.w),
+                              padding: EdgeInsets.all(8.r),
+                              decoration: BoxDecoration(
+                                color: const Color(0xff354351).withOpacity(0.8),
+                                borderRadius: BorderRadius.circular(5.r),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    item['title']!,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 12.sp,
+                                      height: 1.1,
+                                    ),
                                   ),
-                                ),
-                                SizedBox(height: 5.h),
-                                Text(
-                                  item['desc']!,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 12.sp,
-                                    height: 1.1,
+                                  SizedBox(height: 5.h),
+                                  Text(
+                                    item['desc']!,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 12.sp,
+                                      height: 1.1,
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
+                                ],
+                              ),
+                            );
+                          },
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 12.h),
-                    Center(
-                      child: Text('HERE TO HELP', style: _headerTextStyle()),
-                    ),
-                    Center(
-                      child: Text('How can we help out?',
-                          style: _subHeaderTextStyle()),
-                    ),
-                    SizedBox(height: 12.h),
-                    _buildSearchBar(),
-                    SizedBox(height: 15.h),
-                    Text(
-                      'Popular Questions',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.bold,
+                      SizedBox(height: 12.h),
+                      Center(
+                        child: Text('HERE TO HELP', style: _headerTextStyle()),
                       ),
-                    ),
-                    SizedBox(height: size.height * 0.006),
-                    _rowHelpItems([
-                      _helpItem(size, 'Account Access(Login)', 0.4),
-                      _helpItem(size, 'Free Bet Information', 0.4),
-                    ]),
-                    SizedBox(height: size.height * 0.01),
-                    _rowHelpItems([
-                      _helpItem(size, 'Account Access(Login)', 0.35),
-                      _helpItem(size, 'Free Bet Information', 0.35),
-                    ]),
-                    SizedBox(height: size.height * 0.01),
-                    _rowHelpItems([
-                      _helpItem(size, 'Updating or removing your card', 0.5),
-                      _helpItem(size, 'Contact Us', 0.27),
-                    ]),
-                    SizedBox(height: size.height * 0.006),
-                    _buildActionTilesSection(),
-                    SizedBox(height: size.height * 0.006),
-                    Text('Not found the answer you were after',style: TextStyle(color: Colors.white,fontSize: 14.sp, fontWeight: FontWeight.bold)),
-                    SizedBox(height: size.height * 0.006),
-                    _buildGetInTouch(),
-                    SizedBox(height: size.height * 0.006),
-                    
-                  ],
+                      Center(
+                        child: Text('How can we help out?',
+                            style: _subHeaderTextStyle()),
+                      ),
+                      SizedBox(height: 12.h),
+                      _buildSearchBar(),
+                      SizedBox(height: 15.h),
+                      Text(
+                        'Popular Questions',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: size.height * 0.006),
+                      _rowHelpItems([
+                        _helpItem(size, 'Account Access(Login)', 0.4),
+                        _helpItem(size, 'Free Bet Information', 0.4),
+                      ]),
+                      SizedBox(height: size.height * 0.01),
+                      _rowHelpItems([
+                        _helpItem(size, 'Account Access(Login)', 0.35),
+                        _helpItem(size, 'Free Bet Information', 0.35),
+                      ]),
+                      SizedBox(height: size.height * 0.01),
+                      _rowHelpItems([
+                        _helpItem(size, 'Updating or removing your card', 0.5),
+                        _helpItem(size, 'Contact Us', 0.27),
+                      ]),
+                      SizedBox(height: size.height * 0.006),
+                      _buildActionTilesSection(),
+                      SizedBox(height: size.height * 0.006),
+                      Text('Not found the answer you were after',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.bold)),
+                      SizedBox(height: size.height * 0.006),
+                      _buildGetInTouch(),
+                      SizedBox(height: size.height * 0.029),
+                      Row(
+                        children: [
+                          Expanded(
+                              child: _buildMultiplContainer(
+                            'Privacy Policy',
+                            60.w,
+                          )),
+                          SizedBox(width: size.width * 0.02),
+                          Expanded(
+                              child: _buildMultiplContainer(
+                                  'Terms & Conditions', 60.w)),
+                        ],
+                      ),
+                      SizedBox(height: size.height * 0.009),
+                      Row(
+                        children: [
+                          Expanded(
+                              child: _buildMultiplContainer(
+                                  'Cookie Policy', 60.w)),
+                          SizedBox(width: size.width * 0.02),
+                          Expanded(
+                              child: _buildMultiplContainer(
+                                  'Underage Gambling is an offence', 60.w)),
+                        ],
+                      ),
+                      SizedBox(height: size.height * 0.009),
+                      Row(
+                        children: [
+                          Expanded(
+                              child: _buildMultiplContainer(
+                                  'Rules & Regulations', 60.w)),
+                          SizedBox(width: size.width * 0.02),
+                          Expanded(
+                              child:
+                                  _buildMultiplContainer('Betfair.com', 60.w)),
+                        ],
+                      ),
+                      SizedBox(height: size.height * 0.009),
+                      Center(
+                          child: _buildMultiplContainer(
+                              'Gambling cand be addictive. user our online tools for a safer way to play',
+                              190.w)),
+                      SizedBox(height: size.height * 0.02),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          _buildImages('assets/images/bt6.png'),
+                          SizedBox(width: size.width * 0.03),
+                          _buildImages('assets/images/commission.png'),
+                          SizedBox(width: size.width * 0.03),
+                          _buildImages('assets/images/bt1.png')
+                        ],
+                      ),
+                      SizedBox(height: size.height * 0.02),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          _buildImages('assets/images/bt5.png'),
+                          SizedBox(width: size.width * 0.03),
+                          _buildImages('assets/images/bt3.png'),
+                          SizedBox(width: size.width * 0.03),
+                          _buildImages('assets/images/bt9.png')
+                        ],
+                      ),
+                      SizedBox(height: size.height * 0.02),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          _buildImages('assets/images/jj.png'),
+                          SizedBox(width: size.width * 0.03),
+                          _buildImages('assets/images/bt4.png'),
+                          SizedBox(width: size.width * 0.03),
+                          _buildImages('assets/images/bt10.png')
+                        ],
+                      ),
+                      SizedBox(height: size.height * 0.02),
+                      Center(child: _buildImages('assets/images/bt11.png')),
+                      SizedBox(height: size.height * 0.02),
+                      Center(child: _buildImages('assets/images/bt2.png')),
+                      SizedBox(height: size.height * 0.04),
+                      SizedBox(height: size.height * 0.04),
+                    ],
+                  ),
                 ),
               ),
             ],
           ),
         ),
+        floatingActionButton: _buildScrollToTopButton(),
       ),
     );
   }
@@ -302,47 +393,86 @@ class _HelpScreenState extends State<HelpScreen> {
     );
   }
 
-  Widget _buildGetInTouch(){
-   return Container(
-    height: 110.h,
-    width: 10.sw,
-    decoration: BoxDecoration(
-      color: const Color(0xff2A2A2C),
-      borderRadius: BorderRadius.circular(3.r)
-    ),
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Image(image: AssetImage('assets/images/dd.png')),
-        SizedBox(height: 8.h),
-        Text('The quickest way to get in touch',style: TextStyle(color: Colors.white,fontSize: 12.sp),),
-        SizedBox(height: 10.h),
-        Container(
-          width: 250.w,
-          height: 30.h,
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.white)
+  Widget _buildGetInTouch() {
+    return Container(
+      height: 110.h,
+      width: 10.sw,
+      decoration: BoxDecoration(
+          color: const Color(0xff2A2A2C),
+          borderRadius: BorderRadius.circular(3.r)),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image(image: AssetImage('assets/images/dd.png')),
+          SizedBox(height: 8.h),
+          Text(
+            'The quickest way to get in touch',
+            style: TextStyle(color: Colors.white, fontSize: 12.sp),
           ),
-        
-          child: Center(child: Text('Get in touch',style: TextStyle(color: Colors.white,fontSize: 12.sp))),
-          
-        ),
-        SizedBox(height: 10.h),
-      ],
-    ),
-   );
+          SizedBox(height: 10.h),
+          Container(
+            width: 250.w,
+            height: 30.h,
+            decoration: BoxDecoration(border: Border.all(color: Colors.white)),
+            child: Center(
+                child: Text('Get in touch',
+                    style: TextStyle(color: Colors.white, fontSize: 12.sp))),
+          ),
+          SizedBox(height: 10.h),
+        ],
+      ),
+    );
   }
 
+  Widget _buildMultiplContainer(String title, double width) {
+    return Container(
+      width: width,
+      decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey.shade800),
+          borderRadius: BorderRadius.circular(3.r)),
+      child: Padding(
+        padding: EdgeInsets.all(8.r),
+        child: Center(
+            child: Text(
+          title,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              color: Colors.grey.shade700,
+              fontWeight: FontWeight.w500,
+              fontSize: 10.sp),
+        )),
+      ),
+    );
+  }
 
-  TextStyle _headerTextStyle() => TextStyle(
-      fontSize: 28.sp, color: Colors.white, fontWeight: FontWeight.bold);
+  Widget _buildImages(String img) {
+    return Image(
+      image: AssetImage(
+        img,
+      ),
+      fit: BoxFit.contain,
+      filterQuality: FilterQuality.high,
+    );
+  }
 
-  TextStyle _subHeaderTextStyle() => TextStyle(
-      color: Colors.white, fontSize: 12.sp, fontWeight: FontWeight.w500);
+  Widget _buildScrollToTopButton() {
+    return FloatingActionButton(
+      onPressed: () {
+        scrollControllerX.scrollUp();},
+      backgroundColor: AppColors.helpScrenColor,
+      shape: CircleBorder(),
+      child: Center(
+        child: Icon(
+          Icons.arrow_upward,
+          color: Colors.blue,
+          size: 30,
+        ),
+      ),
+    );
+  }
 
-  TextStyle _sectionTitleStyle() => TextStyle(
-      color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.bold);
-
-  TextStyle _tileTextStyle() => TextStyle(
-      color: Colors.white, fontSize: 12.sp, fontWeight: FontWeight.w600);
+  TextStyle _headerTextStyle() => TextStyle(fontSize: 28.sp, color: Colors.white, fontWeight: FontWeight.bold);
+  TextStyle _subHeaderTextStyle() => TextStyle(color: Colors.white, fontSize: 12.sp, fontWeight: FontWeight.w500);
+  TextStyle _sectionTitleStyle() => TextStyle(color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.bold);
+  TextStyle _tileTextStyle() => TextStyle(color: Colors.white, fontSize: 12.sp, fontWeight: FontWeight.w600);
 }
