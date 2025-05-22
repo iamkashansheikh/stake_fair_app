@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:stake_fair_app/scrollable.dart';
-
 import '../../../controllers/getx_controller/scroll_controller.dart';
 import '../../../res/app_colors/app_colors.dart';
 import 'package:stake_fair_app/res/responsive.dart';
