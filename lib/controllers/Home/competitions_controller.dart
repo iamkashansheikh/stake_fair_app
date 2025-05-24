@@ -32,7 +32,7 @@ class CompetitonController extends GetxController {
       var model = CategoryListModel.fromJson(response);
       categoryListModel.value = model;
       if (model.data?.competitions != null) {
-        competitionList.assignAll(model.data!.competitions);
+        competitionList.assignAll(model.data!.competitions!);
       }
       if (kDebugMode) {
         print("Category API data: $response");
@@ -48,7 +48,7 @@ class CompetitonController extends GetxController {
 
   List<CompetitionElement> getCompetitionsByEvent(String eventName) {
     if (categoryListModel.value?.data?.competitions != null) {
-      return categoryListModel.value!.data!.competitions
+      return categoryListModel.value!.data!.competitions!
           .where((comp) => comp.eventType?.name == eventName.toLowerCase())
           .toList();
     }
