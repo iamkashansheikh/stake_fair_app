@@ -394,7 +394,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Wrap(
-            spacing: 5,
+            spacing: 4,
             alignment: WrapAlignment.start,
             children: [
               _buildInPlayContainer(),
