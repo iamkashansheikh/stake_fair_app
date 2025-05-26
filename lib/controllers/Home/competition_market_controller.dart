@@ -17,10 +17,6 @@ class CompetitionMarketController extends GetxController {
   final Rx<CompetitionMarketListModel?> model =
       Rx<CompetitionMarketListModel?>(null);
 
-  // ── convenience getters for UI  ─────────────────────────────
-  List<Datum> get markets => model.value?.data ?? [];
-  Meta? get meta => model.value?.meta;
-
   @override
   void onInit() {
     super.onInit();

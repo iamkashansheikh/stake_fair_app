@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,6 +8,7 @@ import 'package:stake_fair_app/controllers/Home/home_controller.dart';
 import 'package:stake_fair_app/res/app_colors/app_colors.dart';
 import 'package:stake_fair_app/res/responsive.dart';
 import 'package:stake_fair_app/scrollable.dart';
+import 'markets/compitation_market_list.dart';
 
 class CompetitonScreen extends StatefulWidget {
   final dynamic categoryId;
@@ -65,22 +67,44 @@ class _CompetitonScreenState extends State<CompetitonScreen> {
                       const SizedBox(height: 5),
                       Center(child: _buildAboutStakefairDropdown()),
                       const SizedBox(height: 5),
-                      _buildText('Help', ),
-                      _buildText('Affiliates', ),
-                      _buildText('18+', ),
-                      _buildText('Developers', ),
-                      _buildText('StakeFair Exchange Sitemap', ),
-                      _buildText('B2B Partnerships', ),
+                      _buildText(
+                        'Help',
+                      ),
+                      _buildText(
+                        'Affiliates',
+                      ),
+                      _buildText(
+                        '18+',
+                      ),
+                      _buildText(
+                        'Developers',
+                      ),
+                      _buildText(
+                        'StakeFair Exchange Sitemap',
+                      ),
+                      _buildText(
+                        'B2B Partnerships',
+                      ),
                       const Padding(
                         padding: EdgeInsets.symmetric(horizontal: 10),
                         child: Divider(thickness: 0.6),
                       ),
                       const SizedBox(height: 10),
-                      _buildText('Privacy Policy', ),
-                      _buildText('Cookie Policy', ),
-                      _buildText('Privacy Preference Centre', ),
-                      _buildText('Rules & Regulations', ),
-                      _buildText('Terms & Conditions', ),
+                      _buildText(
+                        'Privacy Policy',
+                      ),
+                      _buildText(
+                        'Cookie Policy',
+                      ),
+                      _buildText(
+                        'Privacy Preference Centre',
+                      ),
+                      _buildText(
+                        'Rules & Regulations',
+                      ),
+                      _buildText(
+                        'Terms & Conditions',
+                      ),
                       const SizedBox(height: 20),
                     ],
                   ),
@@ -96,7 +120,9 @@ class _CompetitonScreenState extends State<CompetitonScreen> {
                       duration: const Duration(milliseconds: 300),
                       opacity:
                           homeController.isSearchFieldVisible.value ? 1.0 : 0.0,
-                      child: _buildSearchField(screenSize, ),
+                      child: _buildSearchField(
+                        screenSize,
+                      ),
                     ),
                   )),
             ],
@@ -149,7 +175,6 @@ class _CompetitonScreenState extends State<CompetitonScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
       child: Row(
         children: [
-          
           Padding(
             padding: const EdgeInsets.only(top: 1),
             child: AutoSizeText(
@@ -205,6 +230,13 @@ class _CompetitonScreenState extends State<CompetitonScreen> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 3),
                       child: ListTile(
+                        onTap: () {
+                          log('${competition.competition?.id}');
+                          Get.to(() => CompitationMarketList(
+                                eventName: widget.eventName,
+                                compitationId: competition.competition?.id,
+                              ));
+                        },
                         visualDensity:
                             const VisualDensity(horizontal: -4, vertical: -4),
                         contentPadding: const EdgeInsets.symmetric(
@@ -213,10 +245,11 @@ class _CompetitonScreenState extends State<CompetitonScreen> {
                           padding: const EdgeInsets.symmetric(horizontal: 5),
                           child: Text(
                             competition.competition?.name ??
-                                "Unknown Competition",style: TextStyle(fontSize: 11.sp),
+                                "Unknown Competition",
+                            style: TextStyle(fontSize: 11.sp),
                           ),
                         ),
-                        trailing:  Icon(
+                        trailing: Icon(
                           Icons.arrow_forward_ios,
                           size: 12.r,
                           color: Colors.grey,
@@ -234,9 +267,9 @@ class _CompetitonScreenState extends State<CompetitonScreen> {
     );
   }
 
- PreferredSizeWidget _buildAppBar(BuildContext context) {
+  PreferredSizeWidget _buildAppBar(BuildContext context) {
     return PreferredSize(
-      preferredSize:Size.fromHeight(40.h),
+      preferredSize: Size.fromHeight(40.h),
       child: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -399,8 +432,11 @@ class _CompetitonScreenState extends State<CompetitonScreen> {
                         const VisualDensity(horizontal: -4, vertical: -4),
                     contentPadding:
                         const EdgeInsets.symmetric(horizontal: 2, vertical: 0),
-                    title: Text('InPlay',style: TextStyle(fontSize: 10.sp),),
-                    trailing:  Icon(Icons.arrow_forward_ios,
+                    title: Text(
+                      'InPlay',
+                      style: TextStyle(fontSize: 10.sp),
+                    ),
+                    trailing: Icon(Icons.arrow_forward_ios,
                         size: 12.r, color: Colors.grey),
                   ),
                 ),
@@ -413,7 +449,7 @@ class _CompetitonScreenState extends State<CompetitonScreen> {
     );
   }
 
-    Widget _buildFooter(Size mediaQuery, double textScale) {
+  Widget _buildFooter(Size mediaQuery, double textScale) {
     return Container(
       height: mediaQuery.height * 0.052.h,
       width: mediaQuery.width.w,
@@ -422,7 +458,7 @@ class _CompetitonScreenState extends State<CompetitonScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
-            padding:  EdgeInsets.all(8.0.r),
+            padding: EdgeInsets.all(8.0.r),
             child: Container(
               width: mediaQuery.width * 0.08.w,
               height: mediaQuery.height * 0.08.h,
@@ -469,25 +505,21 @@ class _CompetitonScreenState extends State<CompetitonScreen> {
     );
   }
 
- Widget _buildWarningText() {
- return Padding(
-      padding:  EdgeInsets.all(10.0.r),
+  Widget _buildWarningText() {
+    return Padding(
+      padding: EdgeInsets.all(10.0.r),
       child: RichText(
         textAlign: TextAlign.justify,
         text: TextSpan(
-          style:  TextStyle(
+          style: TextStyle(
             fontSize: 11.sp,
             color: Colors.black87,
-            height: 1.4, 
-            
+            height: 1.4,
           ),
-          children:  [
+          children: [
             TextSpan(
               text: 'Warning: ',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 12.sp
-              ),
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12.sp),
             ),
             TextSpan(
               text:
@@ -498,12 +530,11 @@ class _CompetitonScreenState extends State<CompetitonScreen> {
                   'provides this data AS IS with no warranty as to the accuracy, completeness or timeliness of such data and accepts no '
                   'responsibility for any loss (direct or indirect) suffered by you as a result of your reliance on it.',
             ),
-            
           ],
         ),
       ),
     );
-}
+  }
 
   Widget _buildText(String title) {
     return AutoSizeText(
@@ -686,7 +717,7 @@ class _CompetitonScreenState extends State<CompetitonScreen> {
       ),
     );
   }
- 
+
   Widget _bettingInfoTile() {
     return Container(
       color: Colors.black,
@@ -704,7 +735,7 @@ class _CompetitonScreenState extends State<CompetitonScreen> {
           collapsedBackgroundColor: Colors.white,
           tilePadding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
           childrenPadding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
-          title:  Text(
+          title: Text(
             'Soccer Betting Explained',
             style: TextStyle(
               fontSize: 11.sp,
@@ -712,11 +743,12 @@ class _CompetitonScreenState extends State<CompetitonScreen> {
               color: Colors.black,
             ),
           ),
-          trailing:  Icon(
+          trailing: Icon(
             Icons.keyboard_arrow_down,
-            color: Colors.black54,size: 20.r,
+            color: Colors.black54,
+            size: 20.r,
           ),
-          children:  [
+          children: [
             Divider(
               height: 2,
               thickness: 0.7,
