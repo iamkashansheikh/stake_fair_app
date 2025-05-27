@@ -5,18 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:stake_fair_app/checkdata.dart';
 import 'package:stake_fair_app/controllers/Home/competition_market_controller.dart';
 import 'package:stake_fair_app/controllers/Home/home_controller.dart';
 import 'package:stake_fair_app/controllers/Home/inplay_controller.dart';
 import 'package:stake_fair_app/res/app_colors/app_colors.dart';
 import 'package:stake_fair_app/res/responsive.dart';
 import 'package:stake_fair_app/scrollable.dart';
-import 'package:stake_fair_app/view/screens/markets/oddsmarket.dart';
-import 'package:stake_fair_app/view/screens/markets/placebetods.dart';
-import 'package:stake_fair_app/view/screens/markets/widgets_classes/backlay.dart';
-import 'package:stake_fair_app/view/screens/markets/widgets_classes/title_container.dart';
-
 import '../../../controllers/Home/competitions_controller.dart';
 
 class CompitationMarketList extends StatefulWidget {
@@ -116,10 +110,10 @@ class _CompitationMarketListState extends State<CompitationMarketList> {
     final CompetitionMarketController competitionMarketController =
         Get.put(CompetitionMarketController());
     competitionMarketController.fetchCompetitionMarket(compitationId!);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Sample code snippet in CompetitonScreen widget
         Obx(() {
           if (competitionMarketController.model.value == null) {
             return const Center(child: CircularProgressIndicator());
@@ -127,153 +121,111 @@ class _CompitationMarketListState extends State<CompitationMarketList> {
             final competitions = competitionMarketController.model.value!.data;
 
             if (competitions == '') {
-              return Center(
-                  child: Text("No Competitions Found for ${competitions}"));
+              return Center(child: Text("No Competitions Found"));
+            }
+
+            // 🔄 Group by date
+            Map<String, List<dynamic>> groupedByDate = {};
+            for (var comp in competitions!) {
+              String dateKey = formatDateLabel(comp.event!.openDate.toString());
+
+              if (!groupedByDate.containsKey(dateKey)) {
+                groupedByDate[dateKey] = [];
+              }
+              groupedByDate[dateKey]!.add(comp);
             }
 
             return ListView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              itemCount: competitions!.length,
+              itemCount: groupedByDate.length,
               itemBuilder: (context, index) {
-                var competition = competitions[index];
+                String date = groupedByDate.keys.elementAt(index);
+                List<dynamic> items = groupedByDate[date]!;
+
                 return Column(
-                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _buildContainer(
-                        '${formatDate(competition.event!.openDate.toString())}'),
-                    Container(
-                      height: 60,
-                      child: Row(
+                    _buildContainer(date),
+                    ...items.map((competition) {
+                      return Column(
                         children: [
-                          Expanded(
-                            flex: 1,
-                            child: Container(
-                              padding: EdgeInsets.all(8),
-                              color: Colors.grey[100],
-                              child: Center(
-                                child: Text(
-                                  formatDateTime(
-                                      competition.marketStartTime.toString()),
-                                  style: TextStyle(
-                                      fontSize: 11.sp, color: Colors.black),
+                          Container(
+                            height: 50.h,
+                            child: Row(
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.all(8.r),
+                                  color: Colors.grey[100],
+                                  child: Center(
+                                    child: Text(
+                                      formatDateTime(competition
+                                          .marketStartTime
+                                          .toString()),
+                                      style: TextStyle(
+                                          fontSize:9.sp,
+                                          color: Colors.black),
+                                    ),
+                                  ),
                                 ),
-                              ),
+                                Expanded(
+                                  flex: 3,
+                                  child: Container(
+                                    padding: EdgeInsets.all(8),
+                                    child: Text(
+                                      '${competition.event!.name}',
+                                      style: TextStyle(fontSize: 11.sp),
+                                    ),
+                                  ),
+                                ),
+                               // SizedBox(width: 30.w),
+                                Expanded(
+                                  flex: 3,
+                                  child: SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Row(
+                                      children: [
+                                        // Blue Boxes
+                                        ...competition.runners!.map((runner) {
+                                          final back =
+                                              (runner.ex?.availableToBack !=
+                                                          null &&
+                                                      runner
+                                                          .ex!
+                                                          .availableToBack!
+                                                          .isNotEmpty)
+                                                  ? runner.ex!.availableToBack!
+                                                      .first
+                                                  : null;
+
+                                          return _buildBox(back?.price,
+                                              back?.size, Colors.blue[100]);
+                                        }),
+
+                                        // Pink Boxes
+                                        ...competition.runners!.map((runner) {
+                                          final lay = (runner
+                                                          .ex?.availableToLay !=
+                                                      null &&
+                                                  runner.ex!.availableToLay!
+                                                      .isNotEmpty)
+                                              ? runner.ex!.availableToLay!.first
+                                              : null;
+
+                                          return _buildBox(lay?.price,
+                                              lay?.size, Colors.pink[100]);
+                                        }),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                          Expanded(
-                            flex: 2,
-                            child: Container(
-                              padding: EdgeInsets.all(8),
-                              child: Text(
-                                '${competition.event!.name.toString()}',
-                                style: TextStyle(fontSize: 11.sp),
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            flex: 4,
-                            child: SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Row(
-                                children: [
-                                  // 🔵 Blue Boxes: availableToBack
-                                  ...competition.runners!.map((runner) {
-                                    final back =
-                                        (runner.ex?.availableToBack != null &&
-                                                runner.ex!.availableToBack!
-                                                    .isNotEmpty)
-                                            ? runner.ex!.availableToBack!.first
-                                            : null;
-
-                                    return Container(
-                                      width: 70,
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 8, vertical: 4),
-                                      margin: const EdgeInsets.symmetric(
-                                          horizontal: 2, vertical: 2),
-                                      decoration: BoxDecoration(
-                                        color: Colors.blue[100],
-                                        borderRadius: BorderRadius.circular(4),
-                                      ),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                              (back?.price == null ||
-                                                      back!.price == 0)
-                                                  ? "0"
-                                                  : (back.price! % 1 == 0)
-                                                      ? back.price!
-                                                          .toInt()
-                                                          .toString()
-                                                      : back.price!.toString(),
-                                              style: const TextStyle(
-                                                  fontWeight: FontWeight.bold)),
-                                          Text(
-                                              "${formatNumber(back?.size ?? 0)}",
-                                              style: const TextStyle(
-                                                  fontSize: 10)),
-                                        ],
-                                      ),
-                                    );
-                                  }),
-
-                                  // 💗 Pink Boxes: availableToLay
-                                  ...competition.runners!.map((runner) {
-                                    final lay =
-                                        (runner.ex?.availableToLay != null &&
-                                                runner.ex!.availableToLay!
-                                                    .isNotEmpty)
-                                            ? runner.ex!.availableToLay!.first
-                                            : null;
-
-                                    return Container(
-                                      width: 70,
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 8, vertical: 4),
-                                      margin: const EdgeInsets.symmetric(
-                                          horizontal: 2, vertical: 2),
-                                      decoration: BoxDecoration(
-                                        color: Colors.pink[100],
-                                        borderRadius: BorderRadius.circular(4),
-                                      ),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                              (lay?.price == null ||
-                                                      lay!.price == 0)
-                                                  ? "0"
-                                                  : (lay.price! % 1 == 0)
-                                                      ? lay.price!
-                                                          .toInt()
-                                                          .toString()
-                                                      : lay.price!.toString(),
-                                              style: const TextStyle(
-                                                  fontWeight: FontWeight.bold)),
-                                          Text(
-                                              "${formatNumber(lay?.size ?? 0)}",
-                                              style: const TextStyle(
-                                                  fontSize: 10)),
-                                        ],
-                                      ),
-                                    );
-                                  }),
-                                ],
-                              ),
-                            ),
-                          ),
+                          const Divider(height: 0.3, thickness: 0.3),
                         ],
-                      ),
-                    ),
-                    const Divider(height: 0.3, thickness: 0.3),
+                      );
+                    }).toList(),
                   ],
                 );
               },
@@ -281,6 +233,40 @@ class _CompitationMarketListState extends State<CompitationMarketList> {
           }
         })
       ],
+    );
+  }
+
+  Widget _buildBox(double? price, double? size, Color? color) {
+    return Container(
+      width: 53.w,
+      height: 38.h,
+      //padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      margin: const EdgeInsets.symmetric(horizontal: 2, vertical: 2),
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.circular(2.r),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+              (price == null || price == 0)
+                  ? "0"
+                  : (price % 1 == 0)
+                      ? price.toInt().toString()
+                      : price.toString(),
+              style: TextStyle(
+                  fontSize: 14.sp,
+                  height: 1.0,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black)),
+          Text(
+            "${formatNumber(size ?? 0)}",
+            style: TextStyle(fontSize: 10.sp, height: 1.0, color: Colors.black),
+          ),
+        ],
+      ),
     );
   }
 
@@ -296,10 +282,21 @@ class _CompitationMarketListState extends State<CompitationMarketList> {
     }
   }
 
-  String formatDate(String isoDate) {
-    DateTime parsedDate = DateTime.parse(isoDate).toLocal(); // Convert to local
-    String formattedDate = DateFormat('E, dd MMM').format(parsedDate);
-    return formattedDate;
+  String formatDateLabel(String isoDate) {
+    DateTime date = DateTime.parse(isoDate).toLocal();
+    DateTime now = DateTime.now();
+
+    DateTime today = DateTime(now.year, now.month, now.day);
+    DateTime tomorrow = today.add(Duration(days: 1));
+    DateTime eventDate = DateTime(date.year, date.month, date.day);
+
+    if (eventDate == today) {
+      return "Today";
+    } else if (eventDate == tomorrow) {
+      return "Tomorrow";
+    } else {
+      return DateFormat('E, dd MMM').format(eventDate);
+    }
   }
 
   String formatDateTime(String isoDateTime) {
@@ -309,6 +306,30 @@ class _CompitationMarketListState extends State<CompitationMarketList> {
 
     // Format as Sat 15:00
     return DateFormat('E\nHH:mm').format(adjustedTime);
+  }
+
+  Widget _buildContainer(String title) {
+    return Container(
+      width: double.infinity,
+      height: 28.h,
+      color: AppColors.blackthemeColor,
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+      child: Row(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 1),
+            child: AutoSizeText(
+              title,
+              style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 12.sp,
+                  color: AppColors.whiteColor),
+              maxLines: 1,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   PreferredSizeWidget _buildAppBar(BuildContext context) {
@@ -448,30 +469,6 @@ class _CompitationMarketListState extends State<CompitationMarketList> {
             child: AutoSizeText(
               "Cancel",
               style: TextStyle(color: AppColors.whiteColor, fontSize: 10.sp),
-              maxLines: 1,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildContainer(String title) {
-    return Container(
-      width: double.infinity,
-      height: 28.h,
-      color: AppColors.blackthemeColor,
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
-      child: Row(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 1),
-            child: AutoSizeText(
-              title,
-              style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 12.sp,
-                  color: AppColors.whiteColor),
               maxLines: 1,
             ),
           ),
