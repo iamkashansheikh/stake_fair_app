@@ -154,7 +154,15 @@ class _CompitationMarketListState extends State<CompitationMarketList> {
                             height: 50.h,
                             child: Row(
                               children: [
-                                Container(
+                                Contain
+                                  padding: EdgeInsets.all(8.r),
+                                  color: Colors.grey[100],
+                                  child: Center(
+                                    child: Text(
+                                      formatDateTime(competition.marketStartTime
+                                          .toString()),
+                                      style: TextStyle(
+                                          fontSize: 9.sp, color: Colors.black),
                                   width: 35.w,
                                   height: 50.h,
                                   alignment: Alignment.center,
@@ -172,6 +180,144 @@ class _CompitationMarketListState extends State<CompitationMarketList> {
                                     ),
                                   ),
                                 ),
+                                // SizedBox(width: 30.w),
+                                Expanded(
+                                  flex: 3,
+                                  child: Stack(
+                                    children: [
+                                      SingleChildScrollView(
+                                        scrollDirection: Axis.horizontal,
+                                        child: Row(
+                                          children: [
+                                            ...List.generate(
+                                              (competition.runners!.length / 3)
+                                                  .ceil(),
+                                              (groupIndex) {
+                                                final start = groupIndex * 3;
+                                                final end = (start + 3 >
+                                                        competition
+                                                            .runners!.length)
+                                                    ? competition
+                                                        .runners!.length
+                                                    : start + 3;
+
+                                                final group = competition
+                                                    .runners!
+                                                    .sublist(start, end);
+
+                                                return Row(
+                                                  children: [
+                                                    // 🔵 3 blue (back) boxes with middle empty (grey)
+                                                    ...List.generate(3, (i) {
+                                                      int mappedIndex = i == 1
+                                                          ? -1
+                                                          : (i == 0 ? 0 : 1);
+                                                      if (i == 1) {
+                                                        // Always middle box: grey empty
+                                                        return _buildBox(
+                                                            null,
+                                                            null,
+                                                            Colors.grey[100]);
+                                                      } else if (mappedIndex <
+                                                          group.length) {
+                                                        final runner =
+                                                            group[mappedIndex];
+                                                        final back = (runner.ex
+                                                                        ?.availableToBack !=
+                                                                    null &&
+                                                                runner
+                                                                    .ex!
+                                                                    .availableToBack!
+                                                                    .isNotEmpty)
+                                                            ? runner
+                                                                .ex!
+                                                                .availableToBack!
+                                                                .first
+                                                            : null;
+                                                        return _buildBox(
+                                                            back?.price,
+                                                            back?.size,
+                                                            Colors.blue[100]);
+                                                      } else {
+                                                        return _buildBox(
+                                                            null,
+                                                            null,
+                                                            Colors.blue[100]);
+                                                      }
+                                                    }),
+
+                                                    // 🔴 3 pink (lay) boxes with middle empty (red)
+                                                    ...List.generate(3, (i) {
+                                                      int mappedIndex = i == 1
+                                                          ? -1
+                                                          : (i == 0 ? 0 : 1);
+                                                      if (i == 1) {
+                                                        // Always middle box: red empty
+                                                        return _buildBox(
+                                                            null,
+                                                            null,
+                                                            const Color
+                                                                .fromARGB(255,
+                                                                248, 219, 229));
+                                                      } else if (mappedIndex <
+                                                          group.length) {
+                                                        final runner =
+                                                            group[mappedIndex];
+                                                        final lay = (runner.ex
+                                                                        ?.availableToLay !=
+                                                                    null &&
+                                                                runner
+                                                                    .ex!
+                                                                    .availableToLay!
+                                                                    .isNotEmpty)
+                                                            ? runner
+                                                                .ex!
+                                                                .availableToLay!
+                                                                .first
+                                                            : null;
+                                                        return _buildBox(
+                                                            lay?.price,
+                                                            lay?.size,
+                                                            Colors.pink[100]);
+                                                      } else {
+                                                        return _buildBox(
+                                                            null,
+                                                            null,
+                                                            Colors.pink[100]);
+                                                      }
+                                                    }),
+
+                                                    const SizedBox(width: 12),
+                                                  ],
+                                                );
+                                              },
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      competition.status == 'SUSPENDED'
+                                          ? Positioned(
+                                              child: Container(
+                                                  height: 38.h,
+                                                  decoration: BoxDecoration(
+                                                      color: Colors.white
+                                                          .withOpacity(.8),
+                                                      border: Border.all(
+                                                          color: Colors.red,
+                                                          width: 2)),
+                                                  child: Center(
+                                                    child: Text('SUSPENDED',
+                                                        style: TextStyle(
+                                                            color: Colors.red,
+                                                            fontSize: 20,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold)),
+                                                  )),
+                                            )
+                                          : Text(''),
+                                    ],
+=======
                                 SizedBox(width: 5.w),
                                 Expanded(
                                   flex: 3,

@@ -56,7 +56,9 @@ class _CompetitonScreenState extends State<CompetitonScreen> {
                   child: Column(
                     children: [
                       _buildContainer(widget.eventName),
-                      _buildTimeSection('Time'),
+                      _buildTimeSection(
+                        'Time',
+                      ),
                       _buildHorseRacingSection('Competitions'),
                       _buildTimeSection('Popular Sports'),
                       const SizedBox(height: 5),
@@ -421,7 +423,10 @@ class _CompetitonScreenState extends State<CompetitonScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 3),
           child: ListTile(
             onTap: () {
-              Get.to(() => TodayMatches(showTomorrow: false));
+              Get.to(() => TodayMatches(
+                    showTomorrow: false,
+                    eventType: widget.eventName,
+                  ));
             },
             dense: true,
             visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
@@ -441,7 +446,11 @@ class _CompetitonScreenState extends State<CompetitonScreen> {
           child: ListTile(
             onTap: () {
               Get.to(
-                  () => TodayMatches(showTomorrow: true)); // Tomorrow ke liye
+                  // or 'Tennis'
+                  () => TodayMatches(
+                        showTomorrow: true,
+                        eventType: widget.eventName,
+                      )); // Tomorrow ke liye
             },
             dense: true,
             visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
