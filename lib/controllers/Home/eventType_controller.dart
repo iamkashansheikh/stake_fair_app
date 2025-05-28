@@ -37,7 +37,7 @@ class EventsTypeController extends GetxController {
           CategoryListModel model = CategoryListModel.fromJson(response);
 
           // Ab sirf eventTypes list ko map karke ek List<Map<String, dynamic>> bana lo.
-          categories.assignAll(model.data?.eventTypes?.map((e) {
+          categories.assignAll(model.data?.eventTypes.map((e) {
                 // EventType ka naam se label set karo. Agar naam null ho to 'Unknown' use karo.
                 String label = e.eventType?.name ?? 'Unknown';
                 return {
