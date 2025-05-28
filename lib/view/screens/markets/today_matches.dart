@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,10 +12,12 @@ import '../../../controllers/Home/all_event_list_controller.dart';
 import '../../../controllers/Home/home_controller.dart';
 
 class TodayMatches extends StatefulWidget {
-  final bool
-      showTomorrow; // agar true hua to kal ke matches show karo, warna aaj ke
+  final bool showTomorrow;
+  final String eventType;
+  // agar true hua to kal ke matches show karo, warna aaj ke
 
-  const TodayMatches({super.key, this.showTomorrow = false});
+  const TodayMatches(
+      {super.key, this.showTomorrow = false, required this.eventType});
 
   @override
   State<TodayMatches> createState() => _TodayMatchesState();
@@ -103,16 +107,25 @@ class _TodayMatchesState extends State<TodayMatches> {
       }
       List<dynamic> filteredMatches = competitions.where((comp) {
         DateTime openDate = DateTime.parse(comp.event!.openDate.toString());
-        return openDate.year == filterDate.year &&
+
+        bool isSameDate = openDate.year == filterDate.year &&
             openDate.month == filterDate.month &&
             openDate.day == filterDate.day;
+        log('eventType => ${widget.eventType}');
+        bool isCricket = comp.eventType?.name ==
+            '${widget.eventType}'; // ✅ Entity type check
+
+        return isSameDate && isCricket;
       }).toList();
 
       if (filteredMatches.isEmpty) {
         return Center(
-            child: Text(widget.showTomorrow
-                ? "No Matches Tomorrow"
-                : "No Matches Today"));
+            child: Column(
+          children: [
+            _buildContainer(widget.showTomorrow ? 'Tomorrow' : 'Today'),
+            Text("There are no events available"),
+          ],
+        ));
       }
 
       if (filteredMatches.isEmpty) {
