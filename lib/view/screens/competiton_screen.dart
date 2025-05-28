@@ -9,6 +9,7 @@ import 'package:stake_fair_app/res/app_colors/app_colors.dart';
 import 'package:stake_fair_app/res/responsive.dart';
 import 'package:stake_fair_app/scrollable.dart';
 import 'markets/compitation_market_list.dart';
+import 'markets/today_matches.dart';
 
 class CompetitonScreen extends StatefulWidget {
   final dynamic categoryId;
@@ -416,35 +417,45 @@ class _CompetitonScreenState extends State<CompetitonScreen> {
     return Column(
       children: [
         _buildContainer(title),
-        ListView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: 3,
-          itemBuilder: (context, index) {
-            return Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 3),
-                  child: ListTile(
-                    dense: true,
-                    visualDensity:
-                        const VisualDensity(horizontal: -4, vertical: -4),
-                    contentPadding:
-                        const EdgeInsets.symmetric(horizontal: 2, vertical: 0),
-                    title: Text(
-                      'InPlay',
-                      style: TextStyle(fontSize: 10.sp),
-                    ),
-                    trailing: Icon(Icons.arrow_forward_ios,
-                        size: 12.r, color: Colors.grey),
-                  ),
-                ),
-                const Divider(height: 0.3, thickness: 0.3),
-              ],
-            );
-          },
-        )
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 3),
+          child: ListTile(
+            onTap: () {
+              Get.to(() => TodayMatches(showTomorrow: false));
+            },
+            dense: true,
+            visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 2, vertical: 0),
+            title: Text(
+              'Today',
+              style: TextStyle(fontSize: 10.sp),
+            ),
+            trailing:
+                Icon(Icons.arrow_forward_ios, size: 12.r, color: Colors.grey),
+          ),
+        ),
+        const Divider(height: 0.3, thickness: 0.3),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 3),
+          child: ListTile(
+            onTap: () {
+              Get.to(
+                  () => TodayMatches(showTomorrow: true)); // Tomorrow ke liye
+            },
+            dense: true,
+            visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 2, vertical: 0),
+            title: Text(
+              'Tomorrow',
+              style: TextStyle(fontSize: 10.sp),
+            ),
+            trailing:
+                Icon(Icons.arrow_forward_ios, size: 12.r, color: Colors.grey),
+          ),
+        ),
+        const Divider(height: 0.3, thickness: 0.3),
       ],
     );
   }
