@@ -144,7 +144,7 @@ class _CompitationMarketListState extends State<CompitationMarketList> {
                 List<dynamic> items = groupedByDate[date]!;
 
                 return Column(
-                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _buildContainer(date),
                     ...items.map((competition) {
@@ -154,7 +154,7 @@ class _CompitationMarketListState extends State<CompitationMarketList> {
                             height: 50.h,
                             child: Row(
                               children: [
-                                Contain
+                                Container(
                                   padding: EdgeInsets.all(8.r),
                                   color: Colors.grey[100],
                                   child: Center(
@@ -163,20 +163,16 @@ class _CompitationMarketListState extends State<CompitationMarketList> {
                                           .toString()),
                                       style: TextStyle(
                                           fontSize: 9.sp, color: Colors.black),
-                                  width: 35.w,
-                                  height: 50.h,
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey[100],
-                                    border: Border(
-                                      bottom: BorderSide(color: Colors.white),
                                     ),
                                   ),
-                                  child: Text(
-                                    formatDateTime(competition.marketStartTime.toString()),
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 9.sp,
+                                ),
+                                Expanded(
+                                  flex: 3,
+                                  child: Container(
+                                    padding: EdgeInsets.all(8),
+                                    child: Text(
+                                      '${competition.event!.name}',
+                                      style: TextStyle(fontSize: 11.sp),
                                     ),
                                   ),
                                 ),
@@ -317,60 +313,12 @@ class _CompitationMarketListState extends State<CompitationMarketList> {
                                             )
                                           : Text(''),
                                     ],
-=======
-                                SizedBox(width: 5.w),
-                                Expanded(
-                                  flex: 3,
-                                  child: Text(
-                                    '${competition.event!.name}',
-                                    style: TextStyle(fontSize: 11.sp),
-                                  ),
-                                ),
-                                // SizedBox(width: 30.w),
-                                Container(
-                                  width: 174.w,
-                                  child: SingleChildScrollView(
-                                    scrollDirection: Axis.horizontal,
-                                    child: Row(
-                                      children: [
-                                        // Blue Boxes
-                                        ...competition.runners!.map((runner) {
-                                          final back =
-                                              (runner.ex?.availableToBack !=
-                                                          null &&
-                                                      runner
-                                                          .ex!
-                                                          .availableToBack!
-                                                          .isNotEmpty)
-                                                  ? runner.ex!.availableToBack!
-                                                      .first
-                                                  : null;
-
-                                          return _buildBox(back?.price,
-                                              back?.size, Colors.blue[100]);
-                                        }),
-
-                                        // Pink Boxes
-                                        ...competition.runners!.map((runner) {
-                                          final lay = (runner
-                                                          .ex?.availableToLay !=
-                                                      null &&
-                                                  runner.ex!.availableToLay!
-                                                      .isNotEmpty)
-                                              ? runner.ex!.availableToLay!.first
-                                              : null;
-
-                                          return _buildBox(lay?.price,
-                                              lay?.size, Colors.pink[100]);
-                                        }),
-                                      ],
-                                    ),
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                          const Divider(height: 0.3, thickness: 0.3)
+                          const Divider(height: 0.3, thickness: 0.3),
                         ],
                       );
                     }).toList(),
@@ -386,8 +334,9 @@ class _CompitationMarketListState extends State<CompitationMarketList> {
 
   Widget _buildBox(double? price, double? size, Color? color) {
     return Container(
-      width: 46.w,
-      height: 34.h,
+      width: 53.w,
+      height: 38.h,
+      //padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       margin: const EdgeInsets.symmetric(horizontal: 2, vertical: 2),
       decoration: BoxDecoration(
         color: color,
@@ -404,13 +353,13 @@ class _CompitationMarketListState extends State<CompitationMarketList> {
                       ? price.toInt().toString()
                       : price.toString(),
               style: TextStyle(
-                  fontSize: 10.sp,
+                  fontSize: 14.sp,
                   height: 1.0,
                   fontWeight: FontWeight.bold,
                   color: Colors.black)),
           Text(
             "${formatNumber(size ?? 0)}",
-            style: TextStyle(fontSize: 8.sp, color: Colors.black),
+            style: TextStyle(fontSize: 10.sp, height: 1.0, color: Colors.black),
           ),
         ],
       ),
