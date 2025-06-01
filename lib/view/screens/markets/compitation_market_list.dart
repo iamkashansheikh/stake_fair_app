@@ -175,7 +175,13 @@ class _CompitationMarketListState extends State<CompitationMarketList> {
                                             style: TextStyle(
                                                 fontSize: 9.sp,
                                                 color: Colors.black),
-                                          ),
+                                        
+                                    child: Text(
+                                      formatDateTime(competition.marketStartTime
+                                          .toString()),
+                                      style: TextStyle(
+                                          fontSize: 9.sp, color: Colors.black),
+                                   
                                   ),
                                 ),
                                 Expanded(
@@ -354,6 +360,9 @@ class _CompitationMarketListState extends State<CompitationMarketList> {
     return Container(
       width: 53.w,
       height: 38.h,
+
+      //padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+
       margin: const EdgeInsets.symmetric(horizontal: 2, vertical: 2),
       decoration: BoxDecoration(
         color: color,
@@ -364,6 +373,7 @@ class _CompitationMarketListState extends State<CompitationMarketList> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
+
             (price == null || price == 0)
                 ? "0"
                 : (price == '-')
@@ -379,6 +389,20 @@ class _CompitationMarketListState extends State<CompitationMarketList> {
           ),
           Text(
             (size == '-') ? '-' : "${formatNumber(size ?? 0)}",
+
+              (price == null || price == 0)
+                  ? "0"
+                  : (price % 1 == 0)
+                      ? price.toInt().toString()
+                      : price.toString(),
+              style: TextStyle(
+                  fontSize: 14.sp,
+                  height: 1.0,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black)),
+          Text(
+            "${formatNumber(size ?? 0)}",
+
             style: TextStyle(fontSize: 10.sp, height: 1.0, color: Colors.black),
           ),
         ],
