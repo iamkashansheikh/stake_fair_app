@@ -31,8 +31,8 @@ class MyApp extends StatelessWidget {
           translations: AppTranslations(),
           locale: Locale('en', 'US'),
           fallbackLocale: Locale('en', 'US'),
-          // initialRoute: RoutsName.virsion,
-          // getPages: AppRouts.pages,
+          initialRoute: RoutsName.virsion,
+          getPages: AppRouts.pages,
           //  home:HelpScreen()
         );
       },
