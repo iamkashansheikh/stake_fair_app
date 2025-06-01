@@ -30,6 +30,7 @@ class _CompitationMarketListState extends State<CompitationMarketList> {
   final HomeController homeController = Get.put(HomeController());
   final InplayController inplayController = Get.put(InplayController());
   bool showPlaceBet = false;
+  bool texrt = false;
   @override
   Widget build(BuildContext context) {
     final Size mediaQuery = MediaQuery.of(context).size;
