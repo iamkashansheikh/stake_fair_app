@@ -124,7 +124,7 @@ class _CompitationMarketListState extends State<CompitationMarketList> {
               return Center(child: Text("No Competitions Found"));
             }
 
-            // 🔄 Group by date
+            // Group by date
             Map<String, List<dynamic>> groupedByDate = {};
             for (var comp in competitions!) {
               String dateKey = formatDateLabel(comp.event!.openDate.toString());
@@ -156,14 +156,32 @@ class _CompitationMarketListState extends State<CompitationMarketList> {
                               children: [
                                 Container(
                                   padding: EdgeInsets.all(8.r),
-                                  color: Colors.grey[100],
+                                  color: competition.status == 'CLOSED'
+                                      ? Colors.grey
+                                      : Colors.grey[100],
                                   child: Center(
+                                    child: competition.status == 'CLOSED'
+                                        ? Text(
+                                            'END',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 9.sp,
+                                            ),
+                                          )
+                                        : Text(
+                                            formatDateTime(competition
+                                                .marketStartTime
+                                                .toString()),
+                                            style: TextStyle(
+                                                fontSize: 9.sp,
+                                                color: Colors.black),
+                                        
                                     child: Text(
                                       formatDateTime(competition.marketStartTime
                                           .toString()),
                                       style: TextStyle(
                                           fontSize: 9.sp, color: Colors.black),
-                                    ),
+                                   
                                   ),
                                 ),
                                 Expanded(
@@ -176,121 +194,51 @@ class _CompitationMarketListState extends State<CompitationMarketList> {
                                     ),
                                   ),
                                 ),
-                                // SizedBox(width: 30.w),
                                 Expanded(
                                   flex: 3,
                                   child: Stack(
                                     children: [
-                                      SingleChildScrollView(
-                                        scrollDirection: Axis.horizontal,
-                                        child: Row(
-                                          children: [
-                                            ...List.generate(
-                                              (competition.runners!.length / 3)
-                                                  .ceil(),
-                                              (groupIndex) {
-                                                final start = groupIndex * 3;
-                                                final end = (start + 3 >
-                                                        competition
-                                                            .runners!.length)
-                                                    ? competition
-                                                        .runners!.length
-                                                    : start + 3;
+                                      competition.status == 'CLOSED'
+                                          ? Row(
+                                              children: [
+                                                Expanded(
+                                                  child: Container(
+                                                    height: 38.h,
+                                                    decoration: BoxDecoration(
+                                                        color: Colors.white
+                                                            .withOpacity(.8),
+                                                        border: Border.all(
+                                                            color: Colors.red,
+                                                            width: 2)),
+                                                    child: Center(
+                                                      child: Text(
+                                                        'CLOSED',
+                                                        style: TextStyle(
+                                                            color: Colors.red,
+                                                            fontSize: 20,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            )
+                                          : SingleChildScrollView(
+                                              scrollDirection: Axis.horizontal,
+                                              child: Row(
+                                                children: [
+                                                  // Blue Boxes - Always 3 boxes
+                                                  ..._buildBlueBoxes(
+                                                      competition.runners!),
 
-                                                final group = competition
-                                                    .runners!
-                                                    .sublist(start, end);
-
-                                                return Row(
-                                                  children: [
-                                                    // 🔵 3 blue (back) boxes with middle empty (grey)
-                                                    ...List.generate(3, (i) {
-                                                      int mappedIndex = i == 1
-                                                          ? -1
-                                                          : (i == 0 ? 0 : 1);
-                                                      if (i == 1) {
-                                                        // Always middle box: grey empty
-                                                        return _buildBox(
-                                                            null,
-                                                            null,
-                                                            Colors.grey[100]);
-                                                      } else if (mappedIndex <
-                                                          group.length) {
-                                                        final runner =
-                                                            group[mappedIndex];
-                                                        final back = (runner.ex
-                                                                        ?.availableToBack !=
-                                                                    null &&
-                                                                runner
-                                                                    .ex!
-                                                                    .availableToBack!
-                                                                    .isNotEmpty)
-                                                            ? runner
-                                                                .ex!
-                                                                .availableToBack!
-                                                                .first
-                                                            : null;
-                                                        return _buildBox(
-                                                            back?.price,
-                                                            back?.size,
-                                                            Colors.blue[100]);
-                                                      } else {
-                                                        return _buildBox(
-                                                            null,
-                                                            null,
-                                                            Colors.blue[100]);
-                                                      }
-                                                    }),
-
-                                                    // 🔴 3 pink (lay) boxes with middle empty (red)
-                                                    ...List.generate(3, (i) {
-                                                      int mappedIndex = i == 1
-                                                          ? -1
-                                                          : (i == 0 ? 0 : 1);
-                                                      if (i == 1) {
-                                                        // Always middle box: red empty
-                                                        return _buildBox(
-                                                            null,
-                                                            null,
-                                                            const Color
-                                                                .fromARGB(255,
-                                                                248, 219, 229));
-                                                      } else if (mappedIndex <
-                                                          group.length) {
-                                                        final runner =
-                                                            group[mappedIndex];
-                                                        final lay = (runner.ex
-                                                                        ?.availableToLay !=
-                                                                    null &&
-                                                                runner
-                                                                    .ex!
-                                                                    .availableToLay!
-                                                                    .isNotEmpty)
-                                                            ? runner
-                                                                .ex!
-                                                                .availableToLay!
-                                                                .first
-                                                            : null;
-                                                        return _buildBox(
-                                                            lay?.price,
-                                                            lay?.size,
-                                                            Colors.pink[100]);
-                                                      } else {
-                                                        return _buildBox(
-                                                            null,
-                                                            null,
-                                                            Colors.pink[100]);
-                                                      }
-                                                    }),
-
-                                                    const SizedBox(width: 12),
-                                                  ],
-                                                );
-                                              },
+                                                  // Pink Boxes - Always 3 boxes
+                                                  ..._buildPinkBoxes(
+                                                      competition.runners!),
+                                                ],
+                                              ),
                                             ),
-                                          ],
-                                        ),
-                                      ),
                                       competition.status == 'SUSPENDED'
                                           ? Positioned(
                                               child: Container(
@@ -302,13 +250,14 @@ class _CompitationMarketListState extends State<CompitationMarketList> {
                                                           color: Colors.red,
                                                           width: 2)),
                                                   child: Center(
-                                                    child: Text('SUSPENDED',
-                                                        style: TextStyle(
-                                                            color: Colors.red,
-                                                            fontSize: 20,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold)),
+                                                    child: Text(
+                                                      'SUSPENDED',
+                                                      style: TextStyle(
+                                                          color: Colors.red,
+                                                          fontSize: 20,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
                                                   )),
                                             )
                                           : Text(''),
@@ -332,11 +281,88 @@ class _CompitationMarketListState extends State<CompitationMarketList> {
     );
   }
 
-  Widget _buildBox(double? price, double? size, Color? color) {
+// Helper to build blue boxes with your logic
+  List<Widget> _buildBlueBoxes(List<dynamic> runners) {
+    List<double?> backPrices = [];
+    List<double?> backSizes = [];
+
+    for (var runner in runners) {
+      final back = (runner.ex?.availableToBack != null &&
+              runner.ex!.availableToBack!.isNotEmpty)
+          ? runner.ex!.availableToBack!.first
+          : null;
+      backPrices.add(back?.price ?? 0);
+      backSizes.add(back?.size ?? 0);
+    }
+
+    // Make sure length is at least 3
+    while (backPrices.length < 3) backPrices.add(0);
+    while (backSizes.length < 3) backSizes.add(0);
+
+    List<Widget> boxes = [];
+    int len = backPrices.length;
+
+    bool lastTwoZero = backPrices[len - 1] == 0 &&
+        backSizes[len - 1] == 0 &&
+        backPrices[len - 2] == 0 &&
+        backSizes[len - 2] == 0;
+
+    for (int i = 0; i < 3; i++) {
+      if (lastTwoZero && i == 2) {
+        boxes.add(_buildBox('-', '-', Colors.blue[100]));
+      } else {
+        boxes.add(_buildBox(backPrices[i], backSizes[i], Colors.blue[100]));
+      }
+    }
+
+    return boxes;
+  }
+
+// Helper to build pink boxes with your logic
+  List<Widget> _buildPinkBoxes(List<dynamic> runners) {
+    List<double?> layPrices = [];
+    List<double?> laySizes = [];
+
+    for (var runner in runners) {
+      final lay = (runner.ex?.availableToLay != null &&
+              runner.ex!.availableToLay!.isNotEmpty)
+          ? runner.ex!.availableToLay!.first
+          : null;
+      layPrices.add(lay?.price ?? 0);
+      laySizes.add(lay?.size ?? 0);
+    }
+
+    // Make sure length is at least 3
+    while (layPrices.length < 3) layPrices.add(0);
+    while (laySizes.length < 3) laySizes.add(0);
+
+    List<Widget> boxes = [];
+    int len = layPrices.length;
+
+    bool lastTwoZero = layPrices[len - 1] == 0 &&
+        laySizes[len - 1] == 0 &&
+        layPrices[len - 2] == 0 &&
+        laySizes[len - 2] == 0;
+
+    for (int i = 0; i < 3; i++) {
+      if (lastTwoZero && i == 1) {
+        boxes.add(_buildBox('-', '-', Colors.pink[100]));
+      } else {
+        boxes.add(_buildBox(layPrices[i], laySizes[i], Colors.pink[100]));
+      }
+    }
+
+    return boxes;
+  }
+
+// Your existing _buildBox method with '-' support
+  Widget _buildBox(dynamic price, dynamic size, Color? color) {
     return Container(
       width: 53.w,
       height: 38.h,
+
       //padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+
       margin: const EdgeInsets.symmetric(horizontal: 2, vertical: 2),
       decoration: BoxDecoration(
         color: color,
@@ -347,6 +373,23 @@ class _CompitationMarketListState extends State<CompitationMarketList> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
+
+            (price == null || price == 0)
+                ? "0"
+                : (price == '-')
+                    ? '-'
+                    : (price % 1 == 0
+                        ? price.toInt().toString()
+                        : price.toString()),
+            style: TextStyle(
+                fontSize: 14.sp,
+                height: 1.0,
+                fontWeight: FontWeight.bold,
+                color: Colors.black),
+          ),
+          Text(
+            (size == '-') ? '-' : "${formatNumber(size ?? 0)}",
+
               (price == null || price == 0)
                   ? "0"
                   : (price % 1 == 0)
@@ -359,6 +402,7 @@ class _CompitationMarketListState extends State<CompitationMarketList> {
                   color: Colors.black)),
           Text(
             "${formatNumber(size ?? 0)}",
+
             style: TextStyle(fontSize: 10.sp, height: 1.0, color: Colors.black),
           ),
         ],
