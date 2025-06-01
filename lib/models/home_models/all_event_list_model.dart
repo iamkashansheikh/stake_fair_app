@@ -361,8 +361,8 @@ class Event {
   factory Event.fromJson(Map<String, dynamic> json) => Event(
         id: json["id"],
         name: json["name"],
-        countryCode: countryCodeValues.map[json["countryCode"]]!,
-        timezone: timezoneValues.map[json["timezone"]]!,
+        countryCode: countryCodeValues.map[json["countryCode"]],
+        timezone: timezoneValues.map[json["timezone"]],
         openDate:
             json["openDate"] == null ? null : DateTime.parse(json["openDate"]),
       );
