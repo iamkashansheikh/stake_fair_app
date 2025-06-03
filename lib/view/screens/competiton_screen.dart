@@ -56,9 +56,7 @@ class _CompetitonScreenState extends State<CompetitonScreen> {
                   child: Column(
                     children: [
                       _buildContainer(widget.eventName),
-                      _buildTimeSection(
-                        'Time',
-                      ),
+                      _buildTimeSection('Time'),
                       _buildHorseRacingSection('Competitions'),
                       _buildTimeSection('Popular Sports'),
                       const SizedBox(height: 5),
@@ -201,6 +199,7 @@ class _CompetitonScreenState extends State<CompetitonScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildContainer(title),
+        
         // Sample code snippet in CompetitonScreen widget
         Obx(() {
           if (competitionController.categoryListModel.value == null) {
@@ -228,6 +227,7 @@ class _CompetitonScreenState extends State<CompetitonScreen> {
               itemBuilder: (context, index) {
                 var competition = filteredCompetitions[index];
                 return Column(
+                  
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Padding(
@@ -269,6 +269,8 @@ class _CompetitonScreenState extends State<CompetitonScreen> {
       ],
     );
   }
+
+
 
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return PreferredSize(

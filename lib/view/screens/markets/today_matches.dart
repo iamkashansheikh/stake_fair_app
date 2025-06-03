@@ -67,253 +67,6 @@ class _TodayMatchesState extends State<TodayMatches> {
     );
   }
 
-  _buildTodayMatchesSection() {
-    final AllEventListController controller = Get.put(AllEventListController());
-
-    // Fetch data on widget build
-    controller.fetchAllEvent();
-
-    return Obx(() {
-      if (controller.model.value == null) {
-        return Container(
-            margin: EdgeInsets.only(top: 250),
-            child: const Center(child: CircularProgressIndicator()));
-      }
-
-      if (controller.errorMessage.value != null) {
-        return Center(
-          child: Text(
-            controller.errorMessage.value!,
-            style: const TextStyle(color: Colors.red),
-          ),
-        );
-      }
-
-      final competitions = controller.model.value!.data!.the4;
-
-      if (competitions == null || competitions.isEmpty) {
-        return const Center(child: Text("No Events Found"));
-      }
-
-      // 🔽 Filter only today's matches
-      DateTime now = DateTime.now();
-
-      DateTime filterDate;
-      if (widget.showTomorrow) {
-        filterDate =
-            DateTime(now.year, now.month, now.day).add(Duration(days: 1));
-      } else {
-        filterDate = DateTime(now.year, now.month, now.day);
-      }
-      List<dynamic> filteredMatches = competitions.where((comp) {
-        DateTime openDate = DateTime.parse(comp.event!.openDate.toString());
-
-        bool isSameDate = openDate.year == filterDate.year &&
-            openDate.month == filterDate.month &&
-            openDate.day == filterDate.day;
-        log('eventType => ${widget.eventType}');
-        bool isCricket = comp.eventType?.name ==
-            '${widget.eventType}'; // ✅ Entity type check
-
-        return isSameDate && isCricket;
-      }).toList();
-
-      if (filteredMatches.isEmpty) {
-        return Center(
-            child: Column(
-          children: [
-            _buildContainer(widget.showTomorrow ? 'Tomorrow' : 'Today'),
-            Text("There are no events available"),
-          ],
-        ));
-      }
-
-      if (filteredMatches.isEmpty) {
-        return const Center(child: Text("No Matches Today"));
-      }
-
-      // 🔽 Group by date (Though only today's data is shown)
-      Map<String, List<dynamic>> groupedByDate = {};
-      for (var comp in filteredMatches) {
-        String dateKey = formatDateLabel(comp.event!.openDate.toString());
-
-        if (!groupedByDate.containsKey(dateKey)) {
-          groupedByDate[dateKey] = [];
-        }
-        groupedByDate[dateKey]!.add(comp);
-      }
-
-      return ListView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: groupedByDate.length,
-        itemBuilder: (context, index) {
-          String date = groupedByDate.keys.elementAt(index);
-          List<dynamic> items = groupedByDate[date]!;
-
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildContainer(date),
-              ...items.map((competition) {
-                return Column(
-                  children: [
-                    Container(
-                      height: 50.h,
-                      child: Row(
-                        children: [
-                          Container(
-                            padding: EdgeInsets.all(8.r),
-                            color: Colors.grey[100],
-                            child: Center(
-                              child: Text(
-                                formatDateTime(
-                                    competition.marketStartTime.toString()),
-                                style: TextStyle(
-                                    fontSize: 9.sp, color: Colors.black),
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            flex: 3,
-                            child: Container(
-                              padding: const EdgeInsets.all(8),
-                              child: Text(
-                                '${competition.event!.name}',
-                                style: TextStyle(fontSize: 11.sp),
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            flex: 3,
-                            child: SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Row(
-                                children: [
-                                  ...List.generate(
-                                    (competition.runners!.length / 3).ceil(),
-                                    (groupIndex) {
-                                      final start = groupIndex * 3;
-                                      final end = (start + 3 >
-                                              competition.runners!.length)
-                                          ? competition.runners!.length
-                                          : start + 3;
-
-                                      final group = competition.runners!
-                                          .sublist(start, end);
-
-                                      return Row(
-                                        children: [
-                                          // 🔵 3 blue (back) boxes with middle empty (grey)
-                                          ...List.generate(3, (i) {
-                                            int mappedIndex =
-                                                i == 1 ? -1 : (i == 0 ? 0 : 1);
-                                            if (i == 1) {
-                                              // Always middle box: grey empty
-                                              return _buildBox(
-                                                  null, null, Colors.grey[100]);
-                                            } else if (mappedIndex <
-                                                group.length) {
-                                              final runner = group[mappedIndex];
-                                              final back =
-                                                  (runner.ex?.availableToBack !=
-                                                              null &&
-                                                          runner
-                                                              .ex!
-                                                              .availableToBack!
-                                                              .isNotEmpty)
-                                                      ? runner
-                                                          .ex!
-                                                          .availableToBack!
-                                                          .first
-                                                      : null;
-                                              return _buildBox(back?.price,
-                                                  back?.size, Colors.blue[100]);
-                                            } else {
-                                              return _buildBox(
-                                                  null, null, Colors.blue[100]);
-                                            }
-                                          }),
-
-                                          // 🔴 3 pink (lay) boxes with middle empty (red)
-                                          ...List.generate(3, (i) {
-                                            int mappedIndex =
-                                                i == 1 ? -1 : (i == 0 ? 0 : 1);
-                                            if (i == 1) {
-                                              // Always middle box: red empty
-                                              return _buildBox(
-                                                  null,
-                                                  null,
-                                                  const Color.fromARGB(
-                                                      255, 248, 219, 229));
-                                            } else if (mappedIndex <
-                                                group.length) {
-                                              final runner = group[mappedIndex];
-                                              final lay =
-                                                  (runner.ex?.availableToLay !=
-                                                              null &&
-                                                          runner
-                                                              .ex!
-                                                              .availableToLay!
-                                                              .isNotEmpty)
-                                                      ? runner.ex!
-                                                          .availableToLay!.first
-                                                      : null;
-                                              return _buildBox(lay?.price,
-                                                  lay?.size, Colors.pink[100]);
-                                            } else {
-                                              return _buildBox(
-                                                  null, null, Colors.pink[100]);
-                                            }
-                                          }),
-
-                                          const SizedBox(width: 12),
-                                        ],
-                                      );
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const Divider(height: 0.3, thickness: 0.3),
-                  ],
-                );
-              }).toList(),
-            ],
-          );
-        },
-      );
-    });
-  }
-
-  Widget _buildContainer(String title) {
-    return Container(
-      width: double.infinity,
-      height: 28.h,
-      color: AppColors.blackthemeColor,
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
-      child: Row(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 1),
-            child: AutoSizeText(
-              title,
-              style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 12.sp,
-                  color: AppColors.whiteColor),
-              maxLines: 1,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     final HomeController homeController = Get.find<HomeController>();
     return PreferredSize(
@@ -461,10 +214,299 @@ class _TodayMatchesState extends State<TodayMatches> {
     );
   }
 
+  _buildTodayMatchesSection() {
+    final AllEventListController controller = Get.put(AllEventListController());
+
+    // Fetch data on widget build
+    controller.fetchAllEvent();
+
+    return Obx(() {
+      if (controller.model.value == null) {
+        return Container(
+          margin: EdgeInsets.only(top: 250),
+          child: const Center(child: CircularProgressIndicator()),
+        );
+      }
+
+      if (controller.errorMessage.value != null) {
+        return Center(
+          child: Text(
+            controller.errorMessage.value!,
+            style: const TextStyle(color: Colors.red),
+          ),
+        );
+      }
+
+      final competitions = controller.model.value!.data!.the4;
+
+      if (competitions == null || competitions.isEmpty) {
+        return const Center(child: Text("No Events Found"));
+      }
+
+      // 🔽 Filter only today's matches
+      DateTime now = DateTime.now();
+
+      DateTime filterDate;
+      if (widget.showTomorrow) {
+        filterDate =
+            DateTime(now.year, now.month, now.day).add(Duration(days: 1));
+      } else {
+        filterDate = DateTime(now.year, now.month, now.day);
+      }
+
+      List<dynamic> filteredMatches = competitions.where((comp) {
+        DateTime openDate = DateTime.parse(comp.event!.openDate.toString());
+
+        bool isSameDate = openDate.year == filterDate.year &&
+            openDate.month == filterDate.month &&
+            openDate.day == filterDate.day;
+
+        log('eventType => ${widget.eventType}');
+        bool isCricket = comp.eventType?.name == '${widget.eventType}';
+
+        return isSameDate && isCricket;
+      }).toList();
+
+      if (filteredMatches.isEmpty) {
+        return Center(
+          child: Column(
+            children: [
+              _buildContainer(widget.showTomorrow ? 'Tomorrow' : 'Today'),
+              _buildHeaderRow(),
+              const SizedBox(height: 10),
+              const Text("There are no events available"),
+            ],
+          ),
+        );
+      }
+
+      // 🔽 Group by date
+      Map<String, List<dynamic>> groupedByDate = {};
+      for (var comp in filteredMatches) {
+        String dateKey = formatDateLabel(comp.event!.openDate.toString());
+
+        if (!groupedByDate.containsKey(dateKey)) {
+          groupedByDate[dateKey] = [];
+        }
+        groupedByDate[dateKey]!.add(comp);
+      }
+
+      return ListView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: groupedByDate.length,
+        itemBuilder: (context, index) {
+          String date = groupedByDate.keys.elementAt(index);
+          List<dynamic> items = groupedByDate[date]!;
+
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildContainer(date),
+              _buildHeaderRow(),
+              const Divider(height: 0.3, thickness: 0.3),
+              _arrow(), // 👈 Header added here
+              const Divider(height: 0.3, thickness: 0.3),
+              ...items.map((competition) {
+                return Column(
+                  children: [
+                    Container(
+                      height: 55.h,
+                      color: Colors.white,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: 35.w,
+                            color: Colors.grey[100],
+                            child: Center(
+                              child: Text(
+                                formatDateTime(
+                                    competition.marketStartTime.toString()),
+                                style: TextStyle(
+                                    fontSize: 9.sp, color: Colors.black),
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 2,
+                            child: Container(
+                              padding: EdgeInsets.symmetric(horizontal: 7.w),
+                              child: Text(
+                                '${competition.event!.name}',
+                                style: TextStyle(fontSize: 11.sp),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            width: 165.w,
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              physics: const ClampingScrollPhysics(),
+                              child: Row(
+                                children: [
+                                  ...List.generate(
+                                    (competition.runners!.length / 3).ceil(),
+                                    (groupIndex) {
+                                      final start = groupIndex * 3;
+                                      final end = (start + 3 >
+                                              competition.runners!.length)
+                                          ? competition.runners!.length
+                                          : start + 3;
+
+                                      final group = competition.runners!
+                                          .sublist(start, end);
+
+                                      return Row(
+                                        children: [
+                                          // 🔵 3 blue (back)
+                                          ...List.generate(3, (i) {
+                                            int mappedIndex =
+                                                i == 1 ? -1 : (i == 0 ? 0 : 1);
+                                            if (i == 1) {
+                                              return _buildBox(null, null,
+                                                  Color(0xffE7EFF5));
+                                            } else if (mappedIndex <
+                                                group.length) {
+                                              final runner = group[mappedIndex];
+                                              final back =
+                                                  (runner.ex?.availableToBack !=
+                                                              null &&
+                                                          runner
+                                                              .ex!
+                                                              .availableToBack!
+                                                              .isNotEmpty)
+                                                      ? runner
+                                                          .ex!
+                                                          .availableToBack!
+                                                          .first
+                                                      : null;
+                                              return _buildBox(back?.price,
+                                                  back?.size, Colors.blue[100]);
+                                            } else {
+                                              return _buildBox(
+                                                  null, null, Colors.blue[100]);
+                                            }
+                                          }),
+
+                                          // 🔴 3 pink (lay)
+                                          ...List.generate(3, (i) {
+                                            int mappedIndex =
+                                                i == 1 ? -1 : (i == 0 ? 0 : 1);
+                                            if (i == 1) {
+                                              return _buildBox(null, null,
+                                                  const Color(0xffF4E7E9));
+                                            } else if (mappedIndex <
+                                                group.length) {
+                                              final runner = group[mappedIndex];
+                                              final lay =
+                                                  (runner.ex?.availableToLay !=
+                                                              null &&
+                                                          runner
+                                                              .ex!
+                                                              .availableToLay!
+                                                              .isNotEmpty)
+                                                      ? runner.ex!
+                                                          .availableToLay!.first
+                                                      : null;
+                                              return _buildBox(lay?.price,
+                                                  lay?.size, Colors.pink[100]);
+                                            } else {
+                                              return _buildBox(
+                                                  null, null, Colors.pink[100]);
+                                            }
+                                          }),
+                                        ],
+                                      );
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const Divider(height: 0.3, thickness: 0.3),
+                  ],
+                );
+              }).toList(),
+            ],
+          );
+        },
+      );
+    });
+  }
+
+  Widget _arrow() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 5),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Icon(
+            Icons.keyboard_arrow_right,
+            size: 18.sp,
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _buildHeaderRow() {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 10.w),
+      child: Row(
+        children: [
+          SizedBox(width: 210.w),
+          Expanded(
+            flex: 1,
+            child: Text('1',
+                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 10.sp)),
+          ),
+          SizedBox(width: 28.w),
+          Expanded(
+            flex: 2,
+            child: Text('X',
+                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 10.sp)),
+          ),
+          Expanded(
+            child: Text('2',
+                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 10.sp)),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildContainer(String title) {
+    return Container(
+      width: double.infinity,
+      height: 28.h,
+      color: AppColors.blackthemeColor,
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+      child: Row(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 1),
+            child: AutoSizeText(
+              title,
+              style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 12.sp,
+                  color: AppColors.whiteColor),
+              maxLines: 1,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildBox(double? price, double? size, Color? color) {
     return Container(
-      width: 53.w,
-      height: 38.h,
+      width: 50.w,
+      height: 35.h,
       //padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       margin: const EdgeInsets.symmetric(horizontal: 2, vertical: 2),
       decoration: BoxDecoration(
@@ -482,13 +524,13 @@ class _TodayMatchesState extends State<TodayMatches> {
                       ? price.toInt().toString()
                       : price.toString(),
               style: TextStyle(
-                  fontSize: 14.sp,
-                  height: 1.0,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black)),
+                fontSize: 12.sp,
+                height: 1.0,
+                fontWeight: FontWeight.w600,
+              )),
           Text(
             "${formatNumber(size ?? 0)}",
-            style: TextStyle(fontSize: 10.sp, height: 1.0, color: Colors.black),
+            style: TextStyle(fontSize: 10.sp, height: 1.0),
           ),
         ],
       ),

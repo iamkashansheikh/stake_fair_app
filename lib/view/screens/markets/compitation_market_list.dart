@@ -44,9 +44,9 @@ class _CompitationMarketListState extends State<CompitationMarketList> {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
+                      _buildHeaderRow(),
                       _buildTodayMatehes('Sat , 24 May', widget.compitationId),
-                      _buildHorseRacingSection(
-                          'Competitions', widget.eventName),
+                      _buildHorseRacingSection('Competitions', widget.eventName),
                     ],
                   ),
                 ),
@@ -106,6 +106,32 @@ class _CompitationMarketListState extends State<CompitationMarketList> {
     );
   }
 
+    Widget _buildHeaderRow() {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 10.w),
+      child: Row(
+        children: [
+          SizedBox(width: 210.w),
+          Expanded(
+            flex: 1,
+            child: Text('1',
+                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 10.sp)),
+          ),
+          SizedBox(width: 28.w),
+          Expanded(
+            flex: 2,
+            child: Text('X',
+                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 10.sp)),
+          ),
+          Expanded(
+            child: Text('2',
+                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 10.sp)),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildTodayMatehes(String title, String? compitationId) {
     final CompetitionMarketController competitionMarketController =
         Get.put(CompetitionMarketController());
@@ -151,14 +177,16 @@ class _CompitationMarketListState extends State<CompitationMarketList> {
                       return Column(
                         children: [
                           Container(
-                            height: 50.h,
+                            height: 55.h,
+                             color: Colors.white,
                             child: Row(
+                              
                               children: [
                                 Container(
-                                  padding: EdgeInsets.all(8.r),
+                                  width: 35.w,
                                   color: competition.status == 'CLOSED'
-                                      ? Colors.grey
-                                      : Colors.grey[100],
+                                      ? Color(0xff787878)
+                                      : Color(0xffF6F6F6),
                                   child: Center(
                                     child: competition.status == 'CLOSED'
                                         ? Text(
@@ -179,17 +207,17 @@ class _CompitationMarketListState extends State<CompitationMarketList> {
                                   ),
                                 ),
                                 Expanded(
-                                  flex: 3,
+                                  flex: 2,
                                   child: Container(
-                                    padding: EdgeInsets.all(8),
+                                    padding: EdgeInsets.symmetric(horizontal: 7.w),
                                     child: Text(
                                       '${competition.event!.name}',
                                       style: TextStyle(fontSize: 11.sp),
                                     ),
                                   ),
                                 ),
-                                Expanded(
-                                  flex: 3,
+                                Container(
+                                  width: 165.w,
                                   child: Stack(
                                     children: [
                                       competition.status == 'CLOSED'
@@ -197,19 +225,19 @@ class _CompitationMarketListState extends State<CompitationMarketList> {
                                               children: [
                                                 Expanded(
                                                   child: Container(
-                                                    height: 38.h,
+                                                    height: 36.h,
                                                     decoration: BoxDecoration(
                                                         color: Colors.white
                                                             .withOpacity(.8),
                                                         border: Border.all(
-                                                            color: Colors.red,
-                                                            width: 2)),
+                                                            color: Color(0xffD54D4D),
+                                                            width: 1.6)),
                                                     child: Center(
                                                       child: Text(
                                                         'CLOSED',
                                                         style: TextStyle(
-                                                            color: Colors.red,
-                                                            fontSize: 20,
+                                                            color: Color(0xffD54D4D),
+                                                            fontSize: 13.sp,
                                                             fontWeight:
                                                                 FontWeight
                                                                     .bold),
@@ -236,19 +264,19 @@ class _CompitationMarketListState extends State<CompitationMarketList> {
                                       competition.status == 'SUSPENDED'
                                           ? Positioned(
                                               child: Container(
-                                                  height: 38.h,
+                                                  height: 36.h,
                                                   decoration: BoxDecoration(
                                                       color: Colors.white
                                                           .withOpacity(.8),
                                                       border: Border.all(
-                                                          color: Colors.red,
-                                                          width: 2)),
+                                                          color: Color(0xffD54D4D),
+                                                          width: 1.6)),
                                                   child: Center(
                                                     child: Text(
                                                       'SUSPENDED',
                                                       style: TextStyle(
-                                                          color: Colors.red,
-                                                          fontSize: 20,
+                                                          color: Color(0xffD54D4D),
+                                                          fontSize: 13.sp,
                                                           fontWeight:
                                                               FontWeight.bold),
                                                     ),
@@ -352,8 +380,8 @@ class _CompitationMarketListState extends State<CompitationMarketList> {
 // Your existing _buildBox method with '-' support
   Widget _buildBox(dynamic price, dynamic size, Color? color) {
     return Container(
-      width: 53.w,
-      height: 38.h,
+      width: 50.w,
+      height: 35.h,
       margin: const EdgeInsets.symmetric(horizontal: 2, vertical: 2),
       decoration: BoxDecoration(
         color: color,
@@ -372,14 +400,14 @@ class _CompitationMarketListState extends State<CompitationMarketList> {
                         ? price.toInt().toString()
                         : price.toString()),
             style: TextStyle(
-                fontSize: 14.sp,
+                fontSize: 12.sp,
                 height: 1.0,
-                fontWeight: FontWeight.bold,
-                color: Colors.black),
+                fontWeight: FontWeight.w600,
+              ),
           ),
           Text(
             (size == '-') ? '-' : "${formatNumber(size ?? 0)}",
-            style: TextStyle(fontSize: 10.sp, height: 1.0, color: Colors.black),
+            style: TextStyle(fontSize: 10.sp, height: 1.0,),
           ),
         ],
       ),
